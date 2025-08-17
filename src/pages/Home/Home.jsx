@@ -1,6 +1,7 @@
 import React from 'react';
 import Banner from '../../comopnents/Banner/Banner';
 
+
 const Home = () => {
     return (
         <div>

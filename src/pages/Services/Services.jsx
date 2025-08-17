@@ -112,7 +112,7 @@ const Services = () => {
                 'Database Design & Optimization',
                 'Cloud-based Solutions'
             ],
-            technologies: ['React', 'Node.js', 'Python', 'MongoDB', 'AWS', 'Docker']
+            technologies: ['Go', 'Node.js', 'Python', 'MongoDB', 'AWS', 'Docker']
         },
         websites: {
             id: 'websites',
@@ -127,7 +127,7 @@ const Services = () => {
                 'Performance Optimization',
                 'Maintenance & Support'
             ],
-            technologies: ['HTML5', 'CSS3', 'JavaScript', 'WordPress', 'Shopify', 'Next.js']
+            technologies: ['React.Js', 'PHP', 'JavaScript', 'WordPress', 'Laravel', 'Next.js']
         },
         video: {
             id: 'video',
