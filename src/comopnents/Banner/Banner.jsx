@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router';
 
 const Banner = () => {
     const canvasRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -127,7 +129,7 @@ const Banner = () => {
                         </p>
                         
                       {/* Get In Touch Button */}
-                        <div className="flex justify-center">
+                        <div onClick={() => navigate("/contact")} className="flex justify-center">
                             <button className="group relative cursor-pointer bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold px-10 py-4 rounded-full text-lg transition-all duration-500 shadow-2xl hover:shadow-purple-500/50 transform hover:scale-105 border border-purple-500/30 backdrop-blur-sm overflow-hidden">
                                 {/* Water fill animation */}
                                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
