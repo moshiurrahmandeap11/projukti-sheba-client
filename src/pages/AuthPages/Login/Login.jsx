@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../../../hooks/AuthContexts/AuthContexts';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { emailLogin, googleLogin, loading } = useAuth();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -59,6 +60,7 @@ const Login = () => {
         try {
             await emailLogin(formData.email, formData.password);
             setSuccess('Login successful!');
+            navigate("/")
             // You can redirect the user here or handle the successful login in your AuthContext
         } catch (err) {
             setError(err.message || 'Failed to login. Please try again.');
@@ -72,6 +74,7 @@ const Login = () => {
         try {
             await googleLogin();
             setSuccess('Google login successful!');
+            navigate("/")
             // You can redirect the user here or handle the successful login in your AuthContext
         } catch (err) {
             setError(err.message || 'Failed to login with Google. Please try again.');
