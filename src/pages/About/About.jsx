@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Users, Award, Clock, Globe, Target, Lightbulb, Heart, Zap } from 'lucide-react';
+import OurTeam from '../../comopnents/OurTeam/OurTeam';
 
 const About = () => {
     const canvasRef = useRef(null);
@@ -341,6 +342,9 @@ const About = () => {
                             </div>
                         </div>
                     </div>
+
+                    {/* our team */}
+                    <OurTeam></OurTeam>
                 </div>
             </div>
 
