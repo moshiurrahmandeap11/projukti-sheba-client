@@ -190,7 +190,7 @@ const OurTeam = () => {
             bgImage: "https://projuktisheba.com/wp-content/uploads/2024/07/314d932056d06821c0bffa139dc6ef88.jpg"
         },
         {
-            id: 8,
+            id: 9,
             name: "MOSHIUR RAHMAN DEAP",
             position: "JR. WEB DEVELOPER",
             department: "Development",
@@ -198,15 +198,34 @@ const OurTeam = () => {
             expertise: ["NEXT.JS", "EXPRESS.JS", "JavaScript", "React"],
             bio: "Junior Web Developer with a passion for creating interactive and user-friendly web applications.",
             social: {
+                linkedin: "https://www.linkedin.com/in/moshiurrahmandeap/",
+                twitter: "https://x.com/__moshiur",
+                email: "moshiurrahmandeap@gmail.com",
+                github: "https://github.com/moshiurrahmandeap11"
+            },
+            skills: ["JAVASCRIPT", "DOCKER", "PYTHON"],
+            icon: Shield,
+            gradient: "from-cyan-500 to-blue-500",
+            bgImage: "https://i.postimg.cc/wMg2Bqf6/pp.jpg"
+        },
+        {
+            id: 10,
+            name: "MEHEDI HASAN SAGOR",
+            position: "ADS ANALYTICS",
+            department: "Marketing",
+            experience: "5+ Years",
+            expertise: ["Google Ads", "Meta Ads", "LinkedIn Ads", "TikTok Ads / X Ads"],
+            bio: "Junior Web Developer with a passion for creating interactive and user-friendly web applications.",
+            social: {
                 linkedin: "#",
                 twitter: "#",
                 email: "#",
                 github: "#"
             },
-            skills: ["JAVASCRIPT", "DOCKER", "PYTHON"],
+            skills: ["Google Analytics", "Google Tag Manager", "Attribution Models", "A/B Testing & Experimentation"],
             icon: Shield,
             gradient: "from-cyan-500 to-blue-500",
-            bgImage: "#"
+            bgImage: "https://i.postimg.cc/B6qNSZwJ/455451968-2036706736745661-4608380823110257653-n.jpg"
         }
     ];
 
