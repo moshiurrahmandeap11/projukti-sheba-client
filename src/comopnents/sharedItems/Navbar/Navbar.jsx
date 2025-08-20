@@ -3,6 +3,7 @@ import { Menu, X, User, Settings, HelpCircle, LogOut, Star, LayoutDashboard } fr
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../../hooks/AuthContexts/AuthContexts';
 import Loader from '../Loader/Loader';
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,7 +20,18 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
+  
+  const handleLogOut = () => {
+  logOut()
+    .then(() => {
+      navigate("/");
+      toast.success("Logged out successfully");
+    })
+    .catch((error) => {
+      console.error("Logout error:", error);
+      toast.error("Failed to log out. Please try again.");
+    });
+};
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Services', href: 'services' },
@@ -37,12 +49,13 @@ const Navbar = () => {
     { isDivider: true },
     { name: 'Settings', icon: <Settings size={18} />, href: '/settings' },
     { name: 'Support', icon: <HelpCircle size={18} />, href: '/support' },
-    { name: 'Logout', icon: <LogOut size={18} />, action: logOut },
+    { name: 'Logout', icon: <LogOut size={18} />, action: handleLogOut },
   ];
 
   const handleLogoClick = () => {
     navigate("/");
   };
+
 
   const handleJoinUsClick = () => {
     setIsMenuOpen(false);
