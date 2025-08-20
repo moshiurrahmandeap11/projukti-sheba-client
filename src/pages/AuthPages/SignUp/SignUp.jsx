@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff, Lock, Mail, User, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../../../hooks/AuthContexts/AuthContexts';
+import axios from 'axios';
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -75,7 +76,18 @@ const SignUp = () => {
         if (!validateForm()) return;
 
         try {
-            await createUser(formData.email, formData.password);
+            const userCredential = await createUser(formData.email, formData.password);
+
+            const userData = {
+                firebaseUID: userCredential.user.uid,
+                fullName: formData?.name,
+                email: formData?.email,
+                createdAt: new Date().toISOString()
+            };
+
+            // Post user data to API
+            await axios.post('http://localhost:3000/users', userData);
+
             setSuccess('Account created successfully!');
             navigate("/")
         } catch (err) {

@@ -15,61 +15,79 @@ import {
   Database,
   ArrowRight,
 } from "lucide-react";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../firebase/firebase.config";
 import { useNavigate } from "react-router";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const { user, loading, logOut } = useAuth();
-  const [userData, setUserData] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (user) {
-        try {
-          const docRef = doc(db, "users", user.uid);
-          const docSnap = await getDoc(docRef);
+    if (!user?.uid) return;
 
-          if (docSnap.exists()) {
-            setUserData(docSnap.data());
-          } else {
-            // Set default data if no document exists
-            setUserData({
-              joinDate: new Date(
-                user.metadata.creationTime
-              ).toLocaleDateString(),
-              lastLogin: new Date(
-                user.metadata.lastSignInTime
-              ).toLocaleDateString(),
-              premium: false,
-              storageUsed: "0 MB",
-              projects: 0,
-            });
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        } finally {
-          setIsLoading(false);
-        }
+    const fetchProfile = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`http://localhost:3000/users/${user.uid}`);
+        setProfile(response.data);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        toast.error("Error fetching profile");
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchUserData();
-  }, [user]);
+    fetchProfile();
+  }, [user?.uid]);
 
   const handleLogOut = () => {
-    logOut().then(() => {
-        navigate("/")
-    }).catch(() => {
-        alert("Failed to log out. Please try again.")
-    })
-  }
+    logOut()
+      .then(() => {
+        navigate("/");
+      })
+      .catch(() => {
+        alert("Failed to log out. Please try again.");
+      });
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    try {
+      return new Date(dateString).toLocaleDateString();
+    } catch (error) {
+      return "N/A";
+    }
+  };
+
+  const getLastLoginFromFirebase = () => {
+    if (user?.metadata?.lastSignInTime) {
+      const date = new Date(user.metadata.lastSignInTime);
+      const dateStr = date.toLocaleDateString();
+      const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return `${dateStr} at ${timeStr}`;
+    }
+    return "N/A";
+  };
+
+  const getJoinDateFromFirebase = () => {
+    if (user?.metadata?.creationTime) {
+      const date = new Date(user.metadata.creationTime);
+      const dateStr = date.toLocaleDateString();
+      const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return `${dateStr} at ${timeStr}`;
+    }
+    return "N/A";
+  };
 
   if (loading || !user || isLoading) {
     return <Loader />;
   }
+
+  console.log(profile.photoURL);
 
   const upgradeToPremium = () => {
     // Premium upgrade logic would go here
@@ -89,15 +107,18 @@ const Profile = () => {
         {/* Profile Header */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-12">
           <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-xl">
-            {user.photoURL ? (
-              <img
-                src={user.photoURL}
-                alt={user.displayName || "User"}
-                className="w-32 h-32 rounded-full object-cover border-4 border-purple-500/30"
-              />
+            {profile.photoURL ? (
+<img
+  src={profile.photoURL?.startsWith("http") 
+    ? profile.photoURL 
+    : `http://localhost:3000${profile.photoURL}`}
+  alt={profile?.fullName || user.displayName || "User"}
+  className="w-32 h-32 rounded-full object-cover border-4 border-purple-500/30"
+/>
+
             ) : (
               <div className="w-32 h-32 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center text-white text-5xl font-bold border-4 border-purple-500/30">
-                {user.displayName?.charAt(0).toUpperCase() || "U"}
+                {(profile?.fullName || user.displayName || "U").charAt(0).toUpperCase()}
               </div>
             )}
           </div>
@@ -106,7 +127,7 @@ const Profile = () => {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">
-                  {user.displayName || "Anonymous User"}
+                  {profile?.fullName || user.displayName || "User"}
                 </h1>
                 <p className="text-gray-400 flex items-center">
                   <Mail className="h-4 w-4 mr-2" />
@@ -114,7 +135,7 @@ const Profile = () => {
                 </p>
               </div>
 
-              {userData?.premium ? (
+              {profile?.premium ? (
                 <span className="inline-flex items-center px-4 py-2 rounded-full text-xs font-semibold bg-gradient-to-r from-yellow-500 to-yellow-600 text-yellow-100 border border-yellow-500/30">
                   <Star className="h-4 w-4 mr-2" />
                   Premium Member
@@ -130,32 +151,44 @@ const Profile = () => {
               )}
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4">
                 <p className="text-gray-400 text-sm mb-1">Joined</p>
                 <p className="text-white font-medium flex items-center">
                   <Calendar className="h-4 w-4 mr-2 text-purple-400" />
-                  {userData?.joinDate || "N/A"}
+                  {formatDate(profile?.createdAt) || getJoinDateFromFirebase()}
                 </p>
               </div>
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4">
-                <p className="text-gray-400 text-sm mb-1">Last Login</p>
-                <p className="text-white font-medium flex items-center">
-                  <Clock className="h-4 w-4 mr-2 text-blue-400" />
-                  {userData?.lastLogin || "N/A"}
-                </p>
+                <p className="text-gray-400 text-sm mb-2">Login Activity</p>
+                <div className="space-y-2">
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Account Created</p>
+                    <p className="text-white font-medium flex items-center text-sm">
+                      <Calendar className="h-3 w-3 mr-2 text-blue-400" />
+                      {getJoinDateFromFirebase()}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 mb-1">Last Login</p>
+                    <p className="text-white font-medium flex items-center text-sm">
+                      <Clock className="h-3 w-3 mr-2 text-green-400" />
+                      {getLastLoginFromFirebase()}
+                    </p>
+                  </div>
+                </div>
               </div>
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4">
                 <p className="text-gray-400 text-sm mb-1">Storage Used</p>
                 <p className="text-white font-medium flex items-center">
                   <Database className="h-4 w-4 mr-2 text-pink-400" />
-                  {userData?.storageUsed || "0 MB"}
+                  {profile?.storageUsed || "0 MB"}
                 </p>
               </div>
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4">
                 <p className="text-gray-400 text-sm mb-1">Projects</p>
                 <p className="text-white font-medium">
-                  {userData?.projects || 0}
+                  {profile?.projects || 0}
                 </p>
               </div>
             </div>
@@ -165,7 +198,7 @@ const Profile = () => {
         {/* Premium Features Section */}
         <div className="mb-12">
           <h2 className="text-xl font-bold text-white mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text">
-            {userData?.premium
+            {profile?.premium
               ? "Your Premium Benefits"
               : "Unlock Premium Features"}
           </h2>
@@ -180,11 +213,11 @@ const Profile = () => {
                 Advanced Analytics
               </h3>
               <p className="text-gray-400 mb-4">
-                {userData?.premium
+                {profile?.premium
                   ? "Access to detailed usage statistics and performance metrics"
                   : "Get detailed insights into your usage and performance"}
               </p>
-              {!userData?.premium && (
+              {!profile?.premium && (
                 <button
                   onClick={upgradeToPremium}
                   className="text-purple-400 hover:text-purple-300 text-sm font-medium flex items-center"
@@ -204,11 +237,11 @@ const Profile = () => {
                 Increased Storage
               </h3>
               <p className="text-gray-400 mb-4">
-                {userData?.premium
+                {profile?.premium
                   ? "You have 50GB of storage available"
                   : "Upgrade from 5GB to 50GB of storage space"}
               </p>
-              {!userData?.premium && (
+              {!profile?.premium && (
                 <button
                   onClick={upgradeToPremium}
                   className="text-blue-400 hover:text-blue-300 text-sm font-medium flex items-center"
@@ -228,11 +261,11 @@ const Profile = () => {
                 Priority Support
               </h3>
               <p className="text-gray-400 mb-4">
-                {userData?.premium
+                {profile?.premium
                   ? "24/7 dedicated support with faster response times"
                   : "Get priority access to our support team"}
               </p>
-              {!userData?.premium && (
+              {!profile?.premium && (
                 <button
                   onClick={upgradeToPremium}
                   className="text-pink-400 hover:text-pink-300 text-sm font-medium flex items-center"
@@ -252,13 +285,16 @@ const Profile = () => {
           </h2>
 
           <div className="space-y-4">
-            <button className="w-full flex items-center justify-between p-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300">
-              <div className="flex items-center">
-                <Settings className="h-5 w-5 mr-3 text-gray-400" />
-                <span className="text-white">Edit Profile</span>
-              </div>
-              <ArrowRight className="h-5 w-5 text-gray-400" />
-            </button>
+<button
+      onClick={() => navigate(`/edit/${user.uid}`)} // নেভিগেশন যোগ করা
+      className="w-full flex items-center justify-between p-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300"
+    >
+      <div className="flex items-center">
+        <Settings className="h-5 w-5 mr-3 text-gray-400" />
+        <span className="text-white">Edit Profile</span>
+      </div>
+      <ArrowRight className="h-5 w-5 text-gray-400" />
+    </button>
 
             <button className="w-full flex items-center justify-between p-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300">
               <div className="flex items-center">

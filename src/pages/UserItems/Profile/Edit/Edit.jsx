@@ -134,66 +134,74 @@ const Edit = () => {
     }
   };
 
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSaving(true);
 
-// Handle form submission
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSaving(true);
-
-  try {
-    // Validate required fields
-    if (!formData.fullName.trim()) {
-      toast.error("পুরো নাম প্রয়োজন");
-      setIsSaving(false);
-      return;
-    }
-
-    // Create FormData for profile data and image
-    const formDataToSend = new FormData();
-    formDataToSend.append("fullName", formData.fullName);
-    formDataToSend.append("email", formData.email);
-    formDataToSend.append("phone", formData.phone);
-    formDataToSend.append("location", formData.location);
-    formDataToSend.append("company", formData.company);
-    formDataToSend.append("position", formData.position);
-    formDataToSend.append("bio", formData.bio);
-    formDataToSend.append("website", formData.website);
-    formDataToSend.append("linkedIn", formData.linkedIn);
-    formDataToSend.append("github", formData.github);
-    formDataToSend.append("twitter", formData.twitter);
-    formDataToSend.append("dateOfBirth", formData.dateOfBirth);
-    formDataToSend.append("privacy", JSON.stringify(formData.privacy));
-    formDataToSend.append("updatedAt", new Date().toISOString());
-
-    if (profileImage) {
-      formDataToSend.append("profileImage", profileImage);
-    }
-
-    // Update user profile in database
-    const response = await axios.put(`http://localhost:3000/users/${user.uid}`, formDataToSend, {
-      headers: {
-        "Content-Type": "multipart/form-data"
+    try {
+      // Validate required fields
+      if (!formData.fullName.trim()) {
+        toast.error("Full name is required");
+        setIsSaving(false);
+        return;
       }
-    });
 
-    // Update Firebase profile if needed
-    if (formData.fullName !== user.displayName || profileImage) {
-      const updateData = { displayName: formData.fullName };
-      if (response.data.photoURL) {
-        updateData.photoURL = `http://localhost:3000${response.data.photoURL}`; // সম্পূর্ণ URL
+      // Create FormData for profile data and image
+      const formDataToSend = new FormData();
+      formDataToSend.append("fullName", formData.fullName);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("phone", formData.phone);
+      formDataToSend.append("location", formData.location);
+      formDataToSend.append("company", formData.company);
+      formDataToSend.append("position", formData.position);
+      formDataToSend.append("bio", formData.bio);
+      formDataToSend.append("website", formData.website);
+      formDataToSend.append("linkedIn", formData.linkedIn);
+      formDataToSend.append("github", formData.github);
+      formDataToSend.append("twitter", formData.twitter);
+      formDataToSend.append("dateOfBirth", formData.dateOfBirth);
+      formDataToSend.append("privacy", JSON.stringify(formData.privacy));
+      formDataToSend.append("updatedAt", new Date().toISOString());
+
+      if (profileImage) {
+        formDataToSend.append("profileImage", profileImage);
       }
-      await updateProfile(updateData); // useAuth থেকে পাওয়া updateProfile
-    }
 
-    toast.success("Profile Update Successfully");
-    navigate('/profile');
-  } catch (error) {
-    console.error("Error updating profile:", error.response?.data || error.message);
-    toast.error(error.response?.data?.message || "Failed to update profile");
-  } finally {
-    setIsSaving(false);
+      // Update user profile in database
+      const response = await axios.put(`http://localhost:3000/users/${user.uid}`, formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+
+// Update Firebase profile if needed
+if (formData.fullName !== user.displayName || profileImage) {
+  const updateData = { displayName: formData.fullName };
+  
+  // Fix: Use response.data.photoURL instead of response.data.result.photoURL
+  if (response.data.photoURL) {
+    updateData.photoURL = response.data.photoURL;
   }
-};
+  
+  try {
+    await updateProfile(updateData);
+    console.log("Firebase profile updated successfully");
+  } catch (firebaseError) {
+    console.error("Firebase update error:", firebaseError);
+    // Don't throw error here, just log it
+  }
+}
+
+      toast.success("Profile updated successfully!");
+      navigate('/profile');
+    } catch (error) {
+      console.error("Error updating profile:", error.response?.data || error.message);
+      toast.error(error.response?.data?.message || "Failed to update profile");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   if (loading || isLoading) {
     return <Loader />;

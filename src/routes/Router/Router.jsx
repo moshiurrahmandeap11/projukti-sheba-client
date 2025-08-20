@@ -12,6 +12,7 @@ const Services = Loadable(lazy(() => import("../../pages/Services/Services")));
 const About = Loadable(lazy(() => import("../../pages/About/About")));
 const Blogs = Loadable(lazy(() => import("../../pages/Blogs/Blogs")));
 const Profile = Loadable(lazy(() => import("../../pages/UserItems/Profile/Profile")));
+const Edit = Loadable(lazy(() => import("../../pages/UserItems/Profile/Edit/Edit")));
 const Login = Loadable(lazy(() => import("../../pages/AuthPages/Login/Login")));
 const SignUp = Loadable(lazy(() => import("../../pages/AuthPages/SignUp/SignUp")));
 const UserDashboard = Loadable(lazy(() => import("../../DashboardPanel/UserDashboard/UserDashboard")));
@@ -30,7 +31,8 @@ const route = createBrowserRouter([
       { path: "/contact", element: <Contact /> },
       { path: "/pricing", element: <Pricing /> },
       { path: "/blogs", element: <Blogs /> },
-      { path: "/profile", element: <Profile /> }
+      { path: "/profile", element: <Profile /> },
+      { path: "/edit/:id", element: <Edit /> },
     ]
   },
   {
