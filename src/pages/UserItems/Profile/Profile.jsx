@@ -87,7 +87,6 @@ const Profile = () => {
     return <Loader />;
   }
 
-  console.log(profile.photoURL);
 
   const upgradeToPremium = () => {
     // Premium upgrade logic would go here
@@ -109,12 +108,18 @@ const Profile = () => {
           <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-xl">
             {profile.photoURL ? (
 <img
-  src={profile.photoURL?.startsWith("http") 
-    ? profile.photoURL 
-    : `http://localhost:3000${profile.photoURL}`}
-  alt={profile?.fullName || user.displayName || "User"}
+  src={
+    profile?.photoURL
+      ? (profile.photoURL.startsWith("http")
+          ? profile.photoURL
+          : `http://localhost:3000${profile.photoURL}`)
+      : user?.photoURL || "/default-avatar.png"
+  }
+  alt={profile?.fullName || user?.displayName || "User"}
   className="w-32 h-32 rounded-full object-cover border-4 border-purple-500/30"
 />
+
+
 
             ) : (
               <div className="w-32 h-32 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center text-white text-5xl font-bold border-4 border-purple-500/30">

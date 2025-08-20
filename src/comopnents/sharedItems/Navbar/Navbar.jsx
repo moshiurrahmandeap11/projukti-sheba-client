@@ -77,8 +77,6 @@ const Navbar = () => {
     navigate("/");
   };
 
-  console.log(profile);
-
   const handleJoinUsClick = () => {
     setIsMenuOpen(false);
     navigate("/auth/login");

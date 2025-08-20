@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../../../hooks/AuthContexts/AuthContexts';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -72,12 +74,30 @@ const Login = () => {
         setSuccess(null);
 
         try {
-            await googleLogin();
+            const userCredential = await googleLogin();
+            const user = userCredential.user;
+
+            // Prepare user data for POST request
+            const userData = {
+                fullName: user.displayName || 'User',
+                email: user.email,
+                firebaseUID: user.uid,
+                createdAt: new Date().toISOString()
+            };
+
+            // Send POST request to create user in MongoDB
+            try {
+                await axios.post('http://localhost:3000/users', userData);
+            } catch (postError) {
+                console.error("Error saving user to MongoDB:", postError.response?.data || postError.message);
+            }
+
             setSuccess('Google login successful!');
-            navigate("/")
-            // You can redirect the user here or handle the successful login in your AuthContext
+            toast.success('Google login successful!');
+            navigate("/");
         } catch (err) {
             setError(err.message || 'Failed to login with Google. Please try again.');
+            toast.error(err.message || 'Failed to login with Google.');
         }
     };
 
