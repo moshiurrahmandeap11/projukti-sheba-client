@@ -4,13 +4,34 @@ import { useNavigate } from 'react-router';
 import { useAuth } from '../../../hooks/AuthContexts/AuthContexts';
 import Loader from '../Loader/Loader';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { user, loading, logOut } = useAuth();
+  const { user, loading, setLoading, logOut } = useAuth();
+    const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
+
+    useEffect(() => {
+    if (!user?.uid) return;
+
+    const fetchProfile = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`http://localhost:3000/users/${user.uid}`);
+        setProfile(response.data);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        toast.error("Error fetching profile");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [user?.uid]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,6 +77,7 @@ const Navbar = () => {
     navigate("/");
   };
 
+  console.log(profile);
 
   const handleJoinUsClick = () => {
     setIsMenuOpen(false);
@@ -158,10 +180,10 @@ const Navbar = () => {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="flex items-center cursor-pointer space-x-2 focus:outline-none"
                 >
-                  {user.photoURL ? (
+                  {profile?.photoURL ? (
                     <img
-                      src={user.photoURL}
-                      alt={user.displayName || 'User'}
+                      src={`${profile.photoURL.startsWith("http") ? profile.photoURL : `http://localhost:3000${profile.photoURL}`}`}
+                      alt={profile?.displayName || 'User'}
                       className="w-10 h-10 rounded-full border-2 border-purple-500/30 object-cover"
                     />
                   ) : (
