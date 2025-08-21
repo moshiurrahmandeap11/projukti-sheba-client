@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Code, Globe, Video, Megaphone, ArrowRight, CheckCircle } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 const Services = () => {
     const [activeTab, setActiveTab] = useState('software');
     const canvasRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -283,7 +285,7 @@ const Services = () => {
 
                                 {/* CTA Button */}
                                 <div className="pt-6">
-                                    <button className="group relative bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold px-8 py-3 rounded-full transition-all duration-500 shadow-xl hover:shadow-purple-500/50 transform hover:scale-105 border border-purple-500/30 backdrop-blur-sm overflow-hidden">
+                                    <button onClick={() => navigate("/contact")} className="group relative bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold px-8 py-3 rounded-full transition-all duration-500 shadow-xl hover:shadow-purple-500/50 transform hover:scale-105 border border-purple-500/30 backdrop-blur-sm overflow-hidden">
                                         <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
                                         <span className="relative z-10 flex items-center space-x-2">
                                             <span>Get Started</span>
