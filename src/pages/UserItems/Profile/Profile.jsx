@@ -50,7 +50,7 @@ const Profile = () => {
     fetchProfile();
   }, [user?.uid]);
 
-  console.log("Profile data:", profile.role);
+  console.log("Profile data:", profile?.role);
 
   const handleLogOut = () => {
     logOut()
