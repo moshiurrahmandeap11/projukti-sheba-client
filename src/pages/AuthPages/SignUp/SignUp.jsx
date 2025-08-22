@@ -90,17 +90,10 @@ const handleSubmit = async (e) => {
     };
 
     // 3️⃣ Send to backend
-    const response = await axios.post(
-      'http://localhost:3000/users',
-      userData
-    );
-
-    if (response.data.success) {
-      setSuccess('Account created successfully!');
-      navigate('/');
-    } else {
-      setError(response.data.error || 'Failed to create account.');
-    }
+const response = await axios.post('http://localhost:3000/users', userData);
+console.log('Backend response');
+setSuccess('Account created successfully!');
+navigate('/');
   } catch (err) {
     console.error('Signup error:', err);
     setError(err.response?.data?.error || err.message || 'Failed to create account.');
