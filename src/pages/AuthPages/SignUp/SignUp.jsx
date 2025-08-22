@@ -68,32 +68,45 @@ const SignUp = () => {
         return true;
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError(null);
-        setSuccess(null);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError(null);
+  setSuccess(null);
 
-        if (!validateForm()) return;
+  if (!validateForm()) return;
 
-        try {
-            const userCredential = await createUser(formData.email, formData.password);
+  try {
+    // 1️⃣ Create Firebase user
+    const userCredential = await createUser(formData.email, formData.password);
 
-            const userData = {
-                firebaseUID: userCredential.user.uid,
-                fullName: formData?.name,
-                email: formData?.email,
-                createdAt: new Date().toISOString()
-            };
-
-            // Post user data to API
-            await axios.post('http://localhost:3000/users', userData);
-
-            setSuccess('Account created successfully!');
-            navigate("/")
-        } catch (err) {
-            setError(err.message || 'Failed to create account. Please try again.');
-        }
+    // 2️⃣ Prepare user data for backend
+    const userData = {
+      firebaseUID: userCredential.user.uid,
+      fullName: formData?.name || '',
+      email: formData?.email || '',
+      premium: false, // default
+      role: 'user',   // default
+      createdAt: new Date().toISOString(),
     };
+
+    // 3️⃣ Send to backend
+    const response = await axios.post(
+      'http://localhost:3000/users',
+      userData
+    );
+
+    if (response.data.success) {
+      setSuccess('Account created successfully!');
+      navigate('/');
+    } else {
+      setError(response.data.error || 'Failed to create account.');
+    }
+  } catch (err) {
+    console.error('Signup error:', err);
+    setError(err.response?.data?.error || err.message || 'Failed to create account.');
+  }
+};
+
 
     return (
         <div className="min-h-screen flex items-center justify-center relative overflow-hidden">

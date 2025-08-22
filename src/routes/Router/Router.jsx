@@ -5,6 +5,7 @@ import RootLayout from "../../layouts/RootLayout/RootLayout";
 import AuthLayout from "../../layouts/AuthLayout/AuthLayout";
 import DashboardLayout from "../../layouts/DashboardLayout/DashboardLayout";
 import { Loadable } from "../../hooks/Loadable/Loadable";
+import ProtectedRoute from "../../comopnents/ProtectedRoute/ProtectedRoute";
 
 // Lazy imports wrapped with Loadable HOC
 const Home = Loadable(lazy(() => import("../../pages/Home/Home")));
@@ -30,7 +31,7 @@ const route = createBrowserRouter([
       { path: "/about", element: <About /> },
       { path: "/contact", element: <Contact /> },
       { path: "/pricing", element: <Pricing /> },
-      { path: "/blogs", element: <Blogs /> },
+      { path: "/blogs", element: <ProtectedRoute><Blogs /></ProtectedRoute> },
       { path: "/profile", element: <Profile /> },
       { path: "/edit/:id", element: <Edit /> },
     ]

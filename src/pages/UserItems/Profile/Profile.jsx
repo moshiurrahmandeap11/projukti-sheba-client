@@ -31,11 +31,17 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`http://localhost:3000/users/${user.uid}`);
+        const response = await axios.get(
+          `http://localhost:3000/users/${user.uid}`
+        );
         setProfile(response.data);
       } catch (error) {
-        console.error("Error fetching profile:", error);
-        toast.error("Error fetching profile");
+        console.error("Error fetching profile:", {
+          message: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+        });
+        toast.error(error.response?.data?.error || "Error fetching profile");
       } finally {
         setIsLoading(false);
       }
@@ -43,6 +49,8 @@ const Profile = () => {
 
     fetchProfile();
   }, [user?.uid]);
+
+  console.log("Profile data:", profile.role);
 
   const handleLogOut = () => {
     logOut()
@@ -67,7 +75,10 @@ const Profile = () => {
     if (user?.metadata?.lastSignInTime) {
       const date = new Date(user.metadata.lastSignInTime);
       const dateStr = date.toLocaleDateString();
-      const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const timeStr = date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
       return `${dateStr} at ${timeStr}`;
     }
     return "N/A";
@@ -77,7 +88,10 @@ const Profile = () => {
     if (user?.metadata?.creationTime) {
       const date = new Date(user.metadata.creationTime);
       const dateStr = date.toLocaleDateString();
-      const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const timeStr = date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
       return `${dateStr} at ${timeStr}`;
     }
     return "N/A";
@@ -87,11 +101,9 @@ const Profile = () => {
     return <Loader />;
   }
 
-
   const upgradeToPremium = () => {
-    // Premium upgrade logic would go here
     console.log("Upgrading to premium...");
-    // In a real app, you would integrate with a payment processor here
+    // Premium upgrade logic would go here
   };
 
   return (
@@ -106,24 +118,21 @@ const Profile = () => {
         {/* Profile Header */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-12">
           <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-xl">
-            {profile.photoURL ? (
-<img
-  src={
-    profile?.photoURL
-      ? (profile.photoURL.startsWith("http")
-          ? profile.photoURL
-          : `http://localhost:3000${profile.photoURL}`)
-      : user?.photoURL || "/default-avatar.png"
-  }
-  alt={profile?.fullName || user?.displayName || "User"}
-  className="w-32 h-32 rounded-full object-cover border-4 border-purple-500/30"
-/>
-
-
-
+            {profile?.photoURL ? (
+              <img
+                src={`http://localhost:3000${profile.photoURL}`}
+                alt={profile?.fullName || user?.displayName || "User"}
+                className="w-32 h-32 rounded-full object-cover border-4 border-purple-500/30"
+                onError={(e) => {
+                  console.error("Error loading image:", e);
+                  e.target.src = user?.photoURL || "/default-avatar.png";
+                }}
+              />
             ) : (
               <div className="w-32 h-32 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center text-white text-5xl font-bold border-4 border-purple-500/30">
-                {(profile?.fullName || user.displayName || "U").charAt(0).toUpperCase()}
+                {(profile?.fullName || user.displayName || "U")
+                  .charAt(0)
+                  .toUpperCase()}
               </div>
             )}
           </div>
@@ -168,7 +177,9 @@ const Profile = () => {
                 <p className="text-gray-400 text-sm mb-2">Login Activity</p>
                 <div className="space-y-2">
                   <div>
-                    <p className="text-xs text-gray-500 mb-1">Account Created</p>
+                    <p className="text-xs text-gray-500 mb-1">
+                      Account Created
+                    </p>
                     <p className="text-white font-medium flex items-center text-sm">
                       <Calendar className="h-3 w-3 mr-2 text-blue-400" />
                       {getJoinDateFromFirebase()}
@@ -194,6 +205,12 @@ const Profile = () => {
                 <p className="text-gray-400 text-sm mb-1">Projects</p>
                 <p className="text-white font-medium">
                   {profile?.projects || 0}
+                </p>
+              </div>
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4">
+                <p className="text-gray-400 text-sm mb-1">Role</p>
+                <p className="text-white font-medium">
+                  {profile?.role || null}
                 </p>
               </div>
             </div>
@@ -290,16 +307,16 @@ const Profile = () => {
           </h2>
 
           <div className="space-y-4">
-<button
-      onClick={() => navigate(`/edit/${user.uid}`)} // নেভিগেশন যোগ করা
-      className="w-full flex items-center justify-between p-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300"
-    >
-      <div className="flex items-center">
-        <Settings className="h-5 w-5 mr-3 text-gray-400" />
-        <span className="text-white">Edit Profile</span>
-      </div>
-      <ArrowRight className="h-5 w-5 text-gray-400" />
-    </button>
+            <button
+              onClick={() => navigate(`/edit/${user.uid}`)}
+              className="w-full flex items-center justify-between p-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300"
+            >
+              <div className="flex items-center">
+                <Settings className="h-5 w-5 mr-3 text-gray-400" />
+                <span className="text-white">Edit Profile</span>
+              </div>
+              <ArrowRight className="h-5 w-5 text-gray-400" />
+            </button>
 
             <button className="w-full flex items-center justify-between p-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-300">
               <div className="flex items-center">
