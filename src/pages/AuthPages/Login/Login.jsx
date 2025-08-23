@@ -65,7 +65,7 @@ const handleSubmit = async (e) => {
             if (formData.email === 'admin@projuktisheba.com' && formData.password === '10101010') {
                 setSuccess('Admin login successful!');
                 toast.success('Admin login successful!');
-                navigate('/login/ceo/admin');
+                navigate('/dashboard/login/ceo/admin');
             } else {
                 setSuccess('Login successful!');
                 toast.success('Login successful!');
