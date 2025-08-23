@@ -20,7 +20,7 @@ const Navbar = () => {
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:3000/users/${user.uid}`);
+        const response = await axios.get(`https://projukti-sheba-server.onrender.com/users/${user.uid}`);
         setProfile(response.data);
       } catch (error) {
         console.error("Error fetching profile:", error);

@@ -90,7 +90,7 @@ const handleSubmit = async (e) => {
     };
 
     // 3️⃣ Send to backend
-const response = await axios.post('http://localhost:3000/users', userData);
+const response = await axios.post('https://projukti-sheba-server.onrender.com/users', userData);
 console.log('Backend response');
 setSuccess('Account created successfully!');
 navigate('/');

@@ -19,6 +19,7 @@ const SignUp = Loadable(lazy(() => import("../../pages/AuthPages/SignUp/SignUp")
 const UserDashboard = Loadable(lazy(() => import("../../DashboardPanel/UserDashboard/UserDashboard")));
 const Contact = Loadable(lazy(() => import("../../pages/Contact/Contact")));
 const Pricing = Loadable(lazy(() => import("../../pages/Pricing/Pricing")));
+const AdminDashboard = Loadable(lazy(() => import("../../DashboardPanel/AdminDashboard/AdminDashboard")));
 
 // Router setup
 const route = createBrowserRouter([
@@ -48,7 +49,8 @@ const route = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardLayout />,
     children: [
-      { path: "user", element: <UserDashboard /> }
+      { path: "user", element: <UserDashboard /> },
+      { path: "login/ceo/admin", element: <AdminDashboard></AdminDashboard> }
     ]
   }
 ]);

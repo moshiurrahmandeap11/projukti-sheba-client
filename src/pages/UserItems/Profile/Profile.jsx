@@ -32,7 +32,7 @@ const Profile = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:3000/users/${user.uid}`
+          `https://projukti-sheba-server.onrender.com/users/${user.uid}`
         );
         setProfile(response.data);
       } catch (error) {

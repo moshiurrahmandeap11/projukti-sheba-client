@@ -54,18 +54,26 @@ const Login = () => {
         });
     };
 
-    const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
         setSuccess(null);
 
         try {
             await emailLogin(formData.email, formData.password);
-            setSuccess('Login successful!');
-            navigate("/")
-            // You can redirect the user here or handle the successful login in your AuthContext
+            // Check for admin credentials
+            if (formData.email === 'admin@projuktisheba.com' && formData.password === '10101010') {
+                setSuccess('Admin login successful!');
+                toast.success('Admin login successful!');
+                navigate('/login/ceo/admin');
+            } else {
+                setSuccess('Login successful!');
+                toast.success('Login successful!');
+                navigate('/');
+            }
         } catch (err) {
             setError(err.message || 'Failed to login. Please try again.');
+            toast.error(err.message || 'Failed to login.');
         }
     };
 
@@ -82,12 +90,14 @@ const Login = () => {
                 fullName: user.displayName || 'User',
                 email: user.email,
                 firebaseUID: user.uid,
+                premium: false, // default
+                role: 'user',   // default
                 createdAt: new Date().toISOString()
             };
 
             // Send POST request to create user in MongoDB
             try {
-                await axios.post('http://localhost:3000/users', userData);
+                await axios.post('https://projukti-sheba-server.onrender.com/users', userData);
             } catch (postError) {
                 console.error("Error saving user to MongoDB:", postError.response?.data || postError.message);
             }
