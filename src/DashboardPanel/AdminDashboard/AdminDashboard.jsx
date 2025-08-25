@@ -8,7 +8,7 @@ import Sidebar from "./Sidebar/Sidebar";
 import Header from "./Header/Header";
 import OverviewSection from "./OverviewSection/OverviewSection";
 import UsersSection from "./UsersSection/UsersSection";
-import OrdersSection from "./OrdersSection/OrdersSection";
+import PortfolioSection from "./PortfolioSection/PortfolioSection";
 import ProductsSection from "./ProductsSection/ProductsSection";
 import AnalyticsSection from "./AnalyticsSection/AnalyticsSection";
 import MessagesSection from "./MessagesSection/MessagesSection";
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:3000/users/${userId}`
+          `https://projukti-sheba-server.onrender.com/users/${userId}`
         );
         setAdminProfile(response.data);
       } catch (error) {
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/users");
+        const response = await axios.get("https://projukti-sheba-server.onrender.com/users");
         setTotalUsers(response.data);
       } catch (error) {
         console.error("Error fetching total users:", error);
@@ -72,7 +72,7 @@ const AdminDashboard = () => {
   const menuItems = [
     { id: "overview", icon: "📊", label: "Overview", badge: null },
     { id: "users", icon: "👥", label: "Users", badge: null },
-    { id: "orders", icon: "📦", label: "Orders", badge: null },
+    { id: "portfolio", icon: "📦", label: "Portfolio", badge: null },
     { id: "products", icon: "🛍️", label: "Products", badge: null },
     { id: "analytics", icon: "📈", label: "Analytics", badge: null },
     { id: "messages", icon: "💬", label: "Messages", badge: null },
@@ -99,8 +99,8 @@ const AdminDashboard = () => {
         return <OverviewSection totalUsers={totalUsers} />;
       case "users":
         return <UsersSection totalUsers={totalUsers} />;
-      case "orders":
-        return <OrdersSection />;
+      case "portfolio":
+        return <PortfolioSection />;
       case "products":
         return <ProductsSection />;
       case "analytics":

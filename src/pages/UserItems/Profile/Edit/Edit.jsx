@@ -58,7 +58,7 @@ const Edit = () => {
     const fetchProfile = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`http://localhost:3000/users/${user.uid}`);
+        const response = await axios.get(`https://projukti-sheba-server.onrender.com/users/${user.uid}`);
         const profileData = response.data;
         
         setProfile(profileData);
@@ -179,7 +179,7 @@ const Edit = () => {
     // Log FormData for debugging
     console.log("FormData entries:", [...formDataToSend.entries()]);
 
-    const response = await axios.put(`http://localhost:3000/users/${user.uid}`, formDataToSend, {
+    const response = await axios.put(`https://projukti-sheba-server.onrender.com/users/${user.uid}`, formDataToSend, {
       headers: {
         "Content-Type": "multipart/form-data"
       }

@@ -20,6 +20,7 @@ const UserDashboard = Loadable(lazy(() => import("../../DashboardPanel/UserDashb
 const Contact = Loadable(lazy(() => import("../../pages/Contact/Contact")));
 const Pricing = Loadable(lazy(() => import("../../pages/Pricing/Pricing")));
 const AdminDashboard = Loadable(lazy(() => import("../../DashboardPanel/AdminDashboard/AdminDashboard")));
+const AddPortfolio = Loadable(lazy(() => import("../../DashboardPanel/AdminDashboard/PortfolioSection/AddPortfolio/AddPortfolio")));
 
 // Router setup
 const route = createBrowserRouter([
@@ -35,6 +36,7 @@ const route = createBrowserRouter([
       { path: "/blogs", element: <ProtectedRoute><Blogs /></ProtectedRoute> },
       { path: "/profile", element: <Profile /> },
       { path: "/edit/:id", element: <Edit /> },
+      { path: "/add-portfolio", element: <AddPortfolio /> }
     ]
   },
   {
