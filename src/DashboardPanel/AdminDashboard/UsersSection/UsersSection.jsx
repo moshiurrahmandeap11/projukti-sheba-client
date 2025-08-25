@@ -87,7 +87,7 @@ const UsersSection = ({ totalUsers }) => {
                 <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center overflow-hidden">
                   {user.photoURL ? (
                     <img
-                      src={`http://localhost:3000${user.photoURL}`}
+                      src={`https://projukti-sheba-server.onrender.com${user.photoURL}`}
                       alt={user.fullName || "User"}
                       className="w-full h-full object-cover"
                     />
@@ -180,7 +180,7 @@ const UsersSection = ({ totalUsers }) => {
               <div className="flex justify-center">
                 {selectedUser.photoURL ? (
                   <img
-                    src={`http://localhost:3000${selectedUser.photoURL}`}
+                    src={`https://projukti-sheba-server.onrender.com${selectedUser.photoURL}`}
                     alt={selectedUser.fullName || "User"}
                     className="w-24 h-24 rounded-full object-cover border border-gray-600"
                   />

@@ -194,7 +194,7 @@ const Navbar = () => {
                 >
                   {profile?.photoURL ? (
                     <img
-                      src={`${profile.photoURL.startsWith("http") ? profile.photoURL : `http://localhost:3000${profile.photoURL}`}`}
+                      src={`${profile.photoURL.startsWith("http") ? profile.photoURL : `https://projukti-sheba-server.onrender.com${profile.photoURL}`}`}
                       alt={profile?.displayName || 'User'}
                       className="w-10 h-10 rounded-full border-2 border-purple-500/30 object-cover"
                     />
