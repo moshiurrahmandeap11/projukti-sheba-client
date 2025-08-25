@@ -50,7 +50,7 @@ const route = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       { path: "user", element: <UserDashboard /> },
-      { path: "login/ceo/admin", element: <AdminDashboard></AdminDashboard> }
+      { path: "admin", element: <AdminDashboard></AdminDashboard> },
     ]
   }
 ]);

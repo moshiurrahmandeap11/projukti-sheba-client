@@ -118,7 +118,7 @@ const Banner = () => {
                         {/* Title */}
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
                             <span className="bg-gradient-to-r from-white via-purple-200 to-indigo-300 bg-clip-text text-transparent">
-                                Innovating Solutions, Empowering Growth.
+                                Digital Solution of Business
                             </span>
                         </h1>
                         

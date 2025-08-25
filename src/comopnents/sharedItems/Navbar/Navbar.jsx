@@ -5,22 +5,23 @@ import { useAuth } from '../../../hooks/AuthContexts/AuthContexts';
 import Loader from '../Loader/Loader';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import logo from "../../../assets/pslogo.png"; 
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { user, loading, setLoading, logOut } = useAuth();
-    const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
 
-    useEffect(() => {
+  useEffect(() => {
     if (!user?.uid) return;
 
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`https://projukti-sheba-server.onrender.com/users/${user.uid}`);
+        const response = await axios.get(`http://localhost:3000/users/${user.uid}`);
         setProfile(response.data);
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -41,18 +42,19 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
+
   const handleLogOut = () => {
-  logOut()
-    .then(() => {
-      navigate("/");
-      toast.success("Logged out successfully");
-    })
-    .catch((error) => {
-      console.error("Logout error:", error);
-      toast.error("Failed to log out. Please try again.");
-    });
-};
+    logOut()
+      .then(() => {
+        navigate("/");
+        toast.success("Logged out successfully");
+      })
+      .catch((error) => {
+        console.error("Logout error:", error);
+        toast.error("Failed to log out. Please try again.");
+      });
+  };
+
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Services', href: 'services' },
@@ -62,7 +64,7 @@ const Navbar = () => {
     { name: 'Blogs', href: 'blogs' },
   ];
 
-  const profileLinks = [
+  const regularProfileLinks = [
     { name: 'Profile', icon: <User size={18} />, href: '/profile' },
     { name: 'Dashboard', icon: <LayoutDashboard size={18} />, href: '/dashboard/user' },
     { name: 'Your Services', icon: <Settings size={18} />, href: '/services' },
@@ -72,6 +74,14 @@ const Navbar = () => {
     { name: 'Support', icon: <HelpCircle size={18} />, href: '/support' },
     { name: 'Logout', icon: <LogOut size={18} />, action: handleLogOut },
   ];
+
+  const adminProfileLinks = [
+    { name: 'Admin Profile', icon: <User size={18} />, href: '/profile' },
+    { name: 'Admin Dashboard', icon: <LayoutDashboard size={18} />, href: '/dashboard/admin' },
+    { name: 'Logout', icon: <LogOut size={18} />, action: handleLogOut },
+  ];
+
+  const profileLinks = user?.email === 'admin@projuktisheba.com' ? adminProfileLinks : regularProfileLinks;
 
   const handleLogoClick = () => {
     navigate("/");
@@ -130,15 +140,19 @@ const Navbar = () => {
             )}
             
             {/* Logo */}
-            <div className="flex-shrink-0">
-              <div onClick={handleLogoClick} className="flex items-center cursor-pointer">
-                <div className="rounded-xl p-2.5 shadow-lg">
-                  <span className="text-white font-extrabold text-xl tracking-wider">
-                    Projukti Sheba
-                  </span>
-                </div>
-              </div>
-            </div>
+<div className="flex-shrink-0">
+  <div onClick={handleLogoClick} className="flex items-center cursor-pointer">
+    <div className="rounded-xl p-2.5 shadow-lg flex justify-center items-center">
+      <img
+        src={logo} 
+        alt="Projukti Sheba Logo"
+        className="h-10 w-auto object-contain" 
+      />
+      <div className="rounded-xl p-2.5 shadow-lg"> <span className="text-white/50 font-extrabold text-2xl tracking-wider"> Projukti Sheba </span> </div>
+    </div>
+  </div>
+</div>
+
           </div>
 
           {/* Desktop Nav Links (Center) - Show always */}

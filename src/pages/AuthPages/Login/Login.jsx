@@ -65,7 +65,7 @@ const handleSubmit = async (e) => {
             if (formData.email === 'admin@projuktisheba.com' && formData.password === '10101010') {
                 setSuccess('Admin login successful!');
                 toast.success('Admin login successful!');
-                navigate('/dashboard/login/ceo/admin');
+                navigate('/');
             } else {
                 setSuccess('Login successful!');
                 toast.success('Login successful!');
@@ -97,7 +97,7 @@ const handleSubmit = async (e) => {
 
             // Send POST request to create user in MongoDB
             try {
-                await axios.post('https://projukti-sheba-server.onrender.com/users', userData);
+                await axios.post('http://localhost:3000/users', userData);
             } catch (postError) {
                 console.error("Error saving user to MongoDB:", postError.response?.data || postError.message);
             }

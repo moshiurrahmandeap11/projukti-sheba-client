@@ -54,7 +54,7 @@ const OurTeam = () => {
             skills: ["Leadership", "Strategy", "Innovation", "Management"],
             icon: Award,
             gradient: "from-yellow-500 to-orange-500",
-            bgImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop&crop=face"
+            bgImage: "https://i.postimg.cc/nV12mR48/Designer.jpg"
         },
         {
             id: 2,
@@ -67,35 +67,16 @@ const OurTeam = () => {
             social: {
                 linkedin: "#",
                 twitter: "#",
-                email: "#",
-                github: "#"
+                email: "support@projuktisheba.com",
+                github: "https://github.com/projuktisheba"
             },
             skills: ["React", "Node.js", "AWS", "Docker"],
             icon: Code,
             gradient: "from-blue-500 to-purple-500",
-            bgImage: "https://projuktisheba.com/wp-content/uploads/2024/07/avatars-000842532340-b695xd-t240x240.jpg"
+            bgImage: "https://i.postimg.cc/DzCp1Cky/Ajijul-Islam-Without-background.png"
         },
         {
             id: 3,
-            name: "MD NADIRUZZAMAN",
-            position: "CMO & Operation Manager",
-            department: "Development",
-            experience: "5+ Years",
-            expertise: ["React Development", "UI Implementation", "Performance Optimization", "Mobile Responsive"],
-            bio: "Creative frontend developer passionate about building beautiful, interactive user interfaces and seamless user experiences.",
-            social: {
-                linkedin: "#",
-                twitter: "#",
-                email: "#",
-                github: "#"
-            },
-            skills: ["React", "JavaScript", "CSS", "TypeScript"],
-            icon: Code,
-            gradient: "from-green-500 to-teal-500",
-            bgImage: "https://projuktisheba.com/wp-content/uploads/2024/08/Nadiruzzaman.jpg"
-        },
-        {
-            id: 4,
             name: "MEHEDI HASAN MANNA",
             position: "SMO & SMM & Professional Video Editor",
             department: "Design",
@@ -114,7 +95,7 @@ const OurTeam = () => {
             bgImage: "https://projuktisheba.com/wp-content/uploads/2024/08/IMG_20240417_101135-1024x768.jpg"
         },
         {
-            id: 5,
+            id: 4,
             name: "AHSAN IBNE HABIB PARVEZ",
             position: "Professional Web Designer",
             department: "Development",
@@ -133,7 +114,7 @@ const OurTeam = () => {
             bgImage: "https://projuktisheba.com/wp-content/uploads/2024/08/438906924_10225449829089529_3096104127403699948_n-1024x1024.jpg"
         },
         {
-            id: 6,
+            id: 5,
             name: "MD SAMIUL BASHIR",
             position: "Software Developer",
             department: "Development",
@@ -152,26 +133,7 @@ const OurTeam = () => {
             bgImage: "https://projuktisheba.com/wp-content/uploads/2024/08/Samiul.jpg"
         },
         {
-            id: 7,
-            name: "MUKLASUR RAHMAN",
-            position: "Professional Graphics Designer",
-            department: "Designer",
-            experience: "5+ Years",
-            expertise: ["Adobe Photoshop", "AI", "Canva"],
-            bio: "Professional Graphics Designer with a passion for creating stunning visuals and engaging user experiences.",
-            social: {
-                linkedin: "#",
-                twitter: "#",
-                email: "#",
-                github: "#"
-            },
-            skills: ["PS", "AI", "Canva"],
-            icon: Shield,
-            gradient: "from-cyan-500 to-blue-500",
-            bgImage: "https://projuktisheba.com/wp-content/uploads/2024/08/WhatsApp-Image-2024-08-14-at-12.01.03-PM-819x1024.jpeg"
-        },
-        {
-            id: 8,
+            id: 6,
             name: "AFSANA MITU",
             position: "Professional Digital Marketer",
             department: "Marketing",
@@ -190,7 +152,7 @@ const OurTeam = () => {
             bgImage: "https://projuktisheba.com/wp-content/uploads/2024/07/314d932056d06821c0bffa139dc6ef88.jpg"
         },
         {
-            id: 9,
+            id: 7,
             name: "MOSHIUR RAHMAN DEAP",
             position: "JR. WEB DEVELOPER",
             department: "Development",
@@ -209,7 +171,7 @@ const OurTeam = () => {
             bgImage: "https://i.postimg.cc/wMg2Bqf6/pp.jpg"
         },
         {
-            id: 10,
+            id: 8,
             name: "MEHEDI HASAN SAGOR",
             position: "ADS ANALYTICS",
             department: "Marketing",
@@ -225,8 +187,72 @@ const OurTeam = () => {
             skills: ["Google Analytics", "Google Tag Manager", "Attribution Models", "A/B Testing & Experimentation"],
             icon: Shield,
             gradient: "from-cyan-500 to-blue-500",
-            bgImage: "https://i.postimg.cc/B6qNSZwJ/455451968-2036706736745661-4608380823110257653-n.jpg"
-        }
+            bgImage: "https://i.postimg.cc/JzxpWThc/ce31ca5b-c37c-40e9-befb-a816c8520b70.jpg"
+        },
+        {
+            id: 9,
+            name: "MD AZHARUL ISLAM",
+            position: "Head of Sales",
+            department: "Software & Websites",
+            experience: "5+ Years",
+            expertise: ["Google Ads", "Meta Ads", "LinkedIn Ads"],
+            bio: "Experienced in running high-converting campaigns on Google, Meta, and LinkedIn Ads platforms.",
+            social: {
+                email: "azharul533@gmail.com",
+            },
+            skills: ["Google Ads", "Meta Ads", "LinkedIn Ads", "Campaign Management", "Audience Targeting", "Performance Optimization"],
+            icon: Shield,
+            gradient: "from-cyan-500 to-blue-500",
+            bgImage: "https://i.postimg.cc/rp1K7WmW/a9f1339c-ade1-4183-bca5-fad0d851a5d5.jpg"
+        },
+        {
+            id: 10,
+            name: "MUTTAKIN AHMED APON",
+            position: "Marketing Officer",
+            department: "Shebok",
+            experience: "3+ Years",
+            expertise: ["Digital Marketing", "Content Strategy", "SEO", "Email Marketing", "Social Media Campaigns"],
+            bio: "Results-driven Marketing Officer with a strong background in digital strategy, content creation, and campaign execution to boost brand visibility and customer engagement.",
+            social: {
+                email: "#",
+            },
+            skills: ["Market Research", "Campaign Management", "SEO & SEM", "Email Automation", "Copywriting", "Google Analytics", "Social Media Management", "Brand Positioning"],
+            icon: Shield,
+            gradient: "from-cyan-500 to-blue-500",
+            bgImage: ""
+        },
+        {
+            id: 11,
+            name: "SANJANA AKTER HOLY",
+            position: "Marketing Officer",
+            department: "Shebok",
+            experience: "3+ Years",
+            expertise: ["Digital Marketing", "Content Strategy", "SEO", "Email Marketing", "Social Media Campaigns"],
+            bio: "Results-driven Marketing Officer with a strong background in digital strategy, content creation, and campaign execution to boost brand visibility and customer engagement.",
+            social: {
+                email: "#",
+            },
+            skills: ["Market Research", "Campaign Management", "SEO & SEM", "Email Automation", "Copywriting", "Google Analytics", "Social Media Management", "Brand Positioning"],
+            icon: Shield,
+            gradient: "from-cyan-500 to-blue-500",
+            bgImage: "https://projuktisheba.com/wp-content/uploads/2024/07/314d932056d06821c0bffa139dc6ef88.jpg"
+        },
+        {
+            id: 12,
+            name: "Ikha Akter",
+            position: "Executive Officer",
+            department: "Health Take Care",
+            experience: "3+ Years",
+            expertise: ["Healthcare Administration", "Policy Implementation", "Team Leadership", "Patient Services Management", "Compliance & Regulations"],
+            bio: "Dedicated Executive Officer in the Health Take Care department with expertise in healthcare operations, team coordination, and service delivery. Committed to improving patient care through strategic planning and efficient administrative leadership.",
+            social: {
+                email: "#",
+            },
+            skills: ["Healthcare Management", "Operational Oversight", "Staff Coordination", "Regulatory Compliance", "Strategic Planning", "Communication", "Crisis Management", "Patient Experience Optimization"],
+            icon: Shield,
+            gradient: "from-cyan-500 to-blue-500",
+            bgImage: "https://projuktisheba.com/wp-content/uploads/2024/07/314d932056d06821c0bffa139dc6ef88.jpg"
+        },
     ];
 
     const itemsPerSlide = 3;
