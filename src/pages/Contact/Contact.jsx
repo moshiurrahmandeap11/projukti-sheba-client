@@ -113,7 +113,7 @@ const Contact = () => {
     {
       icon: MapPin,
       title: "Address",
-      details: ["Teribazar, UCB Bank Building (3rd Floor), Netrakona, Mymensingh, Bangladesh-2400."],
+      details: ["Teribazar, UCB Bank Building (3rd Floor), Netrakona, Bangladesh-2400."],
       color: "from-green-500 to-emerald-500",
     },
     {

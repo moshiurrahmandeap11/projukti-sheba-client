@@ -62,7 +62,7 @@ const Footer = () => {
         {
             icon: MapPin,
             title: 'Address',
-            details: ['Teri, Bazar', 'Netrakona, Mymensingh Division']
+            details: ['Teribazar, UCB Bank Building (3rd Floor), Netrakona, Bangladesh-2400.']
         }
     ];
 
