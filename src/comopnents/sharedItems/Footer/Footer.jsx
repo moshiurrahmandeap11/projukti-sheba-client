@@ -21,6 +21,7 @@ import {
     Music2,
     ParkingCircle
 } from 'lucide-react';
+import { Link } from 'react-router';
 
 const Footer = () => {
     const [email, setEmail] = useState('');
@@ -264,7 +265,7 @@ const Footer = () => {
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                             <div className="flex items-center space-x-2 text-gray-400 text-sm">
-                                <span>&copy; 2025 Projukti Sheba. All rights reserved.</span>
+                                <span>&copy; 2019-2025 Projukti Sheba. All rights reserved.</span>
                             </div>
                             
                             <div className="flex items-center space-x-6">
@@ -280,9 +281,9 @@ const Footer = () => {
                             </div>
                             
                             <div className="flex items-center space-x-2 text-gray-400 text-sm">
-                                <span>Made with</span>
-                                <Heart className="w-4 h-4 text-red-500 animate-pulse" />
-                                <span>in Bangladesh</span>
+                                <span>Developed By</span>
+                                <a href={"https://moshiurrahman.online"} target='_blank' className='animate-pulse text-red-500' > MRD</a>
+                                <span>From Projukti Sheba</span>
                             </div>
                         </div>
                     </div>
