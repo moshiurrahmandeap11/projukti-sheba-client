@@ -29,7 +29,7 @@ const Services = () => {
         setError(null);
 
         // Fetch categories
-        const categoriesRes = await axios.get('http://localhost:3000/categories');
+        const categoriesRes = await axios.get('https://projukti-sheba-server.onrender.com/categories');
         const categoriesData = Array.isArray(categoriesRes.data.data) ? categoriesRes.data.data : [];
         if (!categoriesData.length) {
           toast.warn('No categories found');
@@ -37,7 +37,7 @@ const Services = () => {
         setCategories(categoriesData);
 
         // Fetch services
-        const servicesRes = await axios.get('http://localhost:3000/services');
+        const servicesRes = await axios.get('https://projukti-sheba-server.onrender.com/services');
         const servicesData = Array.isArray(servicesRes.data.data) ? servicesRes.data.data : [];
         if (!servicesData.length) {
           toast.warn('No services found');

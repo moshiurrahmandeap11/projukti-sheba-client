@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router';
 import Navbar from '../../comopnents/sharedItems/Navbar/Navbar';
 import Footer from '../../comopnents/sharedItems/Footer/Footer';
+import Chat from './Chat/Chat';
 
 
 const RootLayout = () => {
@@ -18,7 +19,7 @@ const RootLayout = () => {
             </footer>
 
             {/* live chat */}
-            {/* <Chat></Chat> */}
+            <Chat></Chat>
         </div>
     );
 };

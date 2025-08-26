@@ -36,7 +36,7 @@ const AdminDashboard = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:3000/users/${userId}`
+          `https://projukti-sheba-server.onrender.com/users/${userId}`
         );
         setAdminProfile(response.data);
       } catch (error) {
@@ -52,7 +52,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/users");
+        const response = await axios.get("https://projukti-sheba-server.onrender.com/users");
         setTotalUsers(response.data);
       } catch (error) {
         console.error("Error fetching total users:", error);
