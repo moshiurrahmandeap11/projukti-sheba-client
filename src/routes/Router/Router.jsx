@@ -18,12 +18,7 @@ import Pricing from "../../pages/Pricing/Pricing";
 import AdminDashboard from "../../DashboardPanel/AdminDashboard/AdminDashboard";
 import Edit from "../../pages/UserItems/Profile/Edit/Edit";
 import AddPortfolio from "../../DashboardPanel/AdminDashboard/PortfolioSection/AddPortfolio/AddPortfolio";
-
-
-
-// Lazy imports wrapped with Loadable HOC
-
-
+import AddServices from "../../DashboardPanel/AdminDashboard/ServicesSection/AddServices/AddServices";
 
 
 
@@ -41,7 +36,6 @@ const route = createBrowserRouter([
       { path: "/blogs", element: <ProtectedRoute><Blogs /></ProtectedRoute> },
       { path: "/profile", element: <Profile /> },
       { path: "/edit/:id", element: <Edit /> },
-      { path: "/add-portfolio", element: <AddPortfolio></AddPortfolio> }
     ]
   },
   {
@@ -58,6 +52,8 @@ const route = createBrowserRouter([
     children: [
       { path: "user", element: <UserDashboard /> },
       { path: "admin", element: <AdminDashboard></AdminDashboard> },
+      { path: "add-portfolio", element: <AddPortfolio></AddPortfolio> },
+      { path: "add-service", element: <AddServices></AddServices> },
     ]
   }
 ]);

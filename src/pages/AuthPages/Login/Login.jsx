@@ -97,7 +97,7 @@ const handleSubmit = async (e) => {
 
             // Send POST request to create user in MongoDB
             try {
-                await axios.post('https://projukti-sheba-server.onrender.com/users', userData);
+                await axios.post('http://localhost:3000/users', userData);
             } catch (postError) {
                 console.error("Error saving user to MongoDB:", postError.response?.data || postError.message);
             }

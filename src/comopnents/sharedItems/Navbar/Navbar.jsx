@@ -32,7 +32,7 @@ const Navbar = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://projukti-sheba-server.onrender.com/users/${user.uid}`
+          `http://localhost:3000/users/${user.uid}`
         );
         setProfile(response.data);
       } catch (error) {
@@ -238,7 +238,7 @@ const Navbar = () => {
                       src={`${
                         profile.photoURL.startsWith("http")
                           ? profile.photoURL
-                          : `https://projukti-sheba-server.onrender.com${profile.photoURL}`
+                          : `http://localhost:3000/${profile.photoURL}`
                       }`}
                       alt={profile?.displayName || "User"}
                       className="w-10 h-10 rounded-full border-2 border-purple-500/30 object-cover"

@@ -15,6 +15,7 @@ import MessagesSection from "./MessagesSection/MessagesSection";
 import SettingsSection from "./SettingsSection/SettingsSection";
 import ReportsSection from "./ReportsSection/ReportsSection";
 import { useNavigate } from "react-router";
+import ServicesSection from "./ServicesSection/ServicesSection";
 
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -35,7 +36,7 @@ const AdminDashboard = () => {
 
       try {
         const response = await axios.get(
-          `https://projukti-sheba-server.onrender.com/users/${userId}`
+          `http://localhost:3000/users/${userId}`
         );
         setAdminProfile(response.data);
       } catch (error) {
@@ -51,7 +52,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
-        const response = await axios.get("https://projukti-sheba-server.onrender.com/users");
+        const response = await axios.get("http://localhost:3000/users");
         setTotalUsers(response.data);
       } catch (error) {
         console.error("Error fetching total users:", error);
@@ -78,7 +79,8 @@ const AdminDashboard = () => {
     { id: "messages", icon: "💬", label: "Messages", badge: null },
     { id: "settings", icon: "⚙️", label: "Settings", badge: null },
     { id: "reports", icon: "📋", label: "Reports", badge: null },
-    { id: "Home", icon: "🏠", label: "Home", badge: null }, // Added Home menu item
+    { id: "services", icon: "🛠️", label: "Services", badge: null },
+    { id: "home", icon: "🏠", label: "Home", badge: null }, // Added Home menu item
   ];
 
   // Animation variants
@@ -111,10 +113,10 @@ const AdminDashboard = () => {
         return <SettingsSection />;
       case "reports":
         return <ReportsSection />;
-      case "Home":
-        return null; // Return null for Home since navigation is handled in useEffect
-      default:
-        return <OverviewSection totalUsers={totalUsers} />;
+      case "services":
+        return <ServicesSection />;
+      case "home":
+        return null;
     }
   };
 

@@ -15,7 +15,7 @@ const PortfolioSection = () => {
           <button className="px-4 py-2 bg-gray-800/30 hover:bg-gray-700/40 backdrop-blur-md rounded-xl border border-gray-600/50 text-white transition-all duration-300 hover:shadow-lg">
             Export
           </button>
-          <button onClick={ () => navigate("/add-portfolio")} className="px-4 py-2 bg-gradient-to-r from-blue-600/50 to-purple-600/50 hover:from-blue-500/60 hover:to-purple-500/60 backdrop-blur-md rounded-xl border border-gray-600/50 text-white transition-all duration-300 hover:shadow-lg">
+          <button onClick={ () => navigate("/dashboard/add-portfolio")} className="px-4 py-2 bg-gradient-to-r from-blue-600/50 to-purple-600/50 hover:from-blue-500/60 hover:to-purple-500/60 backdrop-blur-md rounded-xl border border-gray-600/50 text-white transition-all duration-300 hover:shadow-lg">
             Add Portfolio
           </button>
           <button className="px-4 py-2 bg-gradient-to-r from-blue-600/50 to-purple-600/50 hover:from-blue-500/60 hover:to-purple-500/60 backdrop-blur-md rounded-xl border border-gray-600/50 text-white transition-all duration-300 hover:shadow-lg">

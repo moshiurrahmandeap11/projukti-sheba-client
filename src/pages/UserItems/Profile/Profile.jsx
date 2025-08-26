@@ -32,7 +32,7 @@ const Profile = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `https://projukti-sheba-server.onrender.com/users/${user.uid}`
+          `http://localhost:3000/users/${user.uid}`
         );
         setProfile(response.data);
       } catch (error) {
@@ -120,7 +120,7 @@ const Profile = () => {
           <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-xl">
             {profile?.photoURL ? (
               <img
-                src={`https://projukti-sheba-server.onrender.com${profile.photoURL}`}
+                src={`http://localhost:3000/${profile.photoURL}`}
                 alt={profile?.fullName || user?.displayName || "User"}
                 className="w-32 h-32 rounded-full object-cover border-4 border-purple-500/30"
                 onError={(e) => {
