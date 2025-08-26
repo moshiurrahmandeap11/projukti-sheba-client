@@ -32,13 +32,12 @@ const Footer = () => {
         }
     };
 
-    const quickLinks = [
-        { name: 'Home', href: '/' },
-        { name: 'About Us', href: '/about' },
-        { name: 'Services', href: '/services' },
-        { name: 'Portfolio', href: '/portfolio' },
-        { name: 'Blog', href: '/blog' },
-        { name: 'Contact', href: '/contact' }
+
+    const socialLinks = [
+        { name: 'Facebook', href: 'https://www.facebook.com/projuktishebaofficial', icon: Facebook, color: 'hover:text-blue-500' },
+        { name: 'Whatsapp', href: 'https://wa.me/+8801712377406', icon: PhoneCall, color: 'hover:text-sky-500' },
+        { name: 'LinkedIn', href: 'https://www.linkedin.com/in/projuktishebaofficial/', icon: Linkedin, color: 'hover:text-blue-600' },
+        { name: 'YouTube', href: 'https://www.youtube.com/@projuktishebaofficial', icon: Youtube, color: 'hover:text-red-500' }
     ];
 
     const services = [
@@ -48,12 +47,6 @@ const Footer = () => {
         { name: 'Social Ads Campaign', href: '#ads', icon: Megaphone }
     ];
 
-    const socialLinks = [
-        { name: 'Facebook', href: 'https://www.facebook.com/projuktishebaofficial', icon: Facebook, color: 'hover:text-blue-500' },
-        { name: 'Whatsapp', href: 'https://wa.me/+8801712377406', icon: PhoneCall, color: 'hover:text-sky-500' },
-        { name: 'LinkedIn', href: 'https://www.linkedin.com/in/projuktishebaofficial/', icon: Linkedin, color: 'hover:text-blue-600' },
-        { name: 'YouTube', href: 'https://www.youtube.com/@projuktishebaofficial', icon: Youtube, color: 'hover:text-red-500' }
-    ];
 
     const contactInfo = [
         {
@@ -127,26 +120,28 @@ const Footer = () => {
                                 </div>
                             </div>
 
-                            {/* Quick Links */}
-                            <div className="space-y-6">
-                                <h4 className="text-xl font-bold text-white relative">
-                                    Quick Links
-                                    <div className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-                                </h4>
-                                <ul className="space-y-3">
-                                    {quickLinks.map((link, index) => (
-                                        <li key={index}>
-                                            <a
-                                                href={link.href}
-                                                className="text-gray-400 hover:text-white transition-all duration-300 flex items-center space-x-2 group"
-                                            >
-                                                <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
-                                                <span className="group-hover:translate-x-2 transition-transform duration-300">{link.name}</span>
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                               {/* Contact Info */}
+                                <div className="space-y-4">
+                                    <h4 className="text-lg font-semibold text-white">Contact Info</h4>
+                                    <div className="space-y-3">
+                                        {contactInfo.map((contact, index) => {
+                                            const ContactIcon = contact.icon;
+                                            return (
+                                                <div key={index} className="flex items-start space-x-3">
+                                                    <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg p-2">
+                                                        <ContactIcon className="w-4 h-4 text-purple-400" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm font-medium text-gray-300">{contact.title}</p>
+                                                        {contact.details.map((detail, idx) => (
+                                                            <p key={idx} className="text-sm text-gray-400">{detail}</p>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
 
                             {/* Services */}
                             <div className="space-y-6">
@@ -216,28 +211,7 @@ const Footer = () => {
                                     </div>
                                 </div>
 
-                                {/* Contact Info */}
-                                <div className="space-y-4">
-                                    <h4 className="text-lg font-semibold text-white">Contact Info</h4>
-                                    <div className="space-y-3">
-                                        {contactInfo.map((contact, index) => {
-                                            const ContactIcon = contact.icon;
-                                            return (
-                                                <div key={index} className="flex items-start space-x-3">
-                                                    <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg p-2">
-                                                        <ContactIcon className="w-4 h-4 text-purple-400" />
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-sm font-medium text-gray-300">{contact.title}</p>
-                                                        {contact.details.map((detail, idx) => (
-                                                            <p key={idx} className="text-sm text-gray-400">{detail}</p>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
+ 
                             </div>
                         </div>
                     </div>

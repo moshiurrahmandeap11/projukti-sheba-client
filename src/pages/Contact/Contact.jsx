@@ -15,6 +15,8 @@ import {
   Instagram,
   ArrowRight,
   CheckCircle,
+  PhoneCall,
+  Youtube,
 } from "lucide-react";
 
 const Contact = () => {
@@ -99,58 +101,54 @@ const Contact = () => {
     {
       icon: Phone,
       title: "Phone",
-      details: ["+8801712377406", "+8801342520723"],
+      details: ["+8801712377406"],
       color: "from-blue-500 to-cyan-500",
     },
     {
       icon: Mail,
       title: "Email",
-      details: ["support@projuktisheba.com", "projuktisheba.yt@gmail.com"],
+      details: ["support@projuktisheba.com"],
       color: "from-purple-500 to-pink-500",
     },
     {
       icon: MapPin,
       title: "Address",
-      details: ["Teri Bazar, Netrakona", "Mymensingh, Bangladesh"],
+      details: ["Teribazar, UCB Bank Building (3rd Floor), Netrakona, Mymensingh, Bangladesh-2400."],
       color: "from-green-500 to-emerald-500",
     },
     {
       icon: Clock,
       title: "Working Hours",
-      details: ["Mon - Fri: 10:00 AM - 8:00 PM", "Sat: 10:00 AM - 4:00 PM"],
+      details: ["we work 24/7"],
       color: "from-orange-500 to-red-500",
     },
   ];
 
   const services = [
     "Web Development",
-    "Mobile App Development",
-    "UI/UX Design",
-    "Digital Marketing",
-    "Cloud Solutions",
-    "IT Consulting",
-    "E-commerce Solutions",
-    "Custom Software",
+    "Software Development",
+    "Video Editing",
+    "Social Ads Campaign"
   ];
 
   const socialLinks = [
     {
       icon: Facebook,
       name: "Facebook",
-      url: "#",
+      url: "https://www.facebook.com/projuktishebaofficial",
       color: "hover:text-blue-500",
     },
-    { icon: Twitter, name: "Twitter", url: "#", color: "hover:text-sky-500" },
+    { icon: PhoneCall, name: "Twitter", url: "https://wa.me/+8801712377406", color: "hover:text-sky-500" },
     {
       icon: Linkedin,
       name: "LinkedIn",
-      url: "#",
+      url: "https://www.linkedin.com/in/projuktishebaofficial/",
       color: "hover:text-blue-600",
     },
     {
-      icon: Instagram,
-      name: "Instagram",
-      url: "#",
+      icon: Youtube,
+      name: "Youtube",
+      url: "https://www.youtube.com/@projuktishebaofficial",
       color: "hover:text-pink-500",
     },
   ];

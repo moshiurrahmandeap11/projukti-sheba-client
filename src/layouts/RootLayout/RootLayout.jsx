@@ -3,6 +3,7 @@ import { Outlet } from 'react-router';
 import Navbar from '../../comopnents/sharedItems/Navbar/Navbar';
 import Footer from '../../comopnents/sharedItems/Footer/Footer';
 
+
 const RootLayout = () => {
     return (
         <div className='bg-black'>
@@ -15,6 +16,9 @@ const RootLayout = () => {
             <footer>
                 <Footer />
             </footer>
+
+            {/* live chat */}
+            {/* <Chat></Chat> */}
         </div>
     );
 };
