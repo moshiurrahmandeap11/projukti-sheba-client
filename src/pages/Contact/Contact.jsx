@@ -17,6 +17,9 @@ import {
   CheckCircle,
   PhoneCall,
   Youtube,
+  X,
+  Music2,
+  ParkingCircle,
 } from "lucide-react";
 
 const Contact = () => {
@@ -133,17 +136,29 @@ const Contact = () => {
 
   const socialLinks = [
     {
+      icon: Linkedin,
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/projuktishebaofficial/",
+      color: "hover:text-blue-600",
+    },
+    { icon: PhoneCall, name: "Twitter", url: "https://wa.me/+8801712377406", color: "hover:text-sky-500" },
+    {
       icon: Facebook,
       name: "Facebook",
       url: "https://www.facebook.com/projuktishebaofficial",
       color: "hover:text-blue-500",
     },
-    { icon: PhoneCall, name: "Twitter", url: "https://wa.me/+8801712377406", color: "hover:text-sky-500" },
     {
-      icon: Linkedin,
-      name: "LinkedIn",
-      url: "https://www.linkedin.com/in/projuktishebaofficial/",
-      color: "hover:text-blue-600",
+      icon: Instagram,
+      name: "Instagram",
+      url: "https://www.instagram.com/projukti_sheba",
+      color: "hover:text-pink-500",
+    },
+    {
+      icon: X,
+      name: "X",
+      url: "https://x.com/ProjuktiSheba",
+      color: "hover:text-blue-500",
     },
     {
       icon: Youtube,
@@ -151,6 +166,18 @@ const Contact = () => {
       url: "https://www.youtube.com/@projuktishebaofficial",
       color: "hover:text-pink-500",
     },
+    {
+      icon: Music2,
+      name: "Tiktok",
+      url: "https://www.tiktok.com/@projukti.sheba",
+      color: "hover:text-pink-500",
+    },
+    {
+      icon: ParkingCircle,
+      name: "Pinterest",
+      url: "https://www.pinterest.com/projuktisheba",
+      color: "hover:text-pink-500",
+    }
   ];
 
   return (
