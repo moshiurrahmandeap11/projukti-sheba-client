@@ -144,22 +144,24 @@ const Footer = () => {
                                         web design, video editing, and digital marketing campaigns.
                                     </p>
                                     
-                                    {/* Social Links */}
-                                    <div className="flex space-x-4">
-                                        {socialLinks.map((social, index) => {
-                                            const SocialIcon = social.icon;
-                                            return (
-                                                <a
-                                                    key={index}
-                                                    href={social.href}
-                                                    target='_blank'
-                                                    className={`bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-gray-400 ${social.color} transition-all duration-300 hover:scale-110 hover:bg-white/20 hover:border-purple-500/50 group`}
-                                                >
-                                                    <SocialIcon className="w-5 h-5" />
-                                                </a>
-                                            );
-                                        })}
-                                    </div>
+{/* Social Links */}
+<div className="grid grid-cols-4 gap-3 max-w-xs">
+  {socialLinks.map((social, index) => {
+    const SocialIcon = social.icon;
+    return (
+      <a
+        key={index}
+        href={social.href}
+        target='_blank'
+        rel="noopener noreferrer"
+        className={`bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-gray-400 ${social.color} transition-all duration-300 hover:scale-110 hover:bg-white/20 hover:border-purple-500/50 group flex items-center justify-center`}
+      >
+        <SocialIcon className="w-5 h-5" />
+      </a>
+    );
+  })}
+</div>
+
                                 </div>
                             </div>
 
