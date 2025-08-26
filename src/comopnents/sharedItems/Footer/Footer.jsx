@@ -16,7 +16,10 @@ import {
     Megaphone,
     Heart,
     ExternalLink,
-    PhoneCall
+    PhoneCall,
+    X,
+    Music2,
+    ParkingCircle
 } from 'lucide-react';
 
 const Footer = () => {
@@ -34,10 +37,49 @@ const Footer = () => {
 
 
     const socialLinks = [
-        { name: 'Facebook', href: 'https://www.facebook.com/projuktishebaofficial', icon: Facebook, color: 'hover:text-blue-500' },
-        { name: 'Whatsapp', href: 'https://wa.me/+8801712377406', icon: PhoneCall, color: 'hover:text-sky-500' },
-        { name: 'LinkedIn', href: 'https://www.linkedin.com/in/projuktishebaofficial/', icon: Linkedin, color: 'hover:text-blue-600' },
-        { name: 'YouTube', href: 'https://www.youtube.com/@projuktishebaofficial', icon: Youtube, color: 'hover:text-red-500' }
+{
+      icon: Linkedin,
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/projuktishebaofficial/",
+      color: "hover:text-blue-600",
+    },
+    { icon: PhoneCall, name: "Twitter", url: "https://wa.me/+8801712377406", color: "hover:text-sky-500" },
+    {
+      icon: Facebook,
+      name: "Facebook",
+      url: "https://www.facebook.com/projuktishebaofficial",
+      color: "hover:text-blue-500",
+    },
+    {
+      icon: Instagram,
+      name: "Instagram",
+      url: "https://www.instagram.com/projukti_sheba",
+      color: "hover:text-pink-500",
+    },
+    {
+      icon: X,
+      name: "X",
+      url: "https://x.com/ProjuktiSheba",
+      color: "hover:text-blue-500",
+    },
+    {
+      icon: Youtube,
+      name: "Youtube",
+      url: "https://www.youtube.com/@projuktishebaofficial",
+      color: "hover:text-pink-500",
+    },
+    {
+      icon: Music2,
+      name: "Tiktok",
+      url: "https://www.tiktok.com/@projukti.sheba",
+      color: "hover:text-pink-500",
+    },
+    {
+      icon: ParkingCircle,
+      name: "Pinterest",
+      url: "https://www.pinterest.com/projuktisheba",
+      color: "hover:text-pink-500",
+    }
     ];
 
     const services = [
