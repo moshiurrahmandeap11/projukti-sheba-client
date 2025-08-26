@@ -52,12 +52,12 @@ const Footer = () => {
         {
             icon: Phone,
             title: 'Phone',
-            details: ['+8801712377406', '+8801342520723']
+            details: ['+8801712377406']
         },
         {
             icon: Mail,
             title: 'Email',
-            details: ['support@projuktisheba.com', 'projuktisheba.yt@gmail.com']
+            details: ['support@projuktisheba.com']
         },
         {
             icon: MapPin,

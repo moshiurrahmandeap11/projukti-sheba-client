@@ -441,6 +441,7 @@ const Contact = () => {
                           <a
                             key={index}
                             href={social.url}
+                            target="_blank"
                             className={`p-3 rounded-full bg-white/5 border border-white/10 text-gray-400 ${social.color} transition-all duration-300 hover:scale-110 hover:bg-white/10`}
                             aria-label={social.name}
                           >
