@@ -70,14 +70,14 @@ const Chat = () => {
           className="bg-purple-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-purple-700 transition-colors"
           onClick={() => setIsOpen(true)}
         >
-          💬 Chat Support
+          💬 Live Chat
         </button>
       ) : (
         <div className="w-80 h-96 bg-gray-900 text-white rounded-2xl shadow-2xl flex flex-col">
           {/* Header */}
           <div className="flex justify-between items-center bg-purple-700 px-3 py-2 rounded-t-2xl">
             <div>
-              <h3 className="font-bold">Support Chat</h3>
+              <h3 className="font-bold">Live Chat</h3>
               <p className="text-xs opacity-75">{userName}</p>
             </div>
             <button 
