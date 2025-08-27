@@ -16,6 +16,7 @@ import SettingsSection from "./SettingsSection/SettingsSection";
 import ReportsSection from "./ReportsSection/ReportsSection";
 import { useNavigate } from "react-router";
 import ServicesSection from "./ServicesSection/ServicesSection";
+import AboutSection from "../AboutSection/AboutSection";
 
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -80,7 +81,8 @@ const AdminDashboard = () => {
     { id: "settings", icon: "⚙️", label: "Settings", badge: null },
     { id: "reports", icon: "📋", label: "Reports", badge: null },
     { id: "services", icon: "🛠️", label: "Services", badge: null },
-    { id: "home", icon: "🏠", label: "Home", badge: null }, // Added Home menu item
+    { id: "about", icon: "ℹ️", label: "About Us", badge: null },
+    { id: "home", icon: "🏠", label: "Home", badge: null },
   ];
 
   // Animation variants
@@ -115,6 +117,8 @@ const AdminDashboard = () => {
         return <ReportsSection />;
       case "services":
         return <ServicesSection />;
+      case "about":
+        return <AboutSection />;
       case "home":
         return null;
     }

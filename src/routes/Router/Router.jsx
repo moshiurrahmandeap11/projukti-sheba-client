@@ -19,6 +19,8 @@ import AdminDashboard from "../../DashboardPanel/AdminDashboard/AdminDashboard";
 import Edit from "../../pages/UserItems/Profile/Edit/Edit";
 import AddPortfolio from "../../DashboardPanel/AdminDashboard/PortfolioSection/AddPortfolio/AddPortfolio";
 import AddServices from "../../DashboardPanel/AdminDashboard/ServicesSection/AddServices/AddServices";
+import AddTeamMember from "../../DashboardPanel/AboutSection/Team/AddTeamMember/AddTeamMember";
+import EditMember from "../../DashboardPanel/AboutSection/Team/Edit/EditMember";
 
 
 
@@ -54,6 +56,8 @@ const route = createBrowserRouter([
       { path: "admin", element: <AdminDashboard></AdminDashboard> },
       { path: "add-portfolio", element: <AddPortfolio></AddPortfolio> },
       { path: "add-service", element: <AddServices></AddServices> },
+      { path: "add-team-member", element: <AddTeamMember></AddTeamMember> },
+      { path: "edit-member/:id", element: <EditMember></EditMember> }
     ]
   }
 ]);
