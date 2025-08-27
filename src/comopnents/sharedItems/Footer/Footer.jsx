@@ -21,7 +21,6 @@ import {
     Music2,
     ParkingCircle
 } from 'lucide-react';
-import { Link } from 'react-router';
 
 const Footer = () => {
     const [email, setEmail] = useState('');
@@ -36,51 +35,50 @@ const Footer = () => {
         }
     };
 
-
     const socialLinks = [
-{
-      icon: Linkedin,
-      name: "LinkedIn",
-      href: "https://www.linkedin.com/in/projuktishebaofficial/",
-      color: "hover:text-blue-600",
-    },
-    { icon: PhoneCall, name: "Twitter", href: "https://wa.me/+8801712377406", color: "hover:text-sky-500" },
-    {
-      icon: Facebook,
-      name: "Facebook",
-      href: "https://www.facebook.com/projuktishebaofficial",
-      color: "hover:text-blue-500",
-    },
-    {
-      icon: Instagram,
-      name: "Instagram",
-      href: "https://www.instagram.com/projukti_sheba",
-      color: "hover:text-pink-500",
-    },
-    {
-      icon: X,
-      name: "X",
-      href: "https://x.com/ProjuktiSheba",
-      color: "hover:text-blue-500",
-    },
-    {
-      icon: Youtube,
-      name: "Youtube",
-      href: "https://www.youtube.com/@projuktishebaofficial",
-      color: "hover:text-pink-500",
-    },
-    {
-      icon: Music2,
-      name: "Tiktok",
-      href: "https://www.tiktok.com/@projukti.sheba",
-      color: "hover:text-pink-500",
-    },
-    {
-      icon: ParkingCircle,
-      name: "Pinterest",
-      href: "https://www.pinterest.com/projuktisheba",
-      color: "hover:text-pink-500",
-    }
+        {
+            icon: Linkedin,
+            name: "LinkedIn",
+            href: "https://www.linkedin.com/in/projuktishebaofficial/",
+            color: "hover:text-blue-600",
+        },
+        { icon: PhoneCall, name: "Twitter", href: "https://wa.me/+8801712377406", color: "hover:text-sky-500" },
+        {
+            icon: Facebook,
+            name: "Facebook",
+            href: "https://www.facebook.com/projuktishebaofficial",
+            color: "hover:text-blue-500",
+        },
+        {
+            icon: Instagram,
+            name: "Instagram",
+            href: "https://www.instagram.com/projukti_sheba",
+            color: "hover:text-pink-500",
+        },
+        {
+            icon: X,
+            name: "X",
+            href: "https://x.com/ProjuktiSheba",
+            color: "hover:text-blue-500",
+        },
+        {
+            icon: Youtube,
+            name: "Youtube",
+            href: "https://www.youtube.com/@projuktishebaofficial",
+            color: "hover:text-pink-500",
+        },
+        {
+            icon: Music2,
+            name: "Tiktok",
+            href: "https://www.tiktok.com/@projukti.sheba",
+            color: "hover:text-pink-500",
+        },
+        {
+            icon: ParkingCircle,
+            name: "Pinterest",
+            href: "https://www.pinterest.com/projuktisheba",
+            color: "hover:text-pink-500",
+        }
     ];
 
     const services = [
@@ -89,7 +87,6 @@ const Footer = () => {
         { name: 'Video Editing', href: '#video', icon: Video },
         { name: 'Social Ads Campaign', href: '#ads', icon: Megaphone }
     ];
-
 
     const contactInfo = [
         {
@@ -144,49 +141,48 @@ const Footer = () => {
                                         web design, video editing, and digital marketing campaigns.
                                     </p>
                                     
-{/* Social Links */}
-<div className="grid grid-cols-4 gap-3 max-w-xs">
-  {socialLinks.map((social, index) => {
-    const SocialIcon = social.icon;
-    return (
-      <a
-        key={index}
-        href={social.href}
-        target='_blank'
-        rel="noopener noreferrer"
-        className={`bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-gray-400 ${social.color} transition-all duration-300 hover:scale-110 hover:bg-white/20 hover:border-purple-500/50 group flex items-center justify-center`}
-      >
-        <SocialIcon className="w-5 h-5" />
-      </a>
-    );
-  })}
-</div>
-
-                                </div>
-                            </div>
-
-                               {/* Contact Info */}
-                                <div className="space-y-4">
-                                    <h4 className="text-lg font-semibold text-white">Contact Info</h4>
-                                    <div className="space-y-3">
-                                        {contactInfo.map((contact, index) => {
-                                            const ContactIcon = contact.icon;
+                                    {/* Social Links */}
+                                    <div className="grid grid-cols-4 gap-3 max-w-xs">
+                                        {socialLinks.map((social, index) => {
+                                            const SocialIcon = social.icon;
                                             return (
-                                                <div key={index} className="flex items-start space-x-3">
-                                                    <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg p-2">
-                                                        <ContactIcon className="w-4 h-4 text-purple-400" />
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-sm font-medium text-gray-300">{contact.title}</p>
-                                                        {contact.details.map((detail, idx) => (
-                                                            <p key={idx} className="text-sm text-gray-400">{detail}</p>
-                                                        ))}
-                                                    </div>
-                                                </div>
+                                                <a
+                                                    key={index}
+                                                    href={social.href}
+                                                    target='_blank'
+                                                    rel="noopener noreferrer"
+                                                    className={`bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-gray-400 ${social.color} hover:bg-white/20 hover:border-purple-500/50 group flex items-center justify-center`}
+                                                >
+                                                    <SocialIcon className="w-5 h-5" />
+                                                </a>
                                             );
                                         })}
                                     </div>
                                 </div>
+                            </div>
+
+                            {/* Contact Info */}
+                            <div className="space-y-4">
+                                <h4 className="text-lg font-semibold text-white">Contact Info</h4>
+                                <div className="space-y-3">
+                                    {contactInfo.map((contact, index) => {
+                                        const ContactIcon = contact.icon;
+                                        return (
+                                            <div key={index} className="flex items-start space-x-3">
+                                                <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg p-2">
+                                                    <ContactIcon className="w-4 h-4 text-purple-400" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-medium text-gray-300">{contact.title}</p>
+                                                    {contact.details.map((detail, idx) => (
+                                                        <p key={idx} className="text-sm text-gray-400">{detail}</p>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
 
                             {/* Services */}
                             <div className="space-y-6">
@@ -201,11 +197,11 @@ const Footer = () => {
                                             <li key={index}>
                                                 <a
                                                     href={service.href}
-                                                    className="text-gray-400 hover:text-white transition-all duration-300 flex items-center space-x-3 group hover:bg-white/5 rounded-lg p-2 -m-2"
+                                                    className="text-gray-400 hover:text-white flex items-center space-x-3 group hover:bg-white/5 rounded-lg p-2 -m-2"
                                                 >
-                                                    <ServiceIcon className="w-4 h-4 text-purple-400 group-hover:text-purple-300 transition-colors duration-300" />
+                                                    <ServiceIcon className="w-4 h-4 text-purple-400 group-hover:text-purple-300" />
                                                     <span>{service.name}</span>
-                                                    <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                                                    <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100" />
                                                 </a>
                                             </li>
                                         );
@@ -231,14 +227,14 @@ const Footer = () => {
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 placeholder="Enter your email"
-                                                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:bg-white/15 transition-all duration-300"
+                                                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:bg-white/15"
                                             />
                                         </div>
                                         <button
                                             onClick={handleNewsletterSubmit}
-                                            className="group relative w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-500 shadow-xl hover:shadow-purple-500/50 transform hover:scale-105 border border-purple-500/30 backdrop-blur-sm overflow-hidden"
+                                            className="group relative w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold px-6 py-3 rounded-lg shadow-xl hover:shadow-purple-500/50 border border-purple-500/30 backdrop-blur-sm overflow-hidden"
                                         >
-                                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
+                                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 transform -translate-x-full group-hover:translate-x-0"></div>
                                             <span className="relative z-10 flex items-center justify-center space-x-2">
                                                 {isSubscribed ? (
                                                     <>
@@ -255,8 +251,6 @@ const Footer = () => {
                                         </button>
                                     </div>
                                 </div>
-
- 
                             </div>
                         </div>
                     </div>
@@ -271,20 +265,20 @@ const Footer = () => {
                             </div>
                             
                             <div className="flex items-center space-x-6">
-                                <a href="#privacy" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
+                                <a href="#privacy" className="text-gray-400 hover:text-white text-sm">
                                     Privacy Policy
                                 </a>
-                                <a href="#terms" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
+                                <a href="#terms" className="text-gray-400 hover:text-white text-sm">
                                     Terms of Service
                                 </a>
-                                <a href="#cookies" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
+                                <a href="#cookies" className="text-gray-400 hover:text-white text-sm">
                                     Cookie Policy
                                 </a>
                             </div>
                             
                             <div className="flex items-center space-x-2 text-gray-400 text-sm">
                                 <span>Developed By</span>
-                                <a href={"https://moshiurrahman.online"} target='_blank' className='animate-pulse text-red-500' > MRD</a>
+                                <a href={"https://moshiurrahman.online"} target='_blank' className='text-red-500' >MRD</a>
                                 <span>From Projukti Sheba</span>
                             </div>
                         </div>
