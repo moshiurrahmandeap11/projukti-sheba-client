@@ -106,7 +106,7 @@ const Services = () => {
 
           if (distance < maxDistance) {
             const opacity = (1 - distance / maxDistance) * 0.15;
-            ctx.strokeStyle = `rgba(48, 35, 195, ${opacity})`; // --color-primary
+            ctx.strokeStyle = `rgba(0,120,160, ${opacity})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
@@ -117,12 +117,12 @@ const Services = () => {
       }
 
       particles.forEach((particle) => {
-        ctx.fillStyle = 'rgba(48, 35, 195, 0.4)'; // --color-primary
+        ctx.fillStyle = 'rgba(0,120,160,0.4)';
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.shadowColor = 'rgba(48, 35, 195, 0.6)'; // --color-primary
+        ctx.shadowColor = 'rgba(0,120,160,0.6)';
         ctx.shadowBlur = 8;
         ctx.fill();
         ctx.shadowBlur = 0;
@@ -146,26 +146,33 @@ const Services = () => {
   const getCategoryIcon = (categoryName) => iconMap[categoryName] || Code;
 
   return (
-    <div className="relative min-h-screen bg-custom-gradient py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div className="relative min-h-screen bg-[rgba(10,25,47,0.3)] backdrop-blur-lg py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Animated Background Canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full opacity-60"
+        className="absolute inset-0 w-full h-full opacity-50"
         style={{ zIndex: 1 }}
       />
 
       {/* Background Overlay */}
       <div
         className="absolute inset-0"
-        style={{ background: 'var(--color-gradient)', zIndex: 2, opacity: 0.2 }}
+        style={{ 
+          background: 'linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))', 
+          zIndex: 2, 
+          backdropFilter: 'blur(10px)' 
+        }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
             <span
-              className="text-white "
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
+              }}
             >
               Our Services
             </span>
@@ -177,7 +184,7 @@ const Services = () => {
 
         {/* Loading and Error States */}
         {loading && (
-          <div className="text-center text-primary text-xl">
+          <div className="text-center text-white text-xl">
             <Loader2 className="animate-spin inline-block mr-2" size={24} />
             Loading services...
           </div>
@@ -195,9 +202,9 @@ const Services = () => {
 
         {/* Service Tabs */}
         {!loading && !error && categories.length > 0 && (
-          <div className="backdrop-blur-xl bg-custom-gradient rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
+          <div className="backdrop-blur-xl bg-[rgba(10,25,47,0.5)] rounded-3xl border border-[rgba(255,255,255,0.1)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] overflow-hidden">
             {/* Tab Navigation */}
-            <div className="border-b border-white/10 p-6">
+            <div className="border-b border-[rgba(255,255,255,0.1)] p-6">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {categories.map((category, index) => {
                   const TabIcon = getCategoryIcon(category.name);
@@ -205,10 +212,10 @@ const Services = () => {
                     <button
                       key={category._id}
                       onClick={() => setActiveTab(category.name)}
-                      className={`group relative flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-500 transform hover:scale-105 ${
+                      className={`group relative flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-500 transform hover:scale-105 backdrop-blur-sm ${
                         activeTab === category.name
-                          ? 'bg-secondary border border-secondary/30 shadow-lg scale-105'
-                          : 'bg-white/5 hover:bg-white/10 border border-white/10 hover:border-secondary/30'
+                          ? 'bg-[rgba(0,120,160,0.3)] border border-[rgba(0,120,160,0.5)] shadow-lg scale-105'
+                          : 'bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.1)] hover:border-[rgba(0,120,160,0.5)]'
                       }`}
                       style={{
                         animationDelay: `${index * 0.1}s`,
@@ -220,12 +227,12 @@ const Services = () => {
                         className={`w-6 h-6 mb-2 transition-all duration-500 transform ${
                           activeTab === category.name
                             ? 'text-white scale-110 rotate-12'
-                            : 'text-gray-400 group-hover:text-secondary group-hover:scale-110'
+                            : 'text-gray-400 group-hover:text-[rgba(0,120,160,1)] group-hover:scale-110'
                         }`}
                       />
                       <span
                         className={`text-sm font-semibold transition-all duration-500 ${
-                          activeTab === category.name ? 'text-white' : 'text-gray-400 group-hover:text-secondary'
+                          activeTab === category.name ? 'text-white' : 'text-gray-400 group-hover:text-[rgba(0,120,160,1)]'
                         }`}
                       >
                         {category.name}
@@ -233,13 +240,13 @@ const Services = () => {
                       {activeTab === category.name && (
                         <div
                           className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full animate-pulse"
-                          style={{ background: 'var(--color-gradient)' }}
+                          style={{ background: 'linear-gradient(90deg, rgba(0,120,160,0.7), rgba(50,40,130,0.7))' }}
                         />
                       )}
                       <div
                         className="absolute inset-0 rounded-xl"
                         style={{
-                          background: 'var(--color-gradient)',
+                          background: 'linear-gradient(90deg, rgba(0,120,160,0.2), rgba(50,40,130,0.2))',
                           opacity: 0,
                           transition: 'opacity 300ms',
                         }}
@@ -265,8 +272,8 @@ const Services = () => {
                     <div className="space-y-8">
                       <div className="flex items-center space-x-4">
                         <div
-                          className="rounded-xl p-3 shadow-xl animate-bounce"
-                          style={{ background: 'var(--color-gradient)' }}
+                          className="rounded-xl p-3 shadow-[0_2px_10px_rgba(0,0,0,0.2)] backdrop-blur-sm animate-bounce"
+                          style={{ background: 'linear-gradient(90deg, rgba(0,120,160,0.5), rgba(50,40,130,0.5))' }}
                         >
                           {React.createElement(getCategoryIcon(activeTab), { className: 'w-8 h-8 text-white' })}
                         </div>
@@ -286,7 +293,7 @@ const Services = () => {
                                   animationFillMode: 'forwards',
                                 }}
                               >
-                                <CheckCircle className="w-5 h-5 text-secondary flex-shrink-0 animate-pulse" />
+                                <CheckCircle className="w-5 h-5 text-[rgba(0,120,160,1)] flex-shrink-0 animate-pulse" />
                                 <span className="text-gray-300">{feature}</span>
                               </div>
                             ))}
@@ -303,34 +310,34 @@ const Services = () => {
 
                     {/* Right Content */}
                     <div className="space-y-8 animate-fadeInRight">
-                      <div className="backdrop-blur-lg bg-white/5 rounded-2xl border border-white/10 p-8 shadow-xl">
+                      <div className="backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-2xl border border-[rgba(255,255,255,0.1)] p-8 shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
                         <h4 className="text-2xl font-semibold text-white mb-6">Technologies We Use</h4>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                           {service.technologies &&
                             service.technologies.map((tech, tIndex) => (
                               <div
                                 key={tIndex}
-                                className="rounded-lg px-4 py-3 border border-white/10 backdrop-blur-sm hover:border-secondary/30 transition-all duration-300 text-white hover:scale-105 "
+                                className="rounded-lg px-4 py-3 border border-[rgba(255,255,255,0.1)] backdrop-blur-sm hover:border-[rgba(0,120,160,0.5)] transition-all duration-300 text-white hover:scale-105"
                               >
-                                <span className=" font-medium text-sm">{tech}</span>
+                                <span className="font-medium text-sm">{tech}</span>
                               </div>
                             ))}
                         </div>
                       </div>
                       <div className="grid grid-cols-3 gap-6">
-                        <div className="text-center backdrop-blur-lg bg-white/5 rounded-xl border border-white/10 p-4 hover:scale-105 transition-transform duration-300 hover:border-secondary/30">
+                        <div className="text-center backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-xl border border-[rgba(255,255,255,0.1)] p-4 hover:scale-105 transition-transform duration-300 hover:border-[rgba(0,120,160,0.5)]">
                           <div className="text-2xl md:text-3xl font-bold text-white mb-1 animate-pulse">
                             {service.totalProjects || '0'} +
                           </div>
                           <div className="text-sm text-gray-400">Projects</div>
                         </div>
-                        <div className="text-center backdrop-blur-lg bg-white/5 rounded-xl border border-white/10 p-4 hover:scale-105 transition-transform duration-300 hover:border-secondary/30">
+                        <div className="text-center backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-xl border border-[rgba(255,255,255,0.1)] p-4 hover:scale-105 transition-transform duration-300 hover:border-[rgba(0,120,160,0.5)]">
                           <div className="text-2xl md:text-3xl font-bold text-white mb-1 animate-pulse">
                             24/7
                           </div>
                           <div className="text-sm text-gray-400">Support</div>
                         </div>
-                        <div className="text-center backdrop-blur-lg bg-white/5 rounded-xl border border-white/10 p-4 hover:scale-105 transition-transform duration-300 hover:border-secondary/30">
+                        <div className="text-center backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-xl border border-[rgba(255,255,255,0.1)] p-4 hover:scale-105 transition-transform duration-300 hover:border-[rgba(0,120,160,0.5)]">
                           <div className="text-2xl md:text-3xl font-bold text-white mb-1 animate-pulse">
                             99%
                           </div>

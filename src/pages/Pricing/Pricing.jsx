@@ -514,17 +514,21 @@ const Pricing = () => {
     const currentPackages = pricingData[activeCategory] || [];
 
     return (
-        <div className="min-h-screen relative overflow-hidden">
+        <div className="min-h-screen relative overflow-hidden bg-[rgba(10,25,47,0.3)] backdrop-blur-lg">
             {/* Animated Background */}
-            <div className="absolute inset-0 bg-custom-gradient">
-                {/* Animated gradient overlay */}
-                <div className="absolute inset-0 bg-custom-gradient animate-pulse"></div>
-                
+            <div
+                className="absolute inset-0"
+                style={{ 
+                    background: 'linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))', 
+                    zIndex: 0, 
+                    backdropFilter: 'blur(10px)' 
+                }}
+            >
                 {/* Floating particles */}
                 {particles.map(particle => (
                     <div
                         key={particle.id}
-                        className="absolute w-1 h-1 bg-white rounded-full"
+                        className="absolute w-1 h-1 bg-[rgba(0,120,160,0.5)] rounded-full"
                         style={{
                             left: `${particle.x}%`,
                             top: `${particle.y}%`,
@@ -535,9 +539,9 @@ const Pricing = () => {
                 ))}
                 
                 {/* Geometric shapes */}
-                <div className="absolute top-20 right-20 w-40 h-40 border border-white/5 rounded-full animate-spin" style={{ animationDuration: '30s' }}></div>
-                <div className="absolute bottom-32 left-20 w-32 h-32 border border-purple-400/10 rounded-lg rotate-45 animate-pulse"></div>
-                <div className="absolute top-1/2 right-10 w-20 h-20 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-full animate-bounce" style={{ animationDuration: '4s' }}></div>
+                <div className="absolute top-20 right-20 w-40 h-40 border border-[rgba(255,255,255,0.05)] rounded-full animate-spin" style={{ animationDuration: '30s' }}></div>
+                <div className="absolute bottom-32 left-20 w-32 h-32 border border-[rgba(0,120,160,0.1)] rounded-lg rotate-45 animate-pulse"></div>
+                <div className="absolute top-1/2 right-10 w-20 h-20 bg-[rgba(0,120,160,0.05)] rounded-full animate-bounce" style={{ animationDuration: '4s' }}></div>
             </div>
 
             {/* Main Content */}
@@ -545,11 +549,16 @@ const Pricing = () => {
                 {/* Header Section */}
                 <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
                     <div className="max-w-7xl mx-auto text-center">
-                        <div className="inline-block p-4 rounded-full bg-custom-gradient backdrop-blur-sm border border-white/5 mb-6">
+                        <div className="inline-block p-4 rounded-full bg-[rgba(0,120,160,0.2)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] mb-6">
                             <Star className="w-16 h-16 text-white" />
                         </div>
                         <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-                            Our <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Pricing</span>
+                            Our <span
+                                className="bg-clip-text text-transparent"
+                                style={{
+                                    backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
+                                }}
+                            >Pricing</span>
                         </h1>
                         <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
                             Choose from our comprehensive range of digital solutions. From custom software to creative services, we have the perfect package for your business needs.
@@ -565,20 +574,20 @@ const Pricing = () => {
                                 <button
                                     key={category.id}
                                     onClick={() => setActiveCategory(category.id)}
-                                    className={`group relative p-6 rounded-2xl border transition-all duration-500 ${
+                                    className={`group relative p-6 rounded-2xl border transition-all duration-500 bg-[rgba(10,25,47,0.5)] backdrop-blur-md ${
                                         activeCategory === category.id
-                                            ? 'bg-custom-gradient border-white/30 shadow-2xl scale-105'
-                                            : 'bg-custom-gradient border-white/10 hover:bg-white/10 hover:scale-105'
+                                            ? 'border-[rgba(0,120,160,0.5)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] scale-105'
+                                            : 'border-[rgba(255,255,255,0.1)] hover:bg-[rgba(10,25,47,0.6)] hover:scale-105'
                                     }`}
                                 >
-                                    <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r ${category.color} mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300">
                                         <category.icon className="w-6 h-6 text-white" />
                                     </div>
-                                    <h3 className="text-lg font-semibold text-white mb-2">{category.name}</h3>
+                                    <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-[rgba(0,120,160,0.8)]">{category.name}</h3>
                                     <div className={`h-1 w-full rounded-full transition-all duration-300 ${
                                         activeCategory === category.id
-                                            ? `bg-gradient-to-r ${category.color}`
-                                            : 'bg-white/20'
+                                            ? 'bg-[rgba(0,120,160,0.8)]'
+                                            : 'bg-[rgba(255,255,255,0.2)] group-hover:bg-[rgba(0,120,160,0.5)]'
                                     }`}></div>
                                 </button>
                             ))}
@@ -593,31 +602,28 @@ const Pricing = () => {
                             {currentPackages.map((pkg, index) => (
                                 <div
                                     key={index}
-                                    className={`relative group bg-custom-gradient backdrop-blur-md border rounded-2xl p-8 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-2xl ${
+                                    className={`relative group bg-[rgba(10,25,47,0.5)] backdrop-blur-md border rounded-2xl p-8 hover:bg-[rgba(10,25,47,0.6)] transition-all duration-500 hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)] ${
                                         pkg.popular
-                                            ? 'border-purple-500/50 shadow-purple-500/20 shadow-2xl scale-105'
-                                            : 'border-white/10'
+                                            ? 'border-[rgba(0,120,160,0.5)] shadow-[0_4px_30px_rgba(0,120,160,0.2)] scale-105'
+                                            : 'border-[rgba(255,255,255,0.1)]'
                                     }`}
                                 >
                                     {/* Popular Badge */}
                                     {pkg.popular && (
                                         <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                                            <div className="bg-custom-gradient text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                                            <div className="bg-[rgba(0,120,160,0.5)] text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
                                                 Most Popular
                                             </div>
                                         </div>
                                     )}
 
-                                    {/* Glow Effect */}
-                                    <div className="absolute inset-0 bg-custom-gradient rounded-2xl blur-xl"></div>
-                                    
                                     <div className="relative z-10">
                                         {/* Package Header */}
                                         <div className="text-center mb-8">
-                                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-custom-gradient mb-4 group-hover:scale-110 transition-transform duration-300">
+                                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300">
                                                 <pkg.icon className="w-8 h-8 text-white" />
                                             </div>
-                                            <h3 className="text-2xl font-bold text-white mb-2">{pkg.name}</h3>
+                                            <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-[rgba(0,120,160,0.8)]">{pkg.name}</h3>
                                             <p className="text-gray-400 text-sm leading-relaxed">{pkg.description}</p>
                                         </div>
 
@@ -636,7 +642,7 @@ const Pricing = () => {
                                         <div className="space-y-4 mb-8">
                                             {pkg.features.map((feature, idx) => (
                                                 <div key={idx} className="flex items-center space-x-3">
-                                                    <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                                                    <Check className="w-5 h-5 text-[rgba(0,120,160,0.8)] flex-shrink-0" />
                                                     <span className="text-gray-300 text-sm">{feature}</span>
                                                 </div>
                                             ))}
@@ -644,15 +650,10 @@ const Pricing = () => {
 
                                         {/* CTA Button */}
                                         <FancyButton>
-                                        <button >
-                                            {/* <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
-                                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl"></div> */}
-                                            
                                             <span className="relative z-10 flex items-center justify-center space-x-2">
                                                 <span>Get Started</span>
                                                 <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" />
                                             </span>
-                                        </button>
                                         </FancyButton>
                                     </div>
                                 </div>
@@ -664,17 +665,13 @@ const Pricing = () => {
                 {/* Footer CTA */}
                 <div className="px-4 sm:px-6 lg:px-8 pb-16">
                     <div className="max-w-4xl mx-auto text-center">
-                        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-12 relative">
-                            <div className="absolute inset-0 bg-custom-gradient rounded-2xl"></div>
-
+                        <div className="bg-[rgba(10,25,47,0.5)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-12 relative shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
                             <div className="relative z-10">
                                 <h2 className="text-3xl font-bold text-white mb-4">Need a Custom Solution?</h2>
                                 <p className="text-gray-300 mb-8 text-lg">
                                     Can't find what you're looking for? Let's discuss your unique requirements and create a tailored solution that fits your business perfectly.
                                 </p>
-                                <FancyButton onClick={() => navigate("/contact")} className="group relative cursor-pointer bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold px-10 py-4 rounded-full text-lg transition-all duration-500 shadow-2xl  transform hover:scale-105 border border-purple-500/30 backdrop-blur-sm overflow-hidden">
-                                    
-                                    
+                                <FancyButton onClick={() => navigate("/contact")}>
                                     <span className="relative z-10 flex items-center space-x-2">
                                         <span>Contact Us</span>
                                         <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" />

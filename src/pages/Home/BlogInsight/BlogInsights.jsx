@@ -82,23 +82,29 @@ const BlogInsights = () => {
   });
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-custom-gradient text-white relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 25% 25%, #4f46e5 0%, transparent 50%), 
-                             radial-gradient(circle at 75% 75%, #7c3aed 0%, transparent 50%)`,
-          }}
-        ></div>
-      </div>
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[rgba(10,25,47,0.3)] backdrop-blur-lg relative overflow-hidden">
+      {/* Background Overlay */}
+      <div
+        className="absolute inset-0"
+        style={{ 
+          background: 'linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))', 
+          zIndex: 0, 
+          backdropFilter: 'blur(10px)' 
+        }}
+      />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-custom-gradient">
-            Blog & Insights
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
+              }}
+            >
+              Blog & Insights
+            </span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
             Explore our latest insights on SEO, thought leadership, and digital
@@ -114,7 +120,7 @@ const BlogInsights = () => {
                 placeholder="Search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 backdrop-blur-md bg-custom-gradient border border-gray-700 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full pl-10 pr-4 py-2 backdrop-blur-md bg-[rgba(10,25,47,0.5)] border border-[rgba(255,255,255,0.1)] rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)]"
               />
             </div>
             <div className="flex flex-wrap justify-center gap-2">
@@ -122,10 +128,10 @@ const BlogInsights = () => {
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-md bg-[rgba(10,25,47,0.5)] border ${
                     selectedCategory === category
-                      ? "bg-blue-400 text-black"
-                      : "backdrop-blur-md bg-custom-gradient border border-gray-700 text-gray-300 hover:bg-black/50"
+                      ? 'bg-[rgba(0,120,160,0.5)] border-[rgba(0,120,160,0.5)] text-white'
+                      : 'border-[rgba(255,255,255,0.1)] text-gray-300 hover:bg-[rgba(10,25,47,0.6)] hover:border-[rgba(0,120,160,0.5)]'
                   }`}
                 >
                   {category}
@@ -141,7 +147,7 @@ const BlogInsights = () => {
             <h3 className="text-2xl font-bold text-white mb-6 text-center">
               Featured Article
             </h3>
-            <div className="backdrop-blur-lg bg-custom-gradient rounded-3xl p-8 border border-gray-700 shadow-2xl max-w-5xl mx-auto">
+            <div className="backdrop-blur-xl bg-[rgba(10,25,47,0.5)] rounded-3xl p-8 border border-[rgba(255,255,255,0.1)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] max-w-5xl mx-auto">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div>
                   <img
@@ -152,16 +158,16 @@ const BlogInsights = () => {
                 </div>
                 <div>
                   <div className="flex items-center text-sm text-gray-400 mb-4">
-                    <Tag className="w-4 h-4 mr-1" />
+                    <Tag className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
                     {filteredBlogs[0].category}
                     <span className="mx-2">•</span>
-                    <Calendar className="w-4 h-4 mr-1" />
+                    <Calendar className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
                     {filteredBlogs[0].date}
                     <span className="mx-2">•</span>
-                    <User className="w-4 h-4 mr-1" />
+                    <User className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
                     {filteredBlogs[0].author}
                   </div>
-                  <h4 className="text-xl md:text-2xl font-bold text-white mb-4">
+                  <h4 className="text-xl md:text-2xl font-bold text-white mb-4 hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
                     {filteredBlogs[0].title}
                   </h4>
                   <p className="text-gray-300 mb-6">
@@ -170,10 +176,10 @@ const BlogInsights = () => {
                   <FancyButton>
                     <a
                       href={filteredBlogs[0].slug}
-                      className="inline-flex items-center px-6 py-2  rounded-full transition-all transform hover:scale-105"
+                      className="inline-flex items-center space-x-2"
                     >
-                      Read More
-                      <ArrowRight className="w-4 h-4 ml-2" />
+                      <span>Read More</span>
+                      <ArrowRight className="w-4 h-4" />
                     </a>
                   </FancyButton>
                 </div>
@@ -187,7 +193,7 @@ const BlogInsights = () => {
           {filteredBlogs.map((blog) => (
             <div
               key={blog.id}
-              className="backdrop-blur-lg bg-custom-gradient rounded-2xl p-6 border border-gray-700 transition-all duration-300 hover:bg-black/40 hover:scale-105"
+              className="backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-2xl p-6 border border-[rgba(255,255,255,0.1)] transition-all duration-300 hover:bg-[rgba(10,25,47,0.6)] hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)]"
             >
               <img
                 src={blog.image}
@@ -195,13 +201,13 @@ const BlogInsights = () => {
                 className="w-full h-40 object-cover rounded-lg mb-4"
               />
               <div className="flex items-center text-sm text-gray-400 mb-4">
-                <Tag className="w-4 h-4 mr-1" />
+                <Tag className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
                 {blog.category}
                 <span className="mx-2">•</span>
-                <Calendar className="w-4 h-4 mr-1" />
+                <Calendar className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
                 {blog.date}
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">
+              <h4 className="text-lg font-semibold text-white mb-2 hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
                 {blog.title}
               </h4>
               <p className="text-gray-300 text-sm mb-4 line-clamp-3">
@@ -211,7 +217,7 @@ const BlogInsights = () => {
                 <span className="text-xs text-gray-400">By {blog.author}</span>
                 <a
                   href={blog.slug}
-                  className="text-blue-400 text-sm font-medium hover:underline"
+                  className="text-[rgba(0,120,160,0.8)] text-sm font-medium hover:underline"
                 >
                   Read More
                 </a>
@@ -227,11 +233,11 @@ const BlogInsights = () => {
 
         {/* Call to Action */}
         <div className="text-center mt-16">
-          <div className="backdrop-blur-lg bg-custom-gradient rounded-2xl p-8 border border-gray-700 max-w-3xl mx-auto">
-            <h3 className="text-2xl font-bold mb-4 text-white">
+          <div className="backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-2xl p-8 border border-[rgba(255,255,255,0.1)] max-w-3xl mx-auto shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
+            <h3 className="text-2xl font-bold text-white mb-4">
               Stay Ahead with Our Insights
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-gray-300 mb-6 text-lg">
               Subscribe to our newsletter for the latest SEO tips, thought
               leadership content, and industry updates.
             </p>
@@ -239,10 +245,10 @@ const BlogInsights = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="px-4 py-2 backdrop-blur-md bg-custom-gradient border border-gray-700 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="px-4 py-2 backdrop-blur-md bg-[rgba(10,25,47,0.5)] border border-[rgba(255,255,255,0.1)] rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)]"
               />
-              <FancyButton className="px-8 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full transition-all transform hover:scale-105 shadow-lg">
-                Subscribe
+              <FancyButton>
+                <span>Subscribe</span>
               </FancyButton>
             </div>
           </div>

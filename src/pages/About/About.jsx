@@ -39,26 +39,38 @@ const About = () => {
     ];
 
     return (
-        <div className="relative min-h-screen bg-custom-gradient overflow-hidden">
+        <div className="relative min-h-screen bg-[rgba(10,25,47,0.3)] backdrop-blur-lg overflow-hidden">
             {/* Background Overlay */}
-            <div className="absolute inset-0 bg-custom-gradient" />
+            <div
+                className="absolute inset-0"
+                style={{ 
+                    background: 'linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))', 
+                    zIndex: 0, 
+                    backdropFilter: 'blur(10px)' 
+                }}
+            />
             
             <div className="relative z-10 py-20 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     {/* Hero Section */}
                     <div className="text-center mb-20">
                         <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
-                            <span className="bg-custom-gradient ">
+                            <span
+                                className="bg-clip-text text-transparent"
+                                style={{
+                                    backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
+                                }}
+                            >
                                 About Projukti Sheba
                             </span>
                         </h2>
-                        <div className="max-w-4xl mx-auto backdrop-blur-xl bg-custom-gradient rounded-3xl border border-white/10 p-8 md:p-12 shadow-2xl">
-                            <p className="text-xl md:text-2xl text-gray-300 leading-relaxed mb-6">
+                        <div className="max-w-4xl mx-auto backdrop-blur-xl bg-[rgba(10,25,47,0.5)] rounded-3xl border border-[rgba(255,255,255,0.1)] p-8 md:p-12 shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
+                            <p className="text-xl md:text-2xl text-gray-200 leading-relaxed mb-6">
                                 We are a leading technology solutions provider, dedicated to transforming businesses 
                                 through innovative software development, cutting-edge web solutions, professional video editing, 
                                 and strategic social media campaigns.
                             </p>
-                            <p className="text-lg text-gray-400 leading-relaxed">
+                            <p className="text-lg text-gray-300 leading-relaxed">
                                 Since our inception, we've been at the forefront of digital innovation, 
                                 helping companies worldwide achieve their technological goals and drive sustainable growth.
                             </p>
@@ -73,13 +85,13 @@ const About = () => {
                                 return (
                                     <div 
                                         key={index} 
-                                        className="backdrop-blur-xl bg-custom-gradient rounded-2xl border border-white/10 p-8 shadow-2xl hover:scale-105 group"
+                                        className="backdrop-blur-xl bg-[rgba(10,25,47,0.5)] rounded-2xl border border-[rgba(255,255,255,0.1)] p-8 shadow-[0_4px_30px_rgba(0,0,0,0.2)] hover:scale-105 group transition-all duration-300"
                                     >
-                                        <div className={`bg-gradient-to-r ${stat.color} rounded-xl p-4 mb-6 w-fit mx-auto group-hover:scale-110`}>
+                                        <div className={`bg-[rgba(0,120,160,0.5)] rounded-xl p-4 mb-6 w-fit mx-auto group-hover:scale-110 transition-transform duration-300`}>
                                             <StatIcon className="w-8 h-8 text-white" />
                                         </div>
                                         <div className="text-center">
-                                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 group-hover:text-purple-300">
+                                            <h3 className="text-3xl md:text-4xl font-bold text-[rgba(0,120,160,0.8)] mb-2 group-hover:text-[rgba(0,120,160,1)] transition-colors duration-300">
                                                 {stat.number}
                                             </h3>
                                             <p className="text-gray-400 font-medium">{stat.label}</p>
@@ -95,7 +107,12 @@ const About = () => {
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
                             <div className="space-y-8">
                                 <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                                    <span className="bg-custom-gradient">
+                                    <span
+                                        className="bg-clip-text text-transparent"
+                                        style={{
+                                            backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
+                                        }}
+                                    >
                                         Our Mission
                                     </span>
                                 </h3>
@@ -112,16 +129,15 @@ const About = () => {
                                     </p>
                                 </div>
                                 <div className="pt-4">
-                                    <FancyButton >
-                                        
+                                    <FancyButton>
                                         <span className="relative z-10">Learn More About Us</span>
                                     </FancyButton>
                                 </div>
                             </div>
-                            <div className="backdrop-blur-xl bg-custom-gradient rounded-3xl border border-white/10 p-8 shadow-2xl">
+                            <div className="backdrop-blur-xl bg-[rgba(10,25,47,0.5)] rounded-3xl border border-[rgba(255,255,255,0.1)] p-8 shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
                                 <div className="space-y-6">
                                     <div className="flex items-center space-x-4">
-                                        <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-3">
+                                        <div className="bg-[rgba(0,120,160,0.5)] rounded-xl p-3">
                                             <Target className="w-6 h-6 text-white" />
                                         </div>
                                         <h4 className="text-xl font-semibold text-white">Our Vision</h4>
@@ -140,7 +156,12 @@ const About = () => {
                     <div className="mb-20">
                         <div className="text-center mb-16">
                             <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                                <span className="bg-custom-gradient">
+                                <span
+                                    className="bg-clip-text text-transparent"
+                                    style={{
+                                        backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
+                                    }}
+                                >
                                     Our Core Values
                                 </span>
                             </h3>
@@ -154,12 +175,12 @@ const About = () => {
                                 return (
                                     <div 
                                         key={index}
-                                        className="backdrop-blur-xl bg-custom-gradient rounded-2xl border border-white/10 p-8 shadow-2xl hover:scale-105 group"
+                                        className="backdrop-blur-xl bg-[rgba(10,25,47,0.5)] rounded-2xl border border-[rgba(255,255,255,0.1)] p-8 shadow-[0_4px_30px_rgba(0,0,0,0.2)] hover:scale-105 group transition-all duration-300"
                                     >
-                                        <div className={`bg-gradient-to-r ${value.color} rounded-xl p-4 mb-6 w-fit mx-auto group-hover:scale-110`}>
+                                        <div className={`bg-[rgba(0,120,160,0.5)] rounded-xl p-4 mb-6 w-fit mx-auto group-hover:scale-110 transition-transform duration-300`}>
                                             <ValueIcon className="w-8 h-8 text-white" />
                                         </div>
-                                        <h4 className="text-xl font-bold text-white mb-4 text-center group-hover:text-purple-300">
+                                        <h4 className="text-xl font-bold text-white mb-4 text-center group-hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
                                             {value.title}
                                         </h4>
                                         <p className="text-gray-300 text-center leading-relaxed text-sm">
@@ -171,19 +192,24 @@ const About = () => {
                         </div>
                     </div>
 
-                    {/* Team Section */}
+                    {/* Why Choose Us Section */}
                     <div>
-                        <div className="backdrop-blur-xl bg-custom-gradient rounded-3xl border border-white/10 p-8 md:p-12 shadow-2xl">
+                        <div className="backdrop-blur-xl bg-[rgba(10,25,47,0.5)] rounded-3xl border border-[rgba(255,255,255,0.1)] p-8 md:p-12 shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
                             <div className="text-center mb-12">
                                 <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                                    <span className="bg-gradient-to-r from-rose-400 to-pink-400 bg-clip-text text-transparent">
+                                    <span
+                                        className="bg-clip-text text-transparent"
+                                        style={{
+                                            backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
+                                        }}
+                                    >
                                         Why Choose Us?
                                     </span>
                                 </h3>
                             </div>
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                                 <div className="space-y-4">
-                                    <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-3 w-fit">
+                                    <div className="bg-[rgba(0,120,160,0.5)] rounded-xl p-3 w-fit">
                                         <Users className="w-6 h-6 text-white" />
                                     </div>
                                     <h4 className="text-xl font-bold text-white">Expert Team</h4>
@@ -193,7 +219,7 @@ const About = () => {
                                     </p>
                                 </div>
                                 <div className="space-y-4">
-                                    <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl p-3 w-fit">
+                                    <div className="bg-[rgba(0,120,160,0.5)] rounded-xl p-3 w-fit">
                                         <Award className="w-6 h-6 text-white" />
                                     </div>
                                     <h4 className="text-xl font-bold text-white">Proven Track Record</h4>
@@ -203,7 +229,7 @@ const About = () => {
                                     </p>
                                 </div>
                                 <div className="space-y-4">
-                                    <div className="bg-gradient-to-r from-pink-500 to-rose-600 rounded-xl p-3 w-fit">
+                                    <div className="bg-[rgba(0,120,160,0.5)] rounded-xl p-3 w-fit">
                                         <Zap className="w-6 h-6 text-white" />
                                     </div>
                                     <h4 className="text-xl font-bold text-white">Cutting-Edge Technology</h4>
@@ -216,13 +242,13 @@ const About = () => {
                         </div>
                     </div>
                 </div>
-                <OurTeam></OurTeam>
+                <OurTeam />
             </div>
 
             {/* Decorative Elements */}
-            <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-2xl"></div>
-            <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-full blur-3xl"></div>
-            <div className="absolute top-1/2 left-20 w-20 h-20 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-full blur-xl"></div>
+            <div className="absolute top-20 left-10 w-32 h-32 bg-[rgba(0,120,160,0.2)] rounded-full blur-2xl"></div>
+            <div className="absolute bottom-20 right-10 w-40 h-40 bg-[rgba(50,40,130,0.2)] rounded-full blur-3xl"></div>
+            <div className="absolute top-1/2 left-20 w-20 h-20 bg-[rgba(0,120,160,0.2)] rounded-full blur-xl"></div>
         </div>
     );
 };

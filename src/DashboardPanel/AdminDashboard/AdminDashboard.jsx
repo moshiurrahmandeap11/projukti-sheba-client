@@ -17,6 +17,7 @@ import ReportsSection from "./ReportsSection/ReportsSection";
 import { useNavigate } from "react-router";
 import ServicesSection from "./ServicesSection/ServicesSection";
 import AboutSection from "../AboutSection/AboutSection";
+import ContactSection from "./ContactSection/ContactSection";
 
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -78,6 +79,7 @@ const AdminDashboard = () => {
     { id: "products", icon: "🛍️", label: "Products", badge: null },
     { id: "analytics", icon: "📈", label: "Analytics", badge: null },
     { id: "messages", icon: "💬", label: "Messages", badge: null },
+    { id: "contact-us", icon: "📞", label: "Contact Us", badge: null },
     { id: "settings", icon: "⚙️", label: "Settings", badge: null },
     { id: "reports", icon: "📋", label: "Reports", badge: null },
     { id: "services", icon: "🛠️", label: "Services", badge: null },
@@ -111,6 +113,8 @@ const AdminDashboard = () => {
         return <AnalyticsSection />;
       case "messages":
         return <MessagesSection />;
+      case "contact-us":
+        return <ContactSection />;
       case "settings":
         return <SettingsSection />;
       case "reports":

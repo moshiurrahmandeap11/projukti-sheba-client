@@ -108,18 +108,25 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="relative bg-custom-gradient overflow-hidden">
+        <footer className="relative bg-[rgba(10,25,47,0.3)] backdrop-blur-lg overflow-hidden">
             {/* Background Overlay */}
-            <div className="absolute inset-0 bg-custom-gradient"></div>
+            <div
+                className="absolute inset-0"
+                style={{ 
+                    background: 'linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))', 
+                    zIndex: 0, 
+                    backdropFilter: 'blur(10px)' 
+                }}
+            />
             
             {/* Decorative Elements */}
-            <div className="absolute top-0 left-0 w-64 h-64 bg-custom-gradient rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-full blur-3xl"></div>
-            <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-full blur-2xl"></div>
+            <div className="absolute top-0 left-0 w-64 h-64 bg-[rgba(0,120,160,0.2)] rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-0 w-80 h-80 bg-[rgba(50,40,130,0.2)] rounded-full blur-3xl"></div>
+            <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-[rgba(0,120,160,0.2)] rounded-full blur-2xl"></div>
             
             <div className="relative z-10">
                 {/* Main Footer Content */}
-                <div className="backdrop-blur-xl bg-white/5 border-t border-white/10">
+                <div className="backdrop-blur-xl bg-[rgba(10,25,47,0.5)] border-t border-[rgba(255,255,255,0.1)]">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
                             {/* Company Info */}
@@ -127,12 +134,12 @@ const Footer = () => {
                                 <div className="space-y-6">
                                     {/* Logo */}
                                     <div className="flex items-center space-x-3">
-                                        <div className="bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-600 rounded-xl p-3 shadow-xl">
+                                        <div className="bg-[rgba(0,120,160,0.5)] rounded-xl p-3 shadow-xl backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
                                             <Code className="w-8 h-8 text-white" />
                                         </div>
                                         <div>
                                             <h3 className="text-2xl font-bold text-white">Projukti Sheba</h3>
-                                            <p className="text-sm text-gray-400">Technology Solutions</p>
+                                            <p className="text-sm text-gray-300">Technology Solutions</p>
                                         </div>
                                     </div>
                                     
@@ -152,7 +159,7 @@ const Footer = () => {
                                                     href={social.href}
                                                     target='_blank'
                                                     rel="noopener noreferrer"
-                                                    className={`bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-gray-400 ${social.color} hover:bg-white/20 hover:border-purple-500/50 group flex items-center justify-center`}
+                                                    className={`bg-[rgba(255,255,255,0.05)] backdrop-blur-sm rounded-xl p-3 border border-[rgba(255,255,255,0.1)] text-gray-400 ${social.color} hover:bg-[rgba(255,255,255,0.1)] hover:border-[rgba(0,120,160,0.5)] group flex items-center justify-center transition-all duration-300 hover:scale-105`}
                                                 >
                                                     <SocialIcon className="w-5 h-5" />
                                                 </a>
@@ -170,13 +177,13 @@ const Footer = () => {
                                         const ContactIcon = contact.icon;
                                         return (
                                             <div key={index} className="flex items-start space-x-3">
-                                                <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg p-2">
-                                                    <ContactIcon className="w-4 h-4 text-purple-400" />
+                                                <div className="bg-[rgba(0,120,160,0.5)] rounded-lg p-2 backdrop-blur-sm">
+                                                    <ContactIcon className="w-4 h-4 text-white" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-medium text-gray-300">{contact.title}</p>
+                                                    <p className="text-sm font-medium text-gray-200">{contact.title}</p>
                                                     {contact.details.map((detail, idx) => (
-                                                        <p key={idx} className="text-sm text-gray-400">{detail}</p>
+                                                        <p key={idx} className="text-sm text-gray-300">{detail}</p>
                                                     ))}
                                                 </div>
                                             </div>
@@ -189,7 +196,6 @@ const Footer = () => {
                             <div className="space-y-6">
                                 <h4 className="text-xl font-bold text-white relative">
                                     Our Services
-                                    <div className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
                                 </h4>
                                 <ul className="space-y-4">
                                     {services.map((service, index) => {
@@ -198,11 +204,11 @@ const Footer = () => {
                                             <li key={index}>
                                                 <a
                                                     href={service.href}
-                                                    className="text-gray-400 hover:text-white flex items-center space-x-3 group hover:bg-white/5 rounded-lg p-2 -m-2"
+                                                    className="text-gray-300 hover:text-white flex items-center space-x-3 group hover:bg-[rgba(255,255,255,0.05)] rounded-lg p-2 -m-2 backdrop-blur-sm transition-all duration-300"
                                                 >
-                                                    <ServiceIcon className="w-4 h-4 text-purple-400 group-hover:text-purple-300" />
+                                                    <ServiceIcon className="w-4 h-4 text-[rgba(0,120,160,0.8)] group-hover:text-[rgba(0,120,160,1)]" />
                                                     <span>{service.name}</span>
-                                                    <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100" />
+                                                    <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 text-[rgba(0,120,160,0.8)]" />
                                                 </a>
                                             </li>
                                         );
@@ -216,9 +222,8 @@ const Footer = () => {
                                 <div className="space-y-6">
                                     <h4 className="text-xl font-bold text-white relative">
                                         Stay Updated
-                                        <div className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
                                     </h4>
-                                    <p className="text-gray-400 text-sm">
+                                    <p className="text-gray-300 text-sm">
                                         Subscribe to our newsletter for latest updates and tech insights.
                                     </p>
                                     <div className="space-y-4">
@@ -228,14 +233,13 @@ const Footer = () => {
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 placeholder="Enter your email"
-                                                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:bg-white/15"
+                                                className="w-full px-4 py-3 bg-[rgba(10,25,47,0.5)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[rgba(0,120,160,0.5)] focus:bg-[rgba(10,25,47,0.6)] transition-all duration-300"
                                             />
                                         </div>
                                         <FancyButton
                                             onClick={handleNewsletterSubmit}
-                                            className="group relative w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold px-6 py-3 rounded-lg shadow-xl  border border-purple-500/30 backdrop-blur-sm overflow-hidden"
+                                            className="group relative w-full bg-[rgba(0,120,160,0.5)] text-white font-semibold px-6 py-3 rounded-lg shadow-xl border border-[rgba(0,120,160,0.5)] backdrop-blur-sm overflow-hidden hover:bg-[rgba(0,120,160,0.6)]"
                                         >
-                                           
                                             <span className="relative z-10 flex items-center justify-center space-x-2">
                                                 {isSubscribed ? (
                                                     <>
@@ -258,7 +262,7 @@ const Footer = () => {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="backdrop-blur-xl bg-white/5 border-t border-white/10">
+                <div className="backdrop-blur-xl bg-[rgba(10,25,47,0.5)] border-t border-[rgba(255,255,255,0.1)]">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                             <div className="flex items-center space-x-2 text-gray-400 text-sm">
@@ -279,7 +283,7 @@ const Footer = () => {
                             
                             <div className="flex items-center space-x-2 text-gray-400 text-sm">
                                 <span>Developed By</span>
-                                <a href={"https://moshiurrahman.online"} target='_blank' className='text-red-500 animate-pulse' >MRD</a>
+                                <a href={"https://moshiurrahman.online"} target='_blank' className='text-[rgba(0,120,160,0.8)] animate-pulse' >MRD</a>
                                 <span>From Projukti Sheba</span>
                             </div>
                         </div>
