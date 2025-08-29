@@ -240,17 +240,17 @@ const Navbar = () => {
                           : `https://projukti-sheba-server.onrender.com${profile.photoURL}`
                       }`}
                       alt={profile?.displayName || "User"}
-                      className="w-10 h-10 rounded-full border-2 border-[var(--color-secondary)]/30 object-cover"
+                      className="w-10 h-10 rounded-full border-2 object-cover"
                     />
                   ) : (
-                    <div className="w-10 h-10 rounded-full bg-[var(--color-gradient)] flex items-center justify-center text-white font-bold border-2 border-[var(--color-secondary)]/30">
+                    <div className="w-10 h-10 rounded-full bg-custom-gradient flex items-center justify-center text-white font-bold border-2 border-[var(--color-secondary)]/30">
                       {getInitials(user.displayName)}
                     </div>
                   )}
                 </button>
 
                 {isProfileOpen && (
-                  <div className="absolute right-0 mt-2 w-64 origin-top-right bg-gradient-to-br from-[var(--color-primary)]/95 via-[var(--color-secondary)]/90 to-[var(--color-primary)]/95 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/10 overflow-hidden z-50">
+                  <div className="absolute right-0 mt-2 w-64 origin-top-right bg-custom-gradient backdrop-blur-2xl rounded-xl shadow-2xl border border-white/10 overflow-hidden z-50">
                     <div className="px-4 py-3 border-b border-white/10">
                       <div className="flex items-center space-x-3">
                         {user.photoURL ? (
@@ -265,10 +265,9 @@ const Navbar = () => {
                           </div>
                         )}
                         <div>
-                          <p className="text-sm font-medium text-white">
+                          <p className="text-sm font-semibold text-white">
                             {user.displayName || "User"}
                           </p>
-                          <p className="text-xs text-gray-400">{user.email}</p>
                         </div>
                       </div>
                     </div>

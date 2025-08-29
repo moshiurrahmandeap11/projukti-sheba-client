@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Quote, ChevronLeft, ChevronRight, Building2, MapPin, Calendar, Video } from 'lucide-react';
+import FancyButton from '../../../comopnents/sharedItems/FancyButtons/FancyButton';
 
 const Testimonials = () => {
     const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -144,7 +145,7 @@ const Testimonials = () => {
     };
 
     return (
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-black via-gray-900 to-gray-900 text-white relative overflow-hidden">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-custom-gradient text-white relative overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-5">
                 <div className="absolute inset-0" style={{
@@ -166,21 +167,21 @@ const Testimonials = () => {
                     {/* Stats */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
                         {stats.map((stat, index) => (
-                            <div key={index} className="backdrop-blur-md bg-black/20 rounded-xl p-4 border border-gray-700">
+                            <FancyButton key={index} className="backdrop-blur-md bg-custom-gradient rounded-xl p-4 border border-gray-700">
                                 <div className="text-2xl md:text-3xl font-bold text-blue-400 mb-1">
                                     {stat.number}
                                 </div>
                                 <div className="text-gray-400 text-sm">
                                     {stat.label}
                                 </div>
-                            </div>
+                            </FancyButton>
                         ))}
                     </div>
                 </div>
 
                 {/* Main Testimonial */}
                 <div className="relative mb-12">
-                    <div className="backdrop-blur-lg bg-black/40 rounded-3xl p-8 md:p-12 border border-gray-700 shadow-2xl max-w-5xl mx-auto">
+                    <div className="backdrop-blur-lg bg-custom-gradient rounded-3xl p-8 md:p-12 border border-gray-700 shadow-2xl max-w-5xl mx-auto">
                         <div className="grid md:grid-cols-3 gap-8 items-center">
                             {/* Client Info */}
                             <div className="md:col-span-1 text-center md:text-left">
@@ -277,7 +278,7 @@ const Testimonials = () => {
                     {testimonials.map((testimonial, index) => (
                         <div
                             key={testimonial.id}
-                            className={`backdrop-blur-lg bg-black/30 rounded-2xl p-6 border border-gray-700 transition-all duration-300 hover:bg-black/40 hover:scale-105 cursor-pointer ${
+                            className={`backdrop-blur-lg bg-custom-gradient rounded-2xl p-6 border border-gray-700 transition-all duration-300 hover:bg-black/40 hover:scale-105 cursor-pointer ${
                                 index === currentTestimonial ? 'ring-2 ring-blue-400' : ''
                             }`}
                             onClick={() => goToTestimonial(index)}
@@ -320,7 +321,7 @@ const Testimonials = () => {
 
                 {/* Call to Action */}
                 <div className="text-center mt-16">
-                    <div className="backdrop-blur-lg bg-black/40 rounded-2xl p-8 border border-gray-700 max-w-3xl mx-auto">
+                    <div className="backdrop-blur-lg bg-custom-gradient rounded-2xl p-8 border border-gray-700 max-w-3xl mx-auto">
                         <h3 className="text-2xl font-bold mb-4 text-white">
                             Ready to Join Our Success Stories?
                         </h3>
@@ -328,12 +329,12 @@ const Testimonials = () => {
                             Let's discuss how we can help transform your business with our digital solutions
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full transition-all transform hover:scale-105 shadow-lg">
+                            <FancyButton className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full transition-all transform hover:scale-105 shadow-lg">
                                 Start Your Project
-                            </button>
-                            <button className="px-8 py-3 backdrop-blur-md bg-black/30 border border-gray-700 hover:bg-black/50 rounded-full transition-all">
+                            </FancyButton>
+                            <FancyButton className="px-8 py-3 backdrop-blur-md bg-black/30 border border-gray-700 hover:bg-black/50 rounded-full transition-all">
                                 View Portfolio
-                            </button>
+                            </FancyButton>
                         </div>
                     </div>
                 </div>

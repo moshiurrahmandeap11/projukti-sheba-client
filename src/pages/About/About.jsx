@@ -1,6 +1,7 @@
 import React from 'react';
 import { Users, Award, Clock, Globe, Target, Lightbulb, Heart, Zap } from 'lucide-react';
 import OurTeam from '../../comopnents/OurTeam/OurTeam';
+import FancyButton from '../../comopnents/sharedItems/FancyButtons/FancyButton';
 
 const About = () => {
     const stats = [
@@ -38,20 +39,20 @@ const About = () => {
     ];
 
     return (
-        <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black overflow-hidden">
+        <div className="relative min-h-screen bg-custom-gradient overflow-hidden">
             {/* Background Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-purple-900/30" />
+            <div className="absolute inset-0 bg-custom-gradient" />
             
             <div className="relative z-10 py-20 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     {/* Hero Section */}
                     <div className="text-center mb-20">
                         <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
-                            <span className="bg-gradient-to-r from-white via-purple-200 to-indigo-300 bg-clip-text text-transparent">
+                            <span className="bg-custom-gradient ">
                                 About Projukti Sheba
                             </span>
                         </h2>
-                        <div className="max-w-4xl mx-auto backdrop-blur-xl bg-white/5 rounded-3xl border border-white/10 p-8 md:p-12 shadow-2xl">
+                        <div className="max-w-4xl mx-auto backdrop-blur-xl bg-custom-gradient rounded-3xl border border-white/10 p-8 md:p-12 shadow-2xl">
                             <p className="text-xl md:text-2xl text-gray-300 leading-relaxed mb-6">
                                 We are a leading technology solutions provider, dedicated to transforming businesses 
                                 through innovative software development, cutting-edge web solutions, professional video editing, 
@@ -72,7 +73,7 @@ const About = () => {
                                 return (
                                     <div 
                                         key={index} 
-                                        className="backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10 p-8 shadow-2xl hover:scale-105 group"
+                                        className="backdrop-blur-xl bg-custom-gradient rounded-2xl border border-white/10 p-8 shadow-2xl hover:scale-105 group"
                                     >
                                         <div className={`bg-gradient-to-r ${stat.color} rounded-xl p-4 mb-6 w-fit mx-auto group-hover:scale-110`}>
                                             <StatIcon className="w-8 h-8 text-white" />
@@ -94,7 +95,7 @@ const About = () => {
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
                             <div className="space-y-8">
                                 <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                                    <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                    <span className="bg-custom-gradient">
                                         Our Mission
                                     </span>
                                 </h3>
@@ -111,13 +112,13 @@ const About = () => {
                                     </p>
                                 </div>
                                 <div className="pt-4">
-                                    <button className="group relative bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold px-8 py-3 rounded-full shadow-xl hover:shadow-purple-500/50 hover:scale-105 border border-purple-500/30 backdrop-blur-sm overflow-hidden">
-                                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 transform -translate-x-full group-hover:translate-x-0"></div>
+                                    <FancyButton >
+                                        
                                         <span className="relative z-10">Learn More About Us</span>
-                                    </button>
+                                    </FancyButton>
                                 </div>
                             </div>
-                            <div className="backdrop-blur-xl bg-white/5 rounded-3xl border border-white/10 p-8 shadow-2xl">
+                            <div className="backdrop-blur-xl bg-custom-gradient rounded-3xl border border-white/10 p-8 shadow-2xl">
                                 <div className="space-y-6">
                                     <div className="flex items-center space-x-4">
                                         <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-3">
@@ -139,7 +140,7 @@ const About = () => {
                     <div className="mb-20">
                         <div className="text-center mb-16">
                             <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                                <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                                <span className="bg-custom-gradient">
                                     Our Core Values
                                 </span>
                             </h3>
@@ -153,7 +154,7 @@ const About = () => {
                                 return (
                                     <div 
                                         key={index}
-                                        className="backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10 p-8 shadow-2xl hover:scale-105 group"
+                                        className="backdrop-blur-xl bg-custom-gradient rounded-2xl border border-white/10 p-8 shadow-2xl hover:scale-105 group"
                                     >
                                         <div className={`bg-gradient-to-r ${value.color} rounded-xl p-4 mb-6 w-fit mx-auto group-hover:scale-110`}>
                                             <ValueIcon className="w-8 h-8 text-white" />
@@ -172,7 +173,7 @@ const About = () => {
 
                     {/* Team Section */}
                     <div>
-                        <div className="backdrop-blur-xl bg-white/5 rounded-3xl border border-white/10 p-8 md:p-12 shadow-2xl">
+                        <div className="backdrop-blur-xl bg-custom-gradient rounded-3xl border border-white/10 p-8 md:p-12 shadow-2xl">
                             <div className="text-center mb-12">
                                 <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">
                                     <span className="bg-gradient-to-r from-rose-400 to-pink-400 bg-clip-text text-transparent">

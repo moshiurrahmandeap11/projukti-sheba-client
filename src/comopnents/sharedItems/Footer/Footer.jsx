@@ -21,6 +21,7 @@ import {
     Music2,
     ParkingCircle
 } from 'lucide-react';
+import FancyButton from '../FancyButtons/FancyButton';
 
 const Footer = () => {
     const [email, setEmail] = useState('');
@@ -107,12 +108,12 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="relative bg-gradient-to-br from-slate-900 via-gray-900 to-black overflow-hidden">
+        <footer className="relative bg-custom-gradient overflow-hidden">
             {/* Background Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-transparent to-purple-900/40"></div>
+            <div className="absolute inset-0 bg-custom-gradient"></div>
             
             {/* Decorative Elements */}
-            <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-3xl"></div>
+            <div className="absolute top-0 left-0 w-64 h-64 bg-custom-gradient rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-full blur-3xl"></div>
             <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-full blur-2xl"></div>
             
@@ -230,11 +231,11 @@ const Footer = () => {
                                                 className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:bg-white/15"
                                             />
                                         </div>
-                                        <button
+                                        <FancyButton
                                             onClick={handleNewsletterSubmit}
-                                            className="group relative w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold px-6 py-3 rounded-lg shadow-xl hover:shadow-purple-500/50 border border-purple-500/30 backdrop-blur-sm overflow-hidden"
+                                            className="group relative w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold px-6 py-3 rounded-lg shadow-xl  border border-purple-500/30 backdrop-blur-sm overflow-hidden"
                                         >
-                                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 transform -translate-x-full group-hover:translate-x-0"></div>
+                                           
                                             <span className="relative z-10 flex items-center justify-center space-x-2">
                                                 {isSubscribed ? (
                                                     <>
@@ -248,7 +249,7 @@ const Footer = () => {
                                                     </>
                                                 )}
                                             </span>
-                                        </button>
+                                        </FancyButton>
                                     </div>
                                 </div>
                             </div>
@@ -278,7 +279,7 @@ const Footer = () => {
                             
                             <div className="flex items-center space-x-2 text-gray-400 text-sm">
                                 <span>Developed By</span>
-                                <a href={"https://moshiurrahman.online"} target='_blank' className='text-red-500' >MRD</a>
+                                <a href={"https://moshiurrahman.online"} target='_blank' className='text-red-500 animate-pulse' >MRD</a>
                                 <span>From Projukti Sheba</span>
                             </div>
                         </div>

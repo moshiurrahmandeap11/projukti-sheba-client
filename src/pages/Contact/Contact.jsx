@@ -116,7 +116,9 @@ const Contact = () => {
     {
       icon: MapPin,
       title: "Address",
-      details: ["Teribazar, UCB Bank Building (3rd Floor), Netrakona, Bangladesh-2400."],
+      details: [
+        "Teribazar, UCB Bank Building (3rd Floor), Netrakona, Bangladesh-2400.",
+      ],
       color: "from-green-500 to-emerald-500",
     },
     {
@@ -131,7 +133,7 @@ const Contact = () => {
     "Web Development",
     "Software Development",
     "Video Editing",
-    "Social Ads Campaign"
+    "Social Ads Campaign",
   ];
 
   const socialLinks = [
@@ -141,7 +143,12 @@ const Contact = () => {
       url: "https://www.linkedin.com/in/projuktishebaofficial/",
       color: "hover:text-blue-600",
     },
-    { icon: PhoneCall, name: "Twitter", url: "https://wa.me/+8801712377406", color: "hover:text-sky-500" },
+    {
+      icon: PhoneCall,
+      name: "Twitter",
+      url: "https://wa.me/+8801712377406",
+      color: "hover:text-sky-500",
+    },
     {
       icon: Facebook,
       name: "Facebook",
@@ -177,15 +184,15 @@ const Contact = () => {
       name: "Pinterest",
       url: "https://www.pinterest.com/projuktisheba",
       color: "hover:text-pink-500",
-    }
+    },
   ];
 
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-slate-900">
+      <div className="absolute inset-0 bg-custom-gradient">
         {/* Animated gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/20 via-purple-900/20 to-pink-900/20 animate-pulse"></div>
+        <div className="absolute inset-0 bg-custom-gradient animate-pulse"></div>
 
         {/* Floating particles */}
         {particles.map((particle) => (
@@ -218,7 +225,7 @@ const Contact = () => {
         {/* Header Section */}
         <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto text-center">
-            <div className="inline-block p-4 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-white/5 mb-6">
+            <div className="inline-block p-4 rounded-full bg-custom-gradient backdrop-blur-sm border border-white/5 mb-6">
               <MessageSquare className="w-16 h-16 text-white" />
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
@@ -242,7 +249,7 @@ const Contact = () => {
               {contactInfo.map((item, index) => (
                 <div
                   key={index}
-                  className="group bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+                  className="group bg-custom-gradient backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-2xl"
                 >
                   <div
                     className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r ${item.color} mb-4 group-hover:scale-110 transition-transform duration-300`}
@@ -480,25 +487,24 @@ const Contact = () => {
                   </div>
                 </div>
 
-<div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 relative h-64 md:h-96 overflow-hidden">
-    {/* Soft gradient background blur */}
-    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-green-500/5 to-purple-500/5 rounded-2xl blur-xl"></div>
+                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 relative h-64 md:h-96 overflow-hidden">
+                  {/* Soft gradient background blur */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-green-500/5 to-purple-500/5 rounded-2xl blur-xl"></div>
 
-    {/* Embedded Map */}
-    <div className="relative z-10 h-full w-full">
-        <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14477.155334444315!2d90.7248511!3d24.88812765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3756df11d1045b37%3A0x72ab806eaeeb8afb!2zUHJvanVrdGkgU2hlYmEg4Kaq4KeN4Kaw4Kav4KeB4KaV4KeN4Kak4Ka_IOCmuOCnh-CmrOCmvg!5e0!3m2!1sen!2sbd!4v1755599266118!5m2!1sen!2sbd"
-            className="w-full h-full rounded-xl border-0"
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
+                  {/* Embedded Map */}
+                  <div className="relative z-10 h-full w-full">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14477.155334444315!2d90.7248511!3d24.88812765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3756df11d1045b37%3A0x72ab806eaeeb8afb!2zUHJvanVrdGkgU2hlYmEg4Kaq4KeN4Kaw4Kav4KeB4KaV4KeN4Kak4Ka_IOCmuOCnh-CmrOCmvg!5e0!3m2!1sen!2sbd!4v1755599266118!5m2!1sen!2sbd"
+                      className="w-full h-full rounded-xl border-0"
+                      allowFullScreen=""
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    ></iframe>
 
-        {/* Dark gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-gray-900/30 to-black/50 rounded-xl pointer-events-none"></div>
-    </div>
-</div>
-
+                    {/* Dark gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-gray-900/30 to-black/50 rounded-xl pointer-events-none"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

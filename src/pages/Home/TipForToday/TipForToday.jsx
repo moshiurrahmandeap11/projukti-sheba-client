@@ -1,5 +1,6 @@
 import React from 'react';
 import { Share2, Tag, Calendar, User } from 'lucide-react';
+import FancyButton from '../../../comopnents/sharedItems/FancyButtons/FancyButton';
 
 const TipForToday = () => {
   // Dummy data for daily tips
@@ -29,7 +30,7 @@ const TipForToday = () => {
   const todayTip = tips[0];
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-black via-gray-900 to-gray-900 text-white relative overflow-hidden">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-custom-gradient text-white relative overflow-hidden">
       {/* Wave Animation Background */}
       <div className="absolute inset-x-0 bottom-0 h-48">
         <div className="wave wave1"></div>
@@ -40,7 +41,7 @@ const TipForToday = () => {
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-custom-gradient">
             Tip for Today
           </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
@@ -49,7 +50,7 @@ const TipForToday = () => {
         </div>
 
         {/* Tip Card */}
-        <div className="backdrop-blur-lg bg-black/40 rounded-3xl p-8 border border-gray-700/50 shadow-2xl transition-all duration-300 hover:shadow-blue-400/20 hover:scale-[1.02]">
+        <div className="backdrop-blur-lg bg-custom-gradient rounded-3xl p-8 border border-gray-700/50 shadow-2xl transition-all duration-300 hover:shadow-blue-400/20 hover:scale-[1.02]">
           <div className="flex flex-col md:flex-row gap-6 items-center">
             {/* Author Avatar */}
             <div className="flex-shrink-0">
@@ -78,17 +79,20 @@ const TipForToday = () => {
               <p className="text-gray-200 text-base md:text-lg leading-relaxed mb-6">
                 "{todayTip.tip}"
               </p>
-              <button className="inline-flex items-center px-6 py-2 backdrop-blur-md bg-black/30 border border-gray-700 hover:bg-black/50 rounded-full text-gray-300 transition-all duration-300 hover:scale-105">
+              <FancyButton>
+
+              <button className="inline-flex items-center px-6 py-2 backdrop-blur-md  rounded-full text-gray-300 transition-all duration-300 hover:scale-105">
                 <Share2 className="w-4 h-4 mr-2" />
                 Share Tip
               </button>
+              </FancyButton>
             </div>
           </div>
         </div>
 
         {/* Call to Action */}
         <div className="text-center mt-12">
-          <div className="backdrop-blur-lg bg-black/40 rounded-2xl p-6 border border-gray-700/50">
+          <div className="backdrop-blur-lg bg-custom-gradient rounded-2xl p-6 border border-gray-700/50">
             <h3 className="text-xl font-bold mb-4 text-white">
               Never Miss a Tip!
             </h3>
@@ -99,11 +103,11 @@ const TipForToday = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="px-4 py-2 backdrop-blur-md bg-black/30 border border-gray-700 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="px-4 py-2 backdrop-blur-md bg-custom-gradient border border-gray-700 rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
-              <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full transition-all transform hover:scale-105 shadow-lg">
+              <FancyButton className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full transition-all transform hover:scale-105 shadow-lg">
                 Subscribe
-              </button>
+              </FancyButton>
             </div>
           </div>
         </div>

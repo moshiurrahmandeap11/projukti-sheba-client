@@ -98,7 +98,7 @@ const Portfolio = () => {
             <div className="max-w-7xl mx-auto">
                 {/* Section Header */}
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 ">
                         Our Portfolio
                     </h2>
                     <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -129,7 +129,7 @@ const Portfolio = () => {
                     {filteredProjects.map((project, index) => (
                         <div
                             key={project.id}
-                            className="backdrop-blur-lg bg-black/40 rounded-2xl border border-white/10 shadow-2xl overflow-hidden hover:bg-black/50 transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-2"
+                            className="backdrop-blur-lg bg-custom-gradient rounded-2xl border border-white/10 shadow-2xl overflow-hidden hover:bg-black/50 transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-2"
                             style={{
                                 animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
                             }}
