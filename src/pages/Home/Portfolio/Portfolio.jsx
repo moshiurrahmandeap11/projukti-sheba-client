@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Code, Globe, Video, Megaphone, ExternalLink, Calendar, User, Tag } from 'lucide-react';
+import FancyButton from '../../../comopnents/sharedItems/FancyButtons/FancyButton';
 
 const Portfolio = () => {
     const [activeTab, setActiveTab] = useState('all');
@@ -93,7 +94,7 @@ const Portfolio = () => {
         : projects.filter(project => project.category === activeTab);
 
     return (
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-black via-gray-900 to-gray-900 text-white">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-custom-gradient text-white">
             <div className="max-w-7xl mx-auto">
                 {/* Section Header */}
                 <div className="text-center mb-16">
@@ -113,7 +114,7 @@ const Portfolio = () => {
                             onClick={() => setActiveTab(category.key)}
                             className={`flex items-center space-x-2 px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 ${
                                 activeTab === category.key
-                                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg'
+                                    ? 'bg-custom-gradient shadow-lg'
                                     : 'backdrop-blur-md bg-black/20 border border-gray-700 hover:bg-black/30'
                             }`}
                         >
@@ -193,13 +194,15 @@ const Portfolio = () => {
                                 </div>
 
                                 {/* Action Button */}
-                                <button
+                                <FancyButton
                                     onClick={() => setSelectedProject(project)}
                                     className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105"
                                 >
-                                    <span className="text-sm font-medium">View Details</span>
+                                    <div className='flex items-center justify-center gap-4'>
+                                        <span className="text-sm font-medium">View Details</span>
                                     <ExternalLink className="w-4 h-4" />
-                                </button>
+                                    </div>
+                                </FancyButton>
                             </div>
                         </div>
                     ))}

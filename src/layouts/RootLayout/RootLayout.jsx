@@ -7,8 +7,8 @@ import Chat from './Chat/Chat';
 
 const RootLayout = () => {
     return (
-        <div className='bg-black'>
-            <nav className='sticky top-0 left-0 right-0 z-50'>
+        <div className=''>
+            <nav className='sticky top-0 left-0 right-0 z-50 bg-custom-gradient'>
                 <Navbar></Navbar>
             </nav>
             <main>
