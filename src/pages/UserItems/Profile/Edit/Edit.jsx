@@ -143,6 +143,7 @@ const Edit = () => {
         const hostedUrl = data.data.url;
         setImagePreview(hostedUrl);
         setFormData(prev => ({ ...prev, photoURL: hostedUrl }));
+        console.log(hostedUrl);
         toast.success('Image uploaded successfully!');
       } else {
         throw new Error('Invalid response from ImgBB');
@@ -156,77 +157,80 @@ const Edit = () => {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSaving(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSaving(true);
 
-    try {
-      if (!formData.fullName.trim()) {
-        toast.error("Full name is required");
-        setIsSaving(false);
-        return;
-      }
-
-      if (!user?.uid) {
-        toast.error("User not authenticated");
-        setIsSaving(false);
-        return;
-      }
-
-      const formDataToSend = new FormData();
-      formDataToSend.append("firebaseUID", user.uid);
-      formDataToSend.append("fullName", formData.fullName);
-      formDataToSend.append("email", formData.email);
-      formDataToSend.append("phone", formData.phone);
-      formDataToSend.append("location", formData.location);
-      formDataToSend.append("company", formData.company);
-      formDataToSend.append("position", formData.position);
-      formDataToSend.append("bio", formData.bio);
-      formDataToSend.append("website", formData.website);
-      formDataToSend.append("linkedIn", formData.linkedIn);
-      formDataToSend.append("github", formData.github);
-      formDataToSend.append("twitter", formData.twitter);
-      formDataToSend.append("dateOfBirth", formData.dateOfBirth);
-      formDataToSend.append("photoURL", formData.photoURL);
-      formDataToSend.append("privacy", JSON.stringify(formData.privacy));
-      formDataToSend.append("updatedAt", new Date().toISOString());
-
-      // Log FormData for debugging
-      console.log("FormData entries:", [...formDataToSend.entries()]);
-
-const response = await axios.put(
-  `https://projukti-sheba-server.onrender.com/users/${user.uid}`,
-  formData,
-  { headers: { "Content-Type": "application/json" } }
-);
-
-
-      if (formData.fullName !== user.displayName || formData.photoURL !== user.photoURL) {
-        const updateData = { displayName: formData.fullName };
-        if (formData.photoURL) {
-          updateData.photoURL = formData.photoURL;
-        }
-        try {
-          await updateProfile(updateData);
-          console.log("Firebase profile updated successfully");
-        } catch (firebaseError) {
-          console.error("Firebase update error:", firebaseError);
-        }
-      }
-
-      toast.success("Profile updated successfully!");
-      navigate('/profile');
-    } catch (error) {
-      console.error("Error updating profile:", {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-      });
-      toast.error(error.response?.data?.message || "Failed to update profile");
-    } finally {
+  try {
+    if (!formData.fullName.trim()) {
+      toast.error("Full name is required");
       setIsSaving(false);
+      return;
     }
-  };
+
+    if (!user?.uid) {
+      toast.error("User not authenticated");
+      setIsSaving(false);
+      return;
+    }
+
+    // Prepare payload as JSON
+    const payload = {
+      firebaseUID: user.uid,
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      location: formData.location,
+      company: formData.company,
+      position: formData.position,
+      bio: formData.bio,
+      website: formData.website,
+      linkedIn: formData.linkedIn,
+      github: formData.github,
+      twitter: formData.twitter,
+      dateOfBirth: formData.dateOfBirth,
+      photoURL: formData.photoURL, // URL string, no file
+      privacy: formData.privacy,
+      updatedAt: new Date().toISOString(),
+      premium: formData.premium || false,
+      role: formData.role || "user",
+    };
+
+    console.log("Payload to send:", payload); // For debugging
+
+    const response = await axios.put(
+      `https://projukti-sheba-server.onrender.com/users/${user.uid}`,
+      payload,
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    // Update Firebase profile if name or photo changed
+    if (formData.fullName !== user.displayName || formData.photoURL !== user.photoURL) {
+      const updateData = { displayName: formData.fullName };
+      if (formData.photoURL) updateData.photoURL = formData.photoURL;
+
+      try {
+        await updateProfile(updateData);
+        console.log("Firebase profile updated successfully");
+      } catch (firebaseError) {
+        console.error("Firebase update error:", firebaseError);
+      }
+    }
+
+    toast.success("Profile updated successfully!");
+    navigate('/profile');
+  } catch (error) {
+    console.error("Error updating profile:", {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status,
+    });
+    toast.error(error.response?.data?.message || "Failed to update profile");
+  } finally {
+    setIsSaving(false);
+  }
+};
+
 
   if (loading || isLoading) {
     return <Loader />;
