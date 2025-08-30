@@ -119,15 +119,20 @@ const Profile = () => {
         <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-12">
           <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-xl">
             {profile?.photoURL ? (
-              <img
-                src={`https://projukti-sheba-server.onrender.com${profile.photoURL}`}
-                alt={profile?.fullName || user?.displayName || "User"}
-                className="w-32 h-32 rounded-full object-cover border-4 border-purple-500/30"
-                onError={(e) => {
-                  console.error("Error loading image:", e);
-                  e.target.src = user?.photoURL || "/default-avatar.png";
-                }}
-              />
+  <img
+  src={
+    profile?.photoURL?.startsWith("http")
+      ? profile.photoURL
+      : `https://projukti-sheba-server.onrender.com${profile?.photoURL || ""}`
+  }
+  alt={profile?.fullName || user?.displayName || "User"}
+  className="w-32 h-32 rounded-full object-cover border-4 border-purple-500/30"
+  onError={(e) => {
+    console.error("Error loading image:", profile?.photoURL);
+    e.currentTarget.src = "/default-avatar.png";
+  }}
+/>
+
             ) : (
               <div className="w-32 h-32 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center text-white text-5xl font-bold border-4 border-purple-500/30">
                 {(profile?.fullName || user.displayName || "U")
