@@ -31,20 +31,7 @@ const Banner = () => {
                 }} 
             />
             
-            {/* Animated P in background - Left Side */}
-            <div 
-                className="absolute left-10 top-1/2 transform -translate-y-1/2"
-                style={{
-                    fontSize: '200px',
-                    fontWeight: 'bold',
-                    color: 'rgba(29,45,99,0.8)',
-                    zIndex: 1,
-                    animation: 'float 6s ease-in-out infinite',
-                    textShadow: '0 0 40px rgba(10,25,47,0.4)'
-                }}
-            >
-                P
-            </div>
+ 
             
             {/* Animated Lines - Right Side */}
             <svg 
