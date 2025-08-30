@@ -1,28 +1,28 @@
-import React, { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
+import Loader from '../../comopnents/sharedItems/Loader/Loader';
 import Banner from '../../comopnents/Banner/Banner';
 import Services from '../Services/Services';
-import Portfolio from './Portfolio/Portfolio';
-import Testimonials from './Testimonials/Testimonials';
-import About from '../About/About';
-import Contact from '../Contact/Contact';
-import BlogInsights from './BlogInsight/BlogInsights';
 import TipForToday from './TipForToday/TipForToday';
-import Loader from '../../comopnents/sharedItems/Loader/Loader';
 
+const Portfolio = lazy(() => import('./Portfolio/Portfolio'));
+const Testimonials = lazy(() => import('./Testimonials/Testimonials'));
+const About = lazy(() => import('../About/About'));
+const BlogInsights = lazy(() => import('./BlogInsight/BlogInsights'));
+const Contact = lazy(() => import('../Contact/Contact'));
 
 const Home = () => {
     return (
         <div>
-            <Banner></Banner>
-            <Services></Services>
-            <Suspense fallback={<Loader></Loader>}>
-                <Portfolio></Portfolio>
-                <Testimonials></Testimonials>
-                <About></About>
-                <BlogInsights></BlogInsights>
-                <Contact></Contact>
+            <Banner />
+            <Services />
+            <Suspense fallback={<Loader />}>
+                <Portfolio />
+                <Testimonials />
+                <About />
+                <BlogInsights />
+                <Contact />
             </Suspense>
-            <TipForToday></TipForToday>
+            <TipForToday />
         </div>
     );
 };

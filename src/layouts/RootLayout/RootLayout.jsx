@@ -2,7 +2,8 @@ import React from 'react';
 import { Outlet } from 'react-router';
 import Navbar from '../../comopnents/sharedItems/Navbar/Navbar';
 import Footer from '../../comopnents/sharedItems/Footer/Footer';
-import Chat from './Chat/Chat';
+import { lazy, Suspense } from 'react';
+const Chat = lazy(() => import('./Chat/Chat'));
 
 
 const RootLayout = () => {
@@ -19,7 +20,9 @@ const RootLayout = () => {
             </footer>
 
             {/* live chat */}
-            <Chat></Chat>
+            <Suspense fallback={null}>
+  <Chat />
+</Suspense>
         </div>
     );
 };
