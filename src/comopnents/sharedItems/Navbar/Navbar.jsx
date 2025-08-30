@@ -156,7 +156,7 @@ const Navbar = () => {
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   aria-label="Toggle menu"
                   aria-expanded={isMenuOpen}
-                  className="inline-flex items-center justify-center p-2 rounded-lg text-white hover:text-[var(--color-secondary)] hover:bg-[var(--color-hover)]/20 focus:outline-none focus:ring-2 focus:ring-[var(--color-secondary)]/40 transition-all duration-300 border border-white/10 backdrop-blur-sm"
+                  className="inline-flex items-center justify-center p-2 rounded-lg text-white hover:text-[var(--color-secondary)] hover:bg-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--color-secondary)]/40 transition-all duration-300 border border-white/10 backdrop-blur-sm"
                 >
                   {isMenuOpen ? (
                     <X className="block h-6 w-6" aria-hidden="true" />
@@ -195,9 +195,9 @@ const Navbar = () => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`relative text-white hover:text-[var(--color-secondary)] px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:bg-[var(--color-hover)]/20 border border-transparent hover:border-[var(--color-secondary)]/30 ${
+                  className={`relative text-white  px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:bg-transparent border border-transparent hover:border-[#BE0F79] ${
                     location.pathname === link.href
-                      ? "text-[var(--color-secondary)] bg-[var(--color-hover)]/30 border-[var(--color-secondary)]/50"
+                      ? "text-[#BE0F79] bg-[#BE0F79] border-[var(--color-secondary)]/50"
                       : ""
                   }`}
                 >
@@ -253,20 +253,20 @@ const Navbar = () => {
                   <div className="absolute right-0 mt-2 w-64 origin-top-right bg-custom-gradient backdrop-blur-2xl rounded-xl shadow-2xl border border-white/10 overflow-hidden z-50">
                     <div className="px-4 py-3 border-b border-white/10">
                       <div className="flex items-center space-x-3">
-                        {user.photoURL ? (
+                        {profile?.photoURL ? (
                           <img
-                            src={user.photoURL}
+                            src={profile?.photoURL}
                             alt={user.displayName || "User"}
                             className="w-10 h-10 rounded-full border-2 border-[var(--color-secondary)]/30 object-cover"
                           />
                         ) : (
                           <div className="w-10 h-10 rounded-full bg-[var(--color-gradient)] flex items-center justify-center text-white font-bold border-2 border-[var(--color-secondary)]/30">
-                            {getInitials(user.displayName)}
+                            {getInitials(profile?.fullName)}
                           </div>
                         )}
                         <div>
                           <p className="text-sm font-semibold text-white">
-                            {user.displayName || "User"}
+                            {profile?.fullName || "User"}
                           </p>
                         </div>
                       </div>
@@ -279,7 +279,7 @@ const Navbar = () => {
                           ) : item.isButton ? (
                             <button
                               onClick={() => handleProfileClick(item)}
-                              className="w-full mx-2 my-1 bg-[var(--color-gradient)] hover:bg-[var(--color-hover)] text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2"
+                              className="w-full mx-2 my-1 bg-[#BE0F79] hover:bg-white text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2"
                             >
                               {item.icon}
                               <span>{item.name}</span>
@@ -307,15 +307,15 @@ const Navbar = () => {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="flex items-center justify-center p-2 rounded-lg text-white hover:text-[var(--color-secondary)] hover:bg-[var(--color-hover)]/20 focus:outline-none focus:ring-2 focus:ring-[var(--color-secondary)]/40 transition-all duration-300 border border-white/10 backdrop-blur-sm"
                 >
-                  {user.photoURL ? (
+                  {profile?.photoURL ? (
                     <img
-                      src={user.photoURL}
-                      alt={user.displayName || "User"}
+                      src={profile.photoURL}
+                      alt={profile?.fullName || "User"}
                       className="w-8 h-8 rounded-full border-2 border-[var(--color-secondary)]/30 object-cover"
                     />
                   ) : (
                     <div className="w-8 h-8 rounded-full bg-[var(--color-gradient)] flex items-center justify-center text-white font-bold border-2 border-[var(--color-secondary)]/30">
-                      {getInitials(user.displayName)}
+                      {getInitials(profile?.fullName)}
                     </div>
                   )}
                 </button>
