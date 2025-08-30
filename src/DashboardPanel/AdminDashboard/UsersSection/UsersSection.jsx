@@ -85,9 +85,9 @@ const UsersSection = ({ totalUsers }) => {
             >
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center overflow-hidden">
-                  {user.photoURL ? (
+                  {user?.photoURL ? (
                     <img
-                      src={`https://projukti-sheba-server.onrender.com/${user.photoURL}`}
+                      src={`https://projukti-sheba-server.onrender.com${user.photoURL}`}
                       alt={user.fullName || "User"}
                       className="w-full h-full object-cover"
                     />
