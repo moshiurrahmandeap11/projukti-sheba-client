@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Mail,
   Phone,
@@ -21,7 +21,7 @@ import {
   Music2,
   ParkingCircle,
 } from "lucide-react";
-import axios from 'axios';
+import axios from "axios";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -38,7 +38,7 @@ const Contact = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [particles, setParticles] = useState([]);
   const [services, setServices] = useState([]);
-  
+
   // Refs for debouncing and tracking
   const saveTimeoutRef = useRef(null);
   const formDataRef = useRef(formData);
@@ -48,7 +48,9 @@ const Contact = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get("https://projukti-sheba-server.onrender.com/categories");
+        const response = await axios.get(
+          "https://projukti-sheba-server.onrender.com/categories"
+        );
         setServices(response.data.data);
       } catch (error) {
         console.error("Error fetching services:", error);
@@ -89,130 +91,138 @@ const Contact = () => {
     return () => clearInterval(interval);
   }, []);
 
-// Draft save
-const saveToDraft = useCallback(async (data) => {
-  // 🚀 যদি form submit হয়ে গেছে তাহলে draft save করবে না
-  if (isFormSubmittedRef.current) {
-    return;
-  }
+  // Draft save
+  const saveToDraft = useCallback(async (data) => {
+    // 🚀 যদি form submit হয়ে গেছে তাহলে draft save করবে না
+    if (isFormSubmittedRef.current) {
+      return;
+    }
 
-  const hasValidData = Object.values(data).some(value => value && value.trim() !== "");
-  if (!hasValidData) {
-    hasDataRef.current = false;
-    return;
-  }
+    const hasValidData = Object.values(data).some(
+      (value) => value && value.trim() !== ""
+    );
+    if (!hasValidData) {
+      hasDataRef.current = false;
+      return;
+    }
 
-  hasDataRef.current = true;
-  setIsSaving(true);
+    hasDataRef.current = true;
+    setIsSaving(true);
 
-  try {
-    await axios.post("https://projukti-sheba-server.onrender.com/contact-us", data);
-    console.log("Draft saved successfully");
-  } catch (error) {
-    console.error("Error saving draft:", error);
-  } finally {
-    setIsSaving(false);
-  }
-}, []);
+    try {
+      await axios.post(
+        "https://projukti-sheba-server.onrender.com/contact-us",
+        data
+      );
+      console.log("Draft saved successfully");
+    } catch (error) {
+      console.error("Error saving draft:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  }, []);
 
-// Debounced auto-save effect
-useEffect(() => {
-  formDataRef.current = formData;
+  // Debounced auto-save effect
+  useEffect(() => {
+    formDataRef.current = formData;
 
-  // 🚀 যদি submit হয়ে যায় বা submitting চলে তাহলে draft save করবে না
-  if (isSubmitting || isFormSubmittedRef.current) return;
+    // 🚀 যদি submit হয়ে যায় বা submitting চলে তাহলে draft save করবে না
+    if (isSubmitting || isFormSubmittedRef.current) return;
 
-  if (saveTimeoutRef.current) {
-    clearTimeout(saveTimeoutRef.current);
-  }
-
-  saveTimeoutRef.current = setTimeout(() => {
-    saveToDraft(formData);
-  }, 2000);
-
-  return () => {
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current);
     }
-  };
-}, [formData, saveToDraft, isSubmitting]);
 
-// Save on page unload/close
-useEffect(() => {
-  const handleBeforeUnload = () => {
-    // 🚀 যদি submit হয়ে গেছে তাহলে draft পাঠাবে না
-    if (isSubmitting || isFormSubmittedRef.current) return;
-    
-    if (hasDataRef.current && formDataRef.current) {
-      try {
-        navigator.sendBeacon(
-          "https://projukti-sheba-server.onrender.com/contact-us",
-          JSON.stringify(formDataRef.current)
-        );
-      } catch (error) {
-        console.error("Error saving draft on page unload:", error);
+    saveTimeoutRef.current = setTimeout(() => {
+      saveToDraft(formData);
+    }, 2000);
+
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
       }
-    }
-  };
+    };
+  }, [formData, saveToDraft, isSubmitting]);
 
-  window.addEventListener('beforeunload', handleBeforeUnload);
-  return () => {
-    window.removeEventListener('beforeunload', handleBeforeUnload);
-  };
-}, [isSubmitting]);
+  // Save on page unload/close
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      // 🚀 যদি submit হয়ে গেছে তাহলে draft পাঠাবে না
+      if (isSubmitting || isFormSubmittedRef.current) return;
+
+      if (hasDataRef.current && formDataRef.current) {
+        try {
+          navigator.sendBeacon(
+            "https://projukti-sheba-server.onrender.com/contact-us",
+            JSON.stringify(formDataRef.current)
+          );
+        } catch (error) {
+          console.error("Error saving draft on page unload:", error);
+        }
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isSubmitting]);
 
   const handleInputChange = (e) => {
     // 🚀 যদি form submit হয়ে গেছে তাহলে input change allow করবে না
     if (isFormSubmittedRef.current) return;
-    
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-// Submit form
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  
-  // 🔥 যত তাড়াতাড়ি সম্ভব flag set করা যাতে draft save বন্ধ হয়ে যায়
-  isFormSubmittedRef.current = true;
-  
-  // 🔥 Timeout clear করা যাতে draft save না চলে
-  if (saveTimeoutRef.current) {
-    clearTimeout(saveTimeoutRef.current);
-  }
+  // Submit form
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
-  try {
-    // ✅ শুধুমাত্র submitted endpoint এ পাঠানো
-    await axios.post("https://projukti-sheba-server.onrender.com/contact-us-submitted", formData);
-    console.log("Form submitted successfully:", formData);
-    setIsSubmitted(true);
+    // 🔥 যত তাড়াতাড়ি সম্ভব flag set করা যাতে draft save বন্ধ হয়ে যায়
+    isFormSubmittedRef.current = true;
 
-    hasDataRef.current = false; // ✅ draft disable
+    // 🔥 Timeout clear করা যাতে draft save না চলে
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
 
-    setTimeout(() => {
-      setIsSubmitted(false);
-      isFormSubmittedRef.current = false; // 🔥 Reset করা নতুন form এর জন্য
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        company: "",
-        subject: "",
-        message: "",
-        service: "",
-      });
-    }, 3000);
-  } catch (error) {
-    console.error("Error submitting form:", error);
-    // 🚀 Error হলে flag reset করা যাতে user আবার try করতে পারে
-    isFormSubmittedRef.current = false;
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+    try {
+      // ✅ শুধুমাত্র submitted endpoint এ পাঠানো
+      await axios.post(
+        "https://projukti-sheba-server.onrender.com/contact-us-submitted",
+        formData
+      );
+      console.log("Form submitted successfully:", formData);
+      setIsSubmitted(true);
+
+      hasDataRef.current = false; // ✅ draft disable
+
+      setTimeout(() => {
+        setIsSubmitted(false);
+        isFormSubmittedRef.current = false; // 🔥 Reset করা নতুন form এর জন্য
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          subject: "",
+          message: "",
+          service: "",
+        });
+      }, 3000);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // 🚀 Error হলে flag reset করা যাতে user আবার try করতে পারে
+      isFormSubmittedRef.current = false;
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const contactInfo = [
     {
@@ -307,10 +317,11 @@ const handleSubmit = async (e) => {
       {/* Animated Background */}
       <div
         className="absolute inset-0"
-        style={{ 
-          background: 'linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))', 
-          zIndex: 0, 
-          backdropFilter: 'blur(10px)' 
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))",
+          zIndex: 0,
+          backdropFilter: "blur(10px)",
         }}
       >
         {/* Floating particles */}
@@ -352,50 +363,17 @@ const handleSubmit = async (e) => {
               <span
                 className="bg-clip-text text-transparent"
                 style={{
-                  backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
+                  backgroundImage:
+                    "linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))",
                 }}
               >
                 Touch
               </span>
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Ready to transform your digital presence? Let's discuss your
-              project and bring your vision to life with cutting-edge IT
-              solutions.
-            </p>
           </div>
         </div>
 
-        {/* Contact Info Cards */}
-        <div className="px-4 sm:px-6 lg:px-8 mb-20">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {contactInfo.map((item, index) => (
-                <div
-                  key={index}
-                  className="group bg-[rgba(10,25,47,0.5)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-6 hover:bg-[rgba(10,25,47,0.6)] transition-all duration-500 hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)]"
-                >
-                  <div
-                    className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300"
-                  >
-                    <item.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
-                    {item.title}
-                  </h3>
-                  {item.details.map((detail, idx) => (
-                    <p
-                      key={idx}
-                      className="text-gray-300 group-hover:text-gray-200 transition-colors duration-300"
-                    >
-                      {detail}
-                    </p>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+
 
         {/* Main Contact Section */}
         <div className="px-4 sm:px-6 lg:px-8 pb-20">
@@ -495,10 +473,10 @@ const handleSubmit = async (e) => {
                           {services.map((service, index) => (
                             <option
                               key={index}
-                              value={service.name}  
+                              value={service.name}
                               className="bg-[rgba(10,25,47,0.7)]"
                             >
-                              {service.name}  
+                              {service.name}
                             </option>
                           ))}
                         </select>
@@ -635,6 +613,41 @@ const handleSubmit = async (e) => {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="text-center py-6">
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto py-3 leading-relaxed">
+                Ready to transform your digital presence? Let's discuss your
+                project and bring your vision to life with cutting-edge IT
+                solutions.
+              </p>
+                      {/* Contact Info Cards */}
+        <div className="px-4 sm:px-6 lg:px-8 mb-20">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {contactInfo.map((item, index) => (
+                <div
+                  key={index}
+                  className="group bg-[rgba(10,25,47,0.5)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-6 hover:bg-[rgba(10,25,47,0.6)] transition-all duration-500 hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)]"
+                >
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <item.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
+                    {item.title}
+                  </h3>
+                  {item.details.map((detail, idx) => (
+                    <p
+                      key={idx}
+                      className="text-gray-300 group-hover:text-gray-200 transition-colors duration-300"
+                    >
+                      {detail}
+                    </p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
             </div>
           </div>
         </div>
