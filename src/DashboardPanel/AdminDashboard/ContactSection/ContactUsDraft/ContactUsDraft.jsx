@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -17,7 +18,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 
-const ContactSection = () => {
+const ContactUsDraft = () => {
   const [forms, setForms] = useState([]);
   const [filteredForms, setFilteredForms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,18 +28,18 @@ const ContactSection = () => {
   const [updatingForm, setUpdatingForm] = useState(null);
   const [selectedForm, setSelectedForm] = useState(null);
 
-  // Fetch submitted forms
+  // Fetch draft forms
   const fetchForms = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://projukti-sheba-server.onrender.com/contact-us-submitted"
+        "https://projukti-sheba-server.onrender.com/contact-us"
       );
       setForms(response.data.data || []);
       setError(null);
     } catch (err) {
-      console.error("Error fetching contact forms:", err);
-      setError("⚠️ Failed to load contact forms. Please try again.");
+      console.error("Error fetching draft contact forms:", err);
+      setError("⚠️ Failed to load draft contact forms. Please try again.");
       setForms([]);
     } finally {
       setLoading(false);
@@ -50,7 +51,7 @@ const ContactSection = () => {
     setUpdatingForm(formId);
     try {
       const response = await axios.patch(
-        `https://projukti-sheba-server.onrender.com/contact-us-submitted/${formId}`,
+        `https://projukti-sheba-server.onrender.com/contact-us/${formId}`,
         { status: newStatus },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -66,7 +67,7 @@ const ContactSection = () => {
         alert("Failed to update form status");
       }
     } catch (error) {
-      console.error("Error updating form:", error);
+      console.error("Error updating draft form:", error);
       alert("Error updating form status");
     } finally {
       setUpdatingForm(null);
@@ -163,10 +164,10 @@ const ContactSection = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold text-white mb-2">
-                Contact Forms Management
+                Draft Contact Forms Management
               </h1>
               <p className="text-gray-300">
-                Manage and track submitted contact forms
+                Manage and track draft contact forms
               </p>
             </div>
             <button
@@ -231,7 +232,7 @@ const ContactSection = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
-              placeholder="Search forms by name, email, phone, or subject..."
+              placeholder="Search draft forms by name, email, phone, or subject..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
@@ -270,16 +271,16 @@ const ContactSection = () => {
           {loading ? (
             <div className="flex items-center justify-center p-12">
               <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
-              <span className="ml-3 text-gray-300">Loading forms...</span>
+              <span className="ml-3 text-gray-300">Loading draft forms...</span>
             </div>
           ) : filteredForms.length === 0 ? (
             <div className="text-center p-12">
               <MessageSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-400 text-lg">No forms found</p>
+              <p className="text-gray-400 text-lg">No draft forms found</p>
               <p className="text-gray-500 text-sm">
                 {searchTerm
                   ? "Try adjusting your search criteria"
-                  : `No ${activeTab} forms at the moment`}
+                  : `No ${activeTab} draft forms at the moment`}
               </p>
             </div>
           ) : (
@@ -426,7 +427,7 @@ const ContactSection = () => {
             <div className="bg-gradient-to-br from-slate-900/80 via-blue-900/70 to-indigo-900/80 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl w-full max-w-md">
               <div className="p-5 border-b border-white/10 flex justify-between items-center">
                 <h3 className="text-lg font-semibold text-white">
-                  Form #{selectedForm._id?.slice(-6) || "N/A"}
+                  Draft Form #{selectedForm._id?.slice(-6) || "N/A"}
                 </h3>
                 <button
                   onClick={() => setSelectedForm(null)}
@@ -473,6 +474,12 @@ const ContactSection = () => {
                   </p>
                 </div>
                 <div className="space-y-1">
+                  <p className="text-gray-400 text-sm">📝 Message</p>
+                  <p className="text-gray-200">
+                    {selectedForm.message || "No message provided"}
+                  </p>
+                </div>
+                <div className="space-y-1">
                   <p className="text-gray-400 text-sm">📅 Created At</p>
                   <p className="text-white">
                     {formatDate(selectedForm.createdAt)}
@@ -508,4 +515,4 @@ const ContactSection = () => {
   );
 };
 
-export default ContactSection;
+export default ContactUsDraft;
