@@ -21,6 +21,7 @@ import AddPortfolio from "../../DashboardPanel/AdminDashboard/PortfolioSection/A
 import AddServices from "../../DashboardPanel/AdminDashboard/ServicesSection/AddServices/AddServices";
 import AddTeamMember from "../../DashboardPanel/AboutSection/Team/AddTeamMember/AddTeamMember";
 import EditMember from "../../DashboardPanel/AboutSection/Team/Edit/EditMember";
+import AddTestimonial from "../../comopnents/AddTestimonial/AddTestimonial";
 
 
 
@@ -38,6 +39,7 @@ const route = createBrowserRouter([
       { path: "/blogs", element: <ProtectedRoute><Blogs /></ProtectedRoute> },
       { path: "/profile", element: <Profile /> },
       { path: "/edit/:id", element: <Edit /> },
+      {path: "/add-testimonial", element: <AddTestimonial></AddTestimonial>}
     ]
   },
   {

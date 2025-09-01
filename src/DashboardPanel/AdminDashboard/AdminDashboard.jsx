@@ -20,6 +20,7 @@ import AboutSection from "../AboutSection/AboutSection";
 import ContactSection from "./ContactSection/ContactSection";
 import SupportSection from "./SupportSection/SupportSection";
 import ContactUsDraft from "./ContactSection/ContactUsDraft/ContactUsDraft";
+import TestimonialSection from "./TestimonialSection/TestimonialSection";
 
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -84,6 +85,7 @@ const AdminDashboard = () => {
     { id: "contact-us", icon: "📞", label: "Contact Us", badge: null },
     { id: "contact-us-draft", icon: "📞", label: "C Draft", badge: "New"},
     { id: "support", icon: "🆘", label: "Support", badge: "New" },
+    {id: "testimonials", icon: "🖊️", label: "Testimonials", badge: "New"},
     { id: "settings", icon: "⚙️", label: "Settings", badge: null },
     { id: "reports", icon: "📋", label: "Reports", badge: null },
     { id: "services", icon: "🛠️", label: "Services", badge: null },
@@ -123,6 +125,8 @@ const AdminDashboard = () => {
           return <ContactUsDraft></ContactUsDraft>
       case "support":
         return <SupportSection />;
+        case "testimonials":
+          return <TestimonialSection></TestimonialSection>
       case "settings":
         return <SettingsSection />;
       case "reports":
