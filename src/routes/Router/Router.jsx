@@ -22,6 +22,9 @@ import AddServices from "../../DashboardPanel/AdminDashboard/ServicesSection/Add
 import AddTeamMember from "../../DashboardPanel/AboutSection/Team/AddTeamMember/AddTeamMember";
 import EditMember from "../../DashboardPanel/AboutSection/Team/Edit/EditMember";
 import AddTestimonial from "../../comopnents/AddTestimonial/AddTestimonial";
+import AddBlog from "../../DashboardPanel/AdminDashboard/BlogSection/AddBlog/AddBlog";
+import EditBlog from "../../DashboardPanel/AdminDashboard/BlogSection/EditBlog/EditBlog";
+import BlogDetails from "../../pages/Blogs/BlogDetails/BlogDetails";
 
 
 
@@ -36,7 +39,8 @@ const route = createBrowserRouter([
       { path: "/about", element: <About /> },
       { path: "/contact", element: <Contact /> },
       { path: "/pricing", element: <Pricing /> },
-      { path: "/blogs", element: <ProtectedRoute><Blogs /></ProtectedRoute> },
+      { path: "/blogs", element: <Blogs /> },
+      {path: "/blog/:id", element: <BlogDetails></BlogDetails>},
       { path: "/profile", element: <Profile /> },
       { path: "/edit/:id", element: <Edit /> },
       {path: "/add-testimonial", element: <AddTestimonial></AddTestimonial>}
@@ -59,7 +63,9 @@ const route = createBrowserRouter([
       { path: "add-portfolio", element: <AddPortfolio></AddPortfolio> },
       { path: "add-service", element: <AddServices></AddServices> },
       { path: "add-team-member", element: <AddTeamMember></AddTeamMember> },
-      { path: "edit-member/:id", element: <EditMember></EditMember> }
+      { path: "edit-member/:id", element: <EditMember></EditMember> },
+      { path: "add-blog", element: <AddBlog></AddBlog> },
+      {path: "edit-blog/:id", element: <EditBlog></EditBlog>}
     ]
   }
 ]);
