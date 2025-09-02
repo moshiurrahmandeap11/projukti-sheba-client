@@ -19,10 +19,16 @@ import {
   Save,
   X,
   ChevronDown,
+  FileText,
+  Table,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const TestimonialSection = () => {
   const [testimonials, setTestimonials] = useState([]);
@@ -74,9 +80,9 @@ const TestimonialSection = () => {
   };
 
   const handleAddTestimonial = () => {
-    navigate("/add-testimonial")
-    setOpen(false)
-  }
+    navigate("/add-testimonial");
+    setOpen(false);
+  };
 
   // Delete testimonial
   const deleteTestimonial = async (id) => {
@@ -197,6 +203,76 @@ const TestimonialSection = () => {
     }
   };
 
+  // Export to Excel
+  const exportToExcel = () => {
+    const exportData = filteredTestimonials.map((testimonial) => ({
+      ID: testimonial._id?.slice(-5) || "N/A",
+      Name: testimonial.name || "N/A",
+      Position: testimonial.position || "N/A",
+      Company: testimonial.company || "N/A",
+      Location: testimonial.location || "N/A",
+      Date: formatDate(testimonial.date),
+      Rating: testimonial.rating || "N/A",
+      Testimonial: testimonial.testimonial || "N/A",
+      "Video URL": testimonial.videoUrl || "N/A",
+      Project: testimonial.project || "N/A",
+      Category: testimonial.category || "N/A",
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Testimonials");
+
+    const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const fileName = `testimonials_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    saveAs(new Blob([wbout], { type: "application/octet-stream" }), fileName);
+  };
+
+  // Export to PDF
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text("Testimonials", 14, 20);
+
+    const tableColumn = [
+      "ID",
+      "Name",
+      "Position",
+      "Company",
+      "Location",
+      "Date",
+      "Rating",
+      "Testimonial",
+      "Video URL",
+      "Project",
+      "Category",
+    ];
+
+    const tableRows = filteredTestimonials.map((testimonial) => [
+      testimonial._id?.slice(-5) || "N/A",
+      testimonial.name || "N/A",
+      testimonial.position || "N/A",
+      testimonial.company || "N/A",
+      testimonial.location || "N/A",
+      formatDate(testimonial.date),
+      testimonial.rating || "N/A",
+      testimonial.testimonial || "N/A",
+      testimonial.videoUrl || "N/A",
+      testimonial.project || "N/A",
+      testimonial.category || "N/A",
+    ]);
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+      styles: { fontSize: 8, cellPadding: 2 },
+    });
+
+    const fileName = `testimonials_${new Date().toISOString().slice(0, 10)}.pdf`;
+    doc.save(fileName);
+  };
+
   // Pagination
   useEffect(() => {
     const indexOfLastTestimonial = currentPage * testimonialsPerPage;
@@ -242,77 +318,91 @@ const TestimonialSection = () => {
 
   return (
     <motion.div
-      className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-gray-900 py-4 sm:py-8 lg:py-12 px-2 sm:px-4 lg:px-8"
+      className="min-h-screen bg-transparent backdrop-blur-3xl p-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-purple-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/3 right-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 right-1/3 w-32 h-32 bg-pink-500/5 rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="mb-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+              <h1 className="text-3xl font-bold text-white mb-2">
                 Testimonials Management
               </h1>
-              <p className="text-gray-300 text-sm sm:text-base">Manage and track user testimonials</p>
+              <p className="text-gray-300">
+                Manage and track user testimonials
+              </p>
             </div>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={exportToExcel}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-colors duration-200"
+              >
+                <Table className="w-4 h-4" />
+                <span>Export to Excel</span>
+              </button>
+              <button
+                onClick={exportToPDF}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-colors duration-200"
+              >
+                <FileText className="w-4 h-4" />
+                <span>Export to PDF</span>
+              </button>
               <button
                 onClick={fetchTestimonials}
                 disabled={loading}
-                className="flex items-center justify-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 disabled:opacity-50 text-white rounded-lg transition-colors duration-200"
+                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 disabled:opacity-50 text-white rounded-lg transition-colors duration-200"
               >
                 <RefreshCw
                   className={`w-4 h-4 ${loading ? "animate-spin" : ""}`}
                 />
                 <span>Refresh</span>
               </button>
-<button
-                onClick={() => setOpen(!open)}
-                className="flex items-center justify-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-all duration-200 shadow-lg hover:shadow-[#B5000D]/30 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#B5000D]/40"
-                aria-label="Toggle actions menu"
-                aria-expanded={open}
-              >
-                <span>Actions</span>
-                <ChevronDown className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform ${open ? "rotate-180" : ""}`} />
-              </button>
-
-{open && (
-                <div className="absolute right-0 mt-2 w-40 sm:w-48 bg-slate-900/95 backdrop-blur-md shadow-lg rounded-md border border-white/10 z-50">
-                  <button
-                    onClick={handleAddTestimonial}
-                    className="w-full text-left px-3 sm:px-4 py-1.5 sm:py-2 text-gray-300 hover:bg-white/10 hover:text-white text-xs sm:text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#B5000D]/40"
-                  >
-                    Add Testimonial
-                  </button>
-                  <button
-                    onClick={handleCopyUrl}
-                    className="w-full text-left px-3 sm:px-4 py-1.5 sm:py-2 text-gray-300 hover:bg-white/10 hover:text-white text-xs sm:text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#B5000D]/40"
-                  >
-                    Copy URL
-                  </button>
-                </div>
-              )}
+              <div className="relative">
+                <button
+                  onClick={() => setOpen(!open)}
+                  className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-colors duration-200"
+                >
+                  <span>Actions</span>
+                  <ChevronDown className={`w-4 h-4 ${open ? "rotate-180" : ""}`} />
+                </button>
+                {open && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg shadow-lg z-10">
+                    <button
+                      onClick={handleAddTestimonial}
+                      className="w-full text-left px-4 py-2 text-gray-300 hover:bg-white/10 hover:text-white transition-colors duration-200"
+                    >
+                      Add Testimonial
+                    </button>
+                    <button
+                      onClick={handleCopyUrl}
+                      className="w-full text-left px-4 py-2 text-gray-300 hover:bg-white/10 hover:text-white transition-colors duration-200"
+                    >
+                      Copy URL
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Testimonials Table */}
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg sm:rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 overflow-hidden">
           {loading ? (
-            <div className="flex items-center justify-center p-8 sm:p-12">
+            <div className="flex items-center justify-center p-12">
               <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
               <span className="ml-3 text-gray-300">Loading testimonials...</span>
             </div>
+          ) : error ? (
+            <div className="text-center p-12">
+              <MessageSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-400 text-lg">{error}</p>
+            </div>
           ) : testimonials.length === 0 ? (
-            <div className="text-center p-8 sm:p-12">
+            <div className="text-center p-12">
               <MessageSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-400 text-lg">No testimonials found</p>
               <p className="text-gray-500 text-sm">
@@ -324,19 +414,19 @@ const TestimonialSection = () => {
               <table className="w-full">
                 <thead className="bg-white/5 border-b border-white/10">
                   <tr>
-                    <th className="text-left p-2 sm:p-4 text-gray-300 font-medium text-xs sm:text-sm">
+                    <th className="text-left p-4 text-gray-300 font-medium">
                       ID
                     </th>
-                    <th className="text-left p-2 sm:p-4 text-gray-300 font-medium text-xs sm:text-sm">
+                    <th className="text-left p-4 text-gray-300 font-medium">
                       Name
                     </th>
-                    <th className="text-left p-2 sm:p-4 text-gray-300 font-medium hidden md:table-cell text-xs sm:text-sm">
+                    <th className="text-left p-4 text-gray-300 font-medium hidden md:table-cell">
                       Position
                     </th>
-                    <th className="text-left p-2 sm:p-4 text-gray-300 font-medium hidden md:table-cell text-xs sm:text-sm">
+                    <th className="text-left p-4 text-gray-300 font-medium hidden md:table-cell">
                       Rating
                     </th>
-                    <th className="text-left p-2 sm:p-4 text-gray-300 font-medium text-xs sm:text-sm">
+                    <th className="text-left p-4 text-gray-300 font-medium">
                       Actions
                     </th>
                   </tr>
@@ -347,57 +437,57 @@ const TestimonialSection = () => {
                       key={testimonial._id}
                       className="border-b border-white/5 hover:bg-white/5"
                     >
-                      <td className="p-2 sm:p-4">
-                        <div className="flex items-center space-x-2 sm:space-x-3">
-                          <div className="bg-blue-500/10 p-1 sm:p-2 rounded-lg">
-                            <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
+                      <td className="p-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="bg-blue-500/10 p-2 rounded-lg">
+                            <MessageSquare className="w-4 h-4 text-blue-400" />
                           </div>
-                          <p className="text-white font-medium text-xs sm:text-sm">
+                          <p className="text-white font-medium">
                             #{testimonial._id.slice(-5)}
                           </p>
                         </div>
                       </td>
-                      <td className="p-2 sm:p-4">
+                      <td className="p-4">
                         <div className="flex items-center space-x-2">
-                          <User className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
-                          <span className="text-gray-300 text-xs sm:text-sm truncate max-w-24 sm:max-w-none">
+                          <User className="w-4 h-4 text-gray-400" />
+                          <span className="text-gray-300">
                             {testimonial.name || "N/A"}
                           </span>
                         </div>
                       </td>
-                      <td className="p-2 sm:p-4 hidden md:table-cell">
-                        <span className="text-gray-300 text-xs sm:text-sm">
+                      <td className="p-4 hidden md:table-cell">
+                        <span className="text-gray-300">
                           {testimonial.position || "N/A"}
                         </span>
                       </td>
-                      <td className="p-2 sm:p-4 hidden md:table-cell">
+                      <td className="p-4 hidden md:table-cell">
                         <div className="flex items-center space-x-1">
                           {renderStars(testimonial.rating || 0)}
                         </div>
                       </td>
-                      <td className="p-2 sm:p-4">
-                        <div className="flex items-center space-x-1 sm:space-x-2">
+                      <td className="p-4">
+                        <div className="flex items-center space-x-2">
                           <button
                             onClick={() => setSelectedTestimonial(testimonial)}
-                            className="p-1 sm:p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-400/10 rounded-lg transition-colors duration-200"
+                            className="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-400/10 rounded-lg transition-colors duration-200"
                           >
-                            <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
+                            <Eye className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleEditTestimonial(testimonial)}
-                            className="p-1 sm:p-2 text-gray-400 hover:text-green-400 hover:bg-green-400/10 rounded-lg transition-colors duration-200"
+                            className="p-2 text-gray-400 hover:text-green-400 hover:bg-green-400/10 rounded-lg transition-colors duration-200"
                           >
-                            <Edit className="w-3 h-3 sm:w-4 sm:h-4" />
+                            <Edit className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => deleteTestimonial(testimonial._id)}
                             disabled={deletingTestimonial === testimonial._id}
-                            className="p-1 sm:p-2 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors duration-200 disabled:opacity-50"
+                            className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors duration-200 disabled:opacity-50"
                           >
                             {deletingTestimonial === testimonial._id ? (
-                              <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 animate-spin" />
+                              <Loader2 className="w-4 h-4 animate-spin" />
                             ) : (
-                              <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                              <Trash2 className="w-4 h-4" />
                             )}
                           </button>
                         </div>
@@ -412,7 +502,7 @@ const TestimonialSection = () => {
                   <button
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="px-2 sm:px-3 py-1 bg-white/10 rounded-lg text-gray-300 hover:bg-white/20 disabled:opacity-50 text-xs sm:text-sm"
+                    className="px-3 py-1 bg-white/10 rounded-lg text-gray-300 hover:bg-white/20 disabled:opacity-50"
                   >
                     Previous
                   </button>
@@ -421,7 +511,7 @@ const TestimonialSection = () => {
                       <button
                         key={page}
                         onClick={() => handlePageChange(page)}
-                        className={`px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm ${
+                        className={`px-3 py-1 rounded-lg ${
                           currentPage === page
                             ? "bg-[#B5000D] text-white"
                             : "bg-white/10 text-gray-300 hover:bg-white/20"
@@ -434,7 +524,7 @@ const TestimonialSection = () => {
                   <button
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="px-2 sm:px-3 py-1 bg-white/10 rounded-lg text-gray-300 hover:bg-white/20 disabled:opacity-50 text-xs sm:text-sm"
+                    className="px-3 py-1 bg-white/10 rounded-lg text-gray-300 hover:bg-white/20 disabled:opacity-50"
                   >
                     Next
                   </button>
@@ -444,139 +534,131 @@ const TestimonialSection = () => {
           )}
         </div>
 
-        {/* Enhanced Modal for Testimonial Details */}
+        {/* Modal for Testimonial Details */}
         {selectedTestimonial && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4">
-            <motion.div 
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-gradient-to-br from-slate-900/95 via-blue-900/80 to-indigo-900/85 backdrop-blur-xl rounded-lg sm:rounded-2xl border border-white/10 shadow-2xl w-full max-w-xs sm:max-w-md lg:max-w-lg max-h-[90vh] overflow-hidden flex flex-col"
+              className="bg-gradient-to-br from-slate-900/80 via-blue-900/70 to-indigo-900/80 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl w-full max-w-md"
             >
-              <div className="p-3 sm:p-5 border-b border-white/10 flex justify-between items-center shrink-0">
-                <h3 className="text-base sm:text-lg font-semibold text-white truncate mr-4">
+              <div className="p-5 border-b border-white/10 flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-white">
                   Testimonial #{selectedTestimonial._id?.slice(-5) || "N/A"}
                 </h3>
                 <button
                   onClick={() => setSelectedTestimonial(null)}
-                  className="text-gray-400 hover:text-white transition-colors p-1"
+                  className="text-gray-400 hover:text-white transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <div className="p-3 sm:p-5 space-y-3 sm:space-y-4 overflow-y-auto flex-1">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                  <div className="space-y-1">
-                    <p className="text-gray-400 text-xs sm:text-sm flex items-center">
-                      <User className="w-3 h-3 mr-1" /> Name
-                    </p>
-                    <p className="text-white font-medium text-sm sm:text-base break-words">
-                      {selectedTestimonial.name || "N/A"}
-                    </p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-gray-400 text-xs sm:text-sm flex items-center">
-                      <Briefcase className="w-3 h-3 mr-1" /> Position
-                    </p>
-                    <p className="text-white font-medium text-sm sm:text-base break-words">
-                      {selectedTestimonial.position || "N/A"}
-                    </p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-gray-400 text-xs sm:text-sm flex items-center">
-                      <Briefcase className="w-3 h-3 mr-1" /> Company
-                    </p>
-                    <p className="text-white font-medium text-sm sm:text-base break-words">
-                      {selectedTestimonial.company || "N/A"}
-                    </p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-gray-400 text-xs sm:text-sm flex items-center">
-                      <MapPin className="w-3 h-3 mr-1" /> Location
-                    </p>
-                    <p className="text-white font-medium text-sm sm:text-base break-words">
-                      {selectedTestimonial.location || "N/A"}
-                    </p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-gray-400 text-xs sm:text-sm flex items-center">
-                      <Calendar className="w-3 h-3 mr-1" /> Date
-                    </p>
-                    <p className="text-white text-sm sm:text-base">
-                      {formatDate(selectedTestimonial.date)}
-                    </p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-gray-400 text-xs sm:text-sm flex items-center">
-                      <Star className="w-3 h-3 mr-1" /> Rating
-                    </p>
-                    <div className="flex items-center space-x-1">
-                      {renderStars(selectedTestimonial.rating || 0)}
-                    </div>
+              <div className="p-5 space-y-4">
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm flex items-center">
+                    <User className="w-4 h-4 mr-2" /> Name
+                  </p>
+                  <p className="text-white font-medium">
+                    {selectedTestimonial.name || "N/A"}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm flex items-center">
+                    <Briefcase className="w-4 h-4 mr-2" /> Position
+                  </p>
+                  <p className="text-white font-medium">
+                    {selectedTestimonial.position || "N/A"}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm flex items-center">
+                    <Briefcase className="w-4 h-4 mr-2" /> Company
+                  </p>
+                  <p className="text-white font-medium">
+                    {selectedTestimonial.company || "N/A"}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm flex items-center">
+                    <MapPin className="w-4 h-4 mr-2" /> Location
+                  </p>
+                  <p className="text-white font-medium">
+                    {selectedTestimonial.location || "N/A"}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm flex items-center">
+                    <Calendar className="w-4 h-4 mr-2" /> Date
+                  </p>
+                  <p className="text-white">
+                    {formatDate(selectedTestimonial.date)}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm flex items-center">
+                    <Star className="w-4 h-4 mr-2" /> Rating
+                  </p>
+                  <div className="flex items-center space-x-1">
+                    {renderStars(selectedTestimonial.rating || 0)}
                   </div>
                 </div>
-                
                 {selectedTestimonial.photoURL && (
-                  <div className="space-y-2">
-                    <p className="text-gray-400 text-xs sm:text-sm flex items-center">
-                      <Camera className="w-3 h-3 mr-1" /> Image
+                  <div className="space-y-1">
+                    <p className="text-gray-400 text-sm flex items-center">
+                      <Camera className="w-4 h-4 mr-2" /> Image
                     </p>
                     <img
                       src={selectedTestimonial.photoURL}
                       alt="Testimonial"
-                      className="w-full h-32 sm:h-40 object-cover rounded-lg"
+                      className="w-full h-40 object-cover rounded-lg"
                     />
                   </div>
                 )}
-                
-                <div className="space-y-2">
-                  <p className="text-gray-400 text-xs sm:text-sm flex items-center">
-                    <MessageSquare className="w-3 h-3 mr-1" /> Testimonial
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm flex items-center">
+                    <MessageSquare className="w-4 h-4 mr-2" /> Testimonial
                   </p>
-                  <p className="text-gray-200 text-sm sm:text-base leading-relaxed break-words">
+                  <p className="text-gray-200">
                     {selectedTestimonial.testimonial || "No testimonial provided"}
                   </p>
                 </div>
-                
                 {selectedTestimonial.videoUrl && (
-                  <div className="space-y-2">
-                    <p className="text-gray-400 text-xs sm:text-sm flex items-center">
-                      <Video className="w-3 h-3 mr-1" /> Video
+                  <div className="space-y-1">
+                    <p className="text-gray-400 text-sm flex items-center">
+                      <Video className="w-4 h-4 mr-2" /> Video
                     </p>
                     <a
                       href={selectedTestimonial.videoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-400 hover:underline text-sm sm:text-base break-all"
+                      className="text-blue-400 hover:underline"
                     >
                       Watch Video
                     </a>
                   </div>
                 )}
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                  <div className="space-y-1">
-                    <p className="text-gray-400 text-xs sm:text-sm flex items-center">
-                      <Folder className="w-3 h-3 mr-1" /> Project
-                    </p>
-                    <p className="text-white font-medium text-sm sm:text-base break-words">
-                      {selectedTestimonial.project || "N/A"}
-                    </p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-gray-400 text-xs sm:text-sm flex items-center">
-                      <Tag className="w-3 h-3 mr-1" /> Category
-                    </p>
-                    <p className="text-white font-medium text-sm sm:text-base break-words">
-                      {selectedTestimonial.category || "N/A"}
-                    </p>
-                  </div>
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm flex items-center">
+                    <Folder className="w-4 h-4 mr-2" /> Project
+                  </p>
+                  <p className="text-white font-medium">
+                    {selectedTestimonial.project || "N/A"}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm flex items-center">
+                    <Tag className="w-4 h-4 mr-2" /> Category
+                  </p>
+                  <p className="text-white font-medium">
+                    {selectedTestimonial.category || "N/A"}
+                  </p>
                 </div>
               </div>
-              <div className="p-3 sm:p-4 border-t border-white/10 text-right shrink-0">
+              <div className="p-4 border-t border-white/10 text-right">
                 <button
                   onClick={() => setSelectedTestimonial(null)}
-                  className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors text-sm sm:text-base"
+                  className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
                 >
                   Close
                 </button>
@@ -585,17 +667,17 @@ const TestimonialSection = () => {
           </div>
         )}
 
-        {/* Enhanced Modal for Editing Testimonial */}
+        {/* Modal for Editing Testimonial */}
         {editingTestimonial && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4">
-            <motion.div 
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-gradient-to-br from-slate-900/95 via-blue-900/80 to-indigo-900/85 backdrop-blur-xl rounded-lg sm:rounded-2xl border border-white/10 shadow-2xl w-full max-w-xs sm:max-w-2xl lg:max-w-4xl max-h-[95vh] overflow-hidden flex flex-col"
+              className="bg-gradient-to-br from-slate-900/80 via-blue-900/70 to-indigo-900/80 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col"
             >
-              <div className="p-3 sm:p-5 border-b border-white/10 flex justify-between items-center shrink-0">
-                <h3 className="text-base sm:text-lg font-semibold text-white truncate mr-4">
+              <div className="p-5 border-b border-white/10 flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-white">
                   Edit Testimonial #{editingTestimonial._id.slice(-5)}
                 </h3>
                 <button
@@ -603,34 +685,34 @@ const TestimonialSection = () => {
                     setEditingTestimonial(null);
                     setImagePreview(null);
                   }}
-                  className="text-gray-400 hover:text-white transition-colors p-1"
+                  className="text-gray-400 hover:text-white transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
               <form onSubmit={handleEditSubmit} className="flex flex-col h-full">
-                <div className="p-3 sm:p-5 space-y-4 sm:space-y-6 overflow-y-auto flex-1">
+                <div className="p-5 space-y-6 overflow-y-auto">
                   {/* Image Section */}
-                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-3 sm:p-4">
-                    <h4 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4 flex items-center">
-                      <Camera className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-purple-400" />
+                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4">
+                    <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                      <Camera className="h-5 w-5 mr-2 text-purple-400" />
                       Testimonial Image
                     </h4>
-                    <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                    <div className="flex flex-col md:flex-row items-center gap-6">
                       <div className="relative">
                         {imagePreview ? (
                           <img
                             src={imagePreview}
                             alt="Testimonial Preview"
-                            className="w-20 h-20 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-purple-500/30"
+                            className="w-32 h-32 rounded-full object-cover border-4 border-purple-500/30"
                           />
                         ) : (
-                          <div className="w-20 h-20 sm:w-32 sm:h-32 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center text-white text-xl sm:text-4xl font-bold border-4 border-purple-500/30">
+                          <div className="w-32 h-32 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center text-white text-4xl font-bold border-4 border-purple-500/30">
                             T
                           </div>
                         )}
-                        <label className="absolute bottom-0 right-0 bg-purple-600 hover:bg-purple-700 text-white p-1 sm:p-2 rounded-full cursor-pointer transition-all duration-300 border-2 border-gray-900">
-                          <Camera className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <label className="absolute bottom-0 right-0 bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-full cursor-pointer transition-all duration-300 border-2 border-gray-900">
+                          <Camera className="h-4 w-4" />
                           <input
                             type="file"
                             accept="image/*"
@@ -639,11 +721,11 @@ const TestimonialSection = () => {
                           />
                         </label>
                       </div>
-                      <div className="text-center sm:text-left">
-                        <h5 className="text-xs sm:text-sm font-medium text-white mb-2">Upload Image</h5>
-                        <p className="text-xs text-gray-400 mb-3 sm:mb-4">JPG, PNG, or GIF. Max size 5MB</p>
-                        <label className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs sm:text-sm font-medium rounded-lg cursor-pointer transition-all duration-300">
-                          <Camera className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+                      <div className="text-center md:text-left">
+                        <h5 className="text-sm font-medium text-white mb-2">Upload Image</h5>
+                        <p className="text-xs text-gray-400 mb-4">JPG, PNG, or GIF. Max size 5MB</p>
+                        <label className="inline-flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-medium rounded-lg cursor-pointer transition-all duration-300">
+                          <Camera className="h-4 w-4 mr-2" />
                           Choose File
                           <input
                             type="file"
@@ -658,16 +740,16 @@ const TestimonialSection = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Basic Information */}
-                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-3 sm:p-4">
-                    <h4 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4 flex items-center">
-                      <User className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-blue-400" />
+                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4">
+                    <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                      <User className="h-5 w-5 mr-2 text-blue-400" />
                       Basic Information
                     </h4>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
                           Name
                         </label>
                         <input
@@ -675,12 +757,12 @@ const TestimonialSection = () => {
                           name="name"
                           value={editingTestimonial.name}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300 text-xs sm:text-sm"
+                          className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300"
                           placeholder="Enter name"
                         />
                       </div>
                       <div>
-                        <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
                           Position
                         </label>
                         <input
@@ -688,12 +770,12 @@ const TestimonialSection = () => {
                           name="position"
                           value={editingTestimonial.position}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300 text-xs sm:text-sm"
+                          className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300"
                           placeholder="Enter position"
                         />
                       </div>
                       <div>
-                        <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
                           Company
                         </label>
                         <input
@@ -701,12 +783,12 @@ const TestimonialSection = () => {
                           name="company"
                           value={editingTestimonial.company}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300 text-xs sm:text-sm"
+                          className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300"
                           placeholder="Enter company"
                         />
                       </div>
                       <div>
-                        <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
                           Location
                         </label>
                         <input
@@ -714,12 +796,12 @@ const TestimonialSection = () => {
                           name="location"
                           value={editingTestimonial.location}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300 text-xs sm:text-sm"
+                          className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300"
                           placeholder="Enter location"
                         />
                       </div>
                       <div>
-                        <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
                           Date
                         </label>
                         <input
@@ -727,11 +809,11 @@ const TestimonialSection = () => {
                           name="date"
                           value={editingTestimonial.date}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300 text-xs sm:text-sm"
+                          className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300"
                         />
                       </div>
                       <div>
-                        <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
                           Rating
                         </label>
                         <input
@@ -741,22 +823,22 @@ const TestimonialSection = () => {
                           max="5"
                           value={editingTestimonial.rating}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300 text-xs sm:text-sm"
+                          className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300"
                           placeholder="Enter rating (1-5)"
                         />
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Testimonial Details */}
-                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-3 sm:p-4">
-                    <h4 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4 flex items-center">
-                      <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-green-400" />
+                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4">
+                    <h4 className="text-base font-semibold text-white mb-4 flex items-center">
+                      <MessageSquare className="h-5 w-5 mr-2 text-green-400" />
                       Testimonial Details
                     </h4>
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
                           Testimonial
                         </label>
                         <textarea
@@ -764,13 +846,13 @@ const TestimonialSection = () => {
                           value={editingTestimonial.testimonial}
                           onChange={handleInputChange}
                           rows={4}
-                          className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300 resize-none text-xs sm:text-sm"
+                          className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300 resize-none"
                           placeholder="Enter testimonial"
                         />
                       </div>
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+                          <label className="block text-sm font-medium text-gray-300 mb-2">
                             Video URL
                           </label>
                           <input
@@ -778,12 +860,12 @@ const TestimonialSection = () => {
                             name="videoUrl"
                             value={editingTestimonial.videoUrl}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300 text-xs sm:text-sm"
+                            className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300"
                             placeholder="Enter video URL"
                           />
                         </div>
                         <div>
-                          <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+                          <label className="block text-sm font-medium text-gray-300 mb-2">
                             Project
                           </label>
                           <input
@@ -791,12 +873,12 @@ const TestimonialSection = () => {
                             name="project"
                             value={editingTestimonial.project}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300 text-xs sm:text-sm"
+                            className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300"
                             placeholder="Enter project name"
                           />
                         </div>
                         <div className="lg:col-span-2">
-                          <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
+                          <label className="block text-sm font-medium text-gray-300 mb-2">
                             Category
                           </label>
                           <input
@@ -804,7 +886,7 @@ const TestimonialSection = () => {
                             name="category"
                             value={editingTestimonial.category}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300 text-xs sm:text-sm"
+                            className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/40 transition-all duration-300"
                             placeholder="Enter category"
                           />
                         </div>
@@ -812,32 +894,32 @@ const TestimonialSection = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Action Buttons */}
-                <div className="p-3 sm:p-5 border-t border-white/10 flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 shrink-0">
+                <div className="p-5 border-t border-white/10 flex justify-end gap-4">
                   <button
                     type="button"
                     onClick={() => {
                       setEditingTestimonial(null);
                       setImagePreview(null);
                     }}
-                    className="w-full sm:w-auto px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 text-gray-300 hover:text-white font-medium rounded-lg transition-all duration-300 text-xs sm:text-sm"
+                    className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 text-gray-300 hover:text-white font-medium rounded-lg transition-all duration-300"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isSaving || uploadingImage}
-                    className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-purple-500/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center text-xs sm:text-sm"
+                    className="px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white font-medium rounded-lg transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSaving ? (
                       <>
-                        <Loader2 className="animate-spin h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+                        <Loader2 className="animate-spin h-4 w-4 mr-2" />
                         Saving...
                       </>
                     ) : (
                       <>
-                        <Save className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+                        <Save className="h-4 w-4 mr-2" />
                         Save Changes
                       </>
                     )}

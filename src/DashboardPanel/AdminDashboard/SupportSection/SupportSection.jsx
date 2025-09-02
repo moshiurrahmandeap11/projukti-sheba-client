@@ -16,7 +16,13 @@ import {
   AlertCircle,
   Edit3,
   Eye,
+  FileText,
+  Table,
 } from "lucide-react";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const SupportSection = () => {
   const [tickets, setTickets] = useState([]);
@@ -65,13 +71,11 @@ const SupportSection = () => {
       );
 
       if (response.ok) {
-        // Update local state
         setTickets((prev) =>
           prev.map((ticket) =>
             ticket._id === ticketId ? { ...ticket, status: newStatus } : ticket
           )
         );
-        // Close modal if open
         setSelectedTicket(null);
       } else {
         alert("Failed to update ticket status");
@@ -82,6 +86,67 @@ const SupportSection = () => {
     } finally {
       setUpdatingTicket(null);
     }
+  };
+
+  // Export to Excel
+  const exportToExcel = () => {
+    const exportData = filteredTickets.map((ticket) => ({
+      ID: ticket._id?.slice(-6) || "N/A",
+      Phone: ticket.phone || "N/A",
+      Category: ticket.category || "N/A",
+      Problem: ticket.problem || "N/A",
+      Status: ticket.status || "pending",
+      "Created At": formatDate(ticket.createdAt),
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Support Tickets");
+
+    const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const fileName = `support_tickets_${activeTab}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    saveAs(new Blob([wbout], { type: "application/octet-stream" }), fileName);
+  };
+
+  // Export to PDF
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text(
+      `Support Tickets - ${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}`,
+      14,
+      20
+    );
+
+    const tableColumn = [
+      "ID",
+      "Phone",
+      "Category",
+      "Problem",
+      "Status",
+      "Created At",
+    ];
+
+    const tableRows = filteredTickets.map((ticket) => [
+      ticket._id?.slice(-6) || "N/A",
+      ticket.phone || "N/A",
+      ticket.category || "N/A",
+      ticket.problem || "N/A",
+      ticket.status || "pending",
+      formatDate(ticket.createdAt),
+    ]);
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+      styles: { fontSize: 8, cellPadding: 2 },
+    });
+
+    const fileName = `support_tickets_${activeTab}_${new Date()
+      .toISOString()
+      .slice(0, 10)}.pdf`;
+    doc.save(fileName);
   };
 
   // Filter tickets based on active tab and search
@@ -161,7 +226,7 @@ const SupportSection = () => {
   };
 
   return (
-    <div className="min-h-screen bg-transparent backdrop-blur-3xlz p-6">
+    <div className="min-h-screen bg-transparent backdrop-blur-3xl p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -174,16 +239,32 @@ const SupportSection = () => {
                 Manage and track customer support tickets
               </p>
             </div>
-            <button
-              onClick={fetchTickets}
-              disabled={loading}
-              className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 disabled:opacity-50 text-white rounded-lg transition-colors duration-200"
-            >
-              <RefreshCw
-                className={`w-4 h-4 ${loading ? "animate-spin" : ""}`}
-              />
-              <span>Refresh</span>
-            </button>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={exportToExcel}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-colors duration-200"
+              >
+                <Table className="w-4 h-4" />
+                <span>Export to Excel</span>
+              </button>
+              <button
+                onClick={exportToPDF}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-colors duration-200"
+              >
+                <FileText className="w-4 h-4" />
+                <span>Export to PDF</span>
+              </button>
+              <button
+                onClick={fetchTickets}
+                disabled={loading}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 disabled:opacity-50 text-white rounded-lg transition-colors duration-200"
+              >
+                <RefreshCw
+                  className={`w-4 h-4 ${loading ? "animate-spin" : ""}`}
+                />
+                <span>Refresh</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -407,82 +488,73 @@ const SupportSection = () => {
             </div>
           )}
         </div>
-      </div>
 
-      {selectedTicket && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          {/* Glassy Small Modal */}
-          <div className="bg-gradient-to-br from-slate-900/80 via-blue-900/70 to-indigo-900/80 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl w-full max-w-md">
-            {/* Header */}
-            <div className="p-5 border-b border-white/10 flex justify-between items-center">
-              <h3 className="text-lg font-semibold text-white">
-                Ticket #{selectedTicket._id?.slice(-6) || "N/A"}
-              </h3>
-              <button
-                onClick={() => setSelectedTicket(null)}
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Body */}
-            <div className="p-5 space-y-4">
-              <div className="space-y-1">
-                <p className="text-gray-400 text-sm">📞 Phone</p>
-                <p className="text-white font-medium">
-                  {selectedTicket.phone || "N/A"}
-                </p>
-              </div>
-
-              <div className="space-y-1">
-                <p className="text-gray-400 text-sm">📂 Category</p>
-                <p className="text-white font-medium">
-                  {selectedTicket.category || "N/A"}
-                </p>
-              </div>
-
-              <div className="space-y-1">
-                <p className="text-gray-400 text-sm">📝 Problem</p>
-                <p className="text-gray-200">
-                  {selectedTicket.problem || "No description provided"}
-                </p>
-              </div>
-
-              <div className="space-y-1">
-                <p className="text-gray-400 text-sm">📅 Created At</p>
-                <p className="text-white">
-                  {formatDate(selectedTicket.createdAt)}
-                </p>
-              </div>
-
-              <div className="space-y-1">
-                <p className="text-gray-400 text-sm">🎯 Status</p>
-                <span
-                  className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                    selectedTicket.status || "pending"
-                  )}`}
+        {/* Modal for Ticket Details */}
+        {selectedTicket && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="bg-gradient-to-br from-slate-900/80 via-blue-900/70 to-indigo-900/80 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl w-full max-w-md">
+              <div className="p-5 border-b border-white/10 flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-white">
+                  Ticket #{selectedTicket._id?.slice(-6) || "N/A"}
+                </h3>
+                <button
+                  onClick={() => setSelectedTicket(null)}
+                  className="text-gray-400 hover:text-white transition-colors"
                 >
-                  {getStatusIcon(selectedTicket.status || "pending")}
-                  <span className="capitalize">
-                    {selectedTicket.status || "pending"}
-                  </span>
-                </span>
+                  ✕
+                </button>
               </div>
-            </div>
-
-            {/* Footer */}
-            <div className="p-4 border-t border-white/10 text-right">
-              <button
-                onClick={() => setSelectedTicket(null)}
-                className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
-              >
-                Close
-              </button>
+              <div className="p-5 space-y-4">
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm">📞 Phone</p>
+                  <p className="text-white font-medium">
+                    {selectedTicket.phone || "N/A"}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm">📂 Category</p>
+                  <p className="text-white font-medium">
+                    {selectedTicket.category || "N/A"}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm">📝 Problem</p>
+                  <p className="text-gray-200">
+                    {selectedTicket.problem || "No description provided"}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm">📅 Created At</p>
+                  <p className="text-white">
+                    {formatDate(selectedTicket.createdAt)}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-gray-400 text-sm">🎯 Status</p>
+                  <span
+                    className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+                      selectedTicket.status || "pending"
+                    )}`}
+                  >
+                    {getStatusIcon(selectedTicket.status || "pending")}
+                    <span className="capitalize">
+                      {selectedTicket.status || "pending"}
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div className="p-4 border-t border-white/10 text-right">
+                <button
+                  onClick={() => setSelectedTicket(null)}
+                  className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

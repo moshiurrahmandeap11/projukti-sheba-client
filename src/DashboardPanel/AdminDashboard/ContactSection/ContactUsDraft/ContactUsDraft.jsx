@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -15,8 +14,14 @@ import {
   AlertCircle,
   Eye,
   User,
+  FileText,
+  Table,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const ContactUsDraft = () => {
   const [forms, setForms] = useState([]);
@@ -72,6 +77,80 @@ const ContactUsDraft = () => {
     } finally {
       setUpdatingForm(null);
     }
+  };
+
+  // Export to Excel
+  const exportToExcel = () => {
+    const exportData = filteredForms.map((form) => ({
+      ID: form._id?.slice(-6) || "N/A",
+      Name: form.name || "N/A",
+      Email: form.email || "N/A",
+      Phone: form.phone || "N/A",
+      Company: form.company || "N/A",
+      Service: form.service || "N/A",
+      Subject: form.subject || "N/A",
+      Message: form.message || "N/A",
+      Status: form.status || "pending",
+      "Created At": formatDate(form.createdAt),
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Draft Contact Forms");
+
+    // Browser-friendly way to save file
+    const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const fileName = `draft_contact_forms_${activeTab}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    saveAs(new Blob([wbout], { type: "application/octet-stream" }), fileName);
+  };
+
+  // Export to PDF
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text(
+      `Draft Contact Forms - ${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}`,
+      14,
+      20
+    );
+
+    const tableColumn = [
+      "ID",
+      "Name",
+      "Email",
+      "Phone",
+      "Company",
+      "Service",
+      "Subject",
+      "Message",
+      "Status",
+      "Created At",
+    ];
+
+    const tableRows = filteredForms.map((form) => [
+      form._id?.slice(-6) || "N/A",
+      form.name || "N/A",
+      form.email || "N/A",
+      form.phone || "N/A",
+      form.company || "N/A",
+      form.service || "N/A",
+      form.subject || "N/A",
+      form.message || "N/A",
+      form.status || "pending",
+      formatDate(form.createdAt),
+    ]);
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+      styles: { fontSize: 8, cellPadding: 2 },
+    });
+
+    const fileName = `draft_contact_forms_${activeTab}_${new Date()
+      .toISOString()
+      .slice(0, 10)}.pdf`;
+    doc.save(fileName);
   };
 
   // Filter forms based on active tab and search
@@ -170,16 +249,32 @@ const ContactUsDraft = () => {
                 Manage and track draft contact forms
               </p>
             </div>
-            <button
-              onClick={fetchForms}
-              disabled={loading}
-              className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 disabled:opacity-50 text-white rounded-lg transition-colors duration-200"
-            >
-              <RefreshCw
-                className={`w-4 h-4 ${loading ? "animate-spin" : ""}`}
-              />
-              <span>Refresh</span>
-            </button>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={exportToExcel}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-colors duration-200"
+              >
+                <Table className="w-4 h-4" />
+                <span>Export to Excel</span>
+              </button>
+              <button
+                onClick={exportToPDF}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-colors duration-200"
+              >
+                <FileText className="w-4 h-4" />
+                <span>Export to PDF</span>
+              </button>
+              <button
+                onClick={fetchForms}
+                disabled={loading}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 disabled:opacity-50 text-white rounded-lg transition-colors duration-200"
+              >
+                <RefreshCw
+                  className={`w-4 h-4 ${loading ? "animate-spin" : ""}`}
+                />
+                <span>Refresh</span>
+              </button>
+            </div>
           </div>
         </div>
 
