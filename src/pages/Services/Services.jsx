@@ -204,7 +204,7 @@ const Services = () => {
         {!loading && !error && categories.length > 0 && (
           <div className="backdrop-blur-xl bg-[rgba(10,25,47,0.5)] rounded-3xl border border-[rgba(255,255,255,0.1)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] overflow-hidden">
             {/* Tab Navigation */}
-            <div className="border-b border-[rgba(255,255,255,0.1)] p-6">
+            <div className="border-b border-[rgba(255,255,255,0.15)] p-6">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {categories.map((category, index) => {
                   const TabIcon = getCategoryIcon(category.name);
@@ -212,10 +212,10 @@ const Services = () => {
                     <button
                       key={category._id}
                       onClick={() => setActiveTab(category.name)}
-                      className={`group relative flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-500 transform hover:scale-105 backdrop-blur-sm ${
+                      className={`group relative overflow-hidden flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-500 transform hover:scale-105 backdrop-blur-sm border border-[rgba(0,120,160,0.3)] shadow-md hover:shadow-xl ${
                         activeTab === category.name
-                          ? 'bg-[rgba(0,120,160,0.3)] border border-[rgba(0,120,160,0.5)] shadow-lg scale-105'
-                          : 'bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.1)] hover:border-[rgba(0,120,160,0.5)]'
+                          ? 'bg-[rgba(0,120,160,0.1)] scale-105 shadow-xl'
+                          : 'bg-[rgba(255,255,255,0.15)] hover:bg-[rgba(0,120,160,0.05)]'
                       }`}
                       style={{
                         animationDelay: `${index * 0.1}s`,
@@ -223,36 +223,44 @@ const Services = () => {
                       }}
                       aria-label={`Select ${category.name} services`}
                     >
-                      <TabIcon
-                        className={`w-6 h-6 mb-2 transition-all duration-500 transform ${
-                          activeTab === category.name
-                            ? 'text-white scale-110 rotate-12'
-                            : 'text-gray-400 group-hover:text-[rgba(0,120,160,1)] group-hover:scale-110'
-                        }`}
+                      {/* Sliding Gradient Background */}
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-r from-[rgba(0,120,160,0.7)] via-[rgba(50,40,130,0.7)] to-[rgba(0,120,160,0.7)] transform ${
+                          activeTab === category.name ? 'translate-x-0' : '-translate-x-full'
+                        } group-hover:translate-x-0 transition-transform duration-700 ease-out`}
                       />
-                      <span
-                        className={`text-sm font-semibold transition-all duration-500 ${
-                          activeTab === category.name ? 'text-white' : 'text-gray-400 group-hover:text-[rgba(0,120,160,1)]'
-                        }`}
-                      >
-                        {category.name}
-                      </span>
+
+                      {/* Glow Effect */}
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-r from-[rgba(0,120,160,0.6)] via-[rgba(50,40,130,0.6)] to-[rgba(0,120,160,0.6)] opacity-0 ${
+                          activeTab === category.name ? 'opacity-20' : ''
+                        } group-hover:opacity-20 transition-opacity duration-500 blur-xl`}
+                      />
+
+                      {/* Content */}
+                      <div className="relative z-10 flex flex-col items-center">
+                        <TabIcon
+                          className={`w-6 h-6 mb-2 transition-all duration-500 transform ${
+                            activeTab === category.name
+                              ? 'text-white scale-110 rotate-12'
+                              : 'text-gray-300 group-hover:text-white group-hover:scale-110'
+                          }`}
+                        />
+                        <span
+                          className={`text-sm font-semibold transition-all duration-500 ${
+                            activeTab === category.name ? 'text-white' : 'text-gray-300 group-hover:text-white'
+                          }`}
+                        >
+                          {category.name}
+                        </span>
+                      </div>
+
                       {activeTab === category.name && (
                         <div
                           className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full animate-pulse"
-                          style={{ background: 'linear-gradient(90deg, rgba(0,120,160,0.7), rgba(50,40,130,0.7))' }}
+                          style={{ background: 'linear-gradient(90deg, rgba(0,120,160,0.8), rgba(50,40,130,0.8))' }}
                         />
                       )}
-                      <div
-                        className="absolute inset-0 rounded-xl"
-                        style={{
-                          background: 'linear-gradient(90deg, rgba(0,120,160,0.2), rgba(50,40,130,0.2))',
-                          opacity: 0,
-                          transition: 'opacity 300ms',
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.opacity = 0.1)}
-                        onMouseLeave={(e) => (e.currentTarget.style.opacity = 0)}
-                      />
                     </button>
                   );
                 })}
@@ -317,9 +325,20 @@ const Services = () => {
                             service.technologies.map((tech, tIndex) => (
                               <div
                                 key={tIndex}
-                                className="rounded-lg px-4 py-3 border border-[rgba(255,255,255,0.1)] backdrop-blur-sm hover:border-[rgba(0,120,160,0.5)] transition-all duration-300 text-white hover:scale-105"
+                                className="group relative overflow-hidden rounded-lg px-4 py-3 border border-[rgba(255,255,255,0.1)] backdrop-blur-sm transition-all duration-500 transform hover:scale-105 hover:shadow-xl hover:border-[rgba(0,120,160,0.5)]"
                               >
-                                <span className="font-medium text-sm">{tech}</span>
+                                {/* Sliding Gradient Background */}
+                                <div
+                                  className="absolute inset-0 bg-gradient-to-r from-[rgba(0,120,160,0.7)] via-[rgba(50,40,130,0.7)] to-[rgba(0,120,160,0.7)] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"
+                                />
+                                {/* Glow Effect */}
+                                <div
+                                  className="absolute inset-0 bg-gradient-to-r from-[rgba(0,120,160,0.6)] via-[rgba(50,40,130,0.6)] to-[rgba(0,120,160,0.6)] opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl"
+                                />
+                                {/* Content */}
+                                <span className="relative z-10 font-medium text-sm text-white group-hover:text-white">
+                                  {tech}
+                                </span>
                               </div>
                             ))}
                         </div>
