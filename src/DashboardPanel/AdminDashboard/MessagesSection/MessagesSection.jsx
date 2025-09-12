@@ -193,17 +193,17 @@ const MessagesSection = () => {
         <div className="mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">
+              <h1 className="text-3xl font-bold text-black mb-2">
                 Messages & Support
               </h1>
-              <p className="text-gray-300">
+              <p className="text-gray-600">
                 Manage and respond to customer messages
               </p>
             </div>
             <div className="flex items-center space-x-4">
               <button
                 onClick={exportToPDF}
-                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-colors duration-200"
+                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white font-medium cursor-pointer rounded-lg transition-colors duration-200"
               >
                 <FileText className="w-4 h-4" />
                 <span>Export to PDF</span>
@@ -225,15 +225,15 @@ const MessagesSection = () => {
             className="bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 overflow-hidden"
           >
             <div className="bg-white/10 px-4 py-3 border-b border-white/10">
-              <h3 className="font-semibold text-white">Active Chats</h3>
-              <p className="text-sm text-gray-400">
+              <h3 className="font-semibold text-black">Active Chats</h3>
+              <p className="text-sm text-gray-600">
                 {userChatArray.length} conversations
               </p>
             </div>
 
             <div className="overflow-y-auto h-full">
               {userChatArray.length === 0 ? (
-                <div className="text-center py-8 text-gray-400">
+                <div className="text-center py-8 text-gray-600">
                   <div className="text-3xl mb-3">💬</div>
                   <p>No customer messages yet</p>
                 </div>
@@ -248,20 +248,20 @@ const MessagesSection = () => {
                   >
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <h4 className="font-medium text-white">
+                        <h4 className="font-medium text-black">
                           {chatData.userName || "Unknown"}
                         </h4>
-                        <p className="text-xs text-gray-400">
+                        <p className="text-xs text-gray-600">
                           ID: {userId.slice(-8)}
                         </p>
                       </div>
                       {unreadCounts[userId] > 0 && (
-                        <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                        <span className="bg-red-500 text-black text-xs px-2 py-1 rounded-full">
                           {unreadCounts[userId]}
                         </span>
                       )}
                     </div>
-                    <div className="text-sm text-gray-300 mb-1">
+                    <div className="text-sm text-gray-600 mb-1">
                       {chatData.messages.length > 0
                         ? chatData.messages[
                             chatData.messages.length - 1
@@ -291,14 +291,14 @@ const MessagesSection = () => {
               <>
                 {/* Chat Header */}
                 <div className="bg-white/10 px-4 py-3 border-b border-white/10">
-                  <h3 className="font-semibold text-white">
+                  <h3 className="font-semibold text-black">
                     {userChats[selectedUserId]?.userName || "Unknown"}
                   </h3>
-                  <p className="text-sm text-gray-400">Support Conversation</p>
+                  <p className="text-sm text-gray-600">Support Conversation</p>
                 </div>
 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                <div className="flex-1 overflow-y-auto bg-[#f3f4f8]/40 shadow-xl rounded-lg p-4 space-y-3">
                   {userChats[selectedUserId]?.messages.map((msg, index) => (
                     <div
                       key={index}
@@ -339,13 +339,13 @@ const MessagesSection = () => {
                       value={replyText}
                       onChange={(e) => setReplyText(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && sendAdminReply()}
-                      className="flex-1 bg-white/5 backdrop-blur-sm text-white p-3 rounded-lg outline-none border border-white/10 placeholder-gray-400 focus:ring-2 focus:ring-[#B5000D]/40 focus:border-[#B5000D]/40"
+                      className="flex-1 bg-white/5 backdrop-blur-sm text-black p-3 rounded-lg outline-none border border-white/10 placeholder-gray-400 focus:ring-2 focus:ring-[#B5000D]/40 focus:border-[#B5000D]/40"
                       placeholder="Type your reply..."
                     />
                     <button
                       onClick={sendAdminReply}
                       disabled={!replyText.trim()}
-                      className="bg-[#B5000D] hover:bg-[#B5000D]/80 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg transition-colors"
+                      className="bg-[#B5000D] hover:bg-[#B5000D]/80 font-medium disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg transition-colors"
                     >
                       Send
                     </button>

@@ -1,231 +1,87 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router';
-import FancyButton from '../sharedItems/FancyButtons/FancyButton';
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 const Banner = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        // Load Lottie Web Component script
-        const script = document.createElement('script');
-        script.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js';
-        script.type = 'module';
-        document.head.appendChild(script);
+  useEffect(() => {
+    // Load Lottie Web Component script
+    const script = document.createElement("script");
+    script.src =
+      "https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js";
+    script.type = "module";
+    document.head.appendChild(script);
 
-        return () => {
-            if (document.head.contains(script)) {
-                document.head.removeChild(script);
-            }
-        };
-    }, []);
+    return () => {
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
+    };
+  }, []);
 
-    return (
-        <div className="relative min-h-screen overflow-hidden bg-[rgba(10,25,47,0.3)] backdrop-blur-lg">
-            {/* Custom Gradient Overlay */}
-            <div 
-                className="absolute inset-0" 
-                style={{ 
-                    background: 'linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))',
-                    zIndex: 2,
-                    backdropFilter: 'blur(10px)'
-                }} 
-            />
-            
- 
-            
-            {/* Animated Lines - Right Side */}
-            <svg 
-                className="absolute right-10 top-1/4 w-32 h-96" 
-                style={{ zIndex: 1 }}
-                viewBox="0 0 128 384"
-            >
-                {/* Line 1 */}
-                <line 
-                    x1="0" y1="0" x2="0" y2="100" 
-                    stroke="rgba(0,120,160,0.5)" 
-                    strokeWidth="2"
-                    style={{
-                        animation: 'drawLine 3s ease-in-out infinite',
-                        strokeDasharray: '100',
-                        strokeDashoffset: '100'
-                    }}
-                />
-                {/* Line 2 */}
-                <line 
-                    x1="20" y1="50" x2="20" y2="150" 
-                    stroke="rgba(50,40,130,0.5)" 
-                    strokeWidth="2"
-                    style={{
-                        animation: 'drawLine 3s ease-in-out infinite 0.5s',
-                        strokeDasharray: '100',
-                        strokeDashoffset: '100'
-                    }}
-                />
-                {/* Line 3 */}
-                <line 
-                    x1="40" y1="25" x2="40" y2="175" 
-                    stroke="rgba(10,25,47,0.5)" 
-                    strokeWidth="2"
-                    style={{
-                        animation: 'drawLine 3s ease-in-out infinite 1s',
-                        strokeDasharray: '150',
-                        strokeDashoffset: '150'
-                    }}
-                />
-                {/* Connecting lines to bottom */}
-                <path 
-                    d="M0 100 Q60 200 100 350" 
-                    fill="none" 
-                    stroke="rgba(0,120,160,0.3)" 
-                    strokeWidth="1.5"
-                    style={{
-                        animation: 'drawPath 4s ease-in-out infinite 1.5s',
-                        strokeDasharray: '300',
-                        strokeDashoffset: '300'
-                    }}
-                />
-                <path 
-                    d="M20 150 Q70 250 110 350" 
-                    fill="none" 
-                    stroke="rgba(50,40,130,0.3)" 
-                    strokeWidth="1.5"
-                    style={{
-                        animation: 'drawPath 4s ease-in-out infinite 2s',
-                        strokeDasharray: '250',
-                        strokeDashoffset: '250'
-                    }}
-                />
-            </svg>
-            
-            {/* Content */}
-            <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-6xl mx-auto flex items-center justify-center gap-12">
-                    {/* Left Side - Text Content */}
-                    <div className="flex-1">
-                        {/* Glassy Container */}
-                        <div 
-                            className="backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-[0_4px_30px_rgba(0,0,0,0.2)] border"
-                            style={{
-                                backgroundColor: 'rgba(10,25,47,0.5)',
-                                borderColor: 'rgba(255,255,255,0.1)',
-                                boxShadow: '0 25px 50px -12px rgba(10,25,47,0.3)'
-                            }}
-                        >
-                            {/* Title */}
-                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight text-left">
-                                <span 
-                                    className="bg-clip-text text-transparent"
-                                    style={{
-                                        backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
-                                    }}
-                                >
-                                    Digital Solution of Business
-                                </span>
-                            </h1>
-                            
-                            {/* Subtitle */}
-                            <p className="text-lg md:text-xl mb-10 leading-relaxed text-left" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                                Experience cutting-edge technology with our innovative solutions 
-                                designed to transform your digital journey
-                            </p>
-                            
-                            {/* Get In Touch Button */}
-                            <div onClick={() => navigate("/contact")} className="flex justify-start">
-                                <FancyButton>Get In Touch</FancyButton>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    {/* Right Side - Lottie Animation */}
-                    <div className="flex-shrink-0 hidden lg:block">
-                        <div 
-                            className="backdrop-blur-sm rounded-2xl p-4"
-                            style={{
-                                backgroundColor: 'rgba(10,25,47,0.4)',
-                                border: '1px solid rgba(255,255,255,0.1)'
-                            }}
-                        >
-                            <dotlottie-wc 
-                                src="https://lottie.host/ac66299c-d725-499e-ac6f-1f967cdd6e94/vA7TYn8bot.lottie" 
-                                style={{
-                                    width: '300px',
-                                    height: '300px',
-                                    filter: 'drop-shadow(0 0 20px rgba(0,120,160,0.3))'
-                                }}
-                                speed="1" 
-                                autoplay 
-                                loop
-                            />
-                        </div>
-                    </div>
-                </div>
+  return (
+    <div className="relative bg-[#CCEFFF] overflow-hidden backdrop-blur-lg">
+      {/* Content */}
+      <div className="relative z-10 flex items-center justify-center lg:py-20 py-10 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-12 max-w-7xl mx-auto bg-[#CCEFFF] rounded-2xl p-6 sm:p-8 md:p-10 lg:p-12">
+          {/* Left Side - Text Content */}
+          <div className="flex-1 w-full">
+            {/* Glassy Container */}
+            <div className="rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 bg-[#008080]/70 shadow-2xl">
+              {/* Title */}
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight text-left">
+                <span className="text-black">Digital Solution of Business</span>
+              </h1>
+
+              {/* Subtitle */}
+              <p
+                className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 lg:mb-10 leading-relaxed text-left text-white rounded-lg px-4 py-3 shadow-lg"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.5))",
+                }}
+              >
+                Experience cutting-edge technology with our innovative solutions
+                designed to transform your digital journey
+              </p>
+
+              {/* Get In Touch Button */}
+              <div
+                onClick={() => navigate("/contact")}
+                className="flex justify-start"
+              >
+                <button className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
+                  <span className="relative z-10">Get In Touch</span>
+                  <div
+                    className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"
+                  ></div>
+                </button>
+              </div>
             </div>
-            
-            {/* Decorative Elements with Custom Colors */}
-            <div 
-                className="absolute top-20 left-10 w-20 h-20 rounded-full blur-xl animate-pulse" 
-                style={{ 
-                    background: 'radial-gradient(circle, rgba(10,25,47,0.3), rgba(50,40,130,0.2))',
-                    zIndex: 2 
+          </div>
+
+          {/* Right Side - Lottie Animation */}
+          <div className="flex-shrink-0 hidden lg:block w-full lg:w-auto">
+            <div className="backdrop-blur-sm rounded-2xl p-4 shadow-2xl bg-[#6b8497]">
+              <dotlottie-wc
+                src="https://lottie.host/ac66299c-d725-499e-ac6f-1f967cdd6e94/vA7TYn8bot.lottie"
+                style={{
+                  width: "100%",
+                  maxWidth: "300px",
+                  height: "auto",
+                  aspectRatio: "1/1",
+                  filter: "drop-shadow(0 0 20px rgba(0,120,160,0.3))",
                 }}
-            ></div>
-            <div 
-                className="absolute bottom-20 right-10 w-32 h-32 rounded-full blur-2xl animate-pulse" 
-                style={{ 
-                    background: 'radial-gradient(circle, rgba(0,120,160,0.3), rgba(10,25,47,0.2))',
-                    animationDelay: '1s',
-                    zIndex: 2 
-                }}
-            ></div>
-            <div 
-                className="absolute top-1/2 left-20 w-16 h-16 rounded-full blur-xl animate-pulse" 
-                style={{ 
-                    background: 'radial-gradient(circle, rgba(50,40,130,0.3), rgba(0,120,160,0.2))',
-                    animationDelay: '2s',
-                    zIndex: 2 
-                }}
-            ></div>
-            
-            {/* Additional floating elements for more visual interest */}
-            <div 
-                className="absolute top-1/3 right-1/4 w-12 h-12 rounded-full blur-lg animate-pulse" 
-                style={{ 
-                    background: 'radial-gradient(circle, rgba(0,120,160,0.4), transparent)',
-                    animationDelay: '3s',
-                    zIndex: 2 
-                }}
-            ></div>
-            <div 
-                className="absolute bottom-1/3 left-1/3 w-24 h-24 rounded-full blur-xl animate-pulse" 
-                style={{ 
-                    background: 'radial-gradient(circle, rgba(10,25,47,0.2), rgba(50,40,130,0.1))',
-                    animationDelay: '4s',
-                    zIndex: 2 
-                }}
-            ></div>
-            
-            {/* CSS Animations */}
-            <style jsx>{`
-                @keyframes float {
-                    0%, 100% { transform: translateY(-50%) translateX(0px); }
-                    33% { transform: translateY(-50%) translateX(10px); }
-                    66% { transform: translateY(-50%) translateX(-5px); }
-                }
-                
-                @keyframes drawLine {
-                    0% { stroke-dashoffset: 100; opacity: 0.3; }
-                    50% { stroke-dashoffset: 0; opacity: 1; }
-                    100% { stroke-dashoffset: -100; opacity: 0.3; }
-                }
-                
-                @keyframes drawPath {
-                    0% { stroke-dashoffset: 300; opacity: 0.3; }
-                    50% { stroke-dashoffset: 0; opacity: 0.8; }
-                    100% { stroke-dashoffset: -300; opacity: 0.3; }
-                }
-            `}</style>
+                speed="1"
+                autoplay
+                loop
+              />
+            </div>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Banner;

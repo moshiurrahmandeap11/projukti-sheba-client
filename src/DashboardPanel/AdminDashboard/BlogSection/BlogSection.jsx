@@ -233,12 +233,12 @@ const BlogSection = () => {
         <div className="mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Blog Posts</h1>
-              <p className="text-gray-300">Manage and review blog posts</p>
+              <h1 className="text-3xl font-bold text-black mb-2">Blog Posts</h1>
+              <p className="text-gray-600">Manage and review blog posts</p>
             </div>
             <div className="flex items-center space-x-4 flex-wrap gap-4">
               <button
-                className="px-6 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg font-medium text-white"
+                className="px-6 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg font-medium text-black transition-all duration-300"
               >
                 Total Blogs: {blogs.length}
               </button>
@@ -312,16 +312,16 @@ const BlogSection = () => {
               >
                 <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm text-white">
+                    <p className="font-medium text-sm text-black">
                       {blog.title || "Untitled"}
                     </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-600">
                       Author: {blog.author || "Unknown Author"}
                     </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-600">
                       Category: {blog.category || "N/A"}
                     </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-600">
                       Created: {formatDate(blog.createdAt)}
                     </p>
                   </div>
@@ -329,7 +329,7 @@ const BlogSection = () => {
                     <motion.button
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-6 py-3 bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#B5000D]/50 rounded-lg font-medium text-white transition-all duration-300"
+                      className="px-6 py-3 bg-white/5 backdrop-blur-sm border border-black/10 cursor-pointer hover:border-[#B5000D]/50 rounded-lg font-medium text-black transition-all duration-300"
                       onClick={() => openModal(blog)}
                     >
                       View Details

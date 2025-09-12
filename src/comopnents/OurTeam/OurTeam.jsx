@@ -244,34 +244,23 @@ const OurTeam = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-[rgba(10,25,47,0.3)] backdrop-blur-lg">
-      {/* Background Overlay */}
-      <div
-        className="absolute inset-0"
-        style={{ 
-          background: 'linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))', 
-          zIndex: 0, 
-          backdropFilter: 'blur(10px)' 
-        }}
-      />
+    <div className="min-h-screen relative overflow-hidden  backdrop-blur-lg">
+ 
 
       {/* Main Content */}
       <div className="relative z-10">
         {/* Header Section */}
         <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto text-center">
+          <div className="max-w-10/12 mx-auto bg-[#FBFAF6] shadow-lg md:px-12 md:py-6 text-center">
             <div className="inline-block p-4 rounded-full bg-[rgba(0,120,160,0.2)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] mb-6">
-              <Users className="w-16 h-16 text-white" aria-hidden="true" />
+              <Users className="w-16 h-16 text-black" aria-hidden="true" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-bold text-black mb-6 tracking-tight">
               Our <span
-                className="bg-clip-text text-transparent"
-                style={{
-                  backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
-                }}
+                
               >Team</span>
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Meet the passionate professionals behind Projukti Sheba. Click on any member to learn more about their expertise.
             </p>
           </div>
@@ -351,7 +340,7 @@ const OurTeam = () => {
               ].map((stat, index) => (
                 <div
                   key={index}
-                  className="text-center bg-[rgba(10,25,47,0.5)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-6 hover:bg-[rgba(10,25,47,0.6)] transition-all duration-300 shadow-[0_4px_30px_rgba(0,0,0,0.2)]"
+                  className="text-center  backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-6  transition-all duration-300 "
                 >
                   <div className="text-3xl font-bold text-[rgba(0,120,160,0.8)] mb-2">{stat.value}</div>
                   <div className="text-gray-400">{stat.label}</div>

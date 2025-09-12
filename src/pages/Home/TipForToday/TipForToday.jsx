@@ -1,8 +1,9 @@
-import React from 'react';
-import { Share2, Tag, Calendar, User } from 'lucide-react';
+import React, { useState } from 'react';
+import { Share2, Tag, Calendar, User, Send, Heart } from 'lucide-react';
 import FancyButton from '../../../comopnents/sharedItems/FancyButtons/FancyButton';
 
 const TipForToday = () => {
+  const [isSubscribed, setIsSubscribed] = useState(false);
   // Dummy data for daily tips
   const tips = [
     {
@@ -29,49 +30,35 @@ const TipForToday = () => {
   const todayTip = tips[0];
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[rgba(10,25,47,0.3)] backdrop-blur-lg relative overflow-hidden">
+    <section className="py-4 sm:py-6 bg-[#ECEEFC] md:py-8 px-4 sm:px-6 lg:px-8 backdrop-blur-lg relative overflow-hidden">
       {/* Background Overlay */}
-      <div
-        className="absolute inset-0"
-        style={{ 
-          background: 'linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))', 
-          zIndex: 0, 
-          backdropFilter: 'blur(10px)' 
-        }}
-      >
+      <div className="absolute inset-0">
         {/* Wave Animation Background */}
-        <div className="absolute inset-x-0 bottom-0 h-48">
+        <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 md:h-48">
           <div className="wave wave1"></div>
           <div className="wave wave2"></div>
           <div className="wave wave3"></div>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto bg-[#ECEEFC] rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span
-              className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
-              }}
-            >
-              Tip for Today
-            </span>
+        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-6">
+            <span className="text-black">Tip for Today</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
             Daily insights from our CEO to help you stay ahead in business and technology.
           </p>
         </div>
 
         {/* Tip Card */}
-        <div className="backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-3xl p-8 border border-[rgba(255,255,255,0.1)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_4px_30px_rgba(0,120,160,0.2)] hover:scale-[1.02]">
-          <div className="flex flex-col md:flex-row gap-6 items-center">
+        <div className="backdrop-blur-lg rounded-3xl p-4 sm:p-6 md:p-8 border border-[rgba(255,255,255,0.1)] transition-all duration-300 hover:shadow-[0_4px_30px_rgba(0,120,160,0.2)] hover:scale-[1.02]">
+          <div className="flex flex-col md:flex-row gap-4 sm:gap-6 items-center">
             {/* Author Avatar */}
             <div className="flex-shrink-0">
-              <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-[rgba(0,120,160,0.5)] p-1">
-                <div className="w-full h-full rounded-full bg-[rgba(10,25,47,0.7)] flex items-center justify-center text-xl font-bold text-white">
+              <div className="relative w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-[rgba(0,120,160,0.5)] p-1">
+                <div className="w-full h-full rounded-full bg-[rgba(10,25,47,0.7)] flex items-center justify-center text-base sm:text-lg md:text-xl font-bold text-black">
                   {todayTip.author.charAt(0)}
                 </div>
               </div>
@@ -79,25 +66,31 @@ const TipForToday = () => {
 
             {/* Tip Content */}
             <div className="flex-1 text-center md:text-left">
-              <div className="flex items-center justify-center md:justify-start text-sm text-gray-400 mb-4">
-                <Tag className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
-                {todayTip.category}
-                <span className="mx-2">•</span>
-                <Calendar className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
-                {todayTip.date}
-                <span className="mx-2">•</span>
-                <User className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
-                {todayTip.author}
+              <div className="flex flex-wrap items-center justify-center md:justify-start text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 gap-x-2 sm:gap-x-3">
+                <div className="flex items-center">
+                  <Tag className="w-3 h-3 sm:w-4 sm:h-4 mr-1 text-black" />
+                  {todayTip.category}
+                </div>
+                <span className="mx-1 sm:mx-2">•</span>
+                <div className="flex items-center">
+                  <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1 text-black" />
+                  {todayTip.date}
+                </div>
+                <span className="mx-1 sm:mx-2">•</span>
+                <div className="flex items-center">
+                  <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 text-black" />
+                  {todayTip.author}
+                </div>
               </div>
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-3 hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-2 sm:mb-3 hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
                 {todayTip.title}
               </h3>
-              <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-6">
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6">
                 "{todayTip.tip}"
               </p>
               <FancyButton>
-                <button className="inline-flex items-center space-x-2">
-                  <Share2 className="w-4 h-4" />
+                <button className="inline-flex items-center space-x-2 text-xs sm:text-sm">
+                  <Share2 className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>Share Tip</span>
                 </button>
               </FancyButton>
@@ -106,74 +99,46 @@ const TipForToday = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-12">
-          <div className="backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-2xl p-6 border border-[rgba(255,255,255,0.1)] shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
-            <h3 className="text-xl font-bold text-white mb-4">
+        <div className="text-center mt-8 sm:mt-10 md:mt-12">
+          <div className="backdrop-blur-lg rounded-2xl p-4 sm:p-6 md:p-8 border border-[rgba(255,255,255,0.1)]">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-3 sm:mb-4">
               Never Miss a Tip!
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4 md:mb-6">
               Subscribe to receive our CEO’s daily tips directly in your inbox.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 justify-center">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="px-4 py-2 backdrop-blur-md bg-[rgba(10,25,47,0.5)] border border-[rgba(255,255,255,0.1)] rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)]"
+                className="px-3 sm:px-4 py-2 backdrop-blur-md bg-transparent border-2 border-[rgba(0,120,160,0.5)] rounded-full text-gray-600 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] w-full sm:w-auto"
               />
-              <FancyButton>
-                <span>Subscribe</span>
-              </FancyButton>
+              <button
+                className="group relative bg-[#ff0000]/60 text-white font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-lg border border-[rgba(0,120,160,0.5)] backdrop-blur-sm overflow-hidden hover:bg-[#ff0000]/30 cursor-pointer transition-all duration-300"
+                onClick={() => setIsSubscribed(!isSubscribed)}
+              >
+                <span className="relative z-10 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
+                  {isSubscribed ? (
+                    <>
+                      <Heart className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <span>Subscribed!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <span>Subscribe</span>
+                    </>
+                  )}
+                </span>
+                <div
+                  className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"
+                ></div>
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      <style jsx>{`
-        /* Wave Animation */
-        .wave {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 100px;
-          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%230078a0' fill-opacity='0.3' d='M0,192L48,197.3C96,203,192,213,288,213.3C384,213,480,203,576,181.3C672,160,768,128,864,133.3C960,139,1056,181,1152,186.7C1248,192,1344,160,1392,144L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
-          background-size: cover;
-          animation: wave 10s linear infinite;
-        }
-
-        .wave1 {
-          animation-delay: 0s;
-          opacity: 0.3;
-        }
-
-        .wave2 {
-          animation-delay: -2s;
-          opacity: 0.2;
-          background-position: 100px 0;
-        }
-
-        .wave3 {
-          animation-delay: -4s;
-          opacity: 0.1;
-          background-position: 200px 0;
-        }
-
-        @keyframes wave {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-1440px);
-          }
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 640px) {
-          .wave {
-            height: 80px;
-          }
-        }
-      `}</style>
     </section>
   );
 };

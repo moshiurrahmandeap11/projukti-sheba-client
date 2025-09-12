@@ -328,10 +328,10 @@ const TestimonialSection = () => {
         <div className="mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">
+              <h1 className="text-3xl font-bold text-black mb-2">
                 Testimonials Management
               </h1>
-              <p className="text-gray-300">
+              <p className="text-gray-600">
                 Manage and track user testimonials
               </p>
             </div>
@@ -372,13 +372,13 @@ const TestimonialSection = () => {
                   <div className="absolute right-0 mt-2 w-48 bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg shadow-lg z-10">
                     <button
                       onClick={handleAddTestimonial}
-                      className="w-full text-left px-4 py-2 text-gray-300 hover:bg-white/10 hover:text-white transition-colors duration-200"
+                      className="w-full text-left px-4 py-2 text-gray-600 font-medium hover:bg-white/10 cursor-pointer transition-colors duration-200"
                     >
                       Add Testimonial
                     </button>
                     <button
                       onClick={handleCopyUrl}
-                      className="w-full text-left px-4 py-2 text-gray-300 hover:bg-white/10 hover:text-white transition-colors duration-200"
+                      className="w-full text-left px-4 py-2 text-gray-600 font-medium hover:bg-white/10 cursor-pointer transition-colors duration-200"
                     >
                       Copy URL
                     </button>
@@ -399,7 +399,7 @@ const TestimonialSection = () => {
           ) : error ? (
             <div className="text-center p-12">
               <MessageSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-400 text-lg">{error}</p>
+              <p className="text-gray-600 text-lg">{error}</p>
             </div>
           ) : testimonials.length === 0 ? (
             <div className="text-center p-12">
@@ -414,19 +414,19 @@ const TestimonialSection = () => {
               <table className="w-full">
                 <thead className="bg-white/5 border-b border-white/10">
                   <tr>
-                    <th className="text-left p-4 text-gray-300 font-medium">
+                    <th className="text-left p-4 text-gray-600 font-medium">
                       ID
                     </th>
-                    <th className="text-left p-4 text-gray-300 font-medium">
+                    <th className="text-left p-4 text-gray-600 font-medium">
                       Name
                     </th>
-                    <th className="text-left p-4 text-gray-300 font-medium hidden md:table-cell">
+                    <th className="text-left p-4 text-gray-600 font-medium hidden md:table-cell">
                       Position
                     </th>
-                    <th className="text-left p-4 text-gray-300 font-medium hidden md:table-cell">
+                    <th className="text-left p-4 text-gray-600 font-medium hidden md:table-cell">
                       Rating
                     </th>
-                    <th className="text-left p-4 text-gray-300 font-medium">
+                    <th className="text-left p-4 text-gray-600 font-medium">
                       Actions
                     </th>
                   </tr>
@@ -442,7 +442,7 @@ const TestimonialSection = () => {
                           <div className="bg-blue-500/10 p-2 rounded-lg">
                             <MessageSquare className="w-4 h-4 text-blue-400" />
                           </div>
-                          <p className="text-white font-medium">
+                          <p className="text-black font-medium">
                             #{testimonial._id.slice(-5)}
                           </p>
                         </div>
@@ -450,13 +450,13 @@ const TestimonialSection = () => {
                       <td className="p-4">
                         <div className="flex items-center space-x-2">
                           <User className="w-4 h-4 text-gray-400" />
-                          <span className="text-gray-300">
+                          <span className="text-gray-600">
                             {testimonial.name || "N/A"}
                           </span>
                         </div>
                       </td>
                       <td className="p-4 hidden md:table-cell">
-                        <span className="text-gray-300">
+                        <span className="text-gray-600">
                           {testimonial.position || "N/A"}
                         </span>
                       </td>
@@ -469,20 +469,20 @@ const TestimonialSection = () => {
                         <div className="flex items-center space-x-2">
                           <button
                             onClick={() => setSelectedTestimonial(testimonial)}
-                            className="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-400/10 rounded-lg transition-colors duration-200"
+                            className="p-2 text-gray-600 hover:text-blue-400 hover:bg-blue-400/10 rounded-lg transition-colors duration-200"
                           >
                             <Eye className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleEditTestimonial(testimonial)}
-                            className="p-2 text-gray-400 hover:text-green-400 hover:bg-green-400/10 rounded-lg transition-colors duration-200"
+                            className="p-2 text-gray-600 hover:text-green-400 hover:bg-green-400/10 rounded-lg transition-colors duration-200"
                           >
                             <Edit className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => deleteTestimonial(testimonial._id)}
                             disabled={deletingTestimonial === testimonial._id}
-                            className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors duration-200 disabled:opacity-50"
+                            className="p-2 text-gray-600 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors duration-200 disabled:opacity-50"
                           >
                             {deletingTestimonial === testimonial._id ? (
                               <Loader2 className="w-4 h-4 animate-spin" />

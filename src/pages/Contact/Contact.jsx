@@ -36,14 +36,13 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [particles, setParticles] = useState([]);
   const [services, setServices] = useState([]);
 
   // Refs for debouncing and tracking
   const saveTimeoutRef = useRef(null);
   const formDataRef = useRef(formData);
   const hasDataRef = useRef(false);
-  const isFormSubmittedRef = useRef(false); // 🔥 নতুন ref যা track করবে form submit হয়েছে কিনা
+  const isFormSubmittedRef = useRef(false); 
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -58,37 +57,6 @@ const Contact = () => {
     };
 
     fetchServices();
-  }, []);
-
-  // Generate floating particles
-  useEffect(() => {
-    const generateParticles = () => {
-      const newParticles = [];
-      for (let i = 0; i < 30; i++) {
-        newParticles.push({
-          id: i,
-          x: Math.random() * 100,
-          y: Math.random() * 100,
-          size: Math.random() * 2 + 1,
-          speed: Math.random() * 1.5 + 0.5,
-          opacity: Math.random() * 0.3 + 0.1,
-        });
-      }
-      setParticles(newParticles);
-    };
-    generateParticles();
-
-    const interval = setInterval(() => {
-      setParticles((prev) =>
-        prev.map((particle) => ({
-          ...particle,
-          y: particle.y > 100 ? -5 : particle.y + particle.speed * 0.1,
-          x: particle.x + Math.sin(particle.y * 0.01) * 0.05,
-        }))
-      );
-    }, 100);
-
-    return () => clearInterval(interval);
   }, []);
 
   // Draft save
@@ -204,7 +172,7 @@ const Contact = () => {
 
       setTimeout(() => {
         setIsSubmitted(false);
-        isFormSubmittedRef.current = false; // 🔥 Reset করা নতুন form এর জন্য
+        isFormSubmittedRef.current = false; 
         setFormData({
           name: "",
           email: "",
@@ -217,7 +185,7 @@ const Contact = () => {
       }, 3000);
     } catch (error) {
       console.error("Error submitting form:", error);
-      // 🚀 Error হলে flag reset করা যাতে user আবার try করতে পারে
+
       isFormSubmittedRef.current = false;
     } finally {
       setIsSubmitting(false);
@@ -305,7 +273,7 @@ const Contact = () => {
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-[rgba(10,25,47,0.3)] backdrop-blur-lg">
+    <div className="min-h-screen pt-10 relative backdrop-blur-lg">
       {/* Auto-save indicator */}
       {isSaving && !isFormSubmittedRef.current && (
         <div className="fixed top-4 right-4 z-50 bg-[rgba(0,120,160,0.8)] text-white px-4 py-2 rounded-lg backdrop-blur-sm border border-[rgba(255,255,255,0.1)] flex items-center space-x-2">
@@ -314,58 +282,18 @@ const Contact = () => {
         </div>
       )}
 
-      {/* Animated Background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))",
-          zIndex: 0,
-          backdropFilter: "blur(10px)",
-        }}
-      >
-        {/* Floating particles */}
-        {particles.map((particle) => (
-          <div
-            key={particle.id}
-            className="absolute w-1 h-1 bg-[rgba(0,120,160,0.5)] rounded-full"
-            style={{
-              left: `${particle.x}%`,
-              top: `${particle.y}%`,
-              opacity: particle.opacity,
-              transform: `scale(${particle.size})`,
-            }}
-          ></div>
-        ))}
-
-        {/* Geometric shapes */}
-        <div
-          className="absolute top-20 right-20 w-40 h-40 border border-[rgba(255,255,255,0.05)] rounded-full animate-spin"
-          style={{ animationDuration: "25s" }}
-        ></div>
-        <div className="absolute bottom-32 left-20 w-32 h-32 border border-[rgba(0,120,160,0.1)] rounded-lg rotate-45 animate-pulse"></div>
-        <div
-          className="absolute top-1/2 right-10 w-20 h-20 bg-[rgba(0,120,160,0.05)] rounded-full animate-bounce"
-          style={{ animationDuration: "3s" }}
-        ></div>
-      </div>
-
       {/* Main Content */}
       <div className="relative z-10">
         {/* Header Section */}
         <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto text-center">
             <div className="inline-block p-4 rounded-full bg-[rgba(0,120,160,0.2)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] mb-6">
-              <MessageSquare className="w-16 h-16 text-white" />
+              <MessageSquare className="w-16 h-16 text-black" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-bold text-black tracking-tight">
               Get In{" "}
               <span
-                className="bg-clip-text text-transparent"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))",
-                }}
+                
               >
                 Touch
               </span>
@@ -373,14 +301,12 @@ const Contact = () => {
           </div>
         </div>
 
-
-
         {/* Main Contact Section */}
         <div className="px-4 sm:px-6 lg:px-8 pb-20">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Contact Form */}
-              <div className="bg-[rgba(10,25,47,0.5)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-8 relative shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
+              <div className=" backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-8 relative shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
                 <div className="relative z-10">
                   <h2 className="text-3xl font-bold text-white mb-8">
                     Send us a Message
@@ -408,7 +334,7 @@ const Contact = () => {
                             name="name"
                             required
                             disabled={isFormSubmittedRef.current}
-                            className="w-full pl-10 pr-3 py-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[rgba(10,25,47,0.5)] backdrop-blur-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full pl-10 pr-3 py-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[#b2beb5] backdrop-blur-sm text-black placeholder-gray-600 font-medium focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                             placeholder="Full Name"
                             value={formData.name}
                             onChange={handleInputChange}
@@ -421,7 +347,7 @@ const Contact = () => {
                             name="email"
                             required
                             disabled={isFormSubmittedRef.current}
-                            className="w-full pl-10 pr-3 py-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[rgba(10,25,47,0.5)] backdrop-blur-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full pl-10 pr-3 py-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[#b2beb5] backdrop-blur-sm text-black placeholder-gray-600 font-medium focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                             placeholder="Email Address"
                             value={formData.email}
                             onChange={handleInputChange}
@@ -437,7 +363,7 @@ const Contact = () => {
                             type="tel"
                             name="phone"
                             disabled={isFormSubmittedRef.current}
-                            className="w-full pl-10 pr-3 py-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[rgba(10,25,47,0.5)] backdrop-blur-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full pl-10 pr-3 py-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[rgba(178,190,181,0.5)] backdrop-blur-sm text-black placeholder-gray-600 font-medium focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                             placeholder="Phone Number"
                             value={formData.phone}
                             onChange={handleInputChange}
@@ -449,7 +375,7 @@ const Contact = () => {
                             type="text"
                             name="company"
                             disabled={isFormSubmittedRef.current}
-                            className="w-full pl-10 pr-3 py-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[rgba(10,25,47,0.5)] backdrop-blur-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full pl-10 pr-3 py-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[rgba(178,190,181,0.5)] backdrop-blur-sm text-black placeholder-gray-600 font-medium focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                             placeholder="Company Name"
                             value={formData.company}
                             onChange={handleInputChange}
@@ -463,11 +389,11 @@ const Contact = () => {
                         <select
                           name="service"
                           disabled={isFormSubmittedRef.current}
-                          className="w-full pl-10 pr-3 py-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[rgba(10,25,47,0.5)] backdrop-blur-sm text-white focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full pl-10 pr-3 py-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[rgba(178,190,181,0.5)] backdrop-blur-sm text-black focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                           value={formData.service}
                           onChange={handleInputChange}
                         >
-                          <option value="" className="bg-[rgba(10,25,47,0.7)]">
+                          <option value="" className="bg-[rgba(178,190,181,0.7)]">
                             Select Service
                           </option>
                           {services.map((service, index) => (
@@ -490,7 +416,7 @@ const Contact = () => {
                           name="subject"
                           required
                           disabled={isFormSubmittedRef.current}
-                          className="w-full pl-10 pr-3 py-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[rgba(10,25,47,0.5)] backdrop-blur-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full pl-10 pr-3 py-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[rgba(178,190,181,0.5)] backdrop-blur-sm text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                           placeholder="Subject"
                           value={formData.subject}
                           onChange={handleInputChange}
@@ -504,7 +430,7 @@ const Contact = () => {
                           rows="5"
                           required
                           disabled={isFormSubmittedRef.current}
-                          className="w-full p-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[rgba(10,25,47,0.5)] backdrop-blur-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full p-3 border border-[rgba(255,255,255,0.1)] rounded-lg bg-[rgba(178,190,181,0.5)] backdrop-blur-sm text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] focus:border-transparent transition-all duration-300 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                           placeholder="Tell us about your project..."
                           value={formData.message}
                           onChange={handleInputChange}
@@ -543,12 +469,12 @@ const Contact = () => {
               {/* Company Info & Map */}
               <div className="space-y-8">
                 {/* Company Info */}
-                <div className="bg-[rgba(10,25,47,0.5)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-8 relative shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
+                <div className=" backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-8 relative shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
                   <div className="relative z-10">
-                    <h3 className="text-2xl font-bold text-white mb-6">
+                    <h3 className="text-2xl font-bold text-black mb-6">
                       Projukti Sheba
                     </h3>
-                    <p className="text-gray-300 mb-6 leading-relaxed">
+                    <p className="text-gray-600 mb-6 leading-relaxed">
                       Leading IT solutions provider in Bangladesh, specializing
                       in cutting-edge web development, mobile applications, and
                       digital transformation services. We turn your ideas into
@@ -557,14 +483,14 @@ const Contact = () => {
 
                     {/* Services List */}
                     <div className="mb-6">
-                      <h4 className="text-lg font-semibold text-white mb-3">
+                      <h4 className="text-lg font-semibold text-black mb-3">
                         Our Services
                       </h4>
                       <div className="grid grid-cols-2 gap-2">
                         {services.map((service, index) => (
                           <div
                             key={index}
-                            className="flex items-center space-x-2 text-gray-300"
+                            className="flex items-center space-x-2 text-gray-600"
                           >
                             <CheckCircle className="w-4 h-4 text-[rgba(0,120,160,0.8)]" />
                             <span className="text-sm">{service.name}</span>
@@ -575,7 +501,7 @@ const Contact = () => {
 
                     {/* Social Links */}
                     <div>
-                      <h4 className="text-lg font-semibold text-white mb-3">
+                      <h4 className="text-lg font-semibold text-black mb-3">
                         Connect With Us
                       </h4>
                       <div className="flex flex-wrap gap-3">
@@ -585,7 +511,7 @@ const Contact = () => {
                             href={social.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`p-3 rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] text-gray-400 ${social.color} transition-all duration-300 hover:scale-110 hover:bg-[rgba(255,255,255,0.1)] backdrop-blur-sm`}
+                            className={`p-3 rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] text-gray-600 ${social.color} transition-all duration-300 hover:scale-110 hover:bg-[rgba(255,255,255,0.1)] backdrop-blur-sm`}
                             aria-label={social.name}
                           >
                             <social.icon className="w-5 h-5" />
@@ -596,11 +522,11 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <div className="bg-[rgba(10,25,47,0.5)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-8 relative h-64 md:h-96 overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
+                <div className=" backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-8 relative h-64 md:h-96 overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
                   {/* Embedded Map */}
                   <div className="relative z-10 h-full w-full">
                     <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14477.155334444315!2d90.7248511!3d24.88812765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3756df11d1045b37%3A0x72ab806eaeeb8afb!2zUHJvanVrdGkgU2hlYmEg4Kaq4KeN4Kaw4Kav4KeB4KaV4KeN4Kaq4Ka_IOCmuOCnh-CmrOCmvg!5e0!3m2!1sen!2sbd!4v1755599266118!5m2!1sen!2sbd"
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14477.155334444315!2d90.7248511!3d24.88812765!2m3!1f0!1f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3756df11d1045b37%3A0x72ab806eaeeb8afb!2zUHJvanVrdGkgU2hlYmEg4Kaq4KeN4Kaw4Kav4KeB4KaV4KeN4Kaq4Ka_IOCmuOCnh-CmrOCmvg!5e0!3m2!1sen!2sbd!4v1755599266118!5m2!1sen!2sbd"
                       className="w-full h-full rounded-xl border-0"
                       allowFullScreen=""
                       loading="lazy"
@@ -608,46 +534,44 @@ const Contact = () => {
                       title="Projukti Sheba Location"
                     ></iframe>
 
-                    {/* Dark gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-[rgba(10,25,47,0.4)] via-[rgba(10,25,47,0.3)] to-[rgba(10,25,47,0.5)] rounded-xl pointer-events-none"></div>
                   </div>
                 </div>
               </div>
             </div>
             <div className="text-center py-6">
-              <p className="text-xl text-gray-300 max-w-3xl mx-auto py-3 leading-relaxed">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto py-3 leading-relaxed">
                 Ready to transform your digital presence? Let's discuss your
                 project and bring your vision to life with cutting-edge IT
                 solutions.
               </p>
-                      {/* Contact Info Cards */}
-        <div className="px-4 sm:px-6 lg:px-8 mb-20">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {contactInfo.map((item, index) => (
-                <div
-                  key={index}
-                  className="group bg-[rgba(10,25,47,0.5)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-6 hover:bg-[rgba(10,25,47,0.6)] transition-all duration-500 hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)]"
-                >
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <item.icon className="w-6 h-6 text-white" />
+              {/* Contact Info Cards */}
+              <div className="px-4 sm:px-6 lg:px-8 mb-20">
+                <div className="max-w-7xl mx-auto">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {contactInfo.map((item, index) => (
+                      <div
+                        key={index}
+                        className="group backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-6  transition-all duration-500 hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)]"
+                      >
+                        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300">
+                          <item.icon className="w-6 h-6 text-black" />
+                        </div>
+                        <h3 className="text-xl font-semibold text-black mb-3 group-hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
+                          {item.title}
+                        </h3>
+                        {item.details.map((detail, idx) => (
+                          <p
+                            key={idx}
+                            className="text-gray-600 group-hover:text-gray-600 transition-colors duration-300"
+                          >
+                            {detail}
+                          </p>
+                        ))}
+                      </div>
+                    ))}
                   </div>
-                  <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
-                    {item.title}
-                  </h3>
-                  {item.details.map((detail, idx) => (
-                    <p
-                      key={idx}
-                      className="text-gray-300 group-hover:text-gray-200 transition-colors duration-300"
-                    >
-                      {detail}
-                    </p>
-                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
+              </div>
             </div>
           </div>
         </div>

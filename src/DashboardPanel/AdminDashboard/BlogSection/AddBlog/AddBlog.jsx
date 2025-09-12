@@ -321,7 +321,7 @@ const AddBlog = () => {
                 </label>
                 <div className="bg-white/10 rounded-lg p-2">
                   <Editor
-                    apiKey="omvpp0a8wm3rf2q7bpkhn6cbvz260ncye2yi8axr5a5daj9e" // Get free key from https://www.tiny.cloud/get-tiny/
+                    apiKey="omvpp0a8wm3rf2q7bpkhn6cbvz260ncye2yi8axr5a5daj9e" 
                     value={formData.expert}
                     onEditorChange={handleEditorChange}
                     init={{

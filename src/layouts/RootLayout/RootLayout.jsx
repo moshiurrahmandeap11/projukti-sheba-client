@@ -8,7 +8,7 @@ const Chat = lazy(() => import('./Chat/Chat'));
 
 const RootLayout = () => {
     return (
-        <div className='bg-black/90'>
+        <div className='bg-[#FFFFFF]'>
             <nav className='sticky top-0 left-0 right-0 z-50 bg-custom-gradient'>
                 <Navbar></Navbar>
             </nav>

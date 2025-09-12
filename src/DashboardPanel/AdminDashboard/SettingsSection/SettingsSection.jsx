@@ -12,7 +12,7 @@ const SettingsSection = () => {
             hidden: { opacity: 0, y: 20 },
             visible: { opacity: 1, y: 0 },
           }}
-          className="bg-gray-900/40 backdrop-blur-xl rounded-2xl p-6 border border-gray-700/50"
+          className="shadow-md backdrop-blur-xl rounded-2xl p-6 "
         >
           <h3 className="text-lg font-bold mb-4">General Settings</h3>
           <div className="space-y-4">
@@ -22,8 +22,8 @@ const SettingsSection = () => {
               </label>
               <input
                 type="text"
-                placeholder="NextBrand"
-                className="w-full bg-gray-800/50 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all"
+                placeholder="Projukti Sheba"
+                className="w-full bg-gray-200/50 border border-gray-700 rounded-xl px-4 py-3 text-black placeholder-gray-400  focus:outline-none"
               />
             </div>
             <div>
@@ -33,7 +33,7 @@ const SettingsSection = () => {
               <textarea
                 placeholder="Your site description"
                 rows="3"
-                className="w-full bg-gray-800/50 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all resize-none"
+                className="w-full bg-gray-200/50 border border-gray-700 rounded-xl px-4 py-3 text-black placeholder-gray-400 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all resize-none"
               ></textarea>
             </div>
           </div>
@@ -44,7 +44,7 @@ const SettingsSection = () => {
             hidden: { opacity: 0, y: 20 },
             visible: { opacity: 1, y: 0 },
           }}
-          className="bg-gray-900/40 backdrop-blur-xl rounded-2xl p-6 border border-gray-700/50"
+          className=" backdrop-blur-xl rounded-2xl p-6 shadow-md"
         >
           <h3 className="text-lg font-bold mb-4">Notification Settings</h3>
           <div className="space-y-4">

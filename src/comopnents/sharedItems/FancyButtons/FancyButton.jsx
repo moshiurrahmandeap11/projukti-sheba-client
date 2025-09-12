@@ -7,19 +7,20 @@ const FancyButton = ({ children, onClick, loading, className, type = "button" })
       onClick={onClick}
       disabled={loading}
       className={`
-        relative overflow-hidden w-full text-white font-semibold py-4 rounded-full text-lg 
-        transition-all duration-500 shadow-2xl transform hover:scale-105
-        border border-purple-500/30 backdrop-blur-sm
-        disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:scale-100
-        group
+        relative w-full md:w-auto px-6 py-3 font-semibold text-lg rounded-full 
+        overflow-hidden transition-all duration-500 shadow-lg transform 
+        hover:scale-105 group cursor-pointer 
+        disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
         ${className || ""}
       `}
     >
-      {/* Water fill animation */}
-      <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
+      {/* Gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#008081] via-[#00b3b3] to-[#00e6e6] 
+        transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
 
-      {/* Button glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl"></div>
+      {/* Glow / overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#008080]/40 via-[#00b3b3]/30 to-[#00e6e6]/20 
+        opacity-0 group-hover:opacity-30 transition-opacity duration-500 blur-xl"></div>
 
       {/* Button content */}
       <span className="relative z-10 flex items-center justify-center space-x-2">

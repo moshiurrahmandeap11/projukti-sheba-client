@@ -18,14 +18,14 @@ const Header = ({ activeSection, menuItems, adminProfile, loading }) => {
       animate={{ opacity: 1, y: 0 }}
       className="mb-8"
     >
-      <div className="bg-gray-900/40 backdrop-blur-xl rounded-2xl p-6 border border-gray-700/50">
+      <div className="bg-[#f3f4f8] backdrop-blur-xl rounded-2xl p-6 border border-gray-700/50">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold mb-2 text-black">
               {menuItems.find((item) => item.id === activeSection)?.label ||
                 "Dashboard"}
             </h1>
-            <p className="text-gray-400">
+            <p className="text-gray-600 font-medium">
               {loading
                 ? "Loading admin data..."
                 : `Welcome back, ${

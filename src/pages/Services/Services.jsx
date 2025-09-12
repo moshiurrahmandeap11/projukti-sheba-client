@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Code, Globe, Video, Megaphone, ArrowRight, CheckCircle, Loader2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Code, Globe, Video, Megaphone, CheckCircle, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -11,7 +11,6 @@ const Services = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const canvasRef = useRef(null);
   const navigate = useNavigate();
 
   // Icon mapping for categories
@@ -56,88 +55,9 @@ const Services = () => {
     fetchData();
   }, []);
 
-  // Canvas animation
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    const particles = [];
-    const particleCount = 60;
-    const maxDistance = 150;
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 1.5 + 0.5,
-      });
-    }
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach((particle) => {
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-
-        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
-        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
-
-        particle.x = Math.max(0, Math.min(canvas.width, particle.x));
-        particle.y = Math.max(0, Math.min(canvas.height, particle.y));
-      });
-
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < maxDistance) {
-            const opacity = (1 - distance / maxDistance) * 0.15;
-            ctx.strokeStyle = `rgba(0,120,160, ${opacity})`;
-            ctx.lineWidth = 0.5;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      particles.forEach((particle) => {
-        ctx.fillStyle = 'rgba(0,120,160,0.4)';
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.shadowColor = 'rgba(0,120,160,0.6)';
-        ctx.shadowBlur = 8;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      });
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
+  const handleGetStartedClick = () => {
+    navigate('/contact');
+  }
 
   // Filter services by active category
   const activeServices = services.filter((service) => service.category === activeTab);
@@ -146,76 +66,50 @@ const Services = () => {
   const getCategoryIcon = (categoryName) => iconMap[categoryName] || Code;
 
   return (
-    <div className="relative min-h-screen bg-[rgba(10,25,47,0.3)] backdrop-blur-lg py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Animated Background Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full opacity-50"
-        style={{ zIndex: 1 }}
-      />
-
-      {/* Background Overlay */}
-      <div
-        className="absolute inset-0"
-        style={{ 
-          background: 'linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))', 
-          zIndex: 2, 
-          backdropFilter: 'blur(10px)' 
-        }}
-      />
-
-      <div className="relative z-10 max-w-7xl mx-auto">
+    <div className="relative min-h-screen py-4 bg-[#CCEFFF] pt-20 px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto bg-[#CCEFFF] p-4 sm:p-6 md:p-8 rounded-2xl">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-            <span
-              className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
-              }}
-            >
-              Our Services
-            </span>
+        <div className="text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
+            <span className="text-black">Our Services</span>
           </h2>
-          <p className="text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-black/90 max-w-3xl mx-auto leading-relaxed">
             We provide comprehensive technology solutions to help your business thrive in the digital world
           </p>
         </div>
 
         {/* Loading and Error States */}
         {loading && (
-          <div className="text-center text-white text-xl">
-            <Loader2 className="animate-spin inline-block mr-2" size={24} />
+          <div className="text-center text-white text-base sm:text-lg mt-6">
+            <Loader2 className="animate-spin inline-block mr-2" size={20} />
             Loading services...
           </div>
         )}
         {error && (
-          <div className="text-center text-red-400 text-xl">
-            {error}
-          </div>
+          <div className="text-center text-red-400 text-base sm:text-lg mt-6">{error}</div>
         )}
         {!loading && !error && categories.length === 0 && (
-          <div className="text-center text-gray-400 text-xl">
+          <div className="text-center text-gray-400 text-base sm:text-lg mt-6">
             No categories available
           </div>
         )}
 
         {/* Service Tabs */}
         {!loading && !error && categories.length > 0 && (
-          <div className="backdrop-blur-xl bg-[rgba(10,25,47,0.5)] rounded-3xl border border-[rgba(255,255,255,0.1)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] overflow-hidden">
+          <div className="backdrop-blur-xl rounded-3xl border border-[rgba(255,255,255,0.1)] overflow-hidden">
             {/* Tab Navigation */}
-            <div className="border-b border-[rgba(255,255,255,0.15)] p-6">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="border-b border-[rgba(255,255,255,0.15)] p-4 sm:p-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
                 {categories.map((category, index) => {
                   const TabIcon = getCategoryIcon(category.name);
                   return (
-                    <button
+                    <FancyButton
                       key={category._id}
                       onClick={() => setActiveTab(category.name)}
-                      className={`group relative overflow-hidden flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-500 transform hover:scale-105 backdrop-blur-sm border border-[rgba(0,120,160,0.3)] shadow-md hover:shadow-xl ${
+                      className={`group relative overflow-hidden flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl transition-all duration-500 transform hover:scale-105 backdrop-blur-sm border border-[rgba(0,120,160,0.3)] shadow-md hover:shadow-xl ${
                         activeTab === category.name
-                          ? 'bg-[rgba(0,120,160,0.1)] scale-105 shadow-xl'
-                          : 'bg-[rgba(255,255,255,0.15)] hover:bg-[rgba(0,120,160,0.05)]'
+                          ? 'bg-[#008080]/70 scale-105 shadow-xl'
+                          : 'bg-[#008080] hover:bg-[rgba(0,120,160,0.05)]'
                       }`}
                       style={{
                         animationDelay: `${index * 0.1}s`,
@@ -223,13 +117,6 @@ const Services = () => {
                       }}
                       aria-label={`Select ${category.name} services`}
                     >
-                      {/* Sliding Gradient Background */}
-                      <div
-                        className={`absolute inset-0 bg-gradient-to-r from-[rgba(0,120,160,0.7)] via-[rgba(50,40,130,0.7)] to-[rgba(0,120,160,0.7)] transform ${
-                          activeTab === category.name ? 'translate-x-0' : '-translate-x-full'
-                        } group-hover:translate-x-0 transition-transform duration-700 ease-out`}
-                      />
-
                       {/* Glow Effect */}
                       <div
                         className={`absolute inset-0 bg-gradient-to-r from-[rgba(0,120,160,0.6)] via-[rgba(50,40,130,0.6)] to-[rgba(0,120,160,0.6)] opacity-0 ${
@@ -240,15 +127,15 @@ const Services = () => {
                       {/* Content */}
                       <div className="relative z-10 flex flex-col items-center">
                         <TabIcon
-                          className={`w-6 h-6 mb-2 transition-all duration-500 transform ${
+                          className={`w-5 h-5 sm:w-6 sm:h-6 mb-2 transition-all duration-500 transform ${
                             activeTab === category.name
                               ? 'text-white scale-110 rotate-12'
                               : 'text-gray-300 group-hover:text-white group-hover:scale-110'
                           }`}
                         />
                         <span
-                          className={`text-sm font-semibold transition-all duration-500 ${
-                            activeTab === category.name ? 'text-white' : 'text-gray-300 group-hover:text-white'
+                          className={`text-xs sm:text-sm font-semibold transition-all duration-500 ${
+                            activeTab === category.name ? 'text-black' : 'text-black group-hover:text-black'
                           }`}
                         >
                           {category.name}
@@ -261,106 +148,106 @@ const Services = () => {
                           style={{ background: 'linear-gradient(90deg, rgba(0,120,160,0.8), rgba(50,40,130,0.8))' }}
                         />
                       )}
-                    </button>
+                    </FancyButton>
                   );
                 })}
               </div>
             </div>
 
             {/* Tab Content */}
-            <div className="p-8 md:p-12">
+            <div className="p-4 sm:p-6 md:p-8 lg:p-10">
               {activeServices.length === 0 ? (
-                <div className="text-center text-gray-400 text-xl">
+                <div className="text-center text-black text-base sm:text-lg">
                   No services available for {activeTab}
                 </div>
               ) : (
                 activeServices.map((service) => (
-                  <div key={service._id} className="grid lg:grid-cols-2 gap-12 items-center mb-12 animate-fadeInLeft">
+                  <div key={service._id} className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start mb-8 sm:mb-10 lg:mb-12 animate-fadeInLeft">
                     {/* Left Content */}
-                    <div className="space-y-8">
-                      <div className="flex items-center space-x-4">
+                    <div className="space-y-4 sm:space-y-6">
+                      <div className="flex items-center space-x-3 sm:space-x-4">
                         <div
-                          className="rounded-xl p-3 shadow-[0_2px_10px_rgba(0,0,0,0.2)] backdrop-blur-sm animate-bounce"
+                          className="rounded-xl p-2 sm:p-3 shadow-[0_2px_10px_rgba(0,0,0,0.2)] backdrop-blur-sm animate-bounce"
                           style={{ background: 'linear-gradient(90deg, rgba(0,120,160,0.5), rgba(50,40,130,0.5))' }}
                         >
-                          {React.createElement(getCategoryIcon(activeTab), { className: 'w-8 h-8 text-white' })}
+                          {React.createElement(getCategoryIcon(activeTab), { className: 'w-6 h-6 sm:w-8 sm:h-8 text-white' })}
                         </div>
-                        <h3 className="text-3xl md:text-4xl font-bold text-white">{service.title}</h3>
+                        <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black">{service.title}</h3>
                       </div>
-                      <p className="text-lg text-gray-300 leading-relaxed">{service.paragraph}</p>
-                      <div className="space-y-4">
-                        <h4 className="text-xl font-semibold text-white mb-4">Key Features:</h4>
-                        <div className="grid gap-3">
+                      <p className="text-sm sm:text-base md:text-lg text-black leading-relaxed">{service.paragraph}</p>
+                      <div className="space-y-3 sm:space-y-4">
+                        <h4 className="text-lg sm:text-xl font-semibold text-black mb-2 sm:mb-3">Key Features:</h4>
+                        <div className="grid gap-2 sm:gap-3">
                           {service.keyFeatures &&
                             service.keyFeatures.map((feature, fIndex) => (
                               <div
                                 key={fIndex}
-                                className="flex font-medium items-center space-x-3 opacity-0 animate-fadeInUp"
+                                className="flex font-medium items-center space-x-2 sm:space-x-3 opacity-0 animate-fadeInUp"
                                 style={{
                                   animationDelay: `${fIndex * 0.1}s`,
                                   animationFillMode: 'forwards',
                                 }}
                               >
-                                <CheckCircle className="w-5 h-5 text-[rgba(0,120,160,1)] flex-shrink-0 animate-pulse" />
-                                <span className="text-gray-300">{feature}</span>
+                                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-[rgba(0,120,160,1)] flex-shrink-0 animate-pulse" />
+                                <span className="text-sm sm:text-base text-black">{feature}</span>
                               </div>
                             ))}
                         </div>
                       </div>
-                      <div className="pt-6">
-                        <FancyButton
-                          onClick={() => navigate('/contact')}
+                      <div className="pt-4 sm:pt-6">
+                        <button
+                          onClick={handleGetStartedClick}
+                          className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden"
                         >
-                          Get Started
-                        </FancyButton>
+                          <span className="relative z-10">Get Started</span>
+                          <div
+                            className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"
+                          ></div>
+                        </button>
                       </div>
                     </div>
 
                     {/* Right Content */}
-                    <div className="space-y-8 animate-fadeInRight">
-                      <div className="backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-2xl border border-[rgba(255,255,255,0.1)] p-8 shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
-                        <h4 className="text-2xl font-semibold text-white mb-6">Technologies We Use</h4>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    <div className="space-y-4 sm:space-y-6 animate-fadeInRight">
+                      <div className="backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-2xl border border-[rgba(255,255,255,0.1)] p-4 sm:p-6 md:p-8 shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
+                        <h4 className="text-lg sm:text-xl md:text-2xl font-semibold text-white mb-4 sm:mb-6">Technologies We Use</h4>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                           {service.technologies &&
                             service.technologies.map((tech, tIndex) => (
-                              <div
+                              <button
                                 key={tIndex}
-                                className="group relative overflow-hidden rounded-lg px-4 py-3 border border-[rgba(255,255,255,0.1)] backdrop-blur-sm transition-all duration-500 transform hover:scale-105 hover:shadow-xl hover:border-[rgba(0,120,160,0.5)]"
+                                className="group bg-purple-700 relative overflow-hidden rounded-lg px-3 sm:px-4 py-2 sm:py-3 border border-[rgba(255,255,255,0.1)] backdrop-blur-sm transition-all duration-500 transform hover:scale-105 hover:shadow-xl hover:border-[rgba(0,120,160,0.5)]"
                               >
-                                {/* Sliding Gradient Background */}
-                                <div
-                                  className="absolute inset-0 bg-gradient-to-r from-[rgba(0,120,160,0.7)] via-[rgba(50,40,130,0.7)] to-[rgba(0,120,160,0.7)] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"
-                                />
                                 {/* Glow Effect */}
                                 <div
-                                  className="absolute inset-0 bg-gradient-to-r from-[rgba(0,120,160,0.6)] via-[rgba(50,40,130,0.6)] to-[rgba(0,120,160,0.6)] opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl"
+                                  className="absolute inset-0 bg-purple-700 opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl"
                                 />
                                 {/* Content */}
-                                <span className="relative z-10 font-medium text-sm text-white group-hover:text-white">
+                                <span className="relative z-10 font-medium text-xs sm:text-sm text-white group-hover:text-white">
                                   {tech}
                                 </span>
-                              </div>
+                              </button>
                             ))}
                         </div>
                       </div>
-                      <div className="grid grid-cols-3 gap-6">
-                        <div className="text-center backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-xl border border-[rgba(255,255,255,0.1)] p-4 hover:scale-105 transition-transform duration-300 hover:border-[rgba(0,120,160,0.5)]">
-                          <div className="text-2xl md:text-3xl font-bold text-white mb-1 animate-pulse">
+                      <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                        <div className="text-center backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-xl border border-[rgba(255,255,255,0.1)] p-3 sm:p-4 hover:scale-105 transition-transform duration-300 hover:border-[rgba(0,120,160,0.5)]">
+                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1 animate-pulse">
                             {service.totalProjects || '0'} +
                           </div>
-                          <div className="text-sm text-gray-400">Projects</div>
+                          <div className="text-xs sm:text-sm text-gray-400">Projects</div>
                         </div>
-                        <div className="text-center backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-xl border border-[rgba(255,255,255,0.1)] p-4 hover:scale-105 transition-transform duration-300 hover:border-[rgba(0,120,160,0.5)]">
-                          <div className="text-2xl md:text-3xl font-bold text-white mb-1 animate-pulse">
+                        <div className="text-center backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-xl border border-[rgba(255,255,255,0.1)] p-3 sm:p-4 hover:scale-105 transition-transform duration-300 hover:border-[rgba(0,120,160,0.5)]">
+                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1 animate-pulse">
                             24/7
                           </div>
-                          <div className="text-sm text-gray-400">Support</div>
+                          <div className="text-xs sm:text-sm text-gray-400">Support</div>
                         </div>
-                        <div className="text-center backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-xl border border-[rgba(255,255,255,0.1)] p-4 hover:scale-105 transition-transform duration-300 hover:border-[rgba(0,120,160,0.5)]">
-                          <div className="text-2xl md:text-3xl font-bold text-white mb-1 animate-pulse">
+                        <div className="text-center backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-xl border border-[rgba(255,255,255,0.1)] p-3 sm:p-4 hover:scale-105 transition-transform duration-300 hover:border-[rgba(0,120,160,0.5)]">
+                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1 animate-pulse">
                             99%
                           </div>
-                          <div className="text-sm text-gray-400">Satisfaction</div>
+                          <div className="text-xs sm:text-sm text-gray-400">Satisfaction</div>
                         </div>
                       </div>
                     </div>

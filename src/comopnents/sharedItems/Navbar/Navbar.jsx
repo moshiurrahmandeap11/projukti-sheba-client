@@ -9,13 +9,12 @@ import {
   Star,
   LayoutDashboard,
 } from "lucide-react";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useLocation, NavLink } from "react-router";
 import { useAuth } from "../../../hooks/AuthContexts/AuthContexts";
 import Loader from "../Loader/Loader";
 import toast from "react-hot-toast";
 import axios from "axios";
 import logo from "../../../assets/pslogo.png";
-import FancyButton from "../FancyButtons/FancyButton";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,8 +25,12 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Fetch user profile data when user is available
   useEffect(() => {
-    if (!user?.uid) return;
+    if (!user?.uid) {
+      setProfile(null); // Clear profile if user logs out
+      return;
+    }
 
     const fetchProfile = async () => {
       try {
@@ -38,34 +41,65 @@ const Navbar = () => {
         setProfile(response.data);
       } catch (error) {
         console.error("Error fetching profile:", error);
-        toast.error("Error fetching profile");
+        toast.error("Could not fetch profile data.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchProfile();
-  }, [user?.uid]);
+  }, [user?.uid, setLoading]);
 
+  // Handle navbar background change on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 20;
-      setScrolled(isScrolled);
+      setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleLogOut = () => {
-    logOut()
-      .then(() => {
-        navigate("/");
-        toast.success("Logged out successfully");
-      })
-      .catch((error) => {
-        console.error("Logout error:", error);
-        toast.error("Failed to log out. Please try again.");
-      });
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isProfileOpen && !event.target.closest('.profile-dropdown')) {
+        setIsProfileOpen(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isProfileOpen]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMenuOpen]);
+
+  const handleLogOut = async () => {
+    try {
+      setIsProfileOpen(false);
+      setIsMenuOpen(false);
+      await logOut();
+      setProfile(null);
+      navigate("/");
+      toast.success("Logged out successfully");
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("Failed to log out. Please try again.");
+    }
   };
 
   const navLinks = [
@@ -84,16 +118,16 @@ const Navbar = () => {
       icon: <LayoutDashboard size={18} />,
       href: "/dashboard/user",
     },
-    { name: "Your Services", icon: <Settings size={18} />, href: "/services" },
+    { isDivider: true },
+    { name: "Settings", icon: <Settings size={18} />, href: "/settings" },
+    { name: "Support", icon: <HelpCircle size={18} />, href: "/support" },
+    { isDivider: true },
     {
       name: "Try Premium",
       icon: <Star size={18} />,
       href: "/premium",
       isButton: true,
     },
-    { isDivider: true },
-    { name: "Settings", icon: <Settings size={18} />, href: "/settings" },
-    { name: "Support", icon: <HelpCircle size={18} />, href: "/support" },
     { name: "Logout", icon: <LogOut size={18} />, action: handleLogOut },
   ];
 
@@ -104,6 +138,7 @@ const Navbar = () => {
       icon: <LayoutDashboard size={18} />,
       href: "/dashboard/admin",
     },
+    { isDivider: true },
     { name: "Logout", icon: <LogOut size={18} />, action: handleLogOut },
   ];
 
@@ -112,16 +147,7 @@ const Navbar = () => {
       ? adminProfileLinks
       : regularProfileLinks;
 
-  const handleLogoClick = () => {
-    navigate("/");
-  };
-
-  const handleJoinUsClick = () => {
-    setIsMenuOpen(false);
-    navigate("/auth/login");
-  };
-
-  const handleProfileClick = (item) => {
+  const handleProfileItemClick = (item) => {
     setIsProfileOpen(false);
     if (item.action) {
       item.action();
@@ -131,344 +157,288 @@ const Navbar = () => {
   };
 
   const getInitials = (name) => {
-    return name ? name.charAt(0).toUpperCase() : "U";
+    if (!name) return "U";
+    const names = name.split(" ");
+    if (names.length > 1) {
+      return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
+    }
+    return name.charAt(0).toUpperCase();
   };
+
+  const profilePhotoUrl = profile?.photoURL
+    ? profile.photoURL.startsWith("http")
+      ? profile.photoURL
+      : `https://projukti-sheba-server.onrender.com${profile.photoURL}`
+    : null;
 
   if (loading) {
     return <Loader />;
   }
 
+  // Common component for profile picture/initials
+  const Avatar = ({ size = "w-10 h-10" }) => (
+    <>
+      {profilePhotoUrl ? (
+        <img
+          src={profilePhotoUrl}
+          alt={profile?.fullName || "User"}
+          className={`${size} rounded-full object-cover border-2 border-white/50`}
+          onError={(e) => {
+            e.target.style.display = 'none';
+            e.target.nextSibling.style.display = 'flex';
+          }}
+        />
+      ) : null}
+      <div
+        className={`${size} rounded-full bg-cyan-700 flex items-center justify-center text-white font-bold border-2 border-white/50 ${
+          profilePhotoUrl ? 'hidden' : 'flex'
+        }`}
+      >
+        {getInitials(profile?.fullName || user?.displayName)}
+      </div>
+    </>
+  );
+
   return (
-    <nav
-      className={`top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-[rgba(10,25,47,0.5)] backdrop-blur-2xl border-b border-white/10 shadow-lg"
-          : "bg-[rgba(10,25,47,0.3)] backdrop-blur-2xl border-b border-white/5"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo and Mobile Menu Button (Left side) */}
-          <div className="flex items-center">
-            {user && (
-              <div className="md:hidden mr-2">
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-[#3da1a6] shadow-lg"
+            : "bg-[#3da1a6]/80 backdrop-blur-sm"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 md:h-20">
+            {/* Logo */}
+            <div
+              onClick={() => navigate("/")}
+              className="flex items-center cursor-pointer flex-shrink-0"
+            >
+              <img
+                src={logo}
+                alt="Projukti Sheba Logo"
+                className="h-10 w-auto object-contain"
+              />
+              <span className="ml-2 text-black font-extrabold text-xl md:text-2xl tracking-wider">
+                Projukti Sheba
+              </span>
+            </div>
+
+            {/* Desktop Navigation Links */}
+            <div className="hidden md:flex items-center space-x-8">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.name}
+                  to={link.href}
+                  className={({ isActive }) =>
+                    `relative text-sm font-semibold text-black transition-colors duration-300 hover:text-white
+                     after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-full after:bg-white after:transition-transform after:duration-300 after:origin-center
+                     ${
+                       isActive
+                         ? "text-white after:scale-x-100"
+                         : "after:scale-x-0 hover:after:scale-x-100"
+                     }`
+                  }
+                >
+                  {link.name}
+                </NavLink>
+              ))}
+            </div>
+
+            {/* Right Side: Profile/Login & Mobile Menu Button */}
+            <div className="flex items-center">
+              {user ? (
+                // Desktop Profile Dropdown
+                <div className="hidden md:block relative ml-4 profile-dropdown">
+                  <button
+                    onClick={() => setIsProfileOpen(!isProfileOpen)}
+                    className="flex items-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cyan-800 focus:ring-white rounded-full transition-transform duration-200 hover:scale-105"
+                  >
+                    <Avatar />
+                  </button>
+
+                  {isProfileOpen && (
+                    <div className="absolute right-0 mt-2 w-64 origin-top-right bg-white rounded-xl shadow-2xl ring-1 ring-black ring-opacity-5 overflow-hidden z-50 animate-in slide-in-from-top-2 duration-200">
+                      <div className="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-cyan-50 to-blue-50">
+                        <div className="flex items-center space-x-3">
+                          <Avatar />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-gray-900 truncate">
+                              {profile?.fullName || user?.displayName || "User"}
+                            </p>
+                            <p className="text-xs text-gray-500 truncate">
+                              {user.email}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="py-1">
+                        {profileLinks.map((item, index) => (
+                          <React.Fragment key={index}>
+                            {item.isDivider ? (
+                              <div className="border-t border-gray-200 my-1"></div>
+                            ) : (
+                              <button
+                                onClick={() => handleProfileItemClick(item)}
+                                className={`w-full text-left px-4 py-2 text-sm flex items-center space-x-3 transition-colors duration-200 ${
+                                  item.name === "Logout"
+                                    ? "text-red-600 hover:bg-red-50"
+                                    : "text-gray-700 hover:bg-gray-100"
+                                } ${
+                                  item.isButton
+                                    ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:from-cyan-600 hover:to-blue-600 font-semibold m-2 w-auto rounded-lg shadow-sm"
+                                    : ""
+                                }`}
+                              >
+                                {item.icon}
+                                <span>{item.name}</span>
+                              </button>
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                // Desktop "Get Started" Button - Only shows when user is NOT logged in
+                <div className="hidden md:block ml-4">
+                  <button
+                    onClick={() => navigate("/auth/login")}
+                    className="bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-2 px-5 rounded-full transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                  >
+                    Get Started
+                  </button>
+                </div>
+              )}
+
+              {/* Mobile Menu Button */}
+              <div className="md:hidden ml-2">
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   aria-label="Toggle menu"
-                  aria-expanded={isMenuOpen}
-                  className="inline-flex items-center justify-center p-2 rounded-lg text-white hover:text-[var(--color-secondary)] hover:bg-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--color-secondary)]/40 transition-all duration-300 border border-white/10 backdrop-blur-sm"
+                  className="inline-flex items-center justify-center p-2 rounded-md text-black hover:bg-black/10 focus:outline-none focus:ring-2 focus:ring-white transition-colors duration-200"
                 >
                   {isMenuOpen ? (
-                    <X className="block h-6 w-6" aria-hidden="true" />
+                    <X className="h-6 w-6" />
                   ) : (
-                    <Menu className="block h-6 w-6" aria-hidden="true" />
+                    <Menu className="h-6 w-6" />
                   )}
                 </button>
               </div>
-            )}
+            </div>
+          </div>
+        </div>
+      </nav>
 
-            <div className="flex-shrink-0">
-              <div
-                onClick={handleLogoClick}
-                className="flex items-center cursor-pointer"
+      {/* Mobile Menu Panel */}
+      <div
+        className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 ${
+          isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        {/* Overlay */}
+        <div
+          onClick={() => setIsMenuOpen(false)}
+          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          aria-hidden="true"
+        ></div>
+
+        {/* Menu Content */}
+        <div
+          className={`absolute top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-xl transition-transform duration-300 ease-in-out ${
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <div className="flex flex-col h-full">
+            {/* Menu Header */}
+            <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-cyan-50 to-blue-50">
+              <span className="font-bold text-lg text-cyan-800">Menu</span>
+              <button 
+                onClick={() => setIsMenuOpen(false)}
+                className="p-1 rounded-full hover:bg-gray-200 transition-colors duration-200"
               >
-                <div className="rounded-xl p-2.5 shadow-lg flex justify-center items-center ">
-                  <img
-                    src={logo}
-                    alt="Projukti Sheba Logo"
-                    className="h-10 w-auto object-contain"
-                  />
-                  <div className="rounded-xl p-2.5 shadow-lg">
-                    <span className="text-white font-extrabold text-2xl tracking-wider">
-                      Projukti Sheba
-                    </span>
+                <X className="h-6 w-6 text-gray-600" />
+              </button>
+            </div>
+
+            {/* Profile Section (if logged in) */}
+            {user && (
+              <div className="p-4 border-b bg-gradient-to-r from-cyan-50 to-blue-50">
+                <div className="flex items-center space-x-3">
+                  <Avatar size="w-12 h-12" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-800 truncate">
+                      {profile?.fullName || user?.displayName || "User"}
+                    </p>
+                    <p className="text-sm text-gray-500 truncate">{user.email}</p>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            )}
 
-          {/* Desktop Nav Links (Center) */}
-          <div className="hidden md:block mx-auto">
-            <div className="flex items-center space-x-8">
+            {/* Navigation Links */}
+            <div className="flex-grow p-4 space-y-2 overflow-y-auto">
               {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className={`relative text-white  px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:bg-transparent border border-transparent hover:border-[#BE0F79] ${
-                    location.pathname === link.href
-                      ? "text-[#BE0F79] bg-[#BE0F79] border-[var(--color-secondary)]/50"
-                      : ""
-                  }`}
+                <NavLink
+                  key={`mobile-${link.name}`}
+                  to={link.href}
+                  className={({ isActive }) =>
+                    `block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                      isActive
+                        ? "bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-800 shadow-sm"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`
+                  }
                 >
                   {link.name}
-                  <span
-                    className={`absolute inset-x-0 bottom-0 h-0.5 bg-[var(--color-gradient)] transform ${
-                      location.pathname === link.href
-                        ? "scale-x-100"
-                        : "scale-x-0 group-hover:scale-x-100"
-                    } transition-transform duration-300 rounded-full`}
-                  ></span>
-                </a>
+                </NavLink>
               ))}
+
+              {/* Divider */}
+              {user && <div className="pt-2 border-b border-gray-200"></div>}
+
+              {/* Profile Links (if logged in) */}
+              {user &&
+                profileLinks.map((item, index) => (
+                  <React.Fragment key={`mobile-profile-${index}`}>
+                    {item.isDivider ? (
+                      <div className="border-t border-gray-200 my-2"></div>
+                    ) : (
+                      <button
+                        onClick={() => handleProfileItemClick(item)}
+                        className={`w-full text-left px-4 py-3 text-base flex items-center space-x-4 rounded-lg transition-all duration-200 ${
+                          item.name === "Logout"
+                            ? "text-red-600 hover:bg-red-50"
+                            : item.isButton
+                            ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:from-cyan-600 hover:to-blue-600 font-semibold shadow-sm"
+                            : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                      >
+                        {item.icon}
+                        <span>{item.name}</span>
+                      </button>
+                    )}
+                  </React.Fragment>
+                ))}
             </div>
-          </div>
 
-          {/* Right Side (Profile/Login) */}
-          <div className="flex items-center">
+            {/* Footer Action (if not logged in) - Only shows when user is NOT logged in */}
             {!user && (
-              <div className="hidden md:block">
-                <FancyButton
-                  onClick={handleJoinUsClick}
-                >
-                  Join Us
-                </FancyButton>
-              </div>
-            )}
-
-            {user && (
-              <div className="hidden md:block relative">
+              <div className="p-4 border-t bg-gray-50">
                 <button
-                  onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center cursor-pointer space-x-2 focus:outline-none"
+                  onClick={() => navigate("/auth/login")}
+                  className="w-full bg-gradient-to-r from-cyan-700 to-blue-700 hover:from-cyan-800 hover:to-blue-800 text-white font-bold py-3 px-5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-md hover:shadow-lg"
                 >
-                  {profile?.photoURL ? (
-                    <img
-                      src={`${
-                        profile.photoURL.startsWith("http")
-                          ? profile.photoURL
-                          : `https://projukti-sheba-server.onrender.com${profile.photoURL}`
-                      }`}
-                      alt={profile?.displayName || "User"}
-                      className="w-10 h-10 rounded-full border-2 object-cover"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-custom-gradient flex items-center justify-center text-white font-bold border-2 border-[var(--color-secondary)]/30">
-                      {getInitials(user.displayName)}
-                    </div>
-                  )}
-                </button>
-
-                {isProfileOpen && (
-                  <div className="absolute right-0 mt-2 w-64 origin-top-right bg-custom-gradient backdrop-blur-2xl rounded-xl shadow-2xl border border-white/10 overflow-hidden z-50">
-                    <div className="px-4 py-3 border-b border-white/10">
-                      <div className="flex items-center space-x-3">
-                        {profile?.photoURL ? (
-                          <img
-                            src={profile?.photoURL}
-                            alt={user.displayName || "User"}
-                            className="w-10 h-10 rounded-full border-2 border-[var(--color-secondary)]/30 object-cover"
-                          />
-                        ) : (
-                          <div className="w-10 h-10 rounded-full bg-[var(--color-gradient)] flex items-center justify-center text-white font-bold border-2 border-[var(--color-secondary)]/30">
-                            {getInitials(profile?.fullName)}
-                          </div>
-                        )}
-                        <div>
-                          <p className="text-sm font-semibold text-white">
-                            {profile?.fullName || "User"}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="py-1">
-                      {profileLinks.map((item, index) => (
-                        <React.Fragment key={index}>
-                          {item.isDivider ? (
-                            <div className="border-t border-white/10 my-1"></div>
-                          ) : item.isButton ? (
-                            <button
-                              onClick={() => handleProfileClick(item)}
-                              className="w-full mx-2 my-1 bg-[#BE0F79] hover:bg-white text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2"
-                            >
-                              {item.icon}
-                              <span>{item.name}</span>
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() => handleProfileClick(item)}
-                              className="w-full text-left px-4 py-2 text-sm text-white hover:text-[var(--color-secondary)] hover:bg-[var(--color-hover)]/20 transition-all duration-300 flex items-center space-x-2"
-                            >
-                              {item.icon}
-                              <span>{item.name}</span>
-                            </button>
-                          )}
-                        </React.Fragment>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {user && (
-              <div className="md:hidden">
-                <button
-                  onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center justify-center p-2 rounded-lg text-white hover:text-[var(--color-secondary)] hover:bg-[var(--color-hover)]/20 focus:outline-none focus:ring-2 focus:ring-[var(--color-secondary)]/40 transition-all duration-300 border border-white/10 backdrop-blur-sm"
-                >
-                  {profile?.photoURL ? (
-                    <img
-                      src={profile.photoURL}
-                      alt={profile?.fullName || "User"}
-                      className="w-8 h-8 rounded-full border-2 border-[var(--color-secondary)]/30 object-cover"
-                    />
-                  ) : (
-                    <div className="w-8 h-8 rounded-full bg-[var(--color-gradient)] flex items-center justify-center text-white font-bold border-2 border-[var(--color-secondary)]/30">
-                      {getInitials(profile?.fullName)}
-                    </div>
-                  )}
-                </button>
-              </div>
-            )}
-
-            {!user && (
-              <div className="md:hidden">
-                <button
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  aria-label="Toggle menu"
-                  aria-expanded={isMenuOpen}
-                  className="inline-flex items-center justify-center p-2 rounded-lg text-white hover:text-[var(--color-secondary)] hover:bg-[var(--color-hover)]/20 focus:outline-none focus:ring-2 focus:ring-[var(--color-secondary)]/40 transition-all duration-300 border border-white/10 backdrop-blur-sm"
-                >
-                  {isMenuOpen ? (
-                    <X className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <Menu className="block h-6 w-6" aria-hidden="true" />
-                  )}
+                  Join Us / Login
                 </button>
               </div>
             )}
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu - For logged in users */}
-      {user && (
-        <div
-          className={`md:hidden transition-all duration-500 ease-in-out ${
-            isMenuOpen
-              ? "max-h-96 opacity-100"
-              : "max-h-0 opacity-0 overflow-hidden"
-          }`}
-        >
-          <div className="px-4 pt-4 pb-6 space-y-2 bg-gradient-to-br from-[var(--color-primary)]/95 via-[var(--color-secondary)]/90 to-[var(--color-primary)]/95 backdrop-blur-2xl border-t border-white/10 shadow-2xl">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsMenuOpen(false)}
-                className={`block text-white hover:text-[var(--color-secondary)] px-4 py-3 rounded-lg text-base font-semibold transition-all duration-300 hover:bg-[var(--color-hover)]/20 border border-transparent hover:border-[var(--color-secondary)]/30 ${
-                  location.pathname === link.href
-                    ? "text-[var(--color-secondary)] bg-[var(--color-hover)]/30 border-[var(--color-secondary)]/50"
-                    : ""
-                }`}
-              >
-                {link.name}
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Menu - For non-logged in users */}
-      {!user && (
-        <div
-          className={`md:hidden transition-all duration-500 ease-in-out ${
-            isMenuOpen
-              ? "max-h-96 opacity-100"
-              : "max-h-0 opacity-0 overflow-hidden"
-          }`}
-        >
-          <div className="px-4 pt-4 pb-6 space-y-2 bg-gradient-to-br from-[var(--color-primary)]/95 via-[var(--color-secondary)]/90 to-[var(--color-primary)]/95 backdrop-blur-2xl border-t border-white/10 shadow-2xl">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsMenuOpen(false)}
-                className={`block text-white hover:text-[var(--color-secondary)] px-4 py-3 rounded-lg text-base font-semibold transition-all duration-300 hover:bg-[var(--color-hover)]/20 border border-transparent hover:border-[var(--color-secondary)]/30 ${
-                  location.pathname === link.href
-                    ? "text-[var(--color-secondary)] bg-[var(--color-hover)]/30 border-[var(--color-secondary)]/50"
-                    : ""
-                }`}
-              >
-                {link.name}
-              </a>
-            ))}
-            <div className="pt-4">
-              <button
-                onClick={handleJoinUsClick}
-                className="w-full bg-[var(--color-gradient)] hover:bg-[var(--color-hover)] text-white px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 shadow-xl hover:scale-105 border border-[var(--color-secondary)]/30"
-              >
-                Join Us
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Profile Dropdown */}
-      {user && isProfileOpen && (
-        <div
-          className="md:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
-          onClick={() => setIsProfileOpen(false)}
-        >
-          <div className="absolute right-4 top-16 w-64 bg-gradient-to-br from-[var(--color-primary)]/95 via-[var(--color-secondary)]/90 to-[var(--color-primary)]/95 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/10 overflow-hidden z-50">
-            <div className="px-4 py-3 border-b border-white/10">
-              <div className="flex items-center space-x-3">
-                {user.photoURL ? (
-                  <img
-                    src={user.photoURL}
-                    alt={user.displayName || "User"}
-                    className="w-10 h-10 rounded-full border-2 border-[var(--color-secondary)]/30 object-cover"
-                  />
-                ) : (
-                  <div className="w-10 h-10 rounded-full bg-[var(--color-gradient)] flex items-center justify-center text-white font-bold border-2 border-[var(--color-secondary)]/30">
-                    {getInitials(user.displayName)}
-                  </div>
-                )}
-                <div>
-                  <p className="text-sm font-medium text-white">
-                    {user.displayName || "User"}
-                  </p>
-                  <p className="text-xs text-gray-400">{user.email}</p>
-                </div>
-              </div>
-            </div>
-            <div className="py-1">
-              {profileLinks.map((item, index) => (
-                <React.Fragment key={index}>
-                  {item.isDivider ? (
-                    <div className="border-t border-white/10 my-1"></div>
-                  ) : item.isButton ? (
-                    <button
-                      onClick={() => {
-                        handleProfileClick(item);
-                        setIsProfileOpen(false);
-                      }}
-                      className="w-full mx-2 my-1 bg-[var(--color-gradient)] hover:bg-[var(--color-hover)] text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2"
-                    >
-                      {item.icon}
-                      <span>{item.name}</span>
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        handleProfileClick(item);
-                        setIsProfileOpen(false);
-                      }}
-                      className="w-full text-left px-4 py-2 text-sm text-white hover:text-[var(--color-secondary)] hover:bg-[var(--color-hover)]/20 transition-all duration-300 flex items-center space-x-2"
-                    >
-                      {item.icon}
-                      <span>{item.name}</span>
-                    </button>
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-    </nav>
+    </>
   );
 };
 

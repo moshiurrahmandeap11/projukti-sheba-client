@@ -178,26 +178,32 @@ const AnalyticsSection = () => {
   if (loading) {
     return (
       <motion.div
-        className="min-h-screen bg-transparent backdrop-blur-3xl p-6"
+        className="min-h-screen bg-transparent backdrop-blur-3xl p-4 sm:p-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
         <div className="max-w-7xl mx-auto">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Analytics & Reports</h1>
-            <p className="text-gray-300">View and analyze user engagement data</p>
+          <div className="mb-6 sm:mb-8">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-1 sm:mb-2">
+              Analytics & Reports
+            </h1>
+            <p className="text-gray-600 text-sm sm:text-base">
+              View and analyze user engagement data
+            </p>
           </div>
           <motion.div
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             initial="hidden"
             animate="visible"
-            className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10"
+            className="bg-white/5 backdrop-blur-lg rounded-xl p-4 sm:p-6 border border-white/10"
           >
-            <div className="flex items-center justify-center py-12 text-gray-400">
+            <div className="flex items-center justify-center py-8 sm:py-12 text-gray-400">
               <div className="text-center">
-                <div className="text-4xl mb-4">📈</div>
-                <p className="text-lg font-medium mb-2">Loading Analytics...</p>
+                <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">📈</div>
+                <p className="text-base sm:text-lg font-medium mb-1 sm:mb-2">
+                  Loading Analytics...
+                </p>
               </div>
             </div>
           </motion.div>
@@ -209,27 +215,35 @@ const AnalyticsSection = () => {
   if (!analyticsData) {
     return (
       <motion.div
-        className="min-h-screen bg-transparent backdrop-blur-3xl p-6"
+        className="min-h-screen bg-transparent backdrop-blur-3xl p-4 sm:p-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
         <div className="max-w-7xl mx-auto">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Analytics & Reports</h1>
-            <p className="text-gray-300">View and analyze user engagement data</p>
+          <div className="mb-6 sm:mb-8">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-1 sm:mb-2">
+              Analytics & Reports
+            </h1>
+            <p className="text-gray-600 text-sm sm:text-base">
+              View and analyze user engagement data
+            </p>
           </div>
           <motion.div
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             initial="hidden"
             animate="visible"
-            className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10"
+            className="bg-white/5 backdrop-blur-lg rounded-xl p-4 sm:p-6 border border-white/10"
           >
-            <div className="flex items-center justify-center py-12 text-gray-400">
+            <div className="flex items-center justify-center py-8 sm:py-12 text-gray-400">
               <div className="text-center">
-                <div className="text-4xl mb-4">📈</div>
-                <p className="text-lg font-medium mb-2">No Analytics Data</p>
-                <p className="text-sm">Analytics will be available once you have data</p>
+                <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">📈</div>
+                <p className="text-base sm:text-lg font-medium mb-1 sm:mb-2">
+                  No Analytics Data
+                </p>
+                <p className="text-xs sm:text-sm">
+                  Analytics will be available once you have data
+                </p>
               </div>
             </div>
           </motion.div>
@@ -322,49 +336,57 @@ const AnalyticsSection = () => {
 
   return (
     <motion.div
-      className="min-h-screen bg-transparent backdrop-blur-3xl p-6"
+      className="min-h-screen bg-transparent backdrop-blur-3xl p-4 sm:p-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Analytics & Reports</h1>
-              <p className="text-gray-300">View and analyze user engagement data</p>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-1 sm:mb-2">
+                Analytics & Reports
+              </h1>
+              <p className="text-gray-600 text-sm sm:text-base">
+                View and analyze user engagement data
+              </p>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <label className="text-gray-300 text-sm">Start Date:</label>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
+              <div className="flex items-center space-x-2 w-full sm:w-auto">
+                <label className="text-gray-600 font-medium text-xs sm:text-sm">
+                  Start Date:
+                </label>
                 <input
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="bg-white/5 backdrop-blur-sm text-white px-3 py-2 rounded-lg border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#B5000D]/40"
+                  className="bg-white/5 backdrop-blur-sm text-black px-2 sm:px-3 py-1 sm:py-2 rounded-lg border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#B5000D]/40 text-xs sm:text-sm w-full sm:w-auto"
                 />
               </div>
-              <div className="flex items-center space-x-2">
-                <label className="text-gray-300 text-sm">End Date:</label>
+              <div className="flex items-center space-x-2 w-full sm:w-auto">
+                <label className="text-gray-600 font-medium text-xs sm:text-sm">
+                  End Date:
+                </label>
                 <input
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="bg-white/5 backdrop-blur-sm text-white px-3 py-2 rounded-lg border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#B5000D]/40"
+                  className="bg-white/5 backdrop-blur-sm text-black px-2 sm:px-3 py-1 sm:py-2 rounded-lg border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#B5000D]/40 text-xs sm:text-sm w-full sm:w-auto"
                 />
               </div>
               <button
                 onClick={fetchAnalytics}
-                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-colors duration-200"
+                className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-1 sm:py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg text-xs sm:text-sm transition-colors duration-200 w-full sm:w-auto"
               >
                 <span>Apply Filter</span>
               </button>
               <button
                 onClick={exportToPDF}
-                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-colors duration-200"
+                className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-1 sm:py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg text-xs sm:text-sm transition-colors duration-200 w-full sm:w-auto"
               >
-                <FileText className="w-4 h-4" />
+                <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>Export to PDF</span>
               </button>
             </div>
@@ -376,90 +398,146 @@ const AnalyticsSection = () => {
           initial="hidden"
           animate="visible"
           variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-          className="bg-white/5 backdrop-blur-lg rounded-xl p-4 border border-white/10"
+          className="bg-white/5 backdrop-blur-lg rounded-xl p-4 sm:p-6 border border-white/10"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div className="max-h-64" ref={visitorChartRef}>
-              <h3 className="text-base font-medium text-white mb-2">Visitor Types</h3>
+              <h3 className="text-sm sm:text-base font-medium text-black mb-2 sm:mb-3">
+                Visitor Types
+              </h3>
               <Bar
                 data={visitorChartData}
                 options={{
                   responsive: true,
                   maintainAspectRatio: false,
-                  plugins: { legend: { display: false }, tooltip: { enabled: true } },
-                  scales: { y: { beginAtZero: true } },
+                  plugins: { 
+                    legend: { display: false }, 
+                    tooltip: { enabled: true } 
+                  },
+                  scales: { 
+                    y: { beginAtZero: true },
+                    x: { ticks: { font: { size: 10 } } }
+                  },
                 }}
                 height={150}
               />
             </div>
             <div className="max-h-64" ref={geoChartRef}>
-              <h3 className="text-base font-medium text-white mb-2">Users by Country</h3>
+              <h3 className="text-sm sm:text-base font-medium text-black mb-2 sm:mb-3">
+                Users by Country
+              </h3>
               <Pie
                 data={geoChartData}
                 options={{
                   responsive: true,
                   maintainAspectRatio: false,
-                  plugins: { legend: { position: "right", labels: { font: { size: 10 } } }, tooltip: { enabled: true } },
+                  plugins: { 
+                    legend: { 
+                      position: "right", 
+                      labels: { font: { size: 8 } } 
+                    }, 
+                    tooltip: { enabled: true } 
+                  },
                 }}
                 height={150}
               />
             </div>
             <div className="max-h-64" ref={deviceChartRef}>
-              <h3 className="text-base font-medium text-white mb-2">Device Usage</h3>
+              <h3 className="text-sm sm:text-base font-medium text-black mb-2 sm:mb-3">
+                Device Usage
+              </h3>
               <Pie
                 data={deviceChartData}
                 options={{
                   responsive: true,
                   maintainAspectRatio: false,
-                  plugins: { legend: { position: "right", labels: { font: { size: 10 } } }, tooltip: { enabled: true } },
+                  plugins: { 
+                    legend: { 
+                      position: "right", 
+                      labels: { font: { size: 8 } } 
+                    }, 
+                    tooltip: { enabled: true } 
+                  },
                 }}
                 height={150}
               />
             </div>
             <div className="max-h-64" ref={exitPageChartRef}>
-              <h3 className="text-base font-medium text-white mb-2">Exit Pages</h3>
+              <h3 className="text-sm sm:text-base font-medium text-black mb-2 sm:mb-3">
+                Exit Pages
+              </h3>
               <Bar
                 data={exitPageChartData}
                 options={{
                   responsive: true,
                   maintainAspectRatio: false,
-                  plugins: { legend: { display: false }, tooltip: { enabled: true } },
+                  plugins: { 
+                    legend: { display: false }, 
+                    tooltip: { enabled: true } 
+                  },
                   scales: {
-                    x: { ticks: { autoSkip: false, maxRotation: 45, minRotation: 45, font: { size: 10 } } },
+                    x: { 
+                      ticks: { 
+                        autoSkip: false, 
+                        maxRotation: 45, 
+                        minRotation: 45, 
+                        font: { size: 8 } 
+                      } 
+                    },
                     y: { beginAtZero: true },
                   },
                 }}
                 height={150}
               />
             </div>
-            <div className="max-h-64 md:col-span-2" ref={funnelChartRef}>
-              <h3 className="text-base font-medium text-white mb-2">Funnel Analysis (Visitors → Leads → Clients)</h3>
+            <div className="max-h-64 sm:col-span-2" ref={funnelChartRef}>
+              <h3 className="text-sm sm:text-base font-medium text-black mb-2 sm:mb-3">
+                Funnel Analysis (Visitors → Leads → Clients)
+              </h3>
               <Bar
                 data={funnelChartData}
                 options={{
                   responsive: true,
                   maintainAspectRatio: false,
-                  plugins: { legend: { display: false }, tooltip: { enabled: true } },
-                  scales: { y: { beginAtZero: true } },
+                  plugins: { 
+                    legend: { display: false }, 
+                    tooltip: { enabled: true } 
+                  },
+                  scales: { 
+                    y: { beginAtZero: true },
+                    x: { ticks: { font: { size: 8 } } }
+                  },
                 }}
                 height={150}
               />
             </div>
-            <div className="max-h-64 md:col-span-2" ref={sourcesChartRef}>
-              <h3 className="text-base font-medium text-white mb-2">Visitor Sources</h3>
+            <div className="max-h-64 sm:col-span-2" ref={sourcesChartRef}>
+              <h3 className="text-sm sm:text-base font-medium text-black mb-2 sm:mb-3">
+                Visitor Sources
+              </h3>
               <Pie
                 data={sourcesChartData}
                 options={{
                   responsive: true,
                   maintainAspectRatio: false,
-                  plugins: { legend: { position: "right", labels: { font: { size: 10 } } }, tooltip: { enabled: true } },
+                  plugins: { 
+                    legend: { 
+                      position: "right", 
+                      labels: { font: { size: 8 } } 
+                    }, 
+                    tooltip: { enabled: true } 
+                  },
                 }}
                 height={150}
               />
             </div>
-            <div className="col-span-1 md:col-span-2">
-              <h3 className="text-base font-medium text-white mb-2">Average Session Duration</h3>
-              <p className="text-xl font-bold text-white">{Math.round(analyticsData.avgSessionDuration)} seconds</p>
+            <div className="col-span-1 sm:col-span-2">
+              <h3 className="text-sm sm:text-base font-medium text-black mb-2 sm:mb-3">
+                Average Session Duration
+              </h3>
+              <p className="text-lg sm:text-xl font-bold text-black">
+                {Math.round(analyticsData.avgSessionDuration)} seconds
+              </p>
             </div>
           </div>
         </motion.div>

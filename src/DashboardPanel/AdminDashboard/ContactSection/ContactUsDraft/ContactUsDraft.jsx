@@ -242,10 +242,10 @@ const ContactUsDraft = () => {
         <div className="mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">
+              <h1 className="text-3xl font-bold text-black mb-2">
                 Draft Contact Forms Management
               </h1>
-              <p className="text-gray-300">
+              <p className="text-gray-600">
                 Manage and track draft contact forms
               </p>
             </div>
@@ -280,10 +280,10 @@ const ContactUsDraft = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
+          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border shadow-md border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-300 text-sm">Pending</p>
+                <p className="text-gray-600 text-sm">Pending</p>
                 <p className="text-2xl font-bold text-yellow-400">
                   {counts.pending}
                 </p>
@@ -293,10 +293,10 @@ const ContactUsDraft = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
+          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border shadow-md border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-300 text-sm">In Progress</p>
+                <p className="text-gray-600 text-sm">In Progress</p>
                 <p className="text-2xl font-bold text-blue-400">
                   {counts.engage}
                 </p>
@@ -306,10 +306,10 @@ const ContactUsDraft = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
+          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border shadow-md border-white/10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-300 text-sm">Completed</p>
+                <p className="text-gray-600 text-sm">Completed</p>
                 <p className="text-2xl font-bold text-green-400">
                   {counts.completed}
                 </p>
@@ -349,7 +349,7 @@ const ContactUsDraft = () => {
                 className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 ${
                   activeTab === tab.key
                     ? "bg-[#B5000D] text-white shadow-lg"
-                    : "bg-white/5 text-gray-300 hover:bg-white/10"
+                    : "bg-white/5 text-gray-600 hover:bg-white/10"
                 }`}
               >
                 <span>{tab.label}</span>
@@ -383,28 +383,28 @@ const ContactUsDraft = () => {
               <table className="w-full">
                 <thead className="bg-white/5 border-b border-white/10">
                   <tr>
-                    <th className="text-left p-4 text-gray-300 font-medium">
+                    <th className="text-left p-4 text-gray-600 font-medium">
                       Form
                     </th>
-                    <th className="text-left p-4 text-gray-300 font-medium">
+                    <th className="text-left p-4 text-gray-600 font-medium">
                       Name
                     </th>
-                    <th className="text-left p-4 text-gray-300 font-medium">
+                    <th className="text-left p-4 text-gray-600 font-medium">
                       Email
                     </th>
-                    <th className="text-left p-4 text-gray-300 font-medium hidden md:table-cell">
+                    <th className="text-left p-4 text-gray-600 font-medium hidden md:table-cell">
                       Phone
                     </th>
-                    <th className="text-left p-4 text-gray-300 font-medium hidden lg:table-cell">
+                    <th className="text-left p-4 text-gray-600 font-medium hidden lg:table-cell">
                       Subject
                     </th>
-                    <th className="text-left p-4 text-gray-300 font-medium hidden md:table-cell">
+                    <th className="text-left p-4 text-gray-600 font-medium hidden md:table-cell">
                       Status
                     </th>
-                    <th className="text-left p-4 text-gray-300 font-medium hidden md:table-cell">
+                    <th className="text-left p-4 text-gray-600 font-medium hidden md:table-cell">
                       Created
                     </th>
-                    <th className="text-left p-4 text-gray-300 font-medium">
+                    <th className="text-left p-4 text-gray-600 font-medium">
                       Actions
                     </th>
                   </tr>
@@ -421,7 +421,7 @@ const ContactUsDraft = () => {
                             <MessageSquare className="w-4 h-4 text-blue-400" />
                           </div>
                           <div>
-                            <p className="text-white font-medium">
+                            <p className="text-black font-medium">
                               #{form._id?.slice(-6) || "N/A"}
                             </p>
                           </div>
@@ -429,27 +429,27 @@ const ContactUsDraft = () => {
                       </td>
                       <td className="p-4">
                         <div className="flex items-center space-x-2">
-                          <User className="w-4 h-4 text-gray-400" />
-                          <span className="text-gray-300">
+                          <User className="w-4 h-4 text-gray-600" />
+                          <span className="text-gray-600">
                             {form.name || "N/A"}
                           </span>
                         </div>
                       </td>
                       <td className="p-4">
-                        <span className="text-gray-300">
+                        <span className="text-gray-600">
                           {form.email || "N/A"}
                         </span>
                       </td>
                       <td className="p-4 hidden md:table-cell">
                         <div className="flex items-center space-x-2">
-                          <Phone className="w-4 h-4 text-gray-400" />
-                          <span className="text-gray-300">
+                          <Phone className="w-4 h-4 text-gray-600" />
+                          <span className="text-gray-600">
                             {form.phone || "N/A"}
                           </span>
                         </div>
                       </td>
                       <td className="p-4 hidden lg:table-cell">
-                        <span className="text-gray-300">
+                        <span className="text-gray-600">
                           {form.subject || "N/A"}
                         </span>
                       </td>
@@ -467,8 +467,8 @@ const ContactUsDraft = () => {
                       </td>
                       <td className="p-4 hidden md:table-cell">
                         <div className="flex items-center space-x-2">
-                          <Calendar className="w-4 h-4 text-gray-400" />
-                          <span className="text-gray-300 text-sm">
+                          <Calendar className="w-4 h-4 text-gray-600" />
+                          <span className="text-gray-600 text-sm">
                             {formatDate(form.createdAt)}
                           </span>
                         </div>
@@ -477,7 +477,7 @@ const ContactUsDraft = () => {
                         <div className="flex items-center space-x-2">
                           <button
                             onClick={() => setSelectedForm(form)}
-                            className="p-2 text-gray-400 hover:text-blue-400 hover:bg-blue-400/10 rounded-lg transition-colors duration-200"
+                            className="p-2 text-gray-600 hover:text-blue-400 hover:bg-blue-400/10 rounded-lg transition-colors duration-200"
                           >
                             <Eye className="w-4 h-4" />
                           </button>
@@ -488,15 +488,15 @@ const ContactUsDraft = () => {
                                 updateFormStatus(form._id, e.target.value)
                               }
                               disabled={updatingForm === form._id}
-                              className="appearance-none bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-blue-400 pr-8"
+                              className="appearance-none bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-black text-sm focus:outline-none focus:border-blue-400 pr-8"
                             >
-                              <option value="pending" className="bg-gray-800">
+                              <option value="pending" className="bg-white/50">
                                 Pending
                               </option>
-                              <option value="engage" className="bg-gray-800">
+                              <option value="engage" className="bg-white/50">
                                 In Progress
                               </option>
-                              <option value="completed" className="bg-gray-800">
+                              <option value="completed" className="bg-white/50">
                                 Completed
                               </option>
                             </select>

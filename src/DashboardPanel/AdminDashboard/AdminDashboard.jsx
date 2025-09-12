@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useAuth } from "../../hooks/AuthContexts/AuthContexts";
+import { useNavigate } from "react-router";
 
 // Import all section components
 import Sidebar from "./Sidebar/Sidebar";
@@ -14,7 +15,6 @@ import AnalyticsSection from "./AnalyticsSection/AnalyticsSection";
 import MessagesSection from "./MessagesSection/MessagesSection";
 import SettingsSection from "./SettingsSection/SettingsSection";
 import ReportsSection from "./ReportsSection/ReportsSection";
-import { useNavigate } from "react-router";
 import ServicesSection from "./ServicesSection/ServicesSection";
 import AboutSection from "../AboutSection/AboutSection";
 import ContactSection from "./ContactSection/ContactSection";
@@ -24,14 +24,24 @@ import TestimonialsSection from "./TestimonialSection/TestimonialSection";
 import BlogSection from "./BlogSection/BlogSection";
 
 const AdminDashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeSection, setActiveSection] = useState("overview");
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Default to closed on mobile
+  const [activeSection, setActiveSection] = useState(() => {
+    // Initialize activeSection from localStorage or default to "overview"
+    // But exclude "home" to prevent immediate redirect
+    const saved = localStorage.getItem("activeSection");
+    return (saved && saved !== "home") ? saved : "overview";
+  });
   const { user, loading } = useAuth();
   const [adminProfile, setAdminProfile] = useState(null);
   const [totalUsers, setTotalUsers] = useState([]);
   const navigate = useNavigate();
 
   const userId = user?.uid;
+
+  // Persist activeSection to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("activeSection", activeSection);
+  }, [activeSection]);
 
   // Fetch admin profile data
   useEffect(() => {
@@ -47,7 +57,6 @@ const AdminDashboard = () => {
         setAdminProfile(response.data);
       } catch (error) {
         console.error("Error fetching admin profile:", error);
-        // Handle error - maybe show a toast or error state
       }
     };
 
@@ -58,7 +67,9 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
-        const response = await axios.get("https://projukti-sheba-server.onrender.com/users");
+        const response = await axios.get(
+          "https://projukti-sheba-server.onrender.com/users"
+        );
         setTotalUsers(response.data);
       } catch (error) {
         console.error("Error fetching total users:", error);
@@ -68,12 +79,14 @@ const AdminDashboard = () => {
     fetchTotalUsers();
   }, []);
 
-  // Navigate to home when activeSection is "Home"
-  useEffect(() => {
-    if (activeSection === "Home") {
+  // Handle navigation when "home" is selected (only when user explicitly clicks home)
+  const handleSectionChange = (sectionId) => {
+    if (sectionId === "home") {
       navigate("/");
+    } else {
+      setActiveSection(sectionId);
     }
-  }, [activeSection, navigate]);
+  };
 
   // Sidebar menu items
   const menuItems = [
@@ -84,12 +97,11 @@ const AdminDashboard = () => {
     { id: "analytics", icon: "📈", label: "Analytics", badge: null },
     { id: "messages", icon: "💬", label: "Messages", badge: null },
     { id: "contact-us", icon: "📞", label: "Contact Us", badge: null },
-    { id: "contact-us-draft", icon: "📞", label: "C Draft", badge: "New"},
+    { id: "contact-us-draft", icon: "📞", label: "C Draft", badge: "New" },
     { id: "support", icon: "🆘", label: "Support", badge: "New" },
-    {id: "testimonials", icon: "🖊️", label: "Testimonials", badge: "New"},
-    {id: "blogs", icon: "📝", label: "Blogs", badge: "New"},
+    { id: "testimonials", icon: "🖊️", label: "Testimonials", badge: "New" },
+    { id: "blogs", icon: "📝", label: "Blogs", badge: "New" },
     { id: "settings", icon: "⚙️", label: "Settings", badge: null },
-    { id: "reports", icon: "📋", label: "Reports", badge: null },
     { id: "services", icon: "🛠️", label: "Services", badge: null },
     { id: "about", icon: "ℹ️", label: "About Us", badge: null },
     { id: "home", icon: "🏠", label: "Home", badge: null },
@@ -123,8 +135,8 @@ const AdminDashboard = () => {
         return <MessagesSection />;
       case "contact-us":
         return <ContactSection />;
-        case "contact-us-draft":
-          return <ContactUsDraft></ContactUsDraft>
+      case "contact-us-draft":
+        return <ContactUsDraft />;
       case "support":
         return <SupportSection />;
       case "testimonials":
@@ -133,40 +145,60 @@ const AdminDashboard = () => {
         return <BlogSection />;
       case "settings":
         return <SettingsSection />;
-      case "reports":
-        return <ReportsSection />;
       case "services":
         return <ServicesSection />;
       case "about":
         return <AboutSection />;
-      case "home":
-        return null;
+      default:
+        return <OverviewSection totalUsers={totalUsers} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-black text-white">
-      {/* Background Effects */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 -left-40 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 right-1/2 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="flex relative">
+    <div className="min-h-screen bg-[#f3f4f8]/40 text-black">
+      <div className="flex flex-col lg:flex-row relative">
         {/* Sidebar */}
-        <Sidebar
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-          activeSection={activeSection}
-          setActiveSection={setActiveSection}
-          menuItems={menuItems}
-          adminProfile={adminProfile}
-          loading={loading}
-        />
+        <div className="lg:block hidden">
+          <Sidebar
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+            activeSection={activeSection}
+            setActiveSection={handleSectionChange} // Use the new handler
+            menuItems={menuItems}
+            adminProfile={adminProfile}
+            loading={loading}
+          />
+        </div>
+
+        {/* Mobile Sidebar */}
+        <div
+          className={`fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-lg transform ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } transition-transform duration-300 ease-in-out lg:hidden`}
+        >
+          <Sidebar
+            sidebarOpen={true} // Always show full sidebar on mobile when open
+            setSidebarOpen={setSidebarOpen}
+            activeSection={activeSection}
+            setActiveSection={handleSectionChange}
+            menuItems={menuItems}
+            adminProfile={adminProfile}
+            loading={loading}
+          />
+        </div>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 overflow-auto">
+        <main className={`flex-1 p-4 sm:p-6 lg:p-8 overflow-auto transition-all duration-300 ${
+          sidebarOpen ? 'lg:ml-0' : 'lg:ml-0'
+        }`}>
+          {/* Mobile Sidebar Toggle */}
+          <button
+            className="lg:hidden mb-4 p-2 rounded-md bg-gray-200 hover:bg-gray-300 transition-colors duration-200"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            <span className="text-black">{sidebarOpen ? "Close" : "Menu"}</span>
+          </button>
+
           {/* Top Header */}
           <Header
             activeSection={activeSection}
@@ -181,6 +213,7 @@ const AdminDashboard = () => {
             animate="visible"
             variants={containerVariants}
             key={activeSection}
+            className="mt-4 sm:mt-6"
           >
             {renderContent()}
           </motion.div>

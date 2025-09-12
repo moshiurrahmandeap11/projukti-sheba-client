@@ -25,6 +25,8 @@ import AddTestimonial from "../../comopnents/AddTestimonial/AddTestimonial";
 import AddBlog from "../../DashboardPanel/AdminDashboard/BlogSection/AddBlog/AddBlog";
 import EditBlog from "../../DashboardPanel/AdminDashboard/BlogSection/EditBlog/EditBlog";
 import BlogDetails from "../../pages/Blogs/BlogDetails/BlogDetails";
+import AddProduct from "../../DashboardPanel/AdminDashboard/ProductsSection/AddProduct/AddProduct";
+import EditProduct from "../../DashboardPanel/AdminDashboard/ProductsSection/EditProduct/EditProduct";
 
 
 
@@ -65,7 +67,9 @@ const route = createBrowserRouter([
       { path: "add-team-member", element: <AddTeamMember></AddTeamMember> },
       { path: "edit-member/:id", element: <EditMember></EditMember> },
       { path: "add-blog", element: <AddBlog></AddBlog> },
-      {path: "edit-blog/:id", element: <EditBlog></EditBlog>}
+      {path: "edit-blog/:id", element: <EditBlog></EditBlog>},
+      {path: "add-product", element: <AddProduct></AddProduct>},
+      {path: "edit-product/:id", element: <EditProduct></EditProduct>}
     ]
   }
 ]);

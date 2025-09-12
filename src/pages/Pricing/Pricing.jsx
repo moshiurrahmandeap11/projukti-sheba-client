@@ -1,689 +1,379 @@
-import React, { useState, useEffect } from 'react';
-import { Check, Star, ArrowRight, Code, Globe, Video, TrendingUp, Server, ShoppingCart, GraduationCap, Heart, Users, Zap, Play, Camera, Target, Facebook, Instagram } from 'lucide-react';
-import { useNavigate } from 'react-router';
-import FancyButton from '../../comopnents/sharedItems/FancyButtons/FancyButton';
+import React, { useState, useEffect } from "react";
+import {
+  Check,
+  Star,
+  ArrowRight,
+  Code,
+  Globe,
+  Video,
+  TrendingUp,
+  Server,
+  ShoppingCart,
+  GraduationCap,
+  Heart,
+  Users,
+  Play,
+  Camera,
+  Loader2,
+} from "lucide-react";
+import { useNavigate } from "react-router";
+import FancyButton from "../../comopnents/sharedItems/FancyButtons/FancyButton";
+import axios from "axios";
 
 const Pricing = () => {
-    const [activeCategory, setActiveCategory] = useState('software');
-    const [particles, setParticles] = useState([]);
-    const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    // Generate floating particles
-    useEffect(() => {
-        const generateParticles = () => {
-            const newParticles = [];
-            for (let i = 0; i < 40; i++) {
-                newParticles.push({
-                    id: i,
-                    x: Math.random() * 100,
-                    y: Math.random() * 100,
-                    size: Math.random() * 2 + 1,
-                    speed: Math.random() * 1.5 + 0.5,
-                    opacity: Math.random() * 0.3 + 0.1
-                });
-            }
-            setParticles(newParticles);
-        };
-        generateParticles();
+  const navigate = useNavigate();
 
-        const interval = setInterval(() => {
-            setParticles(prev => prev.map(particle => ({
-                ...particle,
-                y: particle.y > 100 ? -5 : particle.y + particle.speed * 0.1,
-                x: particle.x + Math.sin(particle.y * 0.01) * 0.05
-            })));
-        }, 100);
+  // Get icon based on category name
+  const getIconForCategory = (categoryName) => {
+    const nameLower = categoryName?.toLowerCase() || "";
+    if (nameLower.includes("software")) return Code;
+    if (nameLower.includes("website") || nameLower.includes("web"))
+      return Globe;
+    if (nameLower.includes("video")) return Video;
+    if (nameLower.includes("ads") || nameLower.includes("social"))
+      return TrendingUp;
+    return Code; // Default icon
+  };
 
-        return () => clearInterval(interval);
-    }, []);
+  // Get color scheme based on category
+  const getColorForCategory = (categoryName) => {
+    const nameLower = categoryName?.toLowerCase() || "";
+    if (nameLower.includes("software")) return "from-blue-500 to-cyan-500";
+    if (nameLower.includes("website") || nameLower.includes("web"))
+      return "from-purple-500 to-pink-500";
+    if (nameLower.includes("video")) return "from-green-500 to-emerald-500";
+    if (nameLower.includes("ads") || nameLower.includes("social"))
+      return "from-orange-500 to-red-500";
+    return "from-blue-500 to-cyan-500";
+  };
 
-    const categories = [
-        { id: 'software', name: 'Software Solutions', icon: Code, color: 'from-blue-500 to-cyan-500' },
-        { id: 'websites', name: 'Website Development', icon: Globe, color: 'from-purple-500 to-pink-500' },
-        { id: 'video', name: 'Video Editing', icon: Video, color: 'from-green-500 to-emerald-500' },
-        { id: 'ads', name: 'Social Ads Campaign', icon: TrendingUp, color: 'from-orange-500 to-red-500' }
-    ];
+  // Get icon based on product name or category
+  const getIconForProduct = (productName) => {
+    const nameLower = productName?.toLowerCase() || "";
+    if (
+      nameLower.includes("pos") ||
+      nameLower.includes("shopping") ||
+      nameLower.includes("e-commerce")
+    )
+      return ShoppingCart;
+    if (nameLower.includes("school") || nameLower.includes("education"))
+      return GraduationCap;
+    if (
+      nameLower.includes("hospital") ||
+      nameLower.includes("health") ||
+      nameLower.includes("medical")
+    )
+      return Heart;
+    if (nameLower.includes("crm") || nameLower.includes("customer"))
+      return Users;
+    if (nameLower.includes("video")) return Video;
+    if (
+      nameLower.includes("ads") ||
+      nameLower.includes("facebook") ||
+      nameLower.includes("instagram")
+    )
+      return TrendingUp;
+    if (nameLower.includes("website") || nameLower.includes("web"))
+      return Globe;
+    if (nameLower.includes("software") || nameLower.includes("inventory"))
+      return Server;
+    if (nameLower.includes("wedding")) return Heart;
+    if (nameLower.includes("youtube") || nameLower.includes("play"))
+      return Play;
+    return Server;
+  };
 
-    const pricingData = {
-        software: [
-            {
-                name: 'Inventory Software Online',
-                description: 'Cloud-based inventory management with real-time tracking and analytics',
-                price: 50,
-                period: 'Starting Price',
-                monthlyCharge: '$5/month',
-                popular: false,
-                icon: Server,
-                features: [
-                    'Real-time inventory tracking',
-                    'Multi-location support',
-                    'Automated alerts',
-                    'Sales & purchase management',
-                    'Cloud backup',
-                    'Mobile app access',
-                    'Custom reports',
-                    '24/7 support'
-                ]
-            },
-            {
-                name: 'Inventory Software Offline',
-                description: 'Desktop-based inventory solution with local database storage',
-                price: 90,
-                period: 'Starting Price',
-                monthlyCharge: '$10/year maintenance',
-                popular: false,
-                icon: Server,
-                features: [
-                    'Local database storage',
-                    'No internet required',
-                    'Barcode scanning',
-                    'Stock management',
-                    'Supplier management',
-                    'Purchase orders',
-                    'Data export options',
-                    'Free updates'
-                ]
-            },
-            {
-                name: 'POS System',
-                description: 'Complete point-of-sale solution for retail businesses',
-                price: 50,
-                period: 'Starting Price',
-                monthlyCharge: 'One-time payment',
-                popular: true,
-                icon: ShoppingCart,
-                features: [
-                    'Touch screen interface',
-                    'Inventory integration',
-                    'Customer management',
-                    'Sales reporting',
-                    'Receipt printing',
-                    'Barcode support',
-                    'Multi-payment methods',
-                    'Staff management'
-                ]
-            },
-            {
-                name: 'School Management System',
-                description: 'Comprehensive school administration and student management platform',
-                price: 55,
-                period: 'Starting Price',
-                monthlyCharge: '$8/month',
-                popular: false,
-                icon: GraduationCap,
-                features: [
-                    'Student enrollment',
-                    'Attendance tracking',
-                    'Grade management',
-                    'Parent portal',
-                    'Fee management',
-                    'Exam scheduling',
-                    'SMS notifications',
-                    'Report generation'
-                ]
-            },
-            {
-                name: 'Hospital Management System',
-                description: 'Complete healthcare management solution for hospitals and clinics',
-                price: 80,
-                period: 'Starting Price',
-                monthlyCharge: '$12/month',
-                popular: false,
-                icon: Heart,
-                features: [
-                    'Patient records',
-                    'Appointment scheduling',
-                    'Billing system',
-                    'Pharmacy management',
-                    'Doctor portal',
-                    'Insurance handling',
-                    'Lab reports',
-                    'Emergency management'
-                ]
-            },
-            {
-                name: 'CRM Software',
-                description: 'Customer relationship management system for business growth',
-                price: 45,
-                period: 'Starting Price',
-                monthlyCharge: '$6/month',
-                popular: false,
-                icon: Users,
-                features: [
-                    'Lead management',
-                    'Contact database',
-                    'Sales pipeline',
-                    'Email integration',
-                    'Task automation',
-                    'Analytics dashboard',
-                    'Mobile access',
-                    'API integration'
-                ]
-            }
-        ],
-        websites: [
-            {
-                name: 'E-commerce Website',
-                description: 'Complete online store with payment gateway and inventory management',
-                price: 50,
-                period: 'Starting From',
-                monthlyCharge: 'Up to $500',
-                popular: true,
-                icon: ShoppingCart,
-                features: [
-                    'Responsive design',
-                    'Payment gateway',
-                    'Product catalog',
-                    'Shopping cart',
-                    'Order management',
-                    'SEO optimization',
-                    'Admin panel',
-                    '1 year support'
-                ]
-            },
-            {
-                name: 'School Website',
-                description: 'Educational institution website with student and parent portals',
-                price: 50,
-                period: 'Starting From',
-                monthlyCharge: 'Up to $100',
-                popular: false,
-                icon: GraduationCap,
-                features: [
-                    'Responsive design',
-                    'Student portal',
-                    'News & events',
-                    'Gallery section',
-                    'Contact forms',
-                    'SEO friendly',
-                    'Social media integration',
-                    '6 months support'
-                ]
-            },
-            {
-                name: 'Business Website',
-                description: 'Professional corporate website for business presence',
-                price: 40,
-                period: 'Starting From',
-                monthlyCharge: 'Up to $200',
-                popular: false,
-                icon: Globe,
-                features: [
-                    'Custom design',
-                    'About & services pages',
-                    'Contact forms',
-                    'Blog section',
-                    'Google Maps',
-                    'Mobile friendly',
-                    'Fast loading',
-                    '3 months support'
-                ]
-            },
-            {
-                name: 'Portfolio Website',
-                description: 'Creative portfolio website for professionals and artists',
-                price: 30,
-                period: 'Starting From',
-                monthlyCharge: 'Up to $80',
-                popular: false,
-                icon: Star,
-                features: [
-                    'Modern design',
-                    'Gallery showcase',
-                    'Contact section',
-                    'Responsive layout',
-                    'Social links',
-                    'Fast performance',
-                    'SEO basics',
-                    '2 months support'
-                ]
-            },
-            {
-                name: 'Restaurant Website',
-                description: 'Food business website with online ordering system',
-                price: 60,
-                period: 'Starting From',
-                monthlyCharge: 'Up to $300',
-                popular: false,
-                icon: Heart,
-                features: [
-                    'Menu display',
-                    'Online ordering',
-                    'Table booking',
-                    'Location maps',
-                    'Customer reviews',
-                    'Mobile optimized',
-                    'Payment integration',
-                    '4 months support'
-                ]
-            },
-            {
-                name: 'News Portal',
-                description: 'Dynamic news website with content management system',
-                price: 70,
-                period: 'Starting From',
-                monthlyCharge: 'Up to $400',
-                popular: false,
-                icon: Globe,
-                features: [
-                    'CMS integration',
-                    'Multi-category news',
-                    'Comment system',
-                    'Social sharing',
-                    'Ad management',
-                    'Author profiles',
-                    'Search functionality',
-                    '6 months support'
-                ]
-            }
-        ],
-        video: [
-            {
-                name: 'Basic Video Editing',
-                description: 'Simple video editing with cuts, transitions, and basic effects',
-                price: 20,
-                period: 'Starting From',
-                monthlyCharge: 'Per video',
-                popular: true,
-                icon: Play,
-                features: [
-                    'Video trimming',
-                    'Basic transitions',
-                    'Text overlays',
-                    'Audio sync',
-                    'Color correction',
-                    '1080p export',
-                    '2 revisions',
-                    '3-day delivery'
-                ]
-            },
-            {
-                name: 'Professional Video Editing',
-                description: 'Advanced video editing with motion graphics and effects',
-                price: 50,
-                period: 'Starting From',
-                monthlyCharge: 'Per video',
-                popular: false,
-                icon: Video,
-                features: [
-                    'Advanced effects',
-                    'Motion graphics',
-                    'Color grading',
-                    'Audio mixing',
-                    'Multi-camera sync',
-                    '4K export',
-                    '3 revisions',
-                    '5-day delivery'
-                ]
-            },
-            {
-                name: 'Social Media Videos',
-                description: 'Short-form content optimized for social media platforms',
-                price: 25,
-                period: 'Starting From',
-                monthlyCharge: 'Per video',
-                popular: false,
-                icon: TrendingUp,
-                features: [
-                    'Platform optimization',
-                    'Quick cuts',
-                    'Trending music',
-                    'Text animations',
-                    'Hashtag research',
-                    'Multiple formats',
-                    '2 revisions',
-                    '2-day delivery'
-                ]
-            },
-            {
-                name: 'Corporate Videos',
-                description: 'Professional corporate video production and editing',
-                price: 100,
-                period: 'Starting From',
-                monthlyCharge: 'Per project',
-                popular: false,
-                icon: Users,
-                features: [
-                    'Script consultation',
-                    'Professional editing',
-                    'Brand integration',
-                    'Voice-over sync',
-                    'Multiple versions',
-                    '4K quality',
-                    'Unlimited revisions',
-                    '7-day delivery'
-                ]
-            },
-            {
-                name: 'YouTube Content',
-                description: 'YouTube-optimized video editing with thumbnails',
-                price: 35,
-                period: 'Starting From',
-                monthlyCharge: 'Per video',
-                popular: false,
-                icon: Play,
-                features: [
-                    'YouTube optimization',
-                    'Thumbnail design',
-                    'Intro/outro',
-                    'Subscribe animations',
-                    'SEO optimization',
-                    '1440p export',
-                    '2 revisions',
-                    '4-day delivery'
-                ]
-            },
-            {
-                name: 'Wedding Videos',
-                description: 'Cinematic wedding video editing with music and effects',
-                price: 80,
-                period: 'Starting From',
-                monthlyCharge: 'Per project',
-                popular: false,
-                icon: Heart,
-                features: [
-                    'Cinematic editing',
-                    'Music synchronization',
-                    'Slow motion effects',
-                    'Highlight reel',
-                    'Full ceremony cut',
-                    '4K quality',
-                    '2 revisions',
-                    '10-day delivery'
-                ]
-            }
-        ],
-        ads: [
-            {
-                name: 'Facebook Ads Campaign',
-                description: 'Targeted Facebook advertising with audience research and optimization',
-                price: 10,
-                period: 'Starting From',
-                monthlyCharge: 'Unlimited budget',
-                popular: true,
-                icon: Facebook,
-                features: [
-                    'Audience research',
-                    'Ad creative design',
-                    'Campaign setup',
-                    'A/B testing',
-                    'Performance tracking',
-                    'Monthly reports',
-                    'Optimization',
-                    '24/7 monitoring'
-                ]
-            },
-            {
-                name: 'Google Ads Campaign',
-                description: 'Search engine marketing with keyword research and optimization',
-                price: 15,
-                period: 'Starting From',
-                monthlyCharge: 'Unlimited budget',
-                popular: false,
-                icon: Target,
-                features: [
-                    'Keyword research',
-                    'Ad copywriting',
-                    'Landing page optimization',
-                    'Bid management',
-                    'Conversion tracking',
-                    'Quality score improvement',
-                    'Weekly reports',
-                    'ROI optimization'
-                ]
-            },
-            {
-                name: 'Instagram Ads Campaign',
-                description: 'Visual-focused Instagram advertising for brand awareness',
-                price: 12,
-                period: 'Starting From',
-                monthlyCharge: 'Unlimited budget',
-                popular: false,
-                icon: Instagram,
-                features: [
-                    'Visual content creation',
-                    'Story ads',
-                    'Influencer outreach',
-                    'Hashtag strategy',
-                    'Engagement tracking',
-                    'Brand awareness',
-                    'Bi-weekly reports',
-                    'Creative optimization'
-                ]
-            },
-            {
-                name: 'TikTok Ads Campaign',
-                description: 'Trending TikTok advertising for younger demographics',
-                price: 18,
-                period: 'Starting From',
-                monthlyCharge: 'Unlimited budget',
-                popular: false,
-                icon: Play,
-                features: [
-                    'Trend research',
-                    'Video ad creation',
-                    'Hashtag challenges',
-                    'Influencer partnerships',
-                    'Viral optimization',
-                    'Engagement metrics',
-                    'Weekly reports',
-                    'Creative testing'
-                ]
-            },
-            {
-                name: 'LinkedIn Ads Campaign',
-                description: 'Professional B2B advertising on LinkedIn platform',
-                price: 20,
-                period: 'Starting From',
-                monthlyCharge: 'Unlimited budget',
-                popular: false,
-                icon: Users,
-                features: [
-                    'B2B targeting',
-                    'Professional content',
-                    'Lead generation',
-                    'Company targeting',
-                    'Industry insights',
-                    'Lead nurturing',
-                    'Monthly reports',
-                    'ROI tracking'
-                ]
-            },
-            {
-                name: 'Multi-Platform Campaign',
-                description: 'Comprehensive social media advertising across all platforms',
-                price: 50,
-                period: 'Starting From',
-                monthlyCharge: 'Unlimited budget',
-                popular: false,
-                icon: Zap,
-                features: [
-                    'All platforms included',
-                    'Cross-platform strategy',
-                    'Unified reporting',
-                    'Brand consistency',
-                    'Advanced analytics',
-                    'Retargeting campaigns',
-                    'Weekly optimization',
-                    'Dedicated manager'
-                ]
-            }
-        ]
+  // Map categories for UI
+  const uiCategories = categories.map((cat) => ({
+    id: cat._id,
+    name: cat.name,
+    icon: getIconForCategory(cat.name),
+    color: getColorForCategory(cat.name),
+  }));
+
+  // Fetch all categories and products once
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [categoriesRes, productsRes] = await Promise.all([
+          axios.get("https://projukti-sheba-server.onrender.com/categories"),
+          axios.get("https://projukti-sheba-server.onrender.com/products"),
+        ]);
+
+        const categoriesData = categoriesRes.data.data || [];
+        const productsData = productsRes.data.data || [];
+
+        setCategories(categoriesData);
+        setProducts(productsData);
+
+        if (categoriesData.length > 0) setActiveCategory(categoriesData[0]._id);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load data.");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const currentPackages = pricingData[activeCategory] || [];
+    fetchData();
+  }, []);
 
+  // Filter products for active category
+  const currentPackages = products
+    .filter((product) => {
+      const activeCatName = categories.find(
+        (cat) => cat._id === activeCategory
+      )?.name;
+      return product.category === activeCatName;
+    })
+    .map((product) => ({
+      _id: product._id,
+      name: product.name,
+      description:
+        product.description ||
+        `Comprehensive ${product.name} solution for your business needs`,
+      price: product.price || 50,
+      period: product.startingPriceText ? "Starting From" : "Starting Price",
+      monthlyCharge: product.emi || "$10/month",
+      popular: product.popular || false,
+      features: product.features || [],
+      icon: getIconForProduct(product.name || product.category),
+      category: product.category,
+    }));
+
+  // Loading state
+  if (loading) {
     return (
-        <div className="min-h-screen relative overflow-hidden bg-[rgba(10,25,47,0.3)] backdrop-blur-lg">
-            {/* Animated Background */}
-            <div
-                className="absolute inset-0"
-                style={{ 
-                    background: 'linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))', 
-                    zIndex: 0, 
-                    backdropFilter: 'blur(10px)' 
-                }}
-            >
-                {/* Floating particles */}
-                {particles.map(particle => (
-                    <div
-                        key={particle.id}
-                        className="absolute w-1 h-1 bg-[rgba(0,120,160,0.5)] rounded-full"
-                        style={{
-                            left: `${particle.x}%`,
-                            top: `${particle.y}%`,
-                            opacity: particle.opacity,
-                            transform: `scale(${particle.size})`
-                        }}
-                    ></div>
-                ))}
-                
-                {/* Geometric shapes */}
-                <div className="absolute top-20 right-20 w-40 h-40 border border-[rgba(255,255,255,0.05)] rounded-full animate-spin" style={{ animationDuration: '30s' }}></div>
-                <div className="absolute bottom-32 left-20 w-32 h-32 border border-[rgba(0,120,160,0.1)] rounded-lg rotate-45 animate-pulse"></div>
-                <div className="absolute top-1/2 right-10 w-20 h-20 bg-[rgba(0,120,160,0.05)] rounded-full animate-bounce" style={{ animationDuration: '4s' }}></div>
-            </div>
-
-            {/* Main Content */}
-            <div className="relative z-10">
-                {/* Header Section */}
-                <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-7xl mx-auto text-center">
-                        <div className="inline-block p-4 rounded-full bg-[rgba(0,120,160,0.2)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] mb-6">
-                            <Star className="w-16 h-16 text-white" />
-                        </div>
-                        <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-                            Our <span
-                                className="bg-clip-text text-transparent"
-                                style={{
-                                    backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))'
-                                }}
-                            >Pricing</span>
-                        </h1>
-                        <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                            Choose from our comprehensive range of digital solutions. From custom software to creative services, we have the perfect package for your business needs.
-                        </p>
-                    </div>
-                </div>
-
-                {/* Category Navigation */}
-                <div className="px-4 sm:px-6 lg:px-8 mb-16">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            {categories.map((category) => (
-                                <button
-                                    key={category.id}
-                                    onClick={() => setActiveCategory(category.id)}
-                                    className={`group relative p-6 rounded-2xl border transition-all duration-500 bg-[rgba(10,25,47,0.5)] backdrop-blur-md ${
-                                        activeCategory === category.id
-                                            ? 'border-[rgba(0,120,160,0.5)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] scale-105'
-                                            : 'border-[rgba(255,255,255,0.1)] hover:bg-[rgba(10,25,47,0.6)] hover:scale-105'
-                                    }`}
-                                >
-                                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300">
-                                        <category.icon className="w-6 h-6 text-white" />
-                                    </div>
-                                    <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-[rgba(0,120,160,0.8)]">{category.name}</h3>
-                                    <div className={`h-1 w-full rounded-full transition-all duration-300 ${
-                                        activeCategory === category.id
-                                            ? 'bg-[rgba(0,120,160,0.8)]'
-                                            : 'bg-[rgba(255,255,255,0.2)] group-hover:bg-[rgba(0,120,160,0.5)]'
-                                    }`}></div>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Pricing Cards */}
-                <div className="px-4 sm:px-6 lg:px-8 pb-20">
-                    <div className="max-w-7xl mx-auto">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {currentPackages.map((pkg, index) => (
-                                <div
-                                    key={index}
-                                    className={`relative group bg-[rgba(10,25,47,0.5)] backdrop-blur-md border rounded-2xl p-8 hover:bg-[rgba(10,25,47,0.6)] transition-all duration-500 hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)] ${
-                                        pkg.popular
-                                            ? 'border-[rgba(0,120,160,0.5)] shadow-[0_4px_30px_rgba(0,120,160,0.2)] scale-105'
-                                            : 'border-[rgba(255,255,255,0.1)]'
-                                    }`}
-                                >
-                                    {/* Popular Badge */}
-                                    {pkg.popular && (
-                                        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                                            <div className="bg-[rgba(0,120,160,0.5)] text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
-                                                Most Popular
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <div className="relative z-10">
-                                        {/* Package Header */}
-                                        <div className="text-center mb-8">
-                                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300">
-                                                <pkg.icon className="w-8 h-8 text-white" />
-                                            </div>
-                                            <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-[rgba(0,120,160,0.8)]">{pkg.name}</h3>
-                                            <p className="text-gray-400 text-sm leading-relaxed">{pkg.description}</p>
-                                        </div>
-
-                                        {/* Pricing */}
-                                        <div className="text-center mb-8">
-                                            <div className="flex items-baseline justify-center">
-                                                <span className="text-4xl font-bold text-white">${pkg.price}</span>
-                                            </div>
-                                            <div className="text-gray-400 mt-2">
-                                                <div>{pkg.period}</div>
-                                                <div className="text-sm">{pkg.monthlyCharge}</div>
-                                            </div>
-                                        </div>
-
-                                        {/* Features */}
-                                        <div className="space-y-4 mb-8">
-                                            {pkg.features.map((feature, idx) => (
-                                                <div key={idx} className="flex items-center space-x-3">
-                                                    <Check className="w-5 h-5 text-[rgba(0,120,160,0.8)] flex-shrink-0" />
-                                                    <span className="text-gray-300 text-sm">{feature}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        {/* CTA Button */}
-                                        <FancyButton>
-                                            <span className="relative z-10 flex items-center justify-center space-x-2">
-                                                <span>Get Started</span>
-                                                <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" />
-                                            </span>
-                                        </FancyButton>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Footer CTA */}
-                <div className="px-4 sm:px-6 lg:px-8 pb-16">
-                    <div className="max-w-4xl mx-auto text-center">
-                        <div className="bg-[rgba(10,25,47,0.5)] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-12 relative shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
-                            <div className="relative z-10">
-                                <h2 className="text-3xl font-bold text-white mb-4">Need a Custom Solution?</h2>
-                                <p className="text-gray-300 mb-8 text-lg">
-                                    Can't find what you're looking for? Let's discuss your unique requirements and create a tailored solution that fits your business perfectly.
-                                </p>
-                                <FancyButton onClick={() => navigate("/contact")}>
-                                    <span className="relative z-10 flex items-center space-x-2">
-                                        <span>Contact Us</span>
-                                        <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" />
-                                    </span>
-                                </FancyButton>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-blue-600 mx-auto mb-4" />
+          <p className="text-gray-600 text-lg">
+            Loading pricing information...
+          </p>
         </div>
+      </div>
     );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="text-center">
+          <div className="text-red-500 text-6xl mb-4">⚠️</div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            Something went wrong
+          </h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <FancyButton onClick={() => window.location.reload()}>
+            <span className="relative z-10 flex items-center space-x-2">
+              <span>Retry</span>
+              <ArrowRight className="w-4 h-4" />
+            </span>
+          </FancyButton>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className=" relative pt-10 backdrop-blur-lg">
+      <div className="relative z-10">
+        {/* Header */}
+        <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto text-center">
+            <div className="inline-block p-4 rounded-full bg-[rgba(0,120,160,0.2)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] mb-6">
+              <Star className="w-16 h-16 text-black" />
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold text-black mb-6 tracking-tight">
+              Our <span>Pricing</span>
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Choose from our comprehensive range of digital solutions. From
+              custom software to creative services, we have the perfect package
+              for your business needs.
+            </p>
+          </div>
+        </div>
+
+        {/* Category Tabs */}
+        {categories.length > 0 && (
+          <div className="px-4 sm:px-6 lg:px-8 mb-16">
+            <div className="max-w-4xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {uiCategories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setActiveCategory(cat.id)}
+                    className={`group relative p-6 rounded-2xl border transition-all duration-500 backdrop-blur-md ${
+                      activeCategory === cat.id
+                        ? "border-[rgba(0,120,160,0.5)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] scale-105"
+                        : "border-[rgba(255,255,255,0.1)] hover:scale-105"
+                    }`}
+                  >
+                    <div
+                      className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300`}
+                    >
+                      <cat.icon className="w-6 h-6 text-black" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-black mb-2 group-hover:text-[rgba(0,120,160,0.8)]">
+                      {cat.name}
+                    </h3>
+                    <div
+                      className={`h-1 w-full rounded-full transition-all duration-300 ${
+                        activeCategory === cat.id
+                          ? "bg-[rgba(0,120,160,0.8)]"
+                          : "bg-[rgba(255,255,255,0.2)] group-hover:bg-[rgba(0,120,160,0.5)]"
+                      }`}
+                    ></div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Pricing Cards */}
+        <div className="px-4 sm:px-6 lg:px-8 pb-20">
+          <div className="max-w-7xl mx-auto">
+            {currentPackages.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {currentPackages.map((pkg) => (
+                  <div
+                    key={pkg._id}
+                    className={`relative group bg-[#EDFDFF] backdrop-blur-md border rounded-2xl p-8  transition-all duration-500 hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)] ${
+                      pkg.popular
+                        ? "border-[rgba(0,120,160,0.5)] shadow-[0_4px_30px_rgba(0,120,160,0.2)] scale-105"
+                        : "border-[rgba(255,255,255,0.1)]"
+                    }`}
+                  >
+                    {pkg.popular && (
+                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <div className="bg-[rgba(0,120,160,0.5)] text-black px-4 py-2 rounded-full text-sm font-semibold shadow-lg backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
+                          Most Popular
+                        </div>
+                      </div>
+                    )}
+                    <div className="relative z-10">
+                      <div className="text-center mb-8">
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300">
+                          <pkg.icon className="w-8 h-8 text-black" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-black mb-2 group-hover:text-[rgba(0,120,160,0.8)]">
+                          {pkg.name}
+                        </h3>
+                        <p className="text-gray-600 text-sm leading-relaxed">
+                          {pkg.description}
+                        </p>
+                      </div>
+                      <div className="text-center mb-8">
+                        <div className="flex items-baseline justify-center">
+                          <span className="text-4xl font-bold text-black">
+                            ${pkg.price}
+                          </span>
+                        </div>
+                        <div className="text-gray-600 mt-2">
+                          <div>{pkg.period}</div>
+                          <div className="text-sm">{pkg.monthlyCharge}</div>
+                        </div>
+                      </div>
+                      <div className="space-y-4 mb-8">
+                        {pkg.features.length > 0 ? (
+                          pkg.features.map((feature, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center space-x-3"
+                            >
+                              <Check className="w-5 h-5 text-[rgba(0,120,160,0.8)] flex-shrink-0" />
+                              <span className="text-gray-600 text-sm">
+                                {feature}
+                              </span>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-center text-gray-500 text-sm py-4">
+                            Features will be updated soon
+                          </div>
+                        )}
+                      </div>
+                      <div className="text-center">
+                        {/* Global Fixed CTA */}
+                        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
+                          <button
+                            onClick={() => navigate("/contact")}
+                            className="relative group bg-purple-700 px-6 py-3 rounded-full cursor-pointer text-white text-base font-medium shadow-lg overflow-hidden"
+                          >
+                            <span className="relative z-10">Get Started</span>
+                            <div className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <Camera className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-gray-600 mb-2">
+                  No Products Available
+                </h3>
+                <p className="text-gray-500 mb-6">
+                  Products for this category will be available soon.
+                </p>
+
+                <div
+                  onClick={() => navigate("/contact")}
+                  className="flex justify-center items-center"
+                >
+                  <button className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
+                    <span className="relative z-10">
+                      Contact Us for Custom Solutions
+                    </span>
+                    <div className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Footer CTA */}
+        <div className="px-4 sm:px-6 lg:px-8 pb-16">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="bg-[#EDFDFF] backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-12 relative shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
+              <div className="relative z-10">
+                <h2 className="text-3xl font-bold text-black mb-4">
+                  Need a Custom Solution?
+                </h2>
+                <p className="text-gray-600 mb-8 text-lg">
+                  Can't find what you're looking for? Let's discuss your unique
+                  requirements and create a tailored solution that fits your
+                  business perfectly.
+                </p>
+                <div
+                  onClick={() => navigate("/contact")}
+                  className="flex justify-center"
+                >
+                  <button className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
+                    <span className="relative z-10">Contact Us</span>
+                    <div className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Pricing;

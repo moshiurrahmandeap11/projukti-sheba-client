@@ -21,7 +21,9 @@ const Blogs = () => {
       setLoading(true);
       try {
         // Fetch blogs
-        const blogsResponse = await axios.get("https://projukti-sheba-server.onrender.com/blogs");
+        const blogsResponse = await axios.get(
+          "https://projukti-sheba-server.onrender.com/blogs"
+        );
         if (blogsResponse.data.success) {
           setBlogs(blogsResponse.data.data);
         } else {
@@ -29,8 +31,13 @@ const Blogs = () => {
         }
 
         // Fetch categories
-        const categoriesResponse = await axios.get("https://projukti-sheba-server.onrender.com/categories");
-        setCategories([{ _id: "All", name: "All" }, ...categoriesResponse.data.data]);
+        const categoriesResponse = await axios.get(
+          "https://projukti-sheba-server.onrender.com/categories"
+        );
+        setCategories([
+          { _id: "All", name: "All" },
+          ...categoriesResponse.data.data,
+        ]);
       } catch (error) {
         console.error("Error fetching data:", error);
         toast.error(error.message || "Failed to load blogs or categories");
@@ -61,8 +68,8 @@ const Blogs = () => {
   // Get truncated text for preview
   const getTruncatedText = (html, maxLength = 150) => {
     const plainText = stripHTMLTags(html);
-    return plainText.length > maxLength 
-      ? plainText.substring(0, maxLength) + "..." 
+    return plainText.length > maxLength
+      ? plainText.substring(0, maxLength) + "..."
       : plainText;
   };
 
@@ -72,9 +79,9 @@ const Blogs = () => {
   };
 
   const handleViewBlogs = (id) => {
-console.log(id);
-navigate(`/blog/${id}`);
-  }
+    console.log(id);
+    navigate(`/blog/${id}`);
+  };
 
   // Filter blogs based on category and search query
   const filteredBlogs = blogs.filter((blog) => {
@@ -89,15 +96,9 @@ navigate(`/blog/${id}`);
   });
 
   return (
-    <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[rgba(10,25,47,0.3)] backdrop-blur-lg relative overflow-hidden">
+    <section className="mt-10 py-12 sm:py-20 px-4 sm:px-6 lg:px-8  backdrop-blur-lg relative overflow-hidden">
       {/* Background Overlay */}
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          background: 'linear-gradient(135deg, rgba(10,25,47,0.5), rgba(50,40,130,0.4), rgba(0,120,160,0.3))',
-          backdropFilter: 'blur(10px)',
-        }}
-      >
+      <div>
         <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-purple-500/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/3 right-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
         <div className="absolute top-1/2 right-1/3 w-32 h-32 bg-pink-500/5 rounded-full blur-3xl"></div>
@@ -112,17 +113,11 @@ navigate(`/blog/${id}`);
           className="text-center mb-12 sm:mb-16"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
-            <span
-              className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(0,120,160,0.7))',
-              }}
-            >
-              Blog & Insights
-            </span>
+            <span>Blog & Insights</span>
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-6 sm:mb-8">
-            Explore our latest insights on SEO, thought leadership, and digital marketing to stay ahead in the digital landscape.
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6 sm:mb-8">
+            Explore our latest insights on SEO, thought leadership, and digital
+            marketing to stay ahead in the digital landscape.
           </p>
 
           {/* Search and Filter */}
@@ -134,7 +129,7 @@ navigate(`/blog/${id}`);
                 placeholder="Search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 sm:py-3 backdrop-blur-md bg-[rgba(10,25,47,0.5)] border border-[rgba(255,255,255,0.1)] rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)]"
+                className="w-full pl-10 pr-4 py-2 sm:py-3 backdrop-blur-md  border border-[#008080] rounded-full text-black focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)]"
               />
             </div>
             <div className="flex flex-wrap justify-center gap-2">
@@ -144,10 +139,10 @@ navigate(`/blog/${id}`);
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setSelectedCategory(category._id)}
-                  className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-md bg-[rgba(10,25,47,0.5)] border ${
+                  className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-white cursor-pointer text-sm font-medium transition-all duration-300 backdrop-blur-md  border ${
                     selectedCategory === category._id
-                      ? 'bg-[rgba(0,120,160,0.5)] border-[rgba(0,120,160,0.5)] text-white'
-                      : 'border-[rgba(255,255,255,0.1)] text-gray-300 hover:bg-[rgba(10,25,47,0.6)] hover:border-[rgba(0,120,160,0.5)]'
+                      ? "bg-[#008080]/70 scale-105 shadow-xl"
+                      : "bg-[#008080] "
                   }`}
                 >
                   {category.name}
@@ -173,20 +168,22 @@ navigate(`/blog/${id}`);
                 <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">
                   Featured Article
                 </h3>
-                <div className="backdrop-blur-xl bg-[rgba(10,25,47,0.5)] rounded-3xl p-6 sm:p-8 border border-[rgba(255,255,255,0.1)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] max-w-5xl mx-auto">
+                <div className="backdrop-blur-xl bg-[#CCEFFF] rounded-3xl p-6 sm:p-8 border border-[rgba(255,255,255,0.1)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] max-w-5xl mx-auto">
                   <div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-center">
                     <motion.div
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.3 }}
                     >
                       <img
-                        src={filteredBlogs[0].image || "/api/placeholder/400/250"}
+                        src={
+                          filteredBlogs[0].image || "/api/placeholder/400/250"
+                        }
                         alt={filteredBlogs[0].title}
                         className="w-full h-48 sm:h-64 md:h-72 object-cover rounded-lg"
                       />
                     </motion.div>
                     <div>
-                      <div className="flex flex-wrap items-center text-xs sm:text-sm text-gray-400 mb-4">
+                      <div className="flex flex-wrap items-center text-xs sm:text-sm text-gray-600 mb-4">
                         <Tag className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
                         {getCategoryName(filteredBlogs[0].category)}
                         <span className="mx-2">•</span>
@@ -196,11 +193,14 @@ navigate(`/blog/${id}`);
                         <User className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
                         {filteredBlogs[0].author || "Unknown Author"}
                       </div>
-                      <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
+                      <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-4 hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
                         {filteredBlogs[0].title || "Untitled"}
                       </h4>
-                      <p className="text-gray-300 text-sm sm:text-base mb-4 sm:mb-6 line-clamp-3">
-                        {getTruncatedText(getBlogContent(filteredBlogs[0]), 200)}
+                      <p className="text-gray-600 text-sm sm:text-base mb-4 sm:mb-6 line-clamp-3">
+                        {getTruncatedText(
+                          getBlogContent(filteredBlogs[0]),
+                          200
+                        )}
                       </p>
                       <div className="flex flex-wrap gap-2 mb-4">
                         {filteredBlogs[0].tags?.map((tag, index) => (
@@ -212,10 +212,16 @@ navigate(`/blog/${id}`);
                           </span>
                         ))}
                       </div>
-                      <FancyButton onClick={() => handleViewBlogs(filteredBlogs[0]._id)} className="cursor-pointer inline-flex items-center space-x-2 text-[#B5000D] hover:text-[#B5000D]/80">
-                          <span className="pl-4">Read More</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </FancyButton>
+
+                      <div
+                        onClick={() => handleViewBlogs(filteredBlogs[0]._id)}
+                        className="flex justify-start"
+                      >
+                        <button className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
+                          <span className="relative z-10">Read More</span>
+                          <div className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -230,24 +236,24 @@ navigate(`/blog/${id}`);
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-2xl p-4 sm:p-6 border border-[rgba(255,255,255,0.1)] transition-all duration-300 hover:bg-[rgba(10,25,47,0.6)] hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)]"
+                  className="backdrop-blur-lg bg-[#CCEFFF] rounded-2xl p-4 sm:p-6 border border-[rgba(255,255,255,0.1)] transition-all duration-300  hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)]"
                 >
                   <img
                     src={blog.image || "/api/placeholder/400/250"}
                     alt={blog.title}
                     className="w-full h-32 sm:h-40 object-cover rounded-lg mb-4"
                   />
-                  <div className="flex flex-wrap items-center text-xs sm:text-sm text-gray-400 mb-4">
+                  <div className="flex flex-wrap items-center text-xs sm:text-sm text-gray-600 mb-4">
                     <Tag className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
                     {getCategoryName(blog.category)}
                     <span className="mx-2">•</span>
                     <Calendar className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
                     {formatDate(blog.createdAt)}
                   </div>
-                  <h4 className="text-base sm:text-lg font-semibold text-white mb-2 hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300 line-clamp-2">
+                  <h4 className="text-base sm:text-lg font-semibold text-black mb-2 hover:text-black transition-colors duration-300 line-clamp-2">
                     {blog.title || "Untitled"}
                   </h4>
-                  <p className="text-gray-300 text-xs sm:text-sm mb-4 line-clamp-3">
+                  <p className="text-gray-600 text-xs sm:text-sm mb-4 line-clamp-3">
                     {getTruncatedText(getBlogContent(blog), 120)}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -266,13 +272,19 @@ navigate(`/blog/${id}`);
                     )}
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-gray-600">
                       By {blog.author || "Unknown Author"}
                     </span>
-                    <p onClick={() => handleViewBlogs(blog._id)} className="text-xs text-gray-400">
-                      <span>Read More</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </p>
+
+                    <div
+                      onClick={() => handleViewBlogs(blog._id)}
+                      className="flex justify-start"
+                    >
+                      <button className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
+                        <span className="relative z-10">Read More</span>
+                        <div className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -294,28 +306,32 @@ navigate(`/blog/${id}`);
               transition={{ duration: 0.5, delay: 0.4 }}
               className="text-center mt-12 sm:mt-16"
             >
-              <div className="backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-2xl p-6 sm:p-8 border border-[rgba(255,255,255,0.1)] max-w-3xl mx-auto shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
-                <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">
+              <div className="backdrop-blur-lg bg-[#CCEFFF] rounded-2xl p-6 sm:p-8 border border-[rgba(255,255,255,0.1)] max-w-3xl mx-auto shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
+                <h3 className="text-xl sm:text-2xl font-bold text-black mb-4">
                   Stay Ahead with Our Insights
                 </h3>
-                <p className="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-lg">
-                  Subscribe to our newsletter for the latest SEO tips, thought leadership content, and industry updates.
+                <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-lg">
+                  Subscribe to our newsletter for the latest SEO tips, thought
+                  leadership content, and industry updates.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <input
                     type="email"
                     placeholder="Enter your email"
-                    className="px-4 py-2 sm:py-3 backdrop-blur-md bg-[rgba(10,25,47,0.5)] border border-[rgba(255,255,255,0.1)] rounded-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)]"
+                    className="px-4 py-2 sm:py-3 backdrop-blur-md bg-[rgba(10,25,47,0.5)] border border-[rgba(255,255,255,0.1)] rounded-full text-gray-600 focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)]"
                   />
-                  <FancyButton>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-full"
-                    >
-                      Subscribe
-                    </motion.button>
-                  </FancyButton>
+
+              <div
+                className="flex justify-start"
+              >
+                <button className="relative group bg-red-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
+                  <span className="relative z-10">Subscribe</span>
+                  <div
+                    className="absolute inset-0 bg-red-700/50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"
+                  ></div>
+                </button>
+              </div>
+
                 </div>
               </div>
             </motion.div>
