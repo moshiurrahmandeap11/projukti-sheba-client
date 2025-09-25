@@ -25,7 +25,7 @@ const Industry = ({ className = '' }) => {
     }
 
     return (
-        <div className={`bg-teal-50 ${className}`}>
+        <div className={`bg-gray-50 ${className}`}>
             <div className="py-12 px-4 text-center max-w-7xl mx-auto">
                 <h2 className="text-3xl font-bold text-black">
                     Industry We Serve

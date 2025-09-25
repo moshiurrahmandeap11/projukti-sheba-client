@@ -184,7 +184,7 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="py-8  sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 backdrop-blur-lg relative overflow-hidden">
+    <section className="py-8 bg-gray-50 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 backdrop-blur-lg relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div

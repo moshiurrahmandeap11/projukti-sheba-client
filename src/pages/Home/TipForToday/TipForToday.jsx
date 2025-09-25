@@ -30,7 +30,7 @@ const TipForToday = () => {
   const todayTip = tips[0];
 
   return (
-    <section className="py-4 sm:py-6 bg-[#ECEEFC] md:py-8 px-4 sm:px-6 lg:px-8 backdrop-blur-lg relative overflow-hidden">
+    <section className="py-4 sm:py-6 md:py-8 px-4 sm:px-6 lg:px-8 backdrop-blur-lg relative overflow-hidden">
       {/* Background Overlay */}
       <div className="absolute inset-0">
         {/* Wave Animation Background */}
@@ -41,7 +41,7 @@ const TipForToday = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto bg-[#ECEEFC] rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 relative z-10">
+      <div className="max-w-7xl mx-auto  rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-6">

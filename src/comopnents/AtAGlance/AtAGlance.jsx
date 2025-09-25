@@ -85,7 +85,7 @@ const AtAGlance = () => {
     return (
         <div 
             id="at-a-glance" 
-            className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50"
+            className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8"
         >
             <div className="max-w-7xl mx-auto">
                 {/* Header Section */}

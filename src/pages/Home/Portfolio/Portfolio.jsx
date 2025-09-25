@@ -66,9 +66,9 @@ const Portfolio = () => {
       : projects.filter((project) => project.category === activeTab);
 
   return (
-    <section className="py-4 px-4 bg-[#F0F9EB] sm:px-6 lg:px-8 overflow-hidden">
+    <section className="py-4 px-4  sm:px-6 lg:px-8 overflow-hidden">
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="relative z-10 max-w-7xl mx-auto bg-[#F0F9EB] p-4 sm:p-6 md:p-8 lg:p-10 rounded-2xl">
+      <div className="relative z-10 max-w-7xl mx-auto  p-4 sm:p-6 md:p-8 lg:p-10 rounded-2xl">
         {/* Section Header */}
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
