@@ -88,12 +88,10 @@ const TipForToday = () => {
               <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6">
                 "{todayTip.tip}"
               </p>
-              <FancyButton>
-                <button className="inline-flex items-center space-x-2 text-xs sm:text-sm">
+                <button className="inline-flex bg-red-700 px-6 py-3 rounded-md text-white font-medium cursor-pointer items-center space-x-2 text-xs sm:text-sm">
                   <Share2 className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>Share Tip</span>
                 </button>
-              </FancyButton>
             </div>
           </div>
         </div>
@@ -111,10 +109,10 @@ const TipForToday = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="px-3 sm:px-4 py-2 backdrop-blur-md bg-transparent border-2 border-[rgba(0,120,160,0.5)] rounded-full text-gray-600 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)] w-full sm:w-auto"
+                className="px-3 sm:px-4 py-2 backdrop-blur-md bg-transparent border-2 border-red-400 rounded-full text-gray-600 text-xs sm:text-sm  w-full sm:w-auto"
               />
               <button
-                className="group relative bg-[#ff0000]/60 text-white font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-lg border border-[rgba(0,120,160,0.5)] backdrop-blur-sm overflow-hidden hover:bg-[#ff0000]/30 cursor-pointer transition-all duration-300"
+                className="group relative bg-red-700 text-white font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-lg  backdrop-blur-sm overflow-hidden cursor-pointer transition-all duration-300"
                 onClick={() => setIsSubscribed(!isSubscribed)}
               >
                 <span className="relative z-10 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
@@ -130,9 +128,6 @@ const TipForToday = () => {
                     </>
                   )}
                 </span>
-                <div
-                  className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"
-                ></div>
               </button>
             </div>
           </div>

@@ -129,7 +129,7 @@ const Blogs = () => {
                 placeholder="Search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 sm:py-3 backdrop-blur-md  border border-[#008080] rounded-full text-black focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)]"
+                className="w-full pl-10 pr-4 py-2 sm:py-3 backdrop-blur-md  border border-red-400 rounded-full text-black focus:outline-none focus:ring-2 focus:ring-[rgba(0,120,160,0.5)]"
               />
             </div>
             <div className="flex flex-wrap justify-center gap-2">
@@ -141,8 +141,8 @@ const Blogs = () => {
                   onClick={() => setSelectedCategory(category._id)}
                   className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-white cursor-pointer text-sm font-medium transition-all duration-300 backdrop-blur-md  border ${
                     selectedCategory === category._id
-                      ? "bg-[#008080]/70 scale-105 shadow-xl"
-                      : "bg-[#008080] "
+                      ? "bg-red-700 scale-105 shadow-xl"
+                      : "bg-red-400/70 "
                   }`}
                 >
                   {category.name}
@@ -168,7 +168,7 @@ const Blogs = () => {
                 <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">
                   Featured Article
                 </h3>
-                <div className="backdrop-blur-xl bg-[#CCEFFF] rounded-3xl p-6 sm:p-8 border border-[rgba(255,255,255,0.1)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] max-w-5xl mx-auto">
+                <div className="backdrop-blur-xl bg-red-50 rounded-3xl p-6 sm:p-8 border border-[rgba(255,255,255,0.1)] max-w-5xl mx-auto">
                   <div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-center">
                     <motion.div
                       whileHover={{ scale: 1.02 }}
@@ -184,16 +184,16 @@ const Blogs = () => {
                     </motion.div>
                     <div>
                       <div className="flex flex-wrap items-center text-xs sm:text-sm text-gray-600 mb-4">
-                        <Tag className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
+                        <Tag className="w-4 h-4 mr-1 text-red-400/70" />
                         {getCategoryName(filteredBlogs[0].category)}
                         <span className="mx-2">•</span>
-                        <Calendar className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
+                        <Calendar className="w-4 h-4 mr-1 text-red-400/70" />
                         {formatDate(filteredBlogs[0].createdAt)}
                         <span className="mx-2">•</span>
-                        <User className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
+                        <User className="w-4 h-4 mr-1 text-red-400/70" />
                         {filteredBlogs[0].author || "Unknown Author"}
                       </div>
-                      <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-4 hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
+                      <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-4 hover:text-red-400 transition-colors duration-300">
                         {filteredBlogs[0].title || "Untitled"}
                       </h4>
                       <p className="text-gray-600 text-sm sm:text-base mb-4 sm:mb-6 line-clamp-3">
@@ -206,7 +206,7 @@ const Blogs = () => {
                         {filteredBlogs[0].tags?.map((tag, index) => (
                           <span
                             key={index}
-                            className="px-2 py-1 bg-[rgba(0,120,160,0.2)] text-[rgba(0,120,160,0.8)] text-xs rounded-full"
+                            className="px-2 py-1 bg-red-300 text-white text-xs rounded-full"
                           >
                             {tag}
                           </span>
@@ -217,9 +217,9 @@ const Blogs = () => {
                         onClick={() => handleViewBlogs(filteredBlogs[0]._id)}
                         className="flex justify-start"
                       >
-                        <button className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
+                        <button className="relative group bg-red-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
                           <span className="relative z-10">Read More</span>
-                          <div className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
+                          
                         </button>
                       </div>
                     </div>
@@ -236,7 +236,7 @@ const Blogs = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="backdrop-blur-lg bg-[#CCEFFF] rounded-2xl p-4 sm:p-6 border border-[rgba(255,255,255,0.1)] transition-all duration-300  hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)]"
+                  className="backdrop-blur-lg bg-red-50 rounded-2xl p-4 sm:p-6 border border-[rgba(255,255,255,0.1)] transition-all duration-300  hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)]"
                 >
                   <img
                     src={blog.image || "/api/placeholder/400/250"}
@@ -244,10 +244,10 @@ const Blogs = () => {
                     className="w-full h-32 sm:h-40 object-cover rounded-lg mb-4"
                   />
                   <div className="flex flex-wrap items-center text-xs sm:text-sm text-gray-600 mb-4">
-                    <Tag className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
+                    <Tag className="w-4 h-4 mr-1 text-red-400" />
                     {getCategoryName(blog.category)}
                     <span className="mx-2">•</span>
-                    <Calendar className="w-4 h-4 mr-1 text-[rgba(0,120,160,0.8)]" />
+                    <Calendar className="w-4 h-4 mr-1 text-red-400" />
                     {formatDate(blog.createdAt)}
                   </div>
                   <h4 className="text-base sm:text-lg font-semibold text-black mb-2 hover:text-black transition-colors duration-300 line-clamp-2">
@@ -260,7 +260,7 @@ const Blogs = () => {
                     {blog.tags?.slice(0, 3).map((tag, index) => (
                       <span
                         key={index}
-                        className="px-2 py-1 bg-[rgba(0,120,160,0.2)] text-[rgba(0,120,160,0.8)] text-xs rounded-full"
+                        className="px-2 py-1 bg-red-300 text-white text-xs rounded-full"
                       >
                         {tag}
                       </span>
@@ -280,9 +280,9 @@ const Blogs = () => {
                       onClick={() => handleViewBlogs(blog._id)}
                       className="flex justify-start"
                     >
-                      <button className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
+                      <button className="relative group bg-red-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
                         <span className="relative z-10">Read More</span>
-                        <div className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
+                        
                       </button>
                     </div>
                   </div>
@@ -306,7 +306,7 @@ const Blogs = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="text-center mt-12 sm:mt-16"
             >
-              <div className="backdrop-blur-lg bg-[#CCEFFF] rounded-2xl p-6 sm:p-8 border border-[rgba(255,255,255,0.1)] max-w-3xl mx-auto shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
+              <div className="backdrop-blur-lg bg-red-50 rounded-2xl p-6 sm:p-8 border border-[rgba(255,255,255,0.1)] max-w-3xl mx-auto shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
                 <h3 className="text-xl sm:text-2xl font-bold text-black mb-4">
                   Stay Ahead with Our Insights
                 </h3>

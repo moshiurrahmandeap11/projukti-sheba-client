@@ -38,7 +38,7 @@ const TeamCard = memo(({ member, onClick }) => (
     <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,25,47,0.8)] via-[rgba(10,25,47,0.4)] to-transparent group-hover:from-[rgba(10,25,47,0.9)] transition-all duration-300"></div>
     <div className="absolute bottom-0 left-0 right-0 p-6">
       <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
+        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors duration-300">
           {member.name}
         </h3>
         <p className="text-gray-300 font-semibold text-lg">
@@ -97,7 +97,7 @@ const TeamModal = memo(({ isOpen, member, onClose }) => {
               </button>
               <div className="absolute bottom-6 left-6 right-6">
                 <h2 id="modal-title" className="text-3xl font-bold text-white mb-2">{member?.name}</h2>
-                <p className="text-xl text-[rgba(0,120,160,0.8)] font-semibold">
+                <p className="text-xl text-red-400 font-semibold">
                   {member?.position}
                 </p>
               </div>
@@ -133,7 +133,7 @@ const TeamModal = memo(({ isOpen, member, onClose }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {member?.expertise.map((item, index) => (
                     <div key={index} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-[rgba(0,120,160,0.7)]"></div>
+                      <div className="w-2 h-2 rounded-full bg-red-400"></div>
                       <span className="text-gray-300 text-sm">{item}</span>
                     </div>
                   ))}
@@ -147,7 +147,7 @@ const TeamModal = memo(({ isOpen, member, onClose }) => {
                       href={member.social.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3 rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] text-gray-400 hover:text-[rgba(0,120,160,0.8)] hover:bg-[rgba(255,255,255,0.1)] transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+                      className="p-3 rounded-full bg-[rgba(255,255,255,0.05)] hover:bg-red-400/70 hover:text-white text-gray-400  transition-all duration-300 backdrop-blur-sm"
                       aria-label={`Visit ${member.name}'s LinkedIn`}
                     >
                       <Linkedin className="w-5 h-5" />
@@ -158,7 +158,7 @@ const TeamModal = memo(({ isOpen, member, onClose }) => {
                       href={member.social.twitter}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3 rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] text-gray-400 hover:text-[rgba(0,120,160,0.8)] hover:bg-[rgba(255,255,255,0.1)] transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+                      className="p-3 rounded-full bg-[rgba(255,255,255,0.05)] hover:bg-red-400/70 hover:text-white text-gray-400  transition-all duration-300 backdrop-blur-sm"
                       aria-label={`Visit ${member.name}'s Twitter`}
                     >
                       <Twitter className="w-5 h-5" />
@@ -167,7 +167,7 @@ const TeamModal = memo(({ isOpen, member, onClose }) => {
                   {member?.social.email && (
                     <a
                       href={`mailto:${member.social.email}`}
-                      className="p-3 rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] text-gray-400 hover:text-[rgba(0,120,160,0.8)] hover:bg-[rgba(255,255,255,0.1)] transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+                      className="p-3 rounded-full bg-[rgba(255,255,255,0.05)] hover:bg-red-400/70 hover:text-white text-gray-400  transition-all duration-300 backdrop-blur-sm"
                       aria-label={`Email ${member.name}`}
                     >
                       <Mail className="w-5 h-5" />
@@ -178,7 +178,7 @@ const TeamModal = memo(({ isOpen, member, onClose }) => {
                       href={member.social.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3 rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] text-gray-400 hover:text-[rgba(0,120,160,0.8)] hover:bg-[rgba(255,255,255,0.1)] transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+                      className="p-3 rounded-full bg-[rgba(255,255,255,0.05)] hover:bg-red-400/70 hover:text-white text-gray-400  transition-all duration-300 backdrop-blur-sm"
                       aria-label={`Visit ${member.name}'s GitHub`}
                     >
                       <Github className="w-5 h-5" />
@@ -251,9 +251,9 @@ const OurTeam = () => {
       <div className="relative z-10">
         {/* Header Section */}
         <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-10/12 mx-auto bg-[#FBFAF6] shadow-lg md:px-12 md:py-6 text-center">
-            <div className="inline-block p-4 rounded-full bg-[rgba(0,120,160,0.2)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] mb-6">
-              <Users className="w-16 h-16 text-black" aria-hidden="true" />
+          <div className="max-w-10/12 mx-auto bg-[#FBFAF6] md:px-12 md:py-6 text-center">
+            <div className="inline-block p-4 rounded-full bg-red-400/70 backdrop-blur-sm border border-[rgba(255,255,255,0.1)] mb-6">
+              <Users className="w-16 h-16 text-white" aria-hidden="true" />
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-black mb-6 tracking-tight">
               Our <span
@@ -277,7 +277,7 @@ const OurTeam = () => {
                   ))}
                 </div>
               ) : memoizedTeamMembers.length === 0 ? (
-                <p className="text-center text-gray-400 text-lg">No team members found.</p>
+                <p className="text-center text-red-400 text-lg">No team members found.</p>
               ) : (
                 <>
                   <button
@@ -319,7 +319,7 @@ const OurTeam = () => {
                         onClick={() => setCurrentSlide(index)}
                         className={`w-3 h-3 rounded-full transition-all duration-300 ${
                           currentSlide === index
-                            ? 'bg-[rgba(0,120,160,0.8)] scale-110'
+                            ? 'bg-red-400 scale-110'
                             : 'bg-[rgba(255,255,255,0.3)] hover:bg-[rgba(0,120,160,0.5)]'
                         }`}
                         aria-label={`Go to slide ${index + 1}`}
@@ -342,7 +342,7 @@ const OurTeam = () => {
                   key={index}
                   className="text-center  backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-6  transition-all duration-300 "
                 >
-                  <div className="text-3xl font-bold text-[rgba(0,120,160,0.8)] mb-2">{stat.value}</div>
+                  <div className="text-3xl font-bold text-black mb-2">{stat.value}</div>
                   <div className="text-gray-400">{stat.label}</div>
                 </div>
               ))}

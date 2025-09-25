@@ -66,14 +66,14 @@ const Services = () => {
   const getCategoryIcon = (categoryName) => iconMap[categoryName] || Code;
 
   return (
-    <div className="relative min-h-screen py-4 bg-[#CCEFFF] pt-20 px-4 sm:px-6 lg:px-8">
-      <div className="relative z-10 max-w-7xl mx-auto bg-[#CCEFFF] p-4 sm:p-6 md:p-8 rounded-2xl">
+    <div className="relative min-h-screen py-4 bg-[#F9F9F9] pt-20 px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto bg-[#F9F9F9] p-4 sm:p-6 md:p-8 rounded-2xl">
         {/* Header */}
         <div className="text-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
             <span className="text-black">Our Services</span>
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-black/90 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-base md:text-base text-black/90 max-w-3xl mx-auto leading-relaxed">
             We provide comprehensive technology solutions to help your business thrive in the digital world
           </p>
         </div>
@@ -89,7 +89,7 @@ const Services = () => {
           <div className="text-center text-red-400 text-base sm:text-lg mt-6">{error}</div>
         )}
         {!loading && !error && categories.length === 0 && (
-          <div className="text-center text-gray-400 text-base sm:text-lg mt-6">
+          <div className="text-center text-red-400 text-base sm:text-lg mt-6">
             No categories available
           </div>
         )}
@@ -98,44 +98,27 @@ const Services = () => {
         {!loading && !error && categories.length > 0 && (
           <div className="backdrop-blur-xl rounded-3xl border border-[rgba(255,255,255,0.1)] overflow-hidden">
             {/* Tab Navigation */}
-            <div className="border-b border-[rgba(255,255,255,0.15)] p-4 sm:p-6">
+            <div className=" p-4 sm:p-6">
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-                {categories.map((category, index) => {
-                  const TabIcon = getCategoryIcon(category.name);
+                {categories.map((category) => {
                   return (
-                    <FancyButton
+                    <button
                       key={category._id}
                       onClick={() => setActiveTab(category.name)}
-                      className={`group relative overflow-hidden flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl transition-all duration-500 transform hover:scale-105 backdrop-blur-sm border border-[rgba(0,120,160,0.3)] shadow-md hover:shadow-xl ${
+                      className={`group relative overflow-hidden flex flex-col items-center justify-center p-3 sm:p-4 transition-all duration-500 transform cursor-pointer  ${
                         activeTab === category.name
-                          ? 'bg-[#008080]/70 scale-105 shadow-xl'
-                          : 'bg-[#008080] hover:bg-[rgba(0,120,160,0.05)]'
+                          ? 'bg-red-500 '
+                          : 'bg-red-300 '
                       }`}
-                      style={{
-                        animationDelay: `${index * 0.1}s`,
-                        animation: activeTab === category.name ? 'pulse 2s infinite' : 'none',
-                      }}
                       aria-label={`Select ${category.name} services`}
                     >
-                      {/* Glow Effect */}
-                      <div
-                        className={`absolute inset-0 bg-gradient-to-r from-[rgba(0,120,160,0.6)] via-[rgba(50,40,130,0.6)] to-[rgba(0,120,160,0.6)] opacity-0 ${
-                          activeTab === category.name ? 'opacity-20' : ''
-                        } group-hover:opacity-20 transition-opacity duration-500 blur-xl`}
-                      />
+        
 
                       {/* Content */}
                       <div className="relative z-10 flex flex-col items-center">
-                        <TabIcon
-                          className={`w-5 h-5 sm:w-6 sm:h-6 mb-2 transition-all duration-500 transform ${
-                            activeTab === category.name
-                              ? 'text-white scale-110 rotate-12'
-                              : 'text-gray-300 group-hover:text-white group-hover:scale-110'
-                          }`}
-                        />
                         <span
-                          className={`text-xs sm:text-sm font-semibold transition-all duration-500 ${
-                            activeTab === category.name ? 'text-black' : 'text-black group-hover:text-black'
+                          className={`text-xs sm:text-sm font-medium transition-all duration-500 ${
+                            activeTab === category.name ? 'text-white' : 'text-white group-hover:text-white'
                           }`}
                         >
                           {category.name}
@@ -148,7 +131,7 @@ const Services = () => {
                           style={{ background: 'linear-gradient(90deg, rgba(0,120,160,0.8), rgba(50,40,130,0.8))' }}
                         />
                       )}
-                    </FancyButton>
+                    </button>
                   );
                 })}
               </div>
@@ -157,7 +140,7 @@ const Services = () => {
             {/* Tab Content */}
             <div className="p-4 sm:p-6 md:p-8 lg:p-10">
               {activeServices.length === 0 ? (
-                <div className="text-center text-black text-base sm:text-lg">
+                <div className="text-center text-red-500 text-base sm:text-lg">
                   No services available for {activeTab}
                 </div>
               ) : (
@@ -167,8 +150,7 @@ const Services = () => {
                     <div className="space-y-4 sm:space-y-6">
                       <div className="flex items-center space-x-3 sm:space-x-4">
                         <div
-                          className="rounded-xl p-2 sm:p-3 shadow-[0_2px_10px_rgba(0,0,0,0.2)] backdrop-blur-sm animate-bounce"
-                          style={{ background: 'linear-gradient(90deg, rgba(0,120,160,0.5), rgba(50,40,130,0.5))' }}
+                          className="rounded-xl bg-red-400/70 p-2 sm:p-3 shadow-[0_2px_10px_rgba(0,0,0,0.2)] backdrop-blur-sm animate-bounce"
                         >
                           {React.createElement(getCategoryIcon(activeTab), { className: 'w-6 h-6 sm:w-8 sm:h-8 text-white' })}
                         </div>
@@ -197,31 +179,25 @@ const Services = () => {
                       <div className="pt-4 sm:pt-6">
                         <button
                           onClick={handleGetStartedClick}
-                          className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden"
+                          className="relative group bg-red-700 rounded-md px-4 sm:px-6 py-2 sm:py-3  cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden"
                         >
                           <span className="relative z-10">Get Started</span>
-                          <div
-                            className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"
-                          ></div>
                         </button>
                       </div>
                     </div>
 
                     {/* Right Content */}
                     <div className="space-y-4 sm:space-y-6 animate-fadeInRight">
-                      <div className="backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-2xl border border-[rgba(255,255,255,0.1)] p-4 sm:p-6 md:p-8 shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
-                        <h4 className="text-lg sm:text-xl md:text-2xl font-semibold text-white mb-4 sm:mb-6">Technologies We Use</h4>
+                      <div className="backdrop-blur-lg rounded-2xl  p-4 sm:p-6 md:p-8 shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
+                        <h4 className="text-lg sm:text-xl md:text-2xl font-semibold text-black mb-4 sm:mb-6">Technologies We Use</h4>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                           {service.technologies &&
                             service.technologies.map((tech, tIndex) => (
                               <button
                                 key={tIndex}
-                                className="group bg-purple-700 relative overflow-hidden rounded-lg px-3 sm:px-4 py-2 sm:py-3 border border-[rgba(255,255,255,0.1)] backdrop-blur-sm transition-all duration-500 transform hover:scale-105 hover:shadow-xl hover:border-[rgba(0,120,160,0.5)]"
+                                className="group bg-red-400/70 relative overflow-hidden rounded-lg px-3 sm:px-4 py-2 sm:py-3 backdrop-blur-sm transition-all duration-500 transform "
                               >
-                                {/* Glow Effect */}
-                                <div
-                                  className="absolute inset-0 bg-purple-700 opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl"
-                                />
+          
                                 {/* Content */}
                                 <span className="relative z-10 font-medium text-xs sm:text-sm text-white group-hover:text-white">
                                   {tech}
@@ -231,23 +207,23 @@ const Services = () => {
                         </div>
                       </div>
                       <div className="grid grid-cols-3 gap-3 sm:gap-4">
-                        <div className="text-center backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-xl border border-[rgba(255,255,255,0.1)] p-3 sm:p-4 hover:scale-105 transition-transform duration-300 hover:border-[rgba(0,120,160,0.5)]">
-                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1 animate-pulse">
+                        <div className="text-center backdrop-blur-lg rounded-xl  p-3 sm:p-4 hover:scale-105 transition-transform duration-300">
+                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-1 animate-pulse">
                             {service.totalProjects || '0'} +
                           </div>
-                          <div className="text-xs sm:text-sm text-gray-400">Projects</div>
+                          <div className="text-xs sm:text-sm text-gray-800">Projects</div>
                         </div>
-                        <div className="text-center backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-xl border border-[rgba(255,255,255,0.1)] p-3 sm:p-4 hover:scale-105 transition-transform duration-300 hover:border-[rgba(0,120,160,0.5)]">
-                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1 animate-pulse">
+                        <div className="text-center backdrop-blur-lg rounded-xl  p-3 sm:p-4 hover:scale-105 transition-transform duration-300">
+                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-1 animate-pulse">
                             24/7
                           </div>
-                          <div className="text-xs sm:text-sm text-gray-400">Support</div>
+                          <div className="text-xs sm:text-sm text-gray-800">Support</div>
                         </div>
-                        <div className="text-center backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-xl border border-[rgba(255,255,255,0.1)] p-3 sm:p-4 hover:scale-105 transition-transform duration-300 hover:border-[rgba(0,120,160,0.5)]">
-                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1 animate-pulse">
+                        <div className="text-center backdrop-blur-lg rounded-xl  p-3 sm:p-4 hover:scale-105 transition-transform duration-300">
+                          <div className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-1 animate-pulse">
                             99%
                           </div>
-                          <div className="text-xs sm:text-sm text-gray-400">Satisfaction</div>
+                          <div className="text-xs sm:text-sm text-gray-800">Satisfaction</div>
                         </div>
                       </div>
                     </div>

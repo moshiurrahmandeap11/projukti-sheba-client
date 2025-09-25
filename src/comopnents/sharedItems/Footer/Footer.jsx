@@ -254,7 +254,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="relative bg-[#6b8497] backdrop-blur-lg overflow-hidden">
+      <footer className="relative bg-black backdrop-blur-lg overflow-hidden">
         {/* Background Overlay */}
         <div />
 
@@ -270,7 +270,7 @@ const Footer = () => {
                   <div className="space-y-4 sm:space-y-6">
                     {/* Logo */}
                     <div className="flex items-center space-x-3">
-                      <div className="bg-[rgba(0,120,160,0.5)] rounded-xl p-2 sm:p-3 shadow-xl backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
+                      <div className="bg-red-400/70 rounded-xl p-2 sm:p-3 shadow-xl backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
                         <Code className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                       </div>
                       <div>
@@ -300,7 +300,7 @@ const Footer = () => {
                             href={social.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`bg-[rgba(255,255,255,0.05)] backdrop-blur-sm rounded-xl p-2 sm:p-3 border border-[rgba(255,255,255,0.1)] text-gray-400 ${social.color} hover:bg-[rgba(255,255,255,0.1)] hover:border-[rgba(0,120,160,0.5)] group flex items-center justify-center transition-all duration-300 hover:scale-105`}
+                            className={`bg-red-400/70 backdrop-blur-sm rounded-xl p-2 sm:p-3  text-white ${social.color}  group flex items-center justify-center transition-all duration-300 hover:scale-105`}
                           >
                             <SocialIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                           </a>
@@ -320,7 +320,7 @@ const Footer = () => {
                       const ContactIcon = contact.icon;
                       return (
                         <div key={index} className="flex items-start space-x-2 sm:space-x-3">
-                          <div className="bg-[rgba(0,120,160,0.5)] rounded-lg p-1 sm:p-2 backdrop-blur-sm">
+                          <div className="bg-red-400/70 rounded-lg p-1 sm:p-2 backdrop-blur-sm">
                             <ContactIcon className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                           </div>
                           <div>
@@ -353,9 +353,9 @@ const Footer = () => {
                             href={service.href}
                             className="text-sm sm:text-base text-gray-300 hover:text-white flex items-center space-x-2 sm:space-x-3 group hover:bg-[rgba(255,255,255,0.05)] rounded-lg p-2 -m-2 backdrop-blur-sm transition-all duration-300"
                           >
-                            <ServiceIcon className="w-3 h-3 sm:w-4 sm:h-4 text-[rgba(0,120,160,0.8)] group-hover:text-[rgba(0,120,160,1)]" />
+                            <ServiceIcon className="w-3 h-3 sm:w-4 sm:h-4 text-red-400 group-hover:text-red-600" />
                             <span>{service.name}</span>
-                            <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 text-[rgba(0,120,160,0.8)]" />
+                            <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 text-red-600" />
                           </a>
                         </li>
                       );
@@ -382,9 +382,9 @@ const Footer = () => {
                         className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-[rgba(10,25,47,0.5)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] rounded-lg text-sm sm:text-base text-white placeholder-gray-400 focus:outline-none focus:border-[rgba(0,120,160,0.5)] focus:bg-[rgba(10,25,47,0.6)] transition-all duration-300"
                       />
                     </div>
-                    <FancyButton
+                    <button
                       onClick={handleNewsletterSubmit}
-                      className="group relative w-full bg-[#ff0000]/60 text-white font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-xl border border-[rgba(0,120,160,0.5)] backdrop-blur-sm overflow-hidden hover:bg-[#ff0000]/30 cursor-pointer"
+                      className="group relative w-full bg-red-700 text-white font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-xl border border-[rgba(0,120,160,0.5)] backdrop-blur-sm overflow-hidden  cursor-pointer"
                     >
                       <span className="relative z-10 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
                         {isSubscribed ? (
@@ -399,7 +399,7 @@ const Footer = () => {
                           </>
                         )}
                       </span>
-                    </FancyButton>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -407,14 +407,14 @@ const Footer = () => {
               {/* Support Ticket Box */}
               <div className="mt-8 sm:mt-10 md:mt-12 bg-[rgba(10,25,47,0.7)] backdrop-blur-md rounded-xl p-4 sm:p-6 border border-[rgba(255,255,255,0.1)] shadow-xl flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4">
                 <div className="flex items-center space-x-2 sm:space-x-3">
-                  <Ticket className="w-5 h-5 sm:w-6 sm:h-6 text-[rgba(0,120,160,1)]" />
+                  <Ticket className="w-5 h-5 sm:w-6 sm:h-6 text-red-400/70" />
                   <h4 className="text-base sm:text-lg font-semibold text-white">
                     Need Support? Get Ticket
                   </h4>
                 </div>
                 <FancyButton
                   onClick={() => setIsTicketModalOpen(true)}
-                  className="group relative w-full md:w-auto bg-[rgba(0,120,160,0.5)] text-white font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-xl border border-[rgba(0,120,160,0.5)] backdrop-blur-sm overflow-hidden hover:bg-[rgba(0,120,160,0.6)]"
+                  className="group relative w-full md:w-auto bg-red-700 text-white font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-xl border border-[rgba(0,120,160,0.5)] backdrop-blur-sm overflow-hidden cursor-pointer"
                 >
                   <span className="relative z-10 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
                     <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -481,7 +481,7 @@ const Footer = () => {
             <div className="p-4 sm:p-6 border-b border-[rgba(255,255,255,0.1)]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2 sm:space-x-3">
-                  <div className="bg-[rgba(0,120,160,0.5)] rounded-lg p-1 sm:p-2">
+                  <div className="bg-red-400/70 rounded-lg p-1 sm:p-2">
                     <Ticket className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <h3 className="text-base sm:text-lg md:text-xl font-bold text-white">
@@ -490,7 +490,7 @@ const Footer = () => {
                 </div>
                 <button
                   onClick={() => setIsTicketModalOpen(false)}
-                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                  className="text-red-600 hover:text-white transition-colors duration-200"
                 >
                   <X className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
@@ -502,7 +502,7 @@ const Footer = () => {
               {/* Phone Number */}
               <div className="space-y-1 sm:space-y-2">
                 <label className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm font-medium text-gray-200">
-                  <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-[rgba(0,120,160,0.8)]" />
+                  <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
                   <span>Phone Number</span>
                 </label>
                 <input
@@ -510,7 +510,7 @@ const Footer = () => {
                   value={ticketForm.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   placeholder="Enter your phone number"
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-[rgba(10,25,47,0.5)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] rounded-lg text-sm sm:text-base text-white placeholder-gray-400 focus:outline-none focus:border-[rgba(0,120,160,0.5)] focus:bg-[rgba(10,25,47,0.6)] transition-all duration-300"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-[rgba(10,25,47,0.5)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] rounded-lg text-sm sm:text-base text-white placeholder-gray-400 focus:outline-none focus:border-red-200 focus:bg-[rgba(10,25,47,0.6)] transition-all duration-300"
                   required
                 />
               </div>
@@ -518,7 +518,7 @@ const Footer = () => {
               {/* Category Dropdown */}
               <div className="space-y-1 sm:space-y-2">
                 <label className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm font-medium text-gray-200">
-                  <Code className="w-3 h-3 sm:w-4 sm:h-4 text-[rgba(0,120,160,0.8)]" />
+                  <Code className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
                   <span>Category</span>
                 </label>
                 <div className="relative">
@@ -559,7 +559,7 @@ const Footer = () => {
               {/* Problem Description */}
               <div className="space-y-1 sm:space-y-2">
                 <label className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm font-medium text-gray-200">
-                  <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-[rgba(0,120,160,0.8)]" />
+                  <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
                   <span>Problem Description</span>
                 </label>
                 <textarea
@@ -581,11 +581,11 @@ const Footer = () => {
                 >
                   Cancel
                 </button>
-                <FancyButton
+                <button
                   type="submit"
                   disabled={submittingTicket}
                   onClick={handleTicketSubmit}
-                  className="flex-1 bg-[rgba(0,120,160,0.5)] text-white font-semibold px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-xl border border-[rgba(0,120,160,0.5)] backdrop-blur-sm hover:bg-[rgba(0,120,160,0.6)] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 bg-red-700 text-white font-semibold px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-xl border border-[rgba(0,120,160,0.5)] backdrop-blur-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span className="flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
                     {submittingTicket ? (
@@ -600,7 +600,7 @@ const Footer = () => {
                       </>
                     )}
                   </span>
-                </FancyButton>
+                </button>
               </div>
             </div>
           </div>

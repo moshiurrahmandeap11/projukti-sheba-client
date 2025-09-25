@@ -184,7 +184,7 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="py-8 bg-[#ffe9ea] sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 backdrop-blur-lg relative overflow-hidden">
+    <section className="py-8  sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 backdrop-blur-lg relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div
@@ -196,7 +196,7 @@ const Testimonials = () => {
         ></div>
       </div>
 
-      <div className="relative z-10 bg-[#ffe9ea] max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-6 sm:py-8 md:py-10 rounded-2xl">
+      <div className="relative z-10  max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-6 sm:py-8 md:py-10 rounded-2xl">
         {/* Section Header */}
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-6 text-black">
@@ -211,7 +211,7 @@ const Testimonials = () => {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="backdrop-blur-sm bg-[#b8bdc1] rounded-xl p-3 sm:p-4 border border-[rgba(255,255,255,0.1)] hover:border-[rgba(0,120,160,0.5)] transition-all duration-300"
+                className="backdrop-blur-sm bg-red-50 rounded-xl p-3 sm:p-4 border border-red-400 hover:border-red-600 transition-all duration-300"
               >
                 <div className="text-lg sm:text-xl md:text-2xl font-bold text-black mb-1">
                   {stat.number}

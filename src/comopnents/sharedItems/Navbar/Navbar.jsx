@@ -14,7 +14,7 @@ import { useAuth } from "../../../hooks/AuthContexts/AuthContexts";
 import Loader from "../Loader/Loader";
 import toast from "react-hot-toast";
 import axios from "axios";
-import logo from "../../../assets/pslogo.png";
+import logo from "../../../assets/logo.jpg";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -103,7 +103,6 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { name: "Home", href: "/" },
     { name: "Services", href: "/services" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
@@ -204,11 +203,11 @@ const Navbar = () => {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-[#3da1a6] shadow-lg"
-            : "bg-[#3da1a6]/80 backdrop-blur-sm"
+            ? "bg-white shadow-2xl"
+            : "bg-white shadow-2xl"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="lg:max-w-9/12 mx-auto px-4 sm:px-6 lg:px-8 ">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <div
@@ -218,11 +217,8 @@ const Navbar = () => {
               <img
                 src={logo}
                 alt="Projukti Sheba Logo"
-                className="h-10 w-auto object-contain"
+                className="h-16 w-auto object-contain"
               />
-              <span className="ml-2 text-black font-extrabold text-xl md:text-2xl tracking-wider">
-                Projukti Sheba
-              </span>
             </div>
 
             {/* Desktop Navigation Links */}
@@ -232,11 +228,11 @@ const Navbar = () => {
                   key={link.name}
                   to={link.href}
                   className={({ isActive }) =>
-                    `relative text-sm font-semibold text-black transition-colors duration-300 hover:text-white
+                    `relative text-lg font-semibold text-black/70 transition-colors duration-300 hover:text-[#f15a2c]
                      after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-full after:bg-white after:transition-transform after:duration-300 after:origin-center
                      ${
                        isActive
-                         ? "text-white after:scale-x-100"
+                         ? "text-red-500 after:scale-x-100"
                          : "after:scale-x-0 hover:after:scale-x-100"
                      }`
                   }
@@ -259,8 +255,8 @@ const Navbar = () => {
                   </button>
 
                   {isProfileOpen && (
-                    <div className="absolute right-0 mt-2 w-64 origin-top-right bg-white rounded-xl shadow-2xl ring-1 ring-black ring-opacity-5 overflow-hidden z-50 animate-in slide-in-from-top-2 duration-200">
-                      <div className="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-cyan-50 to-blue-50">
+                    <div className="absolute right-0 mt-2 w-64 origin-top-right bg-white rounded-xl shadow-2xl ring-1 ring-red-500 ring-opacity-5 overflow-hidden z-50 animate-in slide-in-from-top-2 duration-200">
+                      <div className="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-red-50 to-blue-50">
                         <div className="flex items-center space-x-3">
                           <Avatar />
                           <div className="flex-1 min-w-0">
@@ -306,7 +302,7 @@ const Navbar = () => {
                 <div className="hidden md:block ml-4">
                   <button
                     onClick={() => navigate("/auth/login")}
-                    className="bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-2 px-5 rounded-full transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                    className="bg-red-700 hover:bg-red-800 cursor-pointer text-white font-bold py-3 px-5 rounded-md transition-all duration-300 transform shadow-md"
                   >
                     Get Started
                   </button>
@@ -341,7 +337,7 @@ const Navbar = () => {
         {/* Overlay */}
         <div
           onClick={() => setIsMenuOpen(false)}
-          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          className="absolute inset-0  backdrop-blur-sm"
           aria-hidden="true"
         ></div>
 
@@ -353,7 +349,7 @@ const Navbar = () => {
         >
           <div className="flex flex-col h-full">
             {/* Menu Header */}
-            <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-cyan-50 to-blue-50">
+            <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-red-50 to-blue-50">
               <span className="font-bold text-lg text-cyan-800">Menu</span>
               <button 
                 onClick={() => setIsMenuOpen(false)}
@@ -365,7 +361,7 @@ const Navbar = () => {
 
             {/* Profile Section (if logged in) */}
             {user && (
-              <div className="p-4 border-b bg-gradient-to-r from-cyan-50 to-blue-50">
+              <div className="p-4 border-b bg-gradient-to-r from-red-50 to-blue-50">
                 <div className="flex items-center space-x-3">
                   <Avatar size="w-12 h-12" />
                   <div className="flex-1 min-w-0">
@@ -429,7 +425,7 @@ const Navbar = () => {
               <div className="p-4 border-t bg-gray-50">
                 <button
                   onClick={() => navigate("/auth/login")}
-                  className="w-full bg-gradient-to-r from-cyan-700 to-blue-700 hover:from-cyan-800 hover:to-blue-800 text-white font-bold py-3 px-5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-md hover:shadow-lg"
+                  className="w-full  bg-red-700  hover:to-red-800 text-white font-bold py-3 px-5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-md hover:shadow-lg"
                 >
                   Join Us / Login
                 </button>

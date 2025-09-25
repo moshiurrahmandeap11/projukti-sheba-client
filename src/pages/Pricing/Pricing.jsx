@@ -189,8 +189,8 @@ const Pricing = () => {
         {/* Header */}
         <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto text-center">
-            <div className="inline-block p-4 rounded-full bg-[rgba(0,120,160,0.2)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] mb-6">
-              <Star className="w-16 h-16 text-black" />
+            <div className="inline-block p-4 rounded-full bg-red-400/70 backdrop-blur-sm border border-[rgba(255,255,255,0.1)] mb-6">
+              <Star className="w-16 h-16 text-white" />
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-black mb-6 tracking-tight">
               Our <span>Pricing</span>
@@ -214,22 +214,22 @@ const Pricing = () => {
                     onClick={() => setActiveCategory(cat.id)}
                     className={`group relative p-6 rounded-2xl border transition-all duration-500 backdrop-blur-md ${
                       activeCategory === cat.id
-                        ? "border-[rgba(0,120,160,0.5)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] scale-105"
+                        ? "border-red-400 shadow-[0_4px_30px_rgba(0,0,0,0.2)] scale-105"
                         : "border-[rgba(255,255,255,0.1)] hover:scale-105"
                     }`}
                   >
                     <div
-                      className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300`}
+                      className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-400/70 mb-4 group-hover:scale-110 transition-transform duration-300`}
                     >
-                      <cat.icon className="w-6 h-6 text-black" />
+                      <cat.icon className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="text-lg font-semibold text-black mb-2 group-hover:text-[rgba(0,120,160,0.8)]">
+                    <h3 className="text-lg font-semibold text-black mb-2 group-hover:text-red-700">
                       {cat.name}
                     </h3>
                     <div
                       className={`h-1 w-full rounded-full transition-all duration-300 ${
                         activeCategory === cat.id
-                          ? "bg-[rgba(0,120,160,0.8)]"
+                          ? "bg-red-400"
                           : "bg-[rgba(255,255,255,0.2)] group-hover:bg-[rgba(0,120,160,0.5)]"
                       }`}
                     ></div>
@@ -248,7 +248,7 @@ const Pricing = () => {
                 {currentPackages.map((pkg) => (
                   <div
                     key={pkg._id}
-                    className={`relative group bg-[#EDFDFF] backdrop-blur-md border rounded-2xl p-8  transition-all duration-500 hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)] ${
+                    className={`relative group bg-red-50 backdrop-blur-md border rounded-2xl p-8  transition-all duration-500 hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)] ${
                       pkg.popular
                         ? "border-[rgba(0,120,160,0.5)] shadow-[0_4px_30px_rgba(0,120,160,0.2)] scale-105"
                         : "border-[rgba(255,255,255,0.1)]"
@@ -263,10 +263,10 @@ const Pricing = () => {
                     )}
                     <div className="relative z-10">
                       <div className="text-center mb-8">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300">
-                          <pkg.icon className="w-8 h-8 text-black" />
+                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-400/70 mb-4 group-hover:scale-110 transition-transform duration-300">
+                          <pkg.icon className="w-8 h-8 text-white" />
                         </div>
-                        <h3 className="text-2xl font-bold text-black mb-2 group-hover:text-[rgba(0,120,160,0.8)]">
+                        <h3 className="text-2xl font-bold text-black mb-2 group-hover:text-red-700">
                           {pkg.name}
                         </h3>
                         <p className="text-gray-600 text-sm leading-relaxed">
@@ -308,10 +308,10 @@ const Pricing = () => {
                         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
                           <button
                             onClick={() => navigate("/contact")}
-                            className="relative group bg-purple-700 px-6 py-3 rounded-full cursor-pointer text-white text-base font-medium shadow-lg overflow-hidden"
+                            className="relative group bg-red-700 px-6 py-3 rounded-full cursor-pointer text-white text-base font-medium shadow-lg overflow-hidden"
                           >
                             <span className="relative z-10">Get Started</span>
-                            <div className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
+                          
                           </button>
                         </div>
                       </div>
@@ -333,11 +333,11 @@ const Pricing = () => {
                   onClick={() => navigate("/contact")}
                   className="flex justify-center items-center"
                 >
-                  <button className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
+                  <button className="relative group bg-red-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
                     <span className="relative z-10">
                       Contact Us for Custom Solutions
                     </span>
-                    <div className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
+                    
                   </button>
                 </div>
               </div>
@@ -362,9 +362,9 @@ const Pricing = () => {
                   onClick={() => navigate("/contact")}
                   className="flex justify-center"
                 >
-                  <button className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
+                  <button className="relative group bg-red-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
                     <span className="relative z-10">Contact Us</span>
-                    <div className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
+                    
                   </button>
                 </div>
               </div>

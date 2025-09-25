@@ -7,21 +7,17 @@ const FancyButton = ({ children, onClick, loading, className, type = "button" })
       onClick={onClick}
       disabled={loading}
       className={`
-        relative w-full md:w-auto px-6 py-3 font-semibold text-lg rounded-full 
+        relative w-full md:w-auto 
+        bg-gradient-to-r from-teal-600 to-green-600 
+        hover:from-teal-700 hover:to-green-700 
+        text-white font-semibold 
+        px-6 py-3 rounded-full text-base 
         overflow-hidden transition-all duration-500 shadow-lg transform 
-        hover:scale-105 group cursor-pointer 
+        hover:scale-105 hover:shadow-lg group cursor-pointer 
         disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
         ${className || ""}
       `}
     >
-      {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#008081] via-[#00b3b3] to-[#00e6e6] 
-        transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
-
-      {/* Glow / overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#008080]/40 via-[#00b3b3]/30 to-[#00e6e6]/20 
-        opacity-0 group-hover:opacity-30 transition-opacity duration-500 blur-xl"></div>
-
       {/* Button content */}
       <span className="relative z-10 flex items-center justify-center space-x-2">
         {loading ? (

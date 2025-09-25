@@ -83,18 +83,18 @@ const Portfolio = () => {
         {/* Filter Tabs */}
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 md:mb-12">
           {categories.map((category) => (
-            <FancyButton
+            <button
               key={category.key}
               onClick={() => setActiveTab(category.key)}
-              className={`flex items-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full transition-all duration-300 transform hover:scale-105 backdrop-blur-sm text-xs sm:text-sm font-medium ${
+              className={`flex items-center text-white cursor-pointer space-x-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full transition-all duration-300 transform hover:scale-105 backdrop-blur-sm text-xs sm:text-sm font-medium ${
                 activeTab === category.key
-                  ? "bg-[#008080]/70 scale-105 shadow-xl"
-                  : "bg-[#008080] hover:bg-[rgba(0,120,160,0.05)]"
+                  ? "bg-red-600 scale-105 shadow-xl"
+                  : "bg-red-400/70 "
               }`}
             >
               {category.icon}
               <span className="sm:inline">{category.label}</span>
-            </FancyButton>
+            </button>
           ))}
         </div>
 

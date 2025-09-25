@@ -61,7 +61,6 @@ const Contact = () => {
 
   // Draft save
   const saveToDraft = useCallback(async (data) => {
-    // 🚀 যদি form submit হয়ে গেছে তাহলে draft save করবে না
     if (isFormSubmittedRef.current) {
       return;
     }
@@ -94,7 +93,7 @@ const Contact = () => {
   useEffect(() => {
     formDataRef.current = formData;
 
-    // 🚀 যদি submit হয়ে যায় বা submitting চলে তাহলে draft save করবে না
+
     if (isSubmitting || isFormSubmittedRef.current) return;
 
     if (saveTimeoutRef.current) {
@@ -115,7 +114,6 @@ const Contact = () => {
   // Save on page unload/close
   useEffect(() => {
     const handleBeforeUnload = () => {
-      // 🚀 যদি submit হয়ে গেছে তাহলে draft পাঠাবে না
       if (isSubmitting || isFormSubmittedRef.current) return;
 
       if (hasDataRef.current && formDataRef.current) {
@@ -137,7 +135,6 @@ const Contact = () => {
   }, [isSubmitting]);
 
   const handleInputChange = (e) => {
-    // 🚀 যদি form submit হয়ে গেছে তাহলে input change allow করবে না
     if (isFormSubmittedRef.current) return;
 
     setFormData({
@@ -151,16 +148,16 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // 🔥 যত তাড়াতাড়ি সম্ভব flag set করা যাতে draft save বন্ধ হয়ে যায়
+
     isFormSubmittedRef.current = true;
 
-    // 🔥 Timeout clear করা যাতে draft save না চলে
+
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current);
     }
 
     try {
-      // ✅ শুধুমাত্র submitted endpoint এ পাঠানো
+
       await axios.post(
         "https://projukti-sheba-server.onrender.com/contact-us-submitted",
         formData
@@ -168,7 +165,7 @@ const Contact = () => {
       console.log("Form submitted successfully:", formData);
       setIsSubmitted(true);
 
-      hasDataRef.current = false; // ✅ draft disable
+      hasDataRef.current = false; //  draft disable
 
       setTimeout(() => {
         setIsSubmitted(false);
@@ -287,8 +284,8 @@ const Contact = () => {
         {/* Header Section */}
         <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto text-center">
-            <div className="inline-block p-4 rounded-full bg-[rgba(0,120,160,0.2)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] mb-6">
-              <MessageSquare className="w-16 h-16 text-black" />
+            <div className="inline-block p-4 rounded-full bg-red-400/70 backdrop-blur-sm border border-[rgba(255,255,255,0.1)] mb-6">
+              <MessageSquare className="w-16 h-16 text-white" />
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-black tracking-tight">
               Get In{" "}
@@ -441,10 +438,9 @@ const Contact = () => {
                       <button
                         type="submit"
                         disabled={isSubmitting || isFormSubmittedRef.current}
-                        className="group relative cursor-pointer w-full bg-[rgba(0,120,160,0.5)] text-white font-semibold py-4 rounded-full text-lg transition-all duration-500 shadow-2xl hover:shadow-[0_4px_30px_rgba(0,120,160,0.2)] transform hover:scale-105 border border-[rgba(0,120,160,0.5)] backdrop-blur-sm overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                        className="group relative cursor-pointer w-full bg-red-700 text-white font-semibold py-4 rounded-full text-lg transition-all duration-500 shadow-2xl  transform backdrop-blur-sm overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                       >
-                        <div className="absolute inset-0 bg-[rgba(0,120,160,0.7)] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
-                        <div className="absolute inset-0 bg-[rgba(0,120,160,0.5)] opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl"></div>
+
 
                         <span className="relative z-10 flex items-center justify-center space-x-2">
                           {isSubmitting ? (
@@ -492,7 +488,7 @@ const Contact = () => {
                             key={index}
                             className="flex items-center space-x-2 text-gray-600"
                           >
-                            <CheckCircle className="w-4 h-4 text-[rgba(0,120,160,0.8)]" />
+                            <CheckCircle className="w-4 h-4 text-red-400/70" />
                             <span className="text-sm">{service.name}</span>
                           </div>
                         ))}
@@ -511,7 +507,7 @@ const Contact = () => {
                             href={social.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`p-3 rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] text-gray-600 ${social.color} transition-all duration-300 hover:scale-110 hover:bg-[rgba(255,255,255,0.1)] backdrop-blur-sm`}
+                            className={`p-3 rounded-full bg-red-400/70 text-white ${social.color} transition-all duration-300 hover:bg-red-400 backdrop-blur-sm`}
                             aria-label={social.name}
                           >
                             <social.icon className="w-5 h-5" />
@@ -553,10 +549,10 @@ const Contact = () => {
                         key={index}
                         className="group backdrop-blur-md border border-[rgba(255,255,255,0.1)] rounded-2xl p-6  transition-all duration-500 hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)]"
                       >
-                        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[rgba(0,120,160,0.5)] mb-4 group-hover:scale-110 transition-transform duration-300">
-                          <item.icon className="w-6 h-6 text-black" />
+                        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-400/70 mb-4 group-hover:scale-110 transition-transform duration-300">
+                          <item.icon className="w-6 h-6 text-white" />
                         </div>
-                        <h3 className="text-xl font-semibold text-black mb-3 group-hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
+                        <h3 className="text-xl font-semibold text-black mb-3 group-hover:text-red-400 transition-colors duration-300">
                           {item.title}
                         </h3>
                         {item.details.map((detail, idx) => (

@@ -10,7 +10,6 @@ import {
   Zap,
 } from "lucide-react";
 import OurTeam from "../../comopnents/OurTeam/OurTeam";
-import FancyButton from "../../comopnents/sharedItems/FancyButtons/FancyButton";
 
 const About = () => {
   const stats = [
@@ -81,13 +80,12 @@ const About = () => {
               <span className="text-black">About Projukti Sheba</span>
             </h2>
             <div className="max-w-4xl mx-auto backdrop-blur-xl rounded-3xl border border-black p-6 sm:p-8 md:p-10">
-              <p className="text-base sm:text-lg md:text-xl text-black leading-relaxed mb-4">
+              <p className="text-base sm:text-lg md:text-sm text-black leading-relaxed mb-4">
                 We are a leading technology solutions provider, dedicated to
                 transforming businesses through innovative software development,
                 cutting-edge web solutions, professional video editing, and
                 strategic social media campaigns.
-              </p>
-              <p className="text-sm sm:text-base md:text-lg text-gray-600 font-medium leading-relaxed">
+                <br />
                 Since our inception, we've been at the forefront of digital
                 innovation, helping companies worldwide achieve their
                 technological goals and drive sustainable growth.
@@ -106,12 +104,12 @@ const About = () => {
                     className="backdrop-blur-xl rounded-2xl border border-[rgba(255,255,255,0.1)] p-6 sm:p-8 hover:scale-105 group transition-all duration-300"
                   >
                     <div
-                      className={`bg-[rgba(0,120,160,0.5)] rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 w-fit mx-auto group-hover:scale-110 transition-transform duration-300`}
+                      className={`bg-red-400/70 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 w-fit mx-auto group-hover:scale-110 transition-transform duration-300`}
                     >
                       <StatIcon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                     </div>
                     <div className="text-center">
-                      <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[rgba(0,120,160,0.8)] mb-2 group-hover:text-[rgba(0,120,160,1)] transition-colors duration-300">
+                      <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-[rgba(0,120,160,1)] transition-colors duration-300">
                         {stat.number}
                       </h3>
                       <p className="text-sm sm:text-base text-gray-400 font-medium">
@@ -146,17 +144,16 @@ const About = () => {
                   </p>
                 </div>
                 <div className="flex justify-start">
-                  <button className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
+                  <button className="relative group bg-red-700 px-4 sm:px-6 py-2 sm:py-3 rounded-md cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
                     <span className="relative z-10">Learn More About Us</span>
-                    <div className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"></div>
                   </button>
                 </div>
               </div>
               <div className="backdrop-blur-xl rounded-3xl border border-[rgba(255,255,255,0.1)] p-6 sm:p-8">
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3 sm:space-x-4">
-                    <div className="bg-[rgba(0,120,160,0.5)] rounded-xl p-2 sm:p-3">
-                      <Target className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                    <div className="bg-red-400/70 rounded-xl p-2 sm:p-3">
+                      <Target className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
                     <h4 className="text-lg sm:text-xl font-semibold text-black">
                       Our Vision
@@ -194,11 +191,11 @@ const About = () => {
                     className="backdrop-blur-xl rounded-2xl border border-[rgba(255,255,255,0.1)] p-6 sm:p-8 hover:scale-105 group transition-all duration-300"
                   >
                     <div
-                      className={`bg-[rgba(0,120,160,0.5)] rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 w-fit mx-auto group-hover:scale-110 transition-transform duration-300`}
+                      className={`bg-red-400/70 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 w-fit mx-auto group-hover:scale-110 transition-transform duration-300`}
                     >
-                      <ValueIcon className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
+                      <ValueIcon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                     </div>
-                    <h4 className="text-lg sm:text-xl font-bold text-black mb-3 sm:mb-4 text-center group-hover:text-[rgba(0,120,160,0.8)] transition-colors duration-300">
+                    <h4 className="text-lg sm:text-xl font-bold text-black mb-3 sm:mb-4 text-center group-hover:text-red-700 transition-colors duration-300">
                       {value.title}
                     </h4>
                     <p className="text-sm sm:text-base text-gray-600 font-medium text-center leading-relaxed">
@@ -220,8 +217,8 @@ const About = () => {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
                 <div className="space-y-4">
-                  <div className="bg-[rgba(0,120,160,0.5)] rounded-xl p-2 sm:p-3 w-fit">
-                    <Users className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <div className="bg-red-400/70 rounded-xl p-2 sm:p-3 w-fit">
+                    <Users className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <h4 className="text-lg sm:text-xl font-bold text-black">
                     Expert Team
@@ -233,8 +230,8 @@ const About = () => {
                   </p>
                 </div>
                 <div className="space-y-4">
-                  <div className="bg-[rgba(0,120,160,0.5)] rounded-xl p-2 sm:p-3 w-fit">
-                    <Award className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <div className="bg-red-400/70 rounded-xl p-2 sm:p-3 w-fit">
+                    <Award className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <h4 className="text-lg sm:text-xl font-bold text-black">
                     Proven Track Record
@@ -245,8 +242,8 @@ const About = () => {
                   </p>
                 </div>
                 <div className="space-y-4">
-                  <div className="bg-[rgba(0,120,160,0.5)] rounded-xl p-2 sm:p-3 w-fit">
-                    <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <div className="bg-red-400/70 rounded-xl p-2 sm:p-3 w-fit">
+                    <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <h4 className="text-lg sm:text-xl font-bold text-black">
                     Cutting-Edge Technology

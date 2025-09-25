@@ -56,7 +56,7 @@ const Chat = () => {
       text,
       userId,
       userName,
-      senderType: "user", // user or admin
+      senderType: "user", 
       timestamp: new Date(),
     };
 

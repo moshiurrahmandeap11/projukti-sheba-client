@@ -1,83 +1,109 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import FancyButton from "../sharedItems/FancyButtons/FancyButton";
 
 const Banner = () => {
   const navigate = useNavigate();
+  
+  // Multiple headlines that will rotate
+  const headlines = [
+    "Digital Solution of Business",
+    "Transform Your Digital Future",
+    "Innovative Technology Solutions",
+    "Empowering Your Business Growth",
+    "Next-Gen Digital Services",
+    "Revolutionary Business Solutions"
+  ];
+  
+  const [currentHeadlineIndex, setCurrentHeadlineIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Load Lottie Web Component script
-    const script = document.createElement("script");
-    script.src =
-      "https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js";
-    script.type = "module";
-    document.head.appendChild(script);
+    const interval = setInterval(() => {
+      setIsVisible(false);
+      
+      setTimeout(() => {
+        setCurrentHeadlineIndex((prevIndex) => 
+          (prevIndex + 1) % headlines.length
+        );
+        setIsVisible(true);
+      }, 300); // Short fade out duration
+      
+    }, 3000); // 3 seconds interval
 
-    return () => {
-      if (document.head.contains(script)) {
-        document.head.removeChild(script);
-      }
-    };
-  }, []);
+    return () => clearInterval(interval);
+  }, [headlines.length]);
 
   return (
-    <div className="relative bg-[#CCEFFF] overflow-hidden backdrop-blur-lg">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('https://i.postimg.cc/sXn3BqCd/bg.jpg')`
+        }}
+      >
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/40"></div>
+      </div>
+      
+    
+      
+      {/* Floating particles effect */}
+      <div className="absolute inset-0">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-2 h-2 bg-white/20 rounded-full animate-bounce"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 2}s`,
+              animationDuration: `${3 + Math.random() * 2}s`
+            }}
+          ></div>
+        ))}
+      </div>
+
       {/* Content */}
-      <div className="relative z-10 flex items-center justify-center lg:py-20 py-10 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-12 max-w-7xl mx-auto bg-[#CCEFFF] rounded-2xl p-6 sm:p-8 md:p-10 lg:p-12">
-          {/* Left Side - Text Content */}
-          <div className="flex-1 w-full">
-            {/* Glassy Container */}
-            <div className="rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 bg-[#008080]/70 shadow-2xl">
-              {/* Title */}
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight text-left">
-                <span className="text-black">Digital Solution of Business</span>
+      <div className="relative z-10 flex items-center justify-start min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-start justify-center gap-6 lg:gap-12 max-w-4xl mx-auto text-left">
+          
+          {/* Main Content Container with Glass Effect */}
+          <div className="w-full">
+            {/* Glassy Container with better backdrop */}
+            <div >
+              
+              {/* Animated Title */}
+              <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 sm:mb-8 leading-tight transition-all duration-500 ${
+                isVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-4'
+              }`}>
+                <span className="bg-gradient-to-r from-red-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
+                  {headlines[currentHeadlineIndex]}
+                </span>
               </h1>
 
-              {/* Subtitle */}
-              <p
-                className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 lg:mb-10 leading-relaxed text-left text-white rounded-lg px-4 py-3 shadow-lg"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.5))",
-                }}
-              >
+              {/* Subtitle with enhanced styling */}
+              <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 lg:mb-12 leading-relaxed text-white/90 max-w-3xl mx-0">
                 Experience cutting-edge technology with our innovative solutions
-                designed to transform your digital journey
+                designed to transform your digital journey and accelerate your business growth
               </p>
 
-              {/* Get In Touch Button */}
-              <div
-                onClick={() => navigate("/contact")}
-                className="flex justify-start"
-              >
-                <button className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
-                  <span className="relative z-10">Get In Touch</span>
-                  <div
-                    className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"
-                  ></div>
-                </button>
+              {/* Enhanced CTA Button */}
+              <div className="flex justify-start">
+                <button className="bg-red-700 px-6 py-3 rounded-md text-white font-medium cursor-pointer" onClick={() => navigate("/contact")}>Get in touch</button>
               </div>
             </div>
           </div>
-
-          {/* Right Side - Lottie Animation */}
-          <div className="flex-shrink-0 hidden lg:block w-full lg:w-auto">
-            <div className="backdrop-blur-sm rounded-2xl p-4 shadow-2xl bg-[#6b8497]">
-              <dotlottie-wc
-                src="https://lottie.host/ac66299c-d725-499e-ac6f-1f967cdd6e94/vA7TYn8bot.lottie"
-                style={{
-                  width: "100%",
-                  maxWidth: "300px",
-                  height: "auto",
-                  aspectRatio: "1/1",
-                  filter: "drop-shadow(0 0 20px rgba(0,120,160,0.3))",
-                }}
-                speed="1"
-                autoplay
-                loop
-              />
-            </div>
-          </div>
+        </div>
+      </div>
+      
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="animate-bounce">
+          <svg className="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
         </div>
       </div>
     </div>
