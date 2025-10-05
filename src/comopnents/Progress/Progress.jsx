@@ -2,13 +2,13 @@ import React from "react";
 import { FaClipboardList, FaBullseye, FaDraftingCompass, FaCode, FaClipboardCheck, FaRocket, FaCogs } from "react-icons/fa";
 
 const steps = [
-  { icon: <FaClipboardList className="text-green-500 text-3xl" />, title: "Analysis", color: "border-red-500" },
-  { icon: <FaBullseye className="text-teal-500 text-3xl" />, title: "Planning", color: "border-red-500" },
-  { icon: <FaDraftingCompass className="text-blue-400 text-3xl" />, title: "Design", color: "border-red-400" },
-  { icon: <FaCode className="text-purple-500 text-3xl" />, title: "Development", color: "border-red-500" },
-  { icon: <FaClipboardCheck className="text-green-600 text-3xl" />, title: "Testing", color: "border-red-600" },
-  { icon: <FaRocket className="text-pink-500 text-3xl" />, title: "Deployment", color: "border-red-500" },
-  { icon: <FaCogs className="text-yellow-500 text-3xl" />, title: "Maintenance", color: "border-red-500" },
+  { icon: <FaClipboardList className="text-green-500 text-3xl" />, title: "Analysis", color: "border-black" },
+  { icon: <FaBullseye className="text-teal-500 text-3xl" />, title: "Planning", color: "border-black" },
+  { icon: <FaDraftingCompass className="text-blue-400 text-3xl" />, title: "Design", color: "border-black" },
+  { icon: <FaCode className="text-purple-500 text-3xl" />, title: "Development", color: "border-black" },
+  { icon: <FaClipboardCheck className="text-green-600 text-3xl" />, title: "Testing", color: "border-black" },
+  { icon: <FaRocket className="text-pink-500 text-3xl" />, title: "Deployment", color: "border-black" },
+  { icon: <FaCogs className="text-yellow-500 text-3xl" />, title: "Maintenance", color: "border-black" },
 ];
 
 const Progress = () => {

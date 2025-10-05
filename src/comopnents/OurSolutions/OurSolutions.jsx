@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import FancyButton from '../sharedItems/FancyButtons/FancyButton';
 
 const OurSolutions = () => {
     const [activeTab, setActiveTab] = useState('Business');
@@ -12,63 +13,63 @@ const OurSolutions = () => {
                 icon: '📊',
                 title: 'ERP',
                 subtitle: 'Business ERP Solution / Product / Shop / Company Management',
-                bgColor: 'bg-emerald-100'
+                bgColor: 'bg-gray-100'
             },
             {
                 id: 2,
                 icon: '👥',
                 title: 'HR Manager',
                 subtitle: 'Human Resource Management System HR Software (HRMS)',
-                bgColor: 'bg-green-50'
+                bgColor: 'bg-gray-50'
             },
             {
                 id: 3,
                 icon: '📦',
                 title: 'Wholesale',
                 subtitle: 'Inventory Control and Inventory Management System',
-                bgColor: 'bg-teal-100'
+                bgColor: 'bg-gray-100'
             },
             {
                 id: 4,
                 icon: '✈️',
                 title: 'Flight Booking',
                 subtitle: 'Flight Booking Software',
-                bgColor: 'bg-blue-50'
+                bgColor: 'bg-gray-50'
             },
             {
                 id: 5,
                 icon: '🚗',
                 title: 'VMS',
                 subtitle: 'Vehicle Management System',
-                bgColor: 'bg-cyan-100'
+                bgColor: 'bg-gray-100'
             },
             {
                 id: 6,
                 icon: '🏢',
                 title: 'GMS',
                 subtitle: 'Garage Management Software',
-                bgColor: 'bg-slate-100'
+                bgColor: 'bg-gray-100'
             },
             {
                 id: 7,
                 icon: '💬',
                 title: 'Innue',
                 subtitle: 'Business Live Chat Software',
-                bgColor: 'bg-emerald-100'
+                bgColor: 'bg-gray-100'
             },
             {
                 id: 8,
                 icon: '🚌',
                 title: 'Bus365',
                 subtitle: 'Bus Reservation System',
-                bgColor: 'bg-green-50'
+                bgColor: 'bg-gray-50'
             },
             {
                 id: 9,
                 icon: '📚',
                 title: 'Edutask',
                 subtitle: 'Online Course Selling Marketplace',
-                bgColor: 'bg-blue-100'
+                bgColor: 'bg-gray-100'
             }
         ],
         Blockchain: [
@@ -77,21 +78,21 @@ const OurSolutions = () => {
                 icon: '🔗',
                 title: 'Smart Contracts',
                 subtitle: 'Automated blockchain-based contract solutions',
-                bgColor: 'bg-purple-100'
+                bgColor: 'bg-gray-100'
             },
             {
                 id: 2,
                 icon: '💰',
                 title: 'DeFi Platform',
                 subtitle: 'Decentralized Finance Management System',
-                bgColor: 'bg-indigo-100'
+                bgColor: 'bg-gray-100'
             },
             {
                 id: 3,
                 icon: '🎨',
                 title: 'NFT Marketplace',
                 subtitle: 'Non-Fungible Token Trading Platform',
-                bgColor: 'bg-violet-100'
+                bgColor: 'bg-gray-100'
             }
         ],
         Hospitality: [
@@ -100,21 +101,21 @@ const OurSolutions = () => {
                 icon: '🏨',
                 title: 'Hotel Management',
                 subtitle: 'Complete Hotel Booking and Management System',
-                bgColor: 'bg-orange-100'
+                bgColor: 'bg-gray-100'
             },
             {
                 id: 2,
                 icon: '🍽️',
                 title: 'Restaurant POS',
                 subtitle: 'Point of Sale System for Restaurants',
-                bgColor: 'bg-amber-100'
+                bgColor: 'bg-gray-100'
             },
             {
                 id: 3,
                 icon: '🎉',
                 title: 'Event Management',
                 subtitle: 'Event Planning and Management Platform',
-                bgColor: 'bg-yellow-100'
+                bgColor: 'bg-gray-100'
             }
         ],
         'E-Commerce': [
@@ -123,21 +124,21 @@ const OurSolutions = () => {
                 icon: '🛒',
                 title: 'Online Store',
                 subtitle: 'Complete E-commerce Solution with Payment Gateway',
-                bgColor: 'bg-pink-100'
+                bgColor: 'bg-gray-100'
             },
             {
                 id: 2,
                 icon: '📱',
                 title: 'Mobile Commerce',
                 subtitle: 'Mobile App for E-commerce Business',
-                bgColor: 'bg-rose-100'
+                bgColor: 'bg-gray-100'
             },
             {
                 id: 3,
                 icon: '🔄',
                 title: 'Marketplace',
                 subtitle: 'Multi-vendor E-commerce Marketplace',
-                bgColor: 'bg-red-100'
+                bgColor: 'bg-gray-100'
             }
         ],
         Healthcare: [
@@ -146,21 +147,21 @@ const OurSolutions = () => {
                 icon: '🏥',
                 title: 'Hospital Management',
                 subtitle: 'Complete Hospital Information Management System',
-                bgColor: 'bg-green-100'
+                bgColor: 'bg-gray-100'
             },
             {
                 id: 2,
                 icon: '📋',
                 title: 'Patient Portal',
                 subtitle: 'Online Patient Registration and Appointment System',
-                bgColor: 'bg-emerald-100'
+                bgColor: 'bg-100-100'
             },
             {
                 id: 3,
                 icon: '💊',
                 title: 'Pharmacy System',
                 subtitle: 'Pharmacy Management and Inventory System',
-                bgColor: 'bg-teal-100'
+                bgColor: 'bg-gray-100'
             }
         ]
     };
@@ -171,8 +172,7 @@ const OurSolutions = () => {
                 {/* Header Section */}
                 <div className="text-center mb-12">
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-                        <span className="text-gray-900">Our </span>
-                        <span className="text-red-400/70">Solutions</span>
+                        <span className="text-black">Our Solutions</span>
                     </h2>
                     <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                         We provide a time-worthy business solution to every type of business. 
@@ -186,10 +186,10 @@ const OurSolutions = () => {
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
-                            className={`px-4 sm:px-6 cursor-pointer py-3 rounded-lg font-medium text-sm sm:text-base transition-all duration-300 ${
+                            className={`px-6 sm:px-6 cursor-pointer py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300 ${
                                 activeTab === tab
-                                    ? 'bg-red-600 text-white shadow-lg transform scale-105'
-                                    : 'bg-red-400/70 text-white'
+                                    ? 'bg-white text-red-600 font-medium shadow-lg transform scale-105'
+                                    : 'bg-white text-black'
                             }`}
                         >
                             {tab}
@@ -238,12 +238,12 @@ const OurSolutions = () => {
 
                 {/* Bottom CTA */}
                 <div className="text-center mt-12">
-                    <button className="bg-red-700 cursor-pointer text-white font-semibold px-6 py-3 rounded-lg text-base transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+                    <FancyButton>
                         Explore All Solutions
                         <svg className="w-4 h-4 ml-2 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
-                    </button>
+                    </FancyButton>
                 </div>
             </div>
         </div>

@@ -92,10 +92,10 @@ const OurTechnologies = () => {
                         <button
                             key={tab.key}
                             onClick={() => setActiveTab(tab.key)}
-                            className={`px-5 py-2 text-white cursor-pointer text-sm font-medium rounded-md transition-all duration-300 focus:outline-none ${
+                            className={`px-6 sm:px-6 cursor-pointer py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300  ${
                                 activeTab === tab.key
-                                    ? 'bg-red-600 '
-                                    : 'bg-red-400/70'
+                                    ? 'bg-white text-red-600 font-medium shadow-lg transform scale-105'
+                                    : 'bg-white text-black'
                             }`}
                         >
                             {tab.label}

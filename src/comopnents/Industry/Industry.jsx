@@ -1,61 +1,77 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from "react";
+import { 
+  Landmark, // Fintech
+  HeartPulse, // Healthcare
+  ShoppingBag, // E-commerce
+  Car, // Automotive
+  GraduationCap, // Education
+  Building2, // Real Estate
+  Hotel, // Hospitality
+  Shirt, // RMG
+  Pill, // Pharmacy
+  Plane, // Aviation
+  Palette, // UI/UX
+  Layers // Many More
+} from "lucide-react";
+import PropTypes from "prop-types";
 
-const Industry = ({ className = '' }) => {
-    const industries = useMemo(
-        () => [
-            { name: 'FinTech', icon: '💰' },
-            { name: 'Healthcare', icon: '🏥' },
-            { name: 'E-Commerce', icon: '🛍️' },
-            { name: 'Automotive', icon: '🚘' },
-            { name: 'Education', icon: '🏫' },
-            { name: 'Real-Estate', icon: '🏡' },
-            { name: 'Hospitality', icon: '🏨' },
-            { name: 'RMG', icon: '👗' },
-            { name: 'Pharmacy', icon: '💊' },
-            { name: 'Aviation', icon: '✈️' },
-            { name: 'UI/Ux', icon: '🎨' },
-            { name: 'Many More', icon: '➕' },
-        ],
-        []
-    );
+const Industry = ({ className = "" }) => {
+  const industries = useMemo(
+    () => [
+      { name: "FinTech", icon: Landmark },
+      { name: "Healthcare", icon: HeartPulse },
+      { name: "E-Commerce", icon: ShoppingBag },
+      { name: "Automotive", icon: Car },
+      { name: "Education", icon: GraduationCap },
+      { name: "Real Estate", icon: Building2 },
+      { name: "Hospitality", icon: Hotel },
+      { name: "RMG", icon: Shirt },
+      { name: "Pharmacy", icon: Pill },
+      { name: "Aviation", icon: Plane },
+      { name: "UI/UX", icon: Palette },
+      { name: "Many More", icon: Layers },
+    ],
+    []
+  );
 
-    if (!industries || industries.length === 0) {
-        return <div className="text-center py-12 text-gray-600">No industries available.</div>;
-    }
+  return (
+    <div className={`bg-gray-50 ${className}`}>
+      <div className="py-16 px-4 text-center max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold text-black mb-2">
+          Industries We Serve
+        </h2>
+        <p className="text-gray-600 mb-10 text-lg">
+          Empowering every business through modern digital transformation
+        </p>
 
-    return (
-        <div className={`bg-gray-50 ${className}`}>
-            <div className="py-12 px-4 text-center max-w-7xl mx-auto">
-                <h2 className="text-3xl font-bold text-black">
-                    Industry We Serve
-                </h2>
-                <p className="mt-2 text-gray-600">Bridge Your Business with the Virtual World</p>
-                <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-                    {industries.map((industry, index) => (
-                        <div
-                            key={index}
-                            className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center aspect-square hover:shadow-lg transition-shadow duration-300 relative group"
-                        >
-                            <span className="text-3xl mb-2 group-hover:text-teal-600 transition-colors duration-300">
-                                {industry.icon}
-                            </span>
-                            <p className="text-gray-800 font-medium z-10 relative">{industry.name}</p>
-                            <div className="absolute bottom-0 left-0 w-full h-0 group-hover:h-full bg-red-200 opacity-75 transition-all duration-300 ease-in-out rounded-lg z-0"></div>
-                        </div>
-                    ))}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          {industries.map((industry, index) => {
+            const Icon = industry.icon;
+            return (
+              <div
+                key={index}
+                className="bg-white group p-6 rounded-2xl shadow-md flex flex-col items-center justify-center hover:shadow-xl transition-all duration-300 relative overflow-hidden"
+              >
+                <div className="z-10 flex flex-col items-center space-y-2">
+                  <Icon className="w-10 h-10 text-teal-600 group-hover:text-white transition-colors duration-300" />
+                  <p className="text-gray-800 font-semibold text-sm md:text-base group-hover:text-white transition-colors duration-300">
+                    {industry.name}
+                  </p>
                 </div>
-            </div>
+
+                {/* Fancy Hover BG Effect */}
+                <div className="absolute inset-0 bg-red-400 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-2xl"></div>
+              </div>
+            );
+          })}
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 Industry.propTypes = {
-    className: PropTypes.string,
-};
-
-Industry.defaultProps = {
-    className: '',
+  className: PropTypes.string,
 };
 
 export default Industry;

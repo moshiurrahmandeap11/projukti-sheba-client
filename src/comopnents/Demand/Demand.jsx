@@ -1,64 +1,117 @@
-import React from 'react';
-import { useNavigate } from 'react-router';
-import PropTypes from 'prop-types';
+import React from "react";
+import { useNavigate } from "react-router";
+import PropTypes from "prop-types";
+import {
+  Laptop,
+  Globe,
+  Smartphone,
+  ShoppingCart,
+  PenTool,
+  Wrench,
+} from "lucide-react";
 
-const Demand = ({ className = '' }) => {
-    const navigate = useNavigate();
+const Demand = ({ className = "" }) => {
+  const navigate = useNavigate();
 
-    const services = [
-        { name: 'Software Development', icon: '💻', description: 'We can develop any kind of software solution to automate your business operations according to your requirements. Our strength is to develop customized software.' },
-        { name: 'Website Development', icon: '🌐', description: 'A website can represent your business identity we can develop it according to the motive of your business.' },
-        { name: 'Mobile App Development', icon: '📱', description: 'Bdtask develops both Android and iOS application to make your business operation more Convenient and flexible.' },
-        { name: 'E-Commerce', icon: '🛒', description: 'We have readymade eCommerce software solutions as well as develop the eCommerce solution based on your demand.' },
-        { name: 'Blogging Platform', icon: '✍️', description: 'We can develop an SEO-friendly content management system to publish blogs, articles, online news, and so on.' },
-        { name: 'Custom Software Development', icon: '🔧', description: '' },
-    ];
+  const services = [
+    {
+      name: "Software Development",
+      icon: <Laptop size={32} />,
+      description:
+        "We craft robust, scalable, and secure software tailored to your business workflow.",
+    },
+    {
+      name: "Website Development",
+      icon: <Globe size={32} />,
+      description:
+        "Build blazing-fast, responsive websites designed for performance and aesthetics.",
+    },
+    {
+      name: "Mobile App Development",
+      icon: <Smartphone size={32} />,
+      description:
+        "Deliver seamless experiences on Android and iOS with intuitive mobile apps.",
+    },
+    {
+      name: "E-Commerce Solutions",
+      icon: <ShoppingCart size={32} />,
+      description:
+        "Empower your online business with custom, conversion-focused eCommerce systems.",
+    },
+    {
+      name: "Blogging Platform",
+      icon: <PenTool size={32} />,
+      description:
+        "Launch a modern CMS or blogging system optimized for speed and SEO ranking.",
+    },
+    {
+      name: "Custom Software Development",
+      icon: <Wrench size={32} />,
+      description:
+        "Got unique requirements? Let’s transform your idea into a powerful custom solution.",
+      cta: true,
+    },
+  ];
 
-    const handleSubmitClick = () => {
-        navigate('/submit-request');
-    };
+  return (
+    <section className={`py-20 bg-neutral-50 ${className}`}>
+      <div className="max-w-6xl mx-auto px-6 text-center">
+        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
+          Let’s Build Your{" "}
+          <span className="bg-gradient-to-r from-red-500 to-rose-600 bg-clip-text text-transparent">
+            Perfect Solution
+          </span>
+        </h2>
+        <p className="mt-4 text-gray-500 max-w-2xl mx-auto text-lg leading-relaxed">
+          We analyze, design, and develop digital products that bring
+          innovation, automation, and growth to your business.
+        </p>
 
-    return (
-        <div className={`bg-gray-50 py-12 ${className}`}>
-            <div className="max-w-7xl mx-auto px-4 text-center">
-                <h2 className="text-4xl font-bold text-black">Share Your Demand to Design Any Customized Software</h2>
-                <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
-                    Projukti Sheba focuses on the exact requirements of the clients. We design and develop the best and most advanced software for all types of businesses.
-                </p>
-                <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {services.map((service, index) => (
-                        <div
-                            key={index}
-                            className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center aspect-[4/3] hover:shadow-lg transition-shadow duration-300 relative group"
-                        >
-                            <span className="text-4xl mb-4 group-hover:text-teal-600 transition-colors duration-300">
-                                {service.icon}
-                            </span>
-                            <h3 className="text-xl font-semibold text-gray-800 mb-2">{service.name}</h3>
-                            <p className="text-gray-600 text-center z-10 relative">{service.description}</p>
-                            {service.name === 'Custom Software Development' && (
-                                <button
-                                    onClick={handleSubmitClick}
-                                    className="mt-4 bg-red-700 cursor-pointer text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors duration-300"
-                                >
-                                    Submit Request
-                                </button>
-                            )}
-                            <div className="absolute bottom-0 cursor-pointer left-0 w-full h-0 group-hover:h-full bg-red-200 opacity-75 transition-all duration-300 ease-in-out rounded-lg z-0"></div>
-                        </div>
-                    ))}
-                </div>
+        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {services.map((service, index) => (
+            <div
+              key={index}
+              className="relative group bg-white/60 backdrop-blur-md border border-gray-200 rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+            >
+              {/* Icon with subtle glass effect */}
+              <div className="mb-5 flex items-center justify-center w-16 h-16 rounded-xl bg-white/30 backdrop-blur-sm shadow-inner group-hover:shadow-lg transition-all duration-500">
+                <span className="text-red-600 group-hover:text-rose-600 group-hover:scale-125 transition-all duration-500">
+                  {service.icon}
+                </span>
+              </div>
+
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                {service.name}
+              </h3>
+              <p className="text-gray-500 text-sm leading-relaxed mb-4">
+                {service.description}
+              </p>
+
+              {service.cta && (
+                <button
+                  onClick={() => navigate("/contact")}
+                  className="mt-4 w-full bg-gradient-to-r from-red-600 to-rose-600 text-white text-sm font-medium py-2.5 px-6 rounded-xl hover:from-red-700 hover:to-rose-700 transition-all duration-300 shadow-md hover:shadow-lg"
+                >
+                  Submit Request
+                </button>
+              )}
+
+              {/* hover glow border */}
+              <div className="absolute inset-0 rounded-3xl border border-transparent group-hover:border-rose-200 pointer-events-none transition-all duration-500" />
             </div>
+          ))}
         </div>
-    );
+      </div>
+    </section>
+  );
 };
 
 Demand.propTypes = {
-    className: PropTypes.string,
+  className: PropTypes.string,
 };
 
 Demand.defaultProps = {
-    className: '',
+  className: "",
 };
 
 export default Demand;

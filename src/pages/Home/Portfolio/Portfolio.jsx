@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Toaster, toast } from "react-hot-toast";
+import React, { useState } from "react";
 import {
   Code,
   Globe,
@@ -16,302 +14,233 @@ import FancyButton from "../../../comopnents/sharedItems/FancyButtons/FancyButto
 const Portfolio = () => {
   const [activeTab, setActiveTab] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
-  const [projects, setProjects] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  // Define categories with icons
+  // Dummy Projects
+  const projects = [
+    {
+      id: 1,
+      title: "Inventory Management System",
+      category: "software",
+      client: "TechCore Ltd.",
+      date: "2025-08-15",
+      status: "Completed",
+      description:
+        "A complete inventory and billing system designed to automate stock tracking, order management, and real-time sales analytics.",
+      features: [
+        "Real-time product tracking",
+        "Automated invoice generation",
+        "Role-based access control",
+        "Detailed analytics dashboard",
+      ],
+      technologies: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
+      image: "https://i.postimg.cc/QMMvzhZy/Unlocking-the-Benefits-of-Inventory-Management-Software-blog-banner-image.jpg",
+    },
+    {
+      id: 2,
+      title: "School Management Software",
+      category: "software",
+      client: "Bright Future Academy",
+      date: "2025-05-20",
+      status: "Completed",
+      description:
+        "A digital solution for managing students, teachers, attendance, grading, and communication all in one place.",
+      features: [
+        "Student & teacher database",
+        "Attendance & grading system",
+        "Parent portal integration",
+        "Report card automation",
+      ],
+      technologies: ["React", "Express.js", "MongoDB", "Firebase"],
+      image: "https://i.postimg.cc/m2wXWJwy/Which-is-the-best-all-in-one-school-management-system-in-India.png",
+    },
+    {
+      id: 3,
+      title: "E-Commerce Website",
+      category: "website",
+      client: "ShopEasy BD",
+      date: "2025-07-10",
+      status: "Completed",
+      description:
+        "A full-featured eCommerce platform with secure payment gateway, product filters, and a seamless shopping experience.",
+      features: [
+        "Advanced product filtering",
+        "Stripe payment integration",
+        "Wishlist & cart system",
+        "Admin dashboard",
+      ],
+      technologies: ["Next.js", "Stripe", "MongoDB", "Tailwind CSS"],
+      image: "https://i.postimg.cc/tCS35jkm/business-hand-drawn-e-commerce-landing-page-23-2149600513.avif",
+    },
+    {
+      id: 4,
+      title: "Portfolio Website for Designers",
+      category: "website",
+      client: "CreativePixel Studio",
+      date: "2025-03-25",
+      status: "Completed",
+      description:
+        "A beautifully designed portfolio website for designers to showcase their work, skills, and experience interactively.",
+      features: [
+        "Responsive design",
+        "Animated gallery section",
+        "Dynamic CMS integration",
+        "Contact form with EmailJS",
+      ],
+      technologies: ["React", "Framer Motion", "EmailJS", "Vite"],
+      image: "https://i.postimg.cc/QCN7Q4TK/still-0881fd5ba2033c2cbc13b366c678861e.webp",
+    },
+  ];
+
+  // Tabs
   const categories = [
     { key: "all", label: "All Projects", icon: <Tag className="w-4 h-4" /> },
     { key: "software", label: "Software", icon: <Code className="w-4 h-4" /> },
     { key: "website", label: "Website", icon: <Globe className="w-4 h-4" /> },
-    {
-      key: "video",
-      label: "Video Editing",
-      icon: <Video className="w-4 h-4" />,
-    },
-    {
-      key: "ads",
-      label: "Social Ads",
-      icon: <Megaphone className="w-4 h-4" />,
-    },
   ];
 
-  // Fetch projects from API
-  useEffect(() => {
-    const fetchProjects = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get("https://projukti-sheba-server.onrender.com/portfolio");
-        if (response.data.success) {
-          setProjects(response.data.data || response.data);
-        } else {
-          throw new Error(response.data.message || "Failed to fetch projects");
-        }
-      } catch (err) {
-        console.error("Error fetching projects:", err);
-        setError("Failed to load projects. Please try again.");
-        toast.error("Failed to load projects. Please try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
-
-  // Filter projects based on active tab
+  // Filter projects
   const filteredProjects =
     activeTab === "all"
       ? projects
-      : projects.filter((project) => project.category === activeTab);
+      : projects.filter((p) => p.category === activeTab);
 
   return (
-    <section className="py-4 px-4  sm:px-6 lg:px-8 overflow-hidden">
-      <Toaster position="top-center" reverseOrder={false} />
-      <div className="relative z-10 max-w-7xl mx-auto  p-4 sm:p-6 md:p-8 lg:p-10 rounded-2xl">
-        {/* Section Header */}
-        <div className="text-center mb-8 sm:mb-10 md:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
-            <span className="text-black">Our Portfolio</span>
+    <section className="py-8 bg-gray-50 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-black mb-3">
+            Our Portfolio
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-black/90 max-w-3xl mx-auto leading-relaxed">
-            Explore our successful projects and see how we've helped businesses
-            achieve their digital goals
+          <p className="text-gray-700 max-w-2xl mx-auto">
+            Explore some of our best works that helped businesses grow and
+            transform digitally.
           </p>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 md:mb-12">
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
           {categories.map((category) => (
             <button
               key={category.key}
               onClick={() => setActiveTab(category.key)}
-              className={`flex items-center text-white cursor-pointer space-x-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full transition-all duration-300 transform hover:scale-105 backdrop-blur-sm text-xs sm:text-sm font-medium ${
+              className={`px-6 sm:px-6 cursor-pointer py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300 flex justify-center items-center gap-3 ${
                 activeTab === category.key
-                  ? "bg-red-600 scale-105 shadow-xl"
-                  : "bg-red-400/70 "
+                  ? "bg-white text-red-600 font-medium shadow-lg transform scale-105"
+                  : "bg-white text-black"
               }`}
             >
               {category.icon}
-              <span className="sm:inline">{category.label}</span>
+              <span>{category.label}</span>
             </button>
           ))}
         </div>
 
-        {/* Loading State */}
-        {isLoading && (
-          <div className="flex justify-center items-center py-8 sm:py-12">
-            <svg
-              className="animate-spin h-6 w-6 sm:h-8 sm:w-8 text-[#008080]"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-                fill="none"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
-          </div>
-        )}
-
-        {/* Error State */}
-        {error && !isLoading && (
-          <div className="text-center py-8 sm:py-12 text-red-400 text-base sm:text-lg">
-            <p>{error}</p>
-          </div>
-        )}
-
         {/* Projects Grid */}
-        {!isLoading && !error && filteredProjects.length === 0 && (
-          <div className="text-center py-8 sm:py-12 text-gray-400 text-base sm:text-lg">
-            <p>No projects found for this category.</p>
-          </div>
-        )}
-        {!isLoading && !error && filteredProjects.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            {filteredProjects.map((project, index) => (
-              <div
-                key={project._id || project.id}
-                className="backdrop-blur-lg bg-transparent rounded-2xl border border-[rgba(255,255,255,0.1)] overflow-hidden hover:bg-[#ccefff]/80 transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-2"
-                style={{
-                  animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`,
-                }}
-              >
-                {/* Project Image */}
-                <div className="relative h-40 sm:h-48 bg-[rgba(10,25,47,0.7)] backdrop-blur-sm flex items-center justify-center">
-                  <img
-                    src={project.image || "/api/placeholder/400/250"}
-                    alt={project.title}
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                  <div className="text-4xl sm:text-6xl opacity-20 text-[rgba(0,120,160,0.7)]">
-                    {project.category === "software" && <Code />}
-                    {project.category === "website" && <Globe />}
-                    {project.category === "video" && <Video />}
-                    {project.category === "ads" && <Megaphone />}
-                  </div>
-                  <div
-                    className={`absolute top-2 sm:top-3 right-2 sm:right-3 px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${
-                      project.status === "Completed"
-                        ? "bg-[rgba(34,197,94,0.2)] text-[rgba(34,197,94,0.8)] border border-[rgba(34,197,94,0.3)]"
-                        : "bg-[rgba(234,179,8,0.2)] text-[rgba(234,179,8,0.8)] border border-[rgba(234,179,8,0.3)]"
-                    }`}
-                  >
-                    {project.status}
-                  </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProjects.map((project, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg hover:-translate-y-2 transition-all duration-300"
+            >
+              <div className="relative">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-48 object-cover"
+                />
+                <span
+                  className={`absolute top-3 right-3 text-xs font-semibold px-3 py-1 rounded-full ${
+                    project.status === "Completed"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-yellow-100 text-yellow-700"
+                  }`}
+                >
+                  {project.status}
+                </span>
+              </div>
+
+              <div className="p-6">
+                <div className="flex items-center justify-between text-sm mb-2 text-gray-600">
+                  <span className="capitalize">{project.category}</span>
+                  <span className="flex items-center gap-1">
+                    <Calendar className="w-4 h-4" />
+                    {project.date}
+                  </span>
                 </div>
 
-                {/* Project Content */}
-                <div className="p-4 sm:p-6">
-                  <div className="flex items-center justify-between mb-2 sm:mb-3">
-                    <span className="text-xs sm:text-sm text-[rgba(0,120,160,1)] font-medium capitalize">
-                      {project.category}
+                <h3 className="text-lg font-bold mb-2 text-gray-900">
+                  {project.title}
+                </h3>
+                <p className="text-gray-700 text-sm mb-3 line-clamp-2">
+                  {project.description}
+                </p>
+
+                {/* Technologies */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.technologies.slice(0, 3).map((tech, i) => (
+                    <span
+                      key={i}
+                      className="text-xs bg-gray-100 border border-gray-200 rounded-md px-2 py-1"
+                    >
+                      {tech}
                     </span>
-                    <span className="text-xs sm:text-sm text-black font-medium flex items-center">
-                      <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-                      {project.date}
-                    </span>
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-bold mb-2 text-black">
-                    {project.title}
-                  </h3>
-                  <div className="flex items-center text-black text-xs sm:text-sm mb-2 sm:mb-3">
-                    <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-                    {project.client}
-                  </div>
-                  <p className="text-black text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">
-                    {project.description}
-                  </p>
-                  {/* Technologies */}
-                  <div className="flex flex-wrap gap-2 mb-3 sm:mb-4">
-                    {project.technologies.slice(0, 3).map((tech, techIndex) => (
-                      <span
-                        key={techIndex}
-                        className="px-2 py-1 bg-[rgba(255,255,255,0.05)] rounded-lg text-xs text-black border border-[rgba(255,255,255,0.1)] backdrop-blur-sm hover:border-[rgba(0,120,160,0.5)]"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.technologies.length > 3 && (
-                      <span className="px-2 py-1 bg-[rgba(255,255,255,0.05)] rounded-lg text-xs text-black border border-[rgba(255,255,255,0.1)] backdrop-blur-sm hover:border-[rgba(0,120,160,0.5)]">
-                        +{project.technologies.length - 3} more
-                      </span>
-                    )}
-                  </div>
-                  {/* Action Button */}
-                  <button
-                    onClick={() => setSelectedProject(project)}
-                    className="relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-xs sm:text-sm font-medium overflow-hidden"
-                  >
-                    <span className="relative z-10">View Details</span>
-                    <div
-                      className="absolute inset-0 bg-[#954cc9] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out"
-                    ></div>
-                  </button>
+                  ))}
                 </div>
+
+                {/* Button */}
+                <FancyButton onClick={() => setSelectedProject(project)}>
+                  View Details
+                </FancyButton>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
 
         {/* Project Modal */}
         {selectedProject && (
-          <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)] backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6">
-            <div className="backdrop-blur-lg bg-[rgba(10,25,47,0.5)] rounded-2xl border border-[rgba(255,255,255,0.1)] shadow-[0_4px_30px_rgba(0,0,0,0.2)] max-w-full sm:max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-4 sm:p-6 md:p-8">
-                <div className="flex flex-col sm:flex-row justify-between items-start mb-4 sm:mb-6">
-                  <div>
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">
-                      {selectedProject.title}
-                    </h3>
-                    <div className="flex flex-wrap items-center space-x-2 sm:space-x-4 text-gray-400 text-xs sm:text-sm">
-                      <span className="flex items-center mb-2 sm:mb-0">
-                        <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-                        {selectedProject.client}
-                      </span>
-                      <span className="flex items-center mb-2 sm:mb-0">
-                        <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-                        {selectedProject.date}
-                      </span>
-                      <span
-                        className={`px-2 sm:px-3 py-1 rounded-full text-xs ${
-                          selectedProject.status === "Completed"
-                            ? "bg-[rgba(34,197,94,0.2)] text-[rgba(34,197,94,0.8)]"
-                            : "bg-[rgba(234,179,8,0.2)] text-[rgba(234,179,8,0.8)]"
-                        }`}
-                      >
-                        {selectedProject.status}
-                      </span>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setSelectedProject(null)}
-                    className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl mt-2 sm:mt-0"
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+            <div className="bg-white rounded-2xl shadow-lg max-w-3xl w-full p-6 relative">
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-3 right-3 text-gray-600 hover:text-red-500 text-2xl"
+              >
+                ×
+              </button>
+
+              <h3 className="text-2xl font-bold mb-3">
+                {selectedProject.title}
+              </h3>
+              <p className="text-gray-700 mb-4">{selectedProject.description}</p>
+
+              <h4 className="font-semibold text-gray-900 mb-2">
+                Key Features:
+              </h4>
+              <ul className="list-disc list-inside text-gray-700 mb-4">
+                {selectedProject.features.map((f, i) => (
+                  <li key={i}>{f}</li>
+                ))}
+              </ul>
+
+              <h4 className="font-semibold text-gray-900 mb-2">
+                Technologies Used:
+              </h4>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {selectedProject.technologies.map((tech, i) => (
+                  <span
+                    key={i}
+                    className="text-xs bg-gray-100 border border-gray-200 rounded-md px-2 py-1"
                   >
-                    ×
-                  </button>
-                </div>
+                    {tech}
+                  </span>
+                ))}
+              </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
-                  <div className="space-y-4 sm:space-y-6">
-                    <h4 className="text-lg sm:text-xl font-semibold text-white">
-                      Project Overview
-                    </h4>
-                    <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                      {selectedProject.description}
-                    </p>
-
-                    <h4 className="text-lg sm:text-xl font-semibold text-white">
-                      Key Features
-                    </h4>
-                    <ul className="space-y-2">
-                      {selectedProject.features.map((feature, index) => (
-                        <li
-                          key={index}
-                          className="flex items-center text-gray-300 text-sm sm:text-base"
-                        >
-                          <div className="w-2 h-2 bg-[rgba(0,120,160,0.7)] rounded-full mr-2 sm:mr-3"></div>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="space-y-4 sm:space-y-6">
-                    <h4 className="text-lg sm:text-xl font-semibold text-white">
-                      Technologies Used
-                    </h4>
-                    <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
-                      {selectedProject.technologies.map((tech, index) => (
-                        <span
-                          key={index}
-                          className="px-2 sm:px-3 py-1 sm:py-2 bg-[rgba(255,255,255,0.05)] rounded-lg text-xs sm:text-sm text-gray-300 border border-[rgba(255,255,255,0.1)] backdrop-blur-sm hover:border-[rgba(0,120,160,0.5)]"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="space-y-3 sm:space-y-4">
-                      <button className="w-full px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 text-xs sm:text-sm">
-                        <span>View Live Project</span>
-                        <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
-                      </button>
-                      <button className="w-full px-4 sm:px-6 py-2 sm:py-3 bg-[rgba(255,255,255,0.05)] backdrop-blur-sm border border-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.1)] hover:border-[rgba(0,120,160,0.5)] rounded-lg transition-all text-xs sm:text-sm">
-                        Contact for Similar Project
-                      </button>
-                    </div>
-                  </div>
-                </div>
+              <div className="flex gap-3">
+                <FancyButton>
+                  View Live <ExternalLink className="inline w-4 h-4 ml-1" />
+                </FancyButton>
+                <FancyButton>Contact for Similar</FancyButton>
               </div>
             </div>
           </div>
@@ -319,17 +248,6 @@ const Portfolio = () => {
       </div>
 
       <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
         .line-clamp-2 {
           display: -webkit-box;
           -webkit-line-clamp: 2;

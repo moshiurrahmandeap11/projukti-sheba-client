@@ -15,6 +15,7 @@ import Loader from "../Loader/Loader";
 import toast from "react-hot-toast";
 import axios from "axios";
 import logo from "../../../assets/logo.jpg";
+import FancyButton from "../FancyButtons/FancyButton";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -300,12 +301,11 @@ const Navbar = () => {
               ) : (
                 // Desktop "Get Started" Button - Only shows when user is NOT logged in
                 <div className="hidden md:block ml-4">
-                  <button
-                    onClick={() => navigate("/auth/login")}
-                    className="bg-red-700 hover:bg-red-800 cursor-pointer text-white font-bold py-3 px-5 rounded-md transition-all duration-300 transform shadow-md"
+                  <FancyButton
+                    onClick={() => navigate("/contact")}
                   >
                     Get Started
-                  </button>
+                  </FancyButton>
                 </div>
               )}
 
