@@ -76,21 +76,38 @@ const dummyTestimonials = [
 
 const TestimonialsSlider = () => {
   const [current, setCurrent] = useState(0);
+  const [visibleCards, setVisibleCards] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTestimonial, setSelectedTestimonial] = useState(null);
-  const VISIBLE_CARDS = 3;
   const TOTAL_CARDS = dummyTestimonials.length;
-  const MAX_INDEX = Math.max(0, TOTAL_CARDS - VISIBLE_CARDS);
+  const MAX_INDEX = Math.max(0, TOTAL_CARDS - visibleCards);
 
   const next = () => setCurrent((prev) => (prev === MAX_INDEX ? 0 : prev + 1));
   const prev = () => setCurrent((prev) => (prev === 0 ? MAX_INDEX : prev - 1));
+
+  useEffect(() => {
+    const updateVisibleCards = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setVisibleCards(1);
+      } else if (width < 1024) {
+        setVisibleCards(2);
+      } else {
+        setVisibleCards(3);
+      }
+    };
+
+    updateVisibleCards();
+    window.addEventListener("resize", updateVisibleCards);
+    return () => window.removeEventListener("resize", updateVisibleCards);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       next();
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [visibleCards]); // Re-run on visibleCards change to adjust MAX_INDEX
 
   const formatDate = (dateString) =>
     new Date(dateString).toLocaleDateString("en-US", {
@@ -135,11 +152,11 @@ const TestimonialsSlider = () => {
 
     return (
       <div
-        className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all duration-300 h-[28rem] group cursor-pointer"
+        className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all duration-300 h-[24rem] sm:h-[26rem] lg:h-[28rem] group cursor-pointer"
         onClick={() => openModal(testimonial)}
       >
         {/* Top: Video Thumbnail or Photo with Play Overlay */}
-        <div className="relative h-48 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center group-hover:from-gray-100 group-hover:to-white transition-colors duration-300">
+        <div className="relative h-40 sm:h-48 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center group-hover:from-gray-100 group-hover:to-white transition-colors duration-300">
           {videoId ? (
             <img
               src={thumbnailUrl}
@@ -157,17 +174,17 @@ const TestimonialsSlider = () => {
             />
           )}
           {videoId && (
-            <div className="absolute inset-0  bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center transition-all duration-300">
-              <div className="bg-white bg-opacity-90 rounded-full p-3 flex items-center justify-center w-12 h-12 shadow-lg">
-                <Play className="w-5 h-5 text-black ml-0.5" />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 flex items-center justify-center transition-all duration-300">
+              <div className="bg-white bg-opacity-90 rounded-full p-2 sm:p-3 flex items-center justify-center w-10 sm:w-12 h-10 sm:h-12 shadow-lg">
+                <Play className="w-4 sm:w-5 h-4 sm:h-5 text-black ml-0.5" />
               </div>
             </div>
           )}
         </div>
 
         {/* Testimonial Text - Fixed height */}
-        <div className="p-6 h-32 overflow-hidden flex flex-col justify-between">
-          <blockquote className="text-gray-700 text-sm leading-relaxed italic break-words">
+        <div className="p-4 sm:p-6 h-24 sm:h-32 overflow-hidden flex flex-col justify-between">
+          <blockquote className="text-gray-700 text-xs sm:text-sm leading-relaxed italic break-words">
             "{truncatedText}"
           </blockquote>
           {isTruncated && (
@@ -184,12 +201,12 @@ const TestimonialsSlider = () => {
         </div>
 
         {/* Bottom: Details */}
-        <div className="px-6 pb-6 pt-2 border-t border-gray-100 flex-1 flex  justify-between bg-gradient-to-t from-white to-transparent">
-          <h3 className="font-semibold text-gray-900 text-base leading-tight">
+        <div className="px-4 sm:px-6 pb-4 sm:pb-6 pt-2 border-t border-gray-100 flex-1 flex flex-col sm:flex-row sm:justify-between bg-gradient-to-t from-white to-transparent">
+          <h3 className="font-semibold text-gray-900 text-sm sm:text-base leading-tight">
             {testimonial.name}
           </h3>
-          <div>
-            <p className="text-sm text-gray-500 mt-1 leading-tight">
+          <div className="mt-2 sm:mt-0">
+            <p className="text-xs sm:text-sm text-gray-500 mt-1 leading-tight">
               {testimonial.position}, {testimonial.company}
             </p>
             <p className="text-xs text-gray-400 mt-1 leading-tight">
@@ -207,55 +224,56 @@ const TestimonialsSlider = () => {
       : null;
 
     return (
-      <div className="fixed inset-0 bg-black/20 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
+      <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+        <div className="bg-white rounded-2xl max-w-full sm:max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-gray-500 hover:text-gray-700 rounded-full hover:bg-gray-100 transition-colors z-10"
+            className="absolute top-2 sm:top-4 right-2 sm:right-4 p-2 text-gray-500 hover:text-gray-700 rounded-full hover:bg-gray-100 transition-colors z-10"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 sm:w-5 h-4 sm:h-5" />
           </button>
 
           {/* Modal Content */}
-          <div className="p-8">
+          <div className="p-4 sm:p-8">
             {/* Media */}
-            <div className="relative mb-6">
+            <div className="relative mb-4 sm:mb-6">
               {videoId ? (
                 <iframe
                   width="100%"
-                  height="360"
+                  height="250"
+                  sm:height="360"
                   src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
                   title="YouTube video player"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
-                  className="rounded-xl"
+                  className="rounded-xl w-full"
                 ></iframe>
               ) : (
                 <img
                   src={testimonial.photoURL}
                   alt={testimonial.name}
-                  className="w-full h-64 object-cover rounded-xl"
+                  className="w-full h-48 sm:h-64 object-cover rounded-xl"
                 />
               )}
             </div>
 
             {/* Full Testimonial */}
-            <blockquote className="text-gray-700 text-lg leading-relaxed italic mb-6 border-l-4 border-red-600 pl-4">
+            <blockquote className="text-gray-700 text-base sm:text-lg leading-relaxed italic mb-4 sm:mb-6 border-l-4 border-red-600 pl-3 sm:pl-4">
               "{testimonial.testimonial}"
             </blockquote>
 
             {/* Details */}
-            <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-4 border-t border-gray-200">
               <div>
-                <h3 className="font-bold text-xl text-gray-900">
+                <h3 className="font-bold text-lg sm:text-xl text-gray-900">
                   {testimonial.name}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 text-sm">
                   {testimonial.position}, {testimonial.company}
                 </p>
               </div>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 mt-2 sm:mt-0">
                 {formatDate(testimonial.date)} • {testimonial.location}
               </p>
             </div>
@@ -266,14 +284,14 @@ const TestimonialsSlider = () => {
   };
 
   return (
-    <section className="py-16 bg-gray-50 px-4 sm:px-6 lg:px-8">
+    <section className="py-8 sm:py-16 bg-gray-50 px-2 sm:px-4 lg:px-8">
       <div className="max-w-7xl mx-auto relative">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-4">
             What Our Clients Say
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
             Hear from leaders who've transformed their businesses with us.
           </p>
         </div>
@@ -283,11 +301,15 @@ const TestimonialsSlider = () => {
           <div
             className="flex transition-transform duration-500 ease-in-out"
             style={{
-              transform: `translateX(-${(current * 100) / VISIBLE_CARDS}%)`,
+              transform: `translateX(-${(current * 100) / visibleCards}%)`,
             }}
           >
             {dummyTestimonials.map((testimonial, index) => (
-              <div key={index} className="w-1/3 flex-shrink-0 px-4">
+              <div
+                key={index}
+                className="flex-shrink-0 px-2 sm:px-4"
+                style={{ width: `${100 / visibleCards}%` }}
+              >
                 <TestimonialCard testimonial={testimonial} />
               </div>
             ))}
@@ -297,24 +319,24 @@ const TestimonialsSlider = () => {
         {/* Navigation Buttons */}
         <button
           onClick={prev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 border border-gray-200"
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 border border-gray-200"
         >
-          <ChevronLeft className="w-4 h-4 text-gray-600" />
+          <ChevronLeft className="w-3 sm:w-4 h-3 sm:h-4 text-gray-600" />
         </button>
         <button
           onClick={next}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 border border-gray-200"
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 border border-gray-200"
         >
-          <ChevronRight className="w-4 h-4 text-gray-600" />
+          <ChevronRight className="w-3 sm:w-4 h-3 sm:h-4 text-gray-600" />
         </button>
       </div>
 
       {/* Dots */}
-      <div className="flex justify-center space-x-2 mt-8">
+      <div className="flex justify-center space-x-2 mt-6 sm:mt-8">
         {Array.from({ length: MAX_INDEX + 1 }).map((_, i) => (
           <button
             key={i}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+            className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${
               i === current
                 ? "bg-red-600 scale-110"
                 : "bg-gray-300 hover:bg-gray-400"

@@ -53,14 +53,14 @@ const Industry = ({ className = "" }) => {
                 className="bg-white group p-6 rounded-2xl shadow-md flex flex-col items-center justify-center hover:shadow-xl transition-all duration-300 relative overflow-hidden"
               >
                 <div className="z-10 flex flex-col items-center space-y-2">
-                  <Icon className="w-10 h-10 text-teal-600 group-hover:text-white transition-colors duration-300" />
-                  <p className="text-gray-800 font-semibold text-sm md:text-base group-hover:text-white transition-colors duration-300">
+                  <Icon className="w-10 h-10 text-black group-hover:text-red-600 transition-colors duration-300" />
+                  <p className="text-gray-800 font-semibold text-sm md:text-base group-hover:text-black transition-colors duration-300">
                     {industry.name}
                   </p>
                 </div>
 
                 {/* Fancy Hover BG Effect */}
-                <div className="absolute inset-0 bg-red-400 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-2xl"></div>
+                {/* <div className="absolute inset-0 bg-red-400 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-2xl"></div> */}
               </div>
             );
           })}
