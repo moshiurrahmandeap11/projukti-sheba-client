@@ -304,7 +304,7 @@ const Navbar = () => {
                   <FancyButton
                     onClick={() => navigate("/contact")}
                   >
-                    Get Started
+                    Book Now
                   </FancyButton>
                 </div>
               )}

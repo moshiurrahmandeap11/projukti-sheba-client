@@ -272,8 +272,8 @@ const Footer = () => {
           </div>
           <p>
             Developed By{" "}
-            <a href="https://moshiurrahman.online" target="_blank" rel="noreferrer" className="text-red-700 hover:underline">
-              MRD
+            <a href="https://projuktisheba.com" target="_blank" rel="noreferrer" className="text-red-700 hover:underline">
+              PS Developer Team
             </a>
           </p>
         </div>

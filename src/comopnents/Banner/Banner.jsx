@@ -51,7 +51,7 @@ const Banner = () => {
         <div className="max-w-3xl  p-6 md:p-10 rounded-2xl  shadow-lg">
           {/* Animated Title */}
           <h1
-            className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-red-400 mb-6 transition-all duration-500 ${
+            className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 transition-all duration-500 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 -translate-y-4"

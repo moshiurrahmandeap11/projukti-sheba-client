@@ -46,51 +46,44 @@ const Services = () => {
   ];
 
   return (
-    <div className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto text-center">
-        {/* Header */}
-        <h2 className="text-4xl font-bold text-black mb-4">Our Services</h2>
-        <p className="text-gray-600 max-w-2xl mx-auto mb-10">
-          Explore our wide range of digital solutions — from software to web and mobile development. We design, build, and deliver excellence.
-        </p>
+<div className="bg-gray-50 pt-32 pb-16 px-4 sm:px-6 lg:px-8">
+  <div className="max-w-7xl mx-auto text-center">
+    {/* Header */}
+    <h2 className="text-5xl font-bold text-black mb-6 tracking-wide">
+      Our Services
+    </h2>
+    <p className="text-gray-600 max-w-3xl mx-auto mb-12 text-lg leading-relaxed">
+      Explore our wide range of digital solutions — from software to web and mobile development. We design, build, and deliver excellence.
+    </p>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => {
-            const Icon = service.icon;
-            return (
-              <div
-                key={index}
-                className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-between text-center hover:shadow-lg hover:scale-102 transition-all duration-300 relative group"
-              >
-                {/* Icon */}
-                <span className="text-4xl mb-4 group-hover:text-red-600 transition-colors duration-300">
-                  <Icon className="w-10 h-10" />
-                </span>
-
-                {/* Title */}
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                  {service.name}
-                </h3>
-
-                {/* Description */}
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  {service.description}
-                </p>
-
-                {/* Button */}
-                <FancyButton onClick={() => navigate("/contact")}>
-                  Get Started
-                </FancyButton>
-
-                {/* Hover overlay */}
-                {/* <div className="absolute bottom-0 left-0 w-full h-0 group-hover:h-full bg-red-200 opacity-75 transition-all duration-300 ease-in-out rounded-lg z-0"></div> */}
-              </div>
-            );
-          })}
-        </div>
-      </div>
+    {/* Services Grid */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {services.map((service, index) => {
+        const Icon = service.icon;
+        return (
+          <div
+            key={index}
+            className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-between text-center hover:shadow-lg hover:scale-102 transition-all duration-300 relative group"
+          >
+            <span className="text-5xl mb-4 group-hover:text-red-600 transition-colors duration-300">
+              <Icon className="w-12 h-12" />
+            </span>
+            <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+              {service.name}
+            </h3>
+            <p className="text-gray-600 text-sm leading-relaxed mb-4">
+              {service.description}
+            </p>
+            <FancyButton onClick={() => navigate("/contact")}>
+              Get Started
+            </FancyButton>
+          </div>
+        );
+      })}
     </div>
+  </div>
+</div>
+
   );
 };
 
