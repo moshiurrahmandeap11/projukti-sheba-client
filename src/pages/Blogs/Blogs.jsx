@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ChevronLeft } from "lucide-react";
 import axios from "axios";
+import Loader from "../../comopnents/sharedItems/Loader/Loader";
 
 const Blogs = () => {
   const navigate = useNavigate();
@@ -67,14 +68,7 @@ const Blogs = () => {
   };
 
   if (loading) {
-    return (
-      <section className="max-w-7xl mx-auto px-6 py-12">
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-700"></div>
-          <span className="ml-3 text-lg">Loading blogs...</span>
-        </div>
-      </section>
-    );
+    return <Loader></Loader>
   }
 
   if (error) {
