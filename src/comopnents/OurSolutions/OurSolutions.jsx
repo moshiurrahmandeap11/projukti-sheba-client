@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import FancyButton from '../sharedItems/FancyButtons/FancyButton';
 
 const OurSolutions = () => {
-    const [activeTab, setActiveTab] = useState('ERP Software');
+    const [activeTab, setActiveTab] = useState('ERP Solutions');
     
-    const tabs = ['ERP Software', 'E-commerce', 'Restaurant', 'School', 'Blog', 'Healthcare', 'Travel Agency', 'Real Estate', 'Others'];
+    const tabs = ['ERP Solutions', 'E-commerce', 'Restaurant', 'School', 'Blog', 'Travel Agency', 'Real Estate', 'Others'];
     
     const solutions = {
-        'ERP Software': [
+        'ERP Solutions': [
             {
                 id: 1,
                 icon: '📊',
@@ -119,29 +119,6 @@ const OurSolutions = () => {
                 icon: '💬',
                 title: 'Content Management',
                 subtitle: 'Advanced CMS for media and content publishing',
-                bgColor: 'bg-gray-100'
-            }
-        ],
-        'Healthcare': [
-            {
-                id: 1,
-                icon: '🏥',
-                title: 'Hospital Management',
-                subtitle: 'Complete hospital information management system',
-                bgColor: 'bg-gray-100'
-            },
-            {
-                id: 2,
-                icon: '📋',
-                title: 'Patient Management',
-                subtitle: 'Patient records and appointment management system',
-                bgColor: 'bg-gray-50'
-            },
-            {
-                id: 3,
-                icon: '💊',
-                title: 'Pharmacy System',
-                subtitle: 'Pharmacy management and medicine inventory system',
                 bgColor: 'bg-gray-100'
             }
         ],

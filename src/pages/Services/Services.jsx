@@ -8,7 +8,7 @@ const Services = () => {
 
 const services = [
   {
-    name: "ERP Software",
+    name: "ERP Solutions",
     icon: LayoutDashboard, // dashboard-style system = perfect for ERP
     description:
       "We develop custom ERP systems to automate workflow, manage inventory, HR, and finance with ease.",

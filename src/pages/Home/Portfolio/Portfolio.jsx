@@ -56,7 +56,7 @@ const Portfolio = () => {
     {
       id: 3,
       title: "E-Commerce Website",
-      category: "website",
+      category: "e-commerce",
       client: "ShopEasy BD",
       date: "2025-07-10",
       status: "Completed",
@@ -89,13 +89,89 @@ const Portfolio = () => {
       technologies: ["React", "Framer Motion", "EmailJS", "Vite"],
       image: "https://i.postimg.cc/QCN7Q4TK/still-0881fd5ba2033c2cbc13b366c678861e.webp",
     },
+    // Additional dummy projects for ERP
+    {
+      id: 5,
+      title: "Enterprise ERP System",
+      category: "erp",
+      client: "Global Manufacturing Co.",
+      date: "2025-06-05",
+      status: "Completed",
+      description:
+        "An integrated ERP solution for enterprise-level operations, covering finance, HR, supply chain, and manufacturing processes.",
+      features: [
+        "Multi-module integration",
+        "Real-time financial reporting",
+        "Supply chain optimization",
+        "User-friendly dashboard",
+      ],
+      technologies: ["Java", "Spring Boot", "PostgreSQL", "React"],
+      image: "https://i.postimg.cc/RCwB0V2p/ERP-Software-Development-Company.jpg",
+    },
+    {
+      id: 6,
+      title: "CRM & ERP Integration Platform",
+      category: "erp",
+      client: "SalesForce Partners",
+      date: "2025-04-12",
+      status: "Completed",
+      description:
+        "A robust ERP system integrated with CRM tools to streamline customer relationships and business operations seamlessly.",
+      features: [
+        "CRM-ERP synchronization",
+        "Automated workflow management",
+        "Customizable reports",
+        "Scalable cloud deployment",
+      ],
+      technologies: ["Node.js", "MongoDB", "Salesforce API", "Docker"],
+      image: "https://i.postimg.cc/85Yh0q1G/ERP-CRM-Integration.jpg",
+    },
+    // Additional dummy projects for E-Commerce
+    {
+      id: 7,
+      title: "Custom E-Commerce Management System",
+      category: "e-commerce",
+      client: "MarketHub Inc.",
+      date: "2025-09-01",
+      status: "In Progress",
+      description:
+        "A comprehensive e-commerce management system with advanced inventory, order processing, and multi-vendor support.",
+      features: [
+        "Multi-vendor marketplace",
+        "Inventory synchronization",
+        "Advanced analytics",
+        "Mobile app integration",
+      ],
+      technologies: ["Laravel", "Vue.js", "MySQL", "Redis"],
+      image: "https://i.postimg.cc/7hQfZq2N/ecommerce-management-system.jpg",
+    },
+    {
+      id: 8,
+      title: "WordPress E-Commerce Store",
+      category: "e-commerce",
+      client: "Local Boutique",
+      date: "2025-02-18",
+      status: "Completed",
+      description:
+        "A WooCommerce-powered e-commerce website tailored for small businesses with easy product management and SEO features.",
+      features: [
+        "WooCommerce customization",
+        "SEO-optimized structure",
+        "Payment gateway setup",
+        "Product variation support",
+      ],
+      technologies: ["WordPress", "WooCommerce", "Elementor", "PHP"],
+      image: "https://i.postimg.cc/90y6b5zL/wordpress-ecommerce-website.jpg",
+    },
   ];
 
-  // Tabs
+  // Tabs including "all"
   const categories = [
-    { key: "all", label: "All Projects", icon: <Tag className="w-4 h-4" /> },
-    { key: "software", label: "Software", icon: <Code className="w-4 h-4" /> },
-    { key: "website", label: "Website", icon: <Globe className="w-4 h-4" /> },
+    { key: "all", label: "All Projects", icon: <Megaphone className="w-4 h-4" /> },
+    { key: "erp", label: "ERP Solutions", icon: <Tag className="w-4 h-4" /> },
+    { key: "software", label: "Business Software", icon: <Code className="w-4 h-4" /> },
+    { key: "e-commerce", label: "E-Commerce Platforms", icon: <Globe className="w-4 h-4" /> },
+    { key: "website", label: "Custom Websites", icon: <Globe className="w-4 h-4" /> },
   ];
 
   // Filter projects
