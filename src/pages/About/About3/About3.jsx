@@ -5,17 +5,22 @@ const About3 = () => {
         <div className=" bg-white py-12 lg:py-20">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 {/* Header Section */}
-                <div className="mb-16 lg:mb-24">
-                    <div className="text-sm text-gray-500 tracking-widest uppercase mb-4">OURCOMMITMENT</div>
-                    <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Smart Solutions for Growth</h1>
-                    <p className="text-lg text-gray-600 max-w-4xl leading-relaxed">
-                        We provide customized software solutions to enhance business performance and create<br />
-                        long-term impact across local and global markets
-                    </p>
-                </div>
+<div className="mb-16 lg:mb-24 text-center">
+  <div className="text-sm text-gray-500 tracking-widest uppercase mb-4">
+    OUR COMMITMENT
+  </div>
+  <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+    Smart Solutions for Growth
+  </h1>
+  <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
+    We provide customized software solutions to enhance business performance and create<br />
+    long-term impact across local and global markets
+  </p>
+</div>
+
 
                 {/* Vision and Mission Section */}
-                <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+                <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 place-items-center">
                     {/* Vision Column */}
                     <div className="space-y-8">
                         <div>

@@ -13,10 +13,6 @@ const About1 = () => {
                     <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
                         {/* Left Content */}
                         <div className="space-y-8">
-                            {/* Main Heading */}
-                            <h1 className="text-5xl font-bold text-black mb-6 tracking-wide">
-                                ABOUT
-                            </h1>
 
                             {/* Sub Heading */}
                             <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 leading-tight">

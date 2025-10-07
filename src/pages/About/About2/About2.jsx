@@ -5,7 +5,8 @@ const About2 = () => {
         <div className=" bg-white py-2 lg:py-2">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 {/* Stats Section */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-20 lg:mb-32">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-20 lg:mb-32 place-items-center">
+
                     {/* Stat 1 */}
                     <div>
                         <div className="text-sm text-gray-500 mb-1">01</div>
@@ -24,7 +25,7 @@ const About2 = () => {
                     <div>
                         <div className="text-sm text-gray-500 mb-1">02</div>
                         <div className="text-lg text-gray-700 mb-2">Team Members</div>
-                        <div className="text-3xl lg:text-4xl font-bold text-gray-900">550+</div>
+                        <div className="text-3xl lg:text-4xl font-bold text-gray-900">15+</div>
                     </div>
                     
                     {/* Stat 4 */}
