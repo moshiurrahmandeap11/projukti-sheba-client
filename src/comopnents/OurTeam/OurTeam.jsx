@@ -14,41 +14,94 @@ const ICONS = {
 };
 
 // Team Card Component
-const TeamCard = memo(({ member, onClick }) => (
-  <div
-    className="group relative h-96 rounded-2xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:scale-105 hover:shadow-[0_4px_30px_rgba(0,0,0,0.2)] backdrop-blur-lg bg-[rgba(10,25,47,0.5)] border border-[rgba(255,255,255,0.1)]"
-    onClick={() => onClick(member)}
-    role="button"
-    tabIndex={0}
-    onKeyDown={(e) => e.key === 'Enter' && onClick(member)}
-    aria-label={`View details for ${member.name}`}
-  >
-    <div
-      className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: `url(${member.image || '/default-avatar.png'})` }}
-    >
+// Team Card Component
+const TeamCard = memo(({ member }) => (
+  <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+    <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden bg-gray-100">
       <img
         src={member.image || '/default-avatar.png'}
         alt={member.name}
-        className="absolute inset-0 w-full h-full object-cover opacity-0"
+        className="w-full h-full object-cover"
         loading="lazy"
         onError={(e) => (e.target.src = '/default-avatar.png')}
       />
     </div>
-    <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,25,47,0.8)] via-[rgba(10,25,47,0.4)] to-transparent group-hover:from-[rgba(10,25,47,0.9)] transition-all duration-300"></div>
-    <div className="absolute bottom-0 left-0 right-0 p-6">
-      <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors duration-300">
-          {member.name}
-        </h3>
-        <p className="text-gray-300 font-semibold text-lg">
-          {member.position}
-        </p>
-        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-3">
-          <span className="inline-block px-3 py-1 bg-[rgba(255,255,255,0.05)] backdrop-blur-sm rounded-full text-xs text-gray-300 border border-[rgba(255,255,255,0.1)]">
-            Click to learn more
+    <div className="p-4 sm:p-5">
+      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1">
+        {member.name}
+      </h3>
+      <p className="text-red-600 font-medium text-xs sm:text-sm mb-2 uppercase tracking-wide">
+        {member.position}
+      </p>
+      <p className="text-gray-600 text-sm leading-relaxed mb-3 line-clamp-2">
+        {member.bio}
+      </p>
+      <div className="flex flex-wrap gap-1 mb-3">
+        <span className="px-2 py-0.5 bg-gray-50 rounded text-xs text-gray-700">
+          {member.experience}
+        </span>
+        <span className="px-2 py-0.5 bg-gray-50 rounded text-xs text-gray-700">
+          {member.department}
+        </span>
+      </div>
+      <div className="flex flex-wrap gap-1 mb-4">
+        {member.skills.slice(0, 3).map((skill, index) => (
+          <span
+            key={index}
+            className="px-2 py-0.5 bg-red-50 text-red-600 rounded text-xs"
+          >
+            {skill}
           </span>
-        </div>
+        ))}
+        {member.skills.length > 3 && (
+          <span className="px-2 py-0.5 bg-gray-50 text-gray-600 rounded text-xs">
+            +{member.skills.length - 3}
+          </span>
+        )}
+      </div>
+      <div className="flex gap-2 pt-3 border-t border-gray-100">
+        {member.social.linkedin && (
+          <a
+            href={member.social.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded bg-gray-50 hover:bg-red-500 hover:text-white text-gray-600 transition-colors duration-200"
+            aria-label={`Visit ${member.name}'s LinkedIn`}
+          >
+            <Linkedin className="w-4 h-4" />
+          </a>
+        )}
+        {member.social.twitter && (
+          <a
+            href={member.social.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded bg-gray-50 hover:bg-red-500 hover:text-white text-gray-600 transition-colors duration-200"
+            aria-label={`Visit ${member.name}'s Twitter`}
+          >
+            <Twitter className="w-4 h-4" />
+          </a>
+        )}
+        {member.social.email && (
+          <a
+            href={`mailto:${member.social.email}`}
+            className="p-2 rounded bg-gray-50 hover:bg-red-500 hover:text-white text-gray-600 transition-colors duration-200"
+            aria-label={`Email ${member.name}`}
+          >
+            <Mail className="w-4 h-4" />
+          </a>
+        )}
+        {member.social.github && (
+          <a
+            href={member.social.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded bg-gray-50 hover:bg-red-500 hover:text-white text-gray-600 transition-colors duration-200"
+            aria-label={`Visit ${member.name}'s GitHub`}
+          >
+            <Github className="w-4 h-4" />
+          </a>
+        )}
       </div>
     </div>
   </div>
@@ -317,7 +370,7 @@ const OurTeam = () => {
                         className={`w-3 h-3 rounded-full transition-all duration-300 ${
                           currentSlide === index
                             ? 'bg-red-400 scale-110'
-                            : 'bg-[rgba(255,255,255,0.3)] hover:bg-[rgba(0,120,160,0.5)]'
+                            : 'bg-red-300 hover:bg-[rgba(0,120,160,0.5)]'
                         }`}
                         aria-label={`Go to slide ${index + 1}`}
                       ></button>
