@@ -234,7 +234,7 @@ const Contact = () => {
                 name="name"
                 required
                 disabled={isFormSubmittedRef.current}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Your Name"
                 value={formData.name}
                 onChange={handleInputChange}
@@ -243,7 +243,7 @@ const Contact = () => {
                 type="tel"
                 name="phone"
                 disabled={isFormSubmittedRef.current}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Whatsapp Number"
                 value={formData.phone}
                 onChange={handleInputChange}
@@ -253,7 +253,7 @@ const Contact = () => {
                 name="email"
                 required
                 disabled={isFormSubmittedRef.current}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleInputChange}
@@ -263,7 +263,7 @@ const Contact = () => {
                 name="subject"
                 required
                 disabled={isFormSubmittedRef.current}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Subject"
                 value={formData.subject}
                 onChange={handleInputChange}
@@ -273,7 +273,7 @@ const Contact = () => {
                 rows="4"
                 required
                 disabled={isFormSubmittedRef.current}
-                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Message"
                 value={formData.message}
                 onChange={handleInputChange}

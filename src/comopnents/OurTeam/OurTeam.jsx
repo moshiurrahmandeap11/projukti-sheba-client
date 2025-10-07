@@ -17,11 +17,11 @@ const ICONS = {
 // Team Card Component
 const TeamCard = memo(({ member }) => (
   <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-    <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden bg-gray-100">
+    <div className="relative h-48 sm:h-56 md:h-96 overflow-hidden bg-gray-100">
       <img
         src={member.image || '/default-avatar.png'}
         alt={member.name}
-        className="w-full h-full object-cover"
+        className="w-full h-full "
         loading="lazy"
         onError={(e) => (e.target.src = '/default-avatar.png')}
       />
