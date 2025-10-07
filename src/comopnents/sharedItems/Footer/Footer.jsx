@@ -143,7 +143,7 @@ const Footer = () => {
       if (res.data?.data?.insertedId) {
         Swal.fire({
           icon: "success",
-          title: "✅ Ticket Created",
+          title: " Ticket Created",
           html: `
             <p><b>Your ticket created successfully</b></p>
             <p>An admin will contact with you within 10 minutes.</p>
@@ -166,7 +166,7 @@ const Footer = () => {
       console.error("Error submitting ticket:", error);
       Swal.fire({
         icon: "error",
-        title: "❌ Failed!",
+        title: " Failed!",
         text: "Failed to submit ticket! Please try again.",
         confirmButtonColor: "#DC2626",
       });
@@ -265,9 +265,9 @@ const Footer = () => {
         <div className="mt-10 border-t border-gray-700 py-4 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-4 max-w-7xl mx-auto text-sm text-gray-400 px-6">
           <p>© {new Date().getFullYear()} Projukti Sheba. All Rights Reserved.</p>
           <div className="flex flex-wrap justify-center md:justify-start space-x-4">
-            <a href="#privacy" className="hover:text-red-700">Privacy Policy</a>
-            <a href="#terms" className="hover:text-red-700">Terms of Service</a>
-            <a href="#cookies" className="hover:text-red-700">Cookie Policy</a>
+            <a href="/privacy-policy" className="hover:text-red-700">Privacy Policy</a>
+            <a href="/terms" className="hover:text-red-700">Terms of Service</a>
+            <a href="/cookies" className="hover:text-red-700">Cookie Policy</a>
           </div>
           <p>
             Developed By{" "}

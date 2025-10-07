@@ -27,6 +27,9 @@ import EditBlog from "../../DashboardPanel/AdminDashboard/BlogSection/EditBlog/E
 import BlogDetails from "../../pages/Blogs/BlogDetails/BlogDetails";
 import AddProduct from "../../DashboardPanel/AdminDashboard/ProductsSection/AddProduct/AddProduct";
 import EditProduct from "../../DashboardPanel/AdminDashboard/ProductsSection/EditProduct/EditProduct";
+import PrivacyPolicy from "../../comopnents/PrivacyPolicy/PrivacyPolicy";
+import Cookies from "../../comopnents/Cookies/Cookies";
+import Terms from "../../comopnents/Terms/Terms";
 
 
 
@@ -45,7 +48,10 @@ const route = createBrowserRouter([
       {path: "/blog/:id", element: <BlogDetails></BlogDetails>},
       { path: "/profile", element: <Profile /> },
       { path: "/edit/:id", element: <Edit /> },
-      {path: "/add-testimonial", element: <AddTestimonial></AddTestimonial>}
+      {path: "/add-testimonial", element: <AddTestimonial></AddTestimonial>},
+      {path: "/privacy-policy", element: <PrivacyPolicy></PrivacyPolicy>},
+      {path: "/cookies", element: <Cookies></Cookies>},
+      {path: "/terms", element: <Terms></Terms>}
     ]
   },
   {

@@ -11,25 +11,30 @@ import {
   Pill, // Pharmacy
   Plane, // Aviation
   Palette, // UI/UX
-  Layers // Many More
+  Layers, // Many More
+  Factory,
+  UtensilsCrossed,
+  Building,
+  Hospital,
+  User
 } from "lucide-react";
 import PropTypes from "prop-types";
 
 const Industry = ({ className = "" }) => {
   const industries = useMemo(
     () => [
-      { name: "FinTech", icon: Landmark },
-      { name: "Healthcare", icon: HeartPulse },
-      { name: "E-Commerce", icon: ShoppingBag },
-      { name: "Automotive", icon: Car },
-      { name: "Education", icon: GraduationCap },
-      { name: "Real Estate", icon: Building2 },
-      { name: "Hospitality", icon: Hotel },
-      { name: "RMG", icon: Shirt },
-      { name: "Pharmacy", icon: Pill },
-      { name: "Aviation", icon: Plane },
-      { name: "UI/UX", icon: Palette },
-      { name: "Many More", icon: Layers },
+  { name: "Manufacturer", icon: Factory }, // factory = perfect for manufacturing
+  { name: "E-commerce", icon: ShoppingBag }, // shopping icon for e-commerce
+  { name: "Restaurant", icon: UtensilsCrossed }, // fork+knife = restaurant
+  { name: "Education", icon: GraduationCap }, // education = graduation cap
+  { name: "Company", icon: Building2 }, // office/company = building
+  { name: "Hospitality", icon: Hotel }, // hotels, resorts = hospitality
+  { name: "Aviation", icon: Plane }, // airplane = aviation
+  { name: "Real Estate", icon: Building }, // building = real estate
+  { name: "RMG", icon: Shirt }, // ready-made garments = shirt
+  { name: "Hospital", icon: Hospital }, // hospital = perfect match
+  { name: "Personal", icon: User }, // personal = user
+  { name: "Many More", icon: Layers }, // layers = “many things”
     ],
     []
   );

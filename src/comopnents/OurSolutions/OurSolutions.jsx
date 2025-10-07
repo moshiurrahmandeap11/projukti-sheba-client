@@ -2,165 +2,215 @@ import React, { useState } from 'react';
 import FancyButton from '../sharedItems/FancyButtons/FancyButton';
 
 const OurSolutions = () => {
-    const [activeTab, setActiveTab] = useState('Business');
+    const [activeTab, setActiveTab] = useState('ERP Software');
     
-    const tabs = ['Business', 'Blockchain', 'Hospitality', 'E-Commerce', 'Healthcare'];
+    const tabs = ['ERP Software', 'E-commerce', 'Restaurant', 'School', 'Blog', 'Healthcare', 'Travel Agency', 'Real Estate', 'Others'];
     
     const solutions = {
-        Business: [
+        'ERP Software': [
             {
                 id: 1,
                 icon: '📊',
-                title: 'ERP',
-                subtitle: 'Business ERP Solution / Product / Shop / Company Management',
+                title: 'Business ERP',
+                subtitle: 'Complete Enterprise Resource Planning solution for business management',
                 bgColor: 'bg-gray-100'
             },
             {
                 id: 2,
                 icon: '👥',
-                title: 'HR Manager',
-                subtitle: 'Human Resource Management System HR Software (HRMS)',
+                title: 'HR Management',
+                subtitle: 'Human Resource Management System with payroll and attendance',
                 bgColor: 'bg-gray-50'
             },
             {
                 id: 3,
                 icon: '📦',
-                title: 'Wholesale',
-                subtitle: 'Inventory Control and Inventory Management System',
-                bgColor: 'bg-gray-100'
-            },
-            {
-                id: 4,
-                icon: '✈️',
-                title: 'Flight Booking',
-                subtitle: 'Flight Booking Software',
-                bgColor: 'bg-gray-50'
-            },
-            {
-                id: 5,
-                icon: '🚗',
-                title: 'VMS',
-                subtitle: 'Vehicle Management System',
-                bgColor: 'bg-gray-100'
-            },
-            {
-                id: 6,
-                icon: '🏢',
-                title: 'GMS',
-                subtitle: 'Garage Management Software',
-                bgColor: 'bg-gray-100'
-            },
-            {
-                id: 7,
-                icon: '💬',
-                title: 'Innue',
-                subtitle: 'Business Live Chat Software',
-                bgColor: 'bg-gray-100'
-            },
-            {
-                id: 8,
-                icon: '🚌',
-                title: 'Bus365',
-                subtitle: 'Bus Reservation System',
-                bgColor: 'bg-gray-50'
-            },
-            {
-                id: 9,
-                icon: '📚',
-                title: 'Edutask',
-                subtitle: 'Online Course Selling Marketplace',
+                title: 'Inventory System',
+                subtitle: 'Advanced inventory control and stock management system',
                 bgColor: 'bg-gray-100'
             }
         ],
-        Blockchain: [
-            {
-                id: 1,
-                icon: '🔗',
-                title: 'Smart Contracts',
-                subtitle: 'Automated blockchain-based contract solutions',
-                bgColor: 'bg-gray-100'
-            },
-            {
-                id: 2,
-                icon: '💰',
-                title: 'DeFi Platform',
-                subtitle: 'Decentralized Finance Management System',
-                bgColor: 'bg-gray-100'
-            },
-            {
-                id: 3,
-                icon: '🎨',
-                title: 'NFT Marketplace',
-                subtitle: 'Non-Fungible Token Trading Platform',
-                bgColor: 'bg-gray-100'
-            }
-        ],
-        Hospitality: [
-            {
-                id: 1,
-                icon: '🏨',
-                title: 'Hotel Management',
-                subtitle: 'Complete Hotel Booking and Management System',
-                bgColor: 'bg-gray-100'
-            },
-            {
-                id: 2,
-                icon: '🍽️',
-                title: 'Restaurant POS',
-                subtitle: 'Point of Sale System for Restaurants',
-                bgColor: 'bg-gray-100'
-            },
-            {
-                id: 3,
-                icon: '🎉',
-                title: 'Event Management',
-                subtitle: 'Event Planning and Management Platform',
-                bgColor: 'bg-gray-100'
-            }
-        ],
-        'E-Commerce': [
+        'E-commerce': [
             {
                 id: 1,
                 icon: '🛒',
                 title: 'Online Store',
-                subtitle: 'Complete E-commerce Solution with Payment Gateway',
+                subtitle: 'Complete E-commerce platform with payment gateway integration',
                 bgColor: 'bg-gray-100'
             },
             {
                 id: 2,
                 icon: '📱',
                 title: 'Mobile Commerce',
-                subtitle: 'Mobile App for E-commerce Business',
-                bgColor: 'bg-gray-100'
+                subtitle: 'Mobile-first shopping experience with app-like features',
+                bgColor: 'bg-gray-50'
             },
             {
                 id: 3,
                 icon: '🔄',
-                title: 'Marketplace',
-                subtitle: 'Multi-vendor E-commerce Marketplace',
+                title: 'Multi-vendor',
+                subtitle: 'Marketplace platform for multiple sellers and vendors',
                 bgColor: 'bg-gray-100'
             }
         ],
-        Healthcare: [
+        'Restaurant': [
+            {
+                id: 1,
+                icon: '🍽️',
+                title: 'Restaurant POS',
+                subtitle: 'Point of Sale system with table management and billing',
+                bgColor: 'bg-gray-100'
+            },
+            {
+                id: 2,
+                icon: '📱',
+                title: 'Online Ordering',
+                subtitle: 'Food delivery and online ordering system for restaurants',
+                bgColor: 'bg-gray-50'
+            },
+            {
+                id: 3,
+                icon: '🍴',
+                title: 'Kitchen Display',
+                subtitle: 'Kitchen management system for order processing',
+                bgColor: 'bg-gray-100'
+            }
+        ],
+        'School': [
+            {
+                id: 1,
+                icon: '🏫',
+                title: 'School Management',
+                subtitle: 'Complete school administration and student management system',
+                bgColor: 'bg-gray-100'
+            },
+            {
+                id: 2,
+                icon: '📚',
+                title: 'Learning Management',
+                subtitle: 'Online learning platform with course management',
+                bgColor: 'bg-gray-50'
+            },
+            {
+                id: 3,
+                icon: '🎓',
+                title: 'Student Portal',
+                subtitle: 'Student information system and academic portal',
+                bgColor: 'bg-gray-100'
+            }
+        ],
+        'Blog': [
+            {
+                id: 1,
+                icon: '✍️',
+                title: 'Blog Platform',
+                subtitle: 'Content management system for bloggers and writers',
+                bgColor: 'bg-gray-100'
+            },
+            {
+                id: 2,
+                icon: '📰',
+                title: 'News Portal',
+                subtitle: 'News website with article management and publishing',
+                bgColor: 'bg-gray-50'
+            },
+            {
+                id: 3,
+                icon: '💬',
+                title: 'Content Management',
+                subtitle: 'Advanced CMS for media and content publishing',
+                bgColor: 'bg-gray-100'
+            }
+        ],
+        'Healthcare': [
             {
                 id: 1,
                 icon: '🏥',
                 title: 'Hospital Management',
-                subtitle: 'Complete Hospital Information Management System',
+                subtitle: 'Complete hospital information management system',
                 bgColor: 'bg-gray-100'
             },
             {
                 id: 2,
                 icon: '📋',
-                title: 'Patient Portal',
-                subtitle: 'Online Patient Registration and Appointment System',
-                bgColor: 'bg-100-100'
+                title: 'Patient Management',
+                subtitle: 'Patient records and appointment management system',
+                bgColor: 'bg-gray-50'
             },
             {
                 id: 3,
                 icon: '💊',
                 title: 'Pharmacy System',
-                subtitle: 'Pharmacy Management and Inventory System',
+                subtitle: 'Pharmacy management and medicine inventory system',
+                bgColor: 'bg-gray-100'
+            }
+        ],
+        'Travel Agency': [
+            {
+                id: 1,
+                icon: '✈️',
+                title: 'Flight Booking',
+                subtitle: 'Flight reservation and booking management system',
+                bgColor: 'bg-gray-100'
+            },
+            {
+                id: 2,
+                icon: '🏨',
+                title: 'Hotel Booking',
+                subtitle: 'Hotel reservation and accommodation booking platform',
+                bgColor: 'bg-gray-50'
+            },
+            {
+                id: 3,
+                icon: '🚌',
+                title: 'Tour Package',
+                subtitle: 'Tour package management and booking system',
+                bgColor: 'bg-gray-100'
+            }
+        ],
+        'Real Estate': [
+            {
+                id: 1,
+                icon: '🏠',
+                title: 'Property Listing',
+                subtitle: 'Real estate property listing and management system',
+                bgColor: 'bg-gray-100'
+            },
+            {
+                id: 2,
+                icon: '📱',
+                title: 'Agent Portal',
+                subtitle: 'Real estate agent management and client portal',
+                bgColor: 'bg-gray-50'
+            },
+            {
+                id: 3,
+                icon: '💰',
+                title: 'Property Management',
+                subtitle: 'Rental and property management system for landlords',
+                bgColor: 'bg-gray-100'
+            }
+        ],
+        'Others': [
+            {
+                id: 1,
+                icon: '🚗',
+                title: 'Vehicle Management',
+                subtitle: 'Fleet and vehicle management system for transportation',
+                bgColor: 'bg-gray-100'
+            },
+            {
+                id: 2,
+                icon: '🏢',
+                title: 'Garage System',
+                subtitle: 'Garage and workshop management software',
+                bgColor: 'bg-gray-50'
+            },
+            {
+                id: 3,
+                icon: '💬',
+                title: 'Live Chat',
+                subtitle: 'Business live chat and customer support software',
                 bgColor: 'bg-gray-100'
             }
         ]
@@ -186,7 +236,7 @@ const OurSolutions = () => {
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
-                            className={`px-6 sm:px-6 cursor-pointer py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300 ${
+                            className={`px-4 sm:px-6 cursor-pointer py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300 ${
                                 activeTab === tab
                                     ? 'bg-white text-red-600 font-medium shadow-lg transform scale-105'
                                     : 'bg-white text-black'

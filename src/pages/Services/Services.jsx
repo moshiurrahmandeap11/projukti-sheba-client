@@ -1,49 +1,49 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import { Code, Globe, Smartphone, ShoppingCart, PenTool, Wrench } from "lucide-react";
+import { Code, Globe, Smartphone, ShoppingCart, PenTool, Wrench, LayoutDashboard, ShoppingBag } from "lucide-react";
 import FancyButton from "../../comopnents/sharedItems/FancyButtons/FancyButton";
 
 const Services = () => {
   const navigate = useNavigate();
 
-  const services = [
-    {
-      name: "Software Development",
-      icon: Code,
-      description:
-        "We develop custom software solutions that streamline your business workflow, automate tasks, and enhance productivity.",
-    },
-    {
-      name: "Web Development",
-      icon: Globe,
-      description:
-        "A well-built website defines your brand identity. We craft responsive and fast web apps tailored to your business goals.",
-    },
-    {
-      name: "Mobile App Development",
-      icon: Smartphone,
-      description:
-        "We build Android and iOS apps with smooth UI, high performance, and scalability for your modern business needs.",
-    },
-    {
-      name: "E-Commerce",
-      icon: ShoppingCart,
-      description:
-        "Whether you want a readymade or custom eCommerce solution — we design and develop it to boost your online sales.",
-    },
-    {
-      name: "Blogging Platform",
-      icon: PenTool,
-      description:
-        "We can create a full-featured blogging platform or CMS for publishing SEO-friendly articles, news, and blogs.",
-    },
-    {
-      name: "Custom Development",
-      icon: Wrench,
-      description:
-        "Need something unique? We specialize in custom-tailored solutions built exactly according to your vision and goals.",
-    },
-  ];
+const services = [
+  {
+    name: "ERP Software",
+    icon: LayoutDashboard, // dashboard-style system = perfect for ERP
+    description:
+      "We develop custom ERP systems to automate workflow, manage inventory, HR, and finance with ease.",
+  },
+  {
+    name: "E-Commerce",
+    icon: ShoppingBag, // directly represents online store
+    description:
+      "We build responsive and fast eCommerce solutions that boost your online sales and customer engagement.",
+  },
+  {
+    name: "Custom Development",
+    icon: Code, // custom coding = best match
+    description:
+      "We build tailored applications exactly how your business needs them — efficient, secure, and scalable.",
+  },
+  {
+    name: "Software Development",
+    icon: Wrench, // represents building and fixing tools
+    description:
+      "From desktop apps to web platforms, we develop robust software to streamline your digital operations.",
+  },
+  {
+    name: "Web Development",
+    icon: Globe, // represents websites/internet
+    description:
+      "We create modern, SEO-friendly, and high-performance websites to grow your online presence.",
+  },
+  {
+    name: "Mobile App Development",
+    icon: Smartphone, // self-explanatory
+    description:
+      "We craft beautiful, fast, and scalable mobile apps for both Android and iOS with stunning UI/UX.",
+  },
+];
 
   return (
 <div className="bg-gray-50 pt-32 pb-16 px-4 sm:px-6 lg:px-8">
