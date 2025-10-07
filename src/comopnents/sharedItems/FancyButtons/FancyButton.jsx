@@ -5,7 +5,7 @@ const FancyButton = ({ children, onClick = () => {}, type = "button", className 
     <button
       type={type}
       onClick={onClick}
-      className={`bg-red-700 hover:bg-red-800 cursor-pointer text-white font-bold py-3 px-5 rounded-md transition-all duration-300 transform shadow-md ${className}`}
+      className={` hover:border-red-800 cursor-pointer text-black hover:text-red-600 border  font-bold py-3 px-5 rounded-md transition-all duration-300 transform shadow-md ${className}`}
     >
       {children}
     </button>

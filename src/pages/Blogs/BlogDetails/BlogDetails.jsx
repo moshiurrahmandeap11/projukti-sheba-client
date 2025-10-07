@@ -4,6 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useNavigate } from "react-router";
 import Loader from "../../../comopnents/sharedItems/Loader/Loader";
+import FancyButton from "../../../comopnents/sharedItems/FancyButtons/FancyButton";
 
 const BlogDetails = () => {
   const [blog, setBlog] = useState(null);
@@ -98,7 +99,7 @@ const BlogDetails = () => {
   }
 
   return (
-    <section className="py-12 mt-10 px-4 sm:px-6 lg:px-8 bg-gray-100 min-h-screen">
+    <section className="py-12 mt-16 px-4 sm:px-6 lg:px-8 bg-gray-100 min-h-screen">
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
         <div className="mb-8">
@@ -106,7 +107,7 @@ const BlogDetails = () => {
                 onClick={() => navigate("/blogs")}
                 className="flex justify-start"
               >
-                <button className="flex justify-center items-center relative group bg-purple-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-white text-sm sm:text-base font-medium overflow-hidden">
+                <button className="flex justify-center items-center relative group bg-gray-50 px-4 sm:px-6 py-2 sm:py-3 rounded-full cursor-pointer text-red-600 hover:shadow-md transition-all text-sm sm:text-base font-medium overflow-hidden">
                   <ArrowLeft></ArrowLeft>
                   <span className="relative z-10">Back to Blogs</span>
                 </button>
@@ -130,19 +131,19 @@ const BlogDetails = () => {
             {blog.category && (
               <>
                 <div className="flex items-center">
-                  <Tag className="w-4 h-4 mr-1 text-blue-600" />
+                  <Tag className="w-4 h-4 mr-1 text-red-600" />
                   <span>{blog.category}</span>
                 </div>
                 <span className="hidden sm:block mx-2">•</span>
               </>
             )}
             <div className="flex items-center">
-              <Calendar className="w-4 h-4 mr-1 text-blue-600" />
+              <Calendar className="w-4 h-4 mr-1 text-red-600" />
               <span>{formatDate(blog.createdAt)}</span>
             </div>
             <span className="hidden sm:block mx-2">•</span>
             <div className="flex items-center">
-              <User className="w-4 h-4 mr-1 text-blue-600" />
+              <User className="w-4 h-4 mr-1 text-red-600" />
               <span>{blog.author || "Unknown Author"}</span>
             </div>
           </div>
@@ -158,7 +159,7 @@ const BlogDetails = () => {
               {blog.tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full"
+                  className="px-2 py-1 bg-gray-100 text-red-600 font-medium text-xs rounded-full"
                 >
                   {tag}
                 </span>
@@ -174,13 +175,13 @@ const BlogDetails = () => {
 
           {/* Share Button */}
           <div className="mt-8">
-            <button
+            <FancyButton
               onClick={handleShare}
-              className="flex items-center bg-purple-700 text-white px-4 py-2 rounded-md hover:bg-purple-700 cursor-pointer transition-colors"
+              className="flex items-center gap-2"
             >
               <Share2 className="w-4 h-4 mr-2" />
               Share Article
-            </button>
+            </FancyButton>
           </div>
         </div>
       </div>

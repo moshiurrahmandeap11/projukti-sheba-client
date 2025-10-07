@@ -109,7 +109,7 @@ const Portfolio = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-black mb-3">
+          <h2 className="text-5xl font-bold text-black mb-6 tracking-wide">
             Our Portfolio
           </h2>
           <p className="text-gray-700 max-w-2xl mx-auto">

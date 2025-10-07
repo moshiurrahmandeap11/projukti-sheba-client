@@ -67,9 +67,7 @@ const Blogs = () => {
     });
   };
 
-  if (loading) {
-    return <Loader></Loader>
-  }
+
 
   if (error) {
     return (
@@ -90,7 +88,7 @@ const Blogs = () => {
   return (
     <section className="max-w-7xl lg:mt-20 mt-10 mx-auto px-6 py-12">
       {/* Page Title */}
-      <h1 className="text-3xl font-bold text-center text-red-700 mb-6">
+      <h1 className="text-5xl font-bold text-black mb-6 tracking-wide text-center">
         Blog & Insights
       </h1>
       <p className="text-center text-gray-600 max-w-3xl mx-auto mb-12">
@@ -141,7 +139,7 @@ const Blogs = () => {
                     {blog.tags.slice(0, 3).map((tag, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full"
+                        className="px-2 py-1 bg-gray-50 text-red-700 font-medium text-xs rounded-full"
                       >
                         #{tag}
                       </span>

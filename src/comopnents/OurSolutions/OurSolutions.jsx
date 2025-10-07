@@ -171,8 +171,8 @@ const OurSolutions = () => {
             <div className="max-w-7xl mx-auto">
                 {/* Header Section */}
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-                        <span className="text-black">Our Solutions</span>
+                    <h2 className="text-5xl font-bold text-black mb-6 tracking-wide">
+                        Our Solutions
                     </h2>
                     <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                         We provide a time-worthy business solution to every type of business. 

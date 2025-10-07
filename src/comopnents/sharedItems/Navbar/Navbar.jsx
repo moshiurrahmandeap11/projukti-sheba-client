@@ -424,10 +424,10 @@ const Navbar = () => {
             {!user && (
               <div className="p-4 border-t bg-gray-50">
                 <button
-                  onClick={() => navigate("/auth/login")}
+                  onClick={() => navigate("/contact")}
                   className="w-full  bg-red-700  hover:to-red-800 text-white font-bold py-3 px-5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-md hover:shadow-lg"
                 >
-                  Join Us / Login
+                  Book Now
                 </button>
               </div>
             )}

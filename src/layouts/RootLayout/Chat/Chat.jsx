@@ -96,14 +96,15 @@ const Chat = () => {
     <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
       {/* Chat Toggle Button */}
       {!isOpen ? (
-        <motion.button
-          className="bg-purple-600 text-white p-3 sm:p-4 rounded-full shadow-lg hover:bg-purple-700 transition-colors"
-          onClick={() => setIsOpen(true)}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />
-        </motion.button>
+<motion.button
+  className="bg-red-600 text-white p-3 sm:p-4 rounded-full shadow-lg hover:bg-red-700 transition-colors"
+  onClick={() => setIsOpen(true)}
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+>
+  <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />
+</motion.button>
+
       ) : (
         <AnimatePresence>
           <motion.div
@@ -114,7 +115,7 @@ const Chat = () => {
             exit="exit"
           >
             {/* Header */}
-            <div className="flex justify-between items-center bg-purple-700 px-3 sm:px-4 py-2 sm:py-3 rounded-t-2xl">
+            <div className="flex justify-between items-center bg-red-700 px-3 sm:px-4 py-2 sm:py-3 rounded-t-2xl">
               <div>
                 <h3 className="text-base sm:text-lg font-bold">Live Chat</h3>
                 <p className="text-xs sm:text-sm opacity-75">{userName}</p>
@@ -140,7 +141,7 @@ const Chat = () => {
                     key={index}
                     className={`p-2 sm:p-3 rounded-lg max-w-[80%] sm:max-w-[85%] ${
                       msg.senderType === "user"
-                        ? "bg-purple-600 ml-auto"
+                        ? "bg-red-500 ml-auto"
                         : "bg-gray-700 mr-auto"
                     }`}
                     initial={{ opacity: 0, y: 10 }}
@@ -177,7 +178,7 @@ const Chat = () => {
               <motion.button
                 onClick={sendMessage}
                 disabled={!text.trim()}
-                className="bg-purple-600 px-3 sm:px-4 text-xs sm:text-sm rounded-br-2xl hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
+                className="bg-red-600 px-3 sm:px-4 text-xs sm:text-sm rounded-br-2xl hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

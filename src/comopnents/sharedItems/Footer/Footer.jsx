@@ -174,13 +174,13 @@ const Footer = () => {
                 placeholder="Enter your email"
                 className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded text-sm text-white placeholder-gray-500 focus:outline-none focus:border-red-700"
               />
-              <FancyButton type="submit" className="px-4 py-2 bg-red-700 text-white rounded hover:bg-red-800 text-sm">
+              <FancyButton type="submit" className="text-white">
                 {isSubscribed ? "Subscribed!" : "Subscribe"}
               </FancyButton>
             </form>
             <FancyButton
               onClick={() => setIsTicketModalOpen(true)}
-              className="mt-4 w-full px-4 py-2 bg-red-700 text-white rounded hover:bg-red-800 text-sm"
+              className="text-white w-full mt-2"
             >
               Open Support Ticket
             </FancyButton>

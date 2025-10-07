@@ -299,12 +299,12 @@ const Pricing = () => {
   }
 
   return (
-    <div className=" relative pt-10 backdrop-blur-lg">
+    <div className=" relative pt-12 bg-gray-50 backdrop-blur-lg">
       <div className="relative z-10">
         {/* Header */}
         <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-black mb-6 tracking-tight">
+            <h1 className="text-5xl font-bold text-black mb-6 tracking-wide">
               Our <span>Pricing</span>
             </h1>
           </div>
@@ -319,15 +319,16 @@ const Pricing = () => {
                   <button
                     key={cat.id}
                     onClick={() => setActiveCategory(cat.id)}
-                    className={`px-6 sm:px-6 cursor-pointer py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300  ${
-                      activeCategory === cat.id
-                        ? "bg-white text-red-600 font-medium shadow-lg transform scale-105"
-                        : "bg-white text-black"
-                    }`}
+className={`px-6 sm:px-6 cursor-pointer py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300 ${
+  activeCategory === cat.id
+    ? "bg-white text-red-600 font-medium shadow-lg transform scale-105"
+    : "bg-white text-black"
+}`}
+
                   >
                     <div className="flex items-center space-x-2 justify-center">
                       <cat.icon className="w-5 h-5 text-red-600" />
-                      <h3 className="text-base font-medium text-gray-900 group-hover:text-red-700">
+                      <h3 className="text-base font-medium  group-hover:text-red-700">
                         {cat.name}
                       </h3>
                     </div>

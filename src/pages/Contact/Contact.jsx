@@ -181,7 +181,7 @@ const Contact = () => {
         </div>
       )}
 
-      <h1 className="text-center text-2xl  md:text-4xl font-bold my-4">Get In Touch </h1>
+      <h1 className="text-5xl text-center font-bold text-black mb-6 tracking-wide">Get In Touch </h1>
 
       {/* Contact Info Cards */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">

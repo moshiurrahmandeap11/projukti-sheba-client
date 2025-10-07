@@ -252,9 +252,6 @@ const OurTeam = () => {
         {/* Header Section */}
         <div className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-10/12 mx-auto bg-[#FBFAF6] md:px-12 md:py-6 text-center">
-            <div className="inline-block p-4 rounded-full bg-red-400/70 backdrop-blur-sm border border-[rgba(255,255,255,0.1)] mb-6">
-              <Users className="w-16 h-16 text-white" aria-hidden="true" />
-            </div>
             <h1 className="text-5xl md:text-6xl font-bold text-black mb-6 tracking-tight">
               Our <span
                 
@@ -331,7 +328,7 @@ const OurTeam = () => {
             </div>
 
             {/* Team Stats */}
-            <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            {/* <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
               {[
                 { value: '7+', label: 'Team Members' },
                 { value: '10+', label: 'Years Combined Experience' },
@@ -346,7 +343,7 @@ const OurTeam = () => {
                   <div className="text-gray-400">{stat.label}</div>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
 

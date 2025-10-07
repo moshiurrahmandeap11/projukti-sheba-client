@@ -37,7 +37,7 @@ const Industry = ({ className = "" }) => {
   return (
     <div className={`bg-gray-50 ${className}`}>
       <div className="py-16 px-4 text-center max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-black mb-2">
+        <h2 className="text-5xl font-bold text-black mb-6 tracking-wide">
           Industries We Serve
         </h2>
         <p className="text-gray-600 mb-10 text-lg">
