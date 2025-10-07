@@ -71,8 +71,10 @@ const Banner = () => {
   const TOTAL_LOGOS = clientLogos.length;
   const MAX_INDEX = Math.max(0, TOTAL_LOGOS - visibleLogos);
 
-  const nextLogo = () => setCurrentLogo((prev) => (prev === MAX_INDEX ? 0 : prev + 1));
-  const prevLogo = () => setCurrentLogo((prev) => (prev === 0 ? MAX_INDEX : prev - 1));
+  const nextLogo = () =>
+    setCurrentLogo((prev) => (prev === MAX_INDEX ? 0 : prev + 1));
+  const prevLogo = () =>
+    setCurrentLogo((prev) => (prev === 0 ? MAX_INDEX : prev - 1));
 
   useEffect(() => {
     const updateVisibleLogos = () => {
@@ -134,7 +136,10 @@ const Banner = () => {
             </p>
 
             {/* CTA Button */}
-            <FancyButton className="text-white w-full sm:w-auto" onClick={() => navigate("/contact")}>
+            <FancyButton
+              className="text-white w-full sm:w-auto"
+              onClick={() => navigate("/contact")}
+            >
               Get in touch
             </FancyButton>
           </div>
@@ -161,28 +166,45 @@ const Banner = () => {
       </div>
 
       {/* Client Logos Slider Section */}
-      <section className=" bg-gradient-to-b from-white to-gray-50">
-        <div className="max-w-9/12 mx-auto px-4 sm:px-6 lg:px-8">
+      <section className=" bg-[#F4F8FF]">
+        <div className="max-w-8/12 mx-auto ">
           {/* Header and Slider in one line */}
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-1">
             <div className="text-center lg:text-left flex-shrink-0 w-full lg:w-auto">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2">
                 Our
               </h2>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4">
                 Clients
               </h2>
-              
+
               {/* Divider - Visible on mobile only */}
               <div className="w-20 h-1 bg-gray-300 mx-auto lg:hidden my-4 rounded-full"></div>
             </div>
 
             {/* Divider - Visible on desktop only */}
-            <div className="hidden lg:block h-20 w-1 bg-black mx-8"></div>
+            <div className="hidden lg:block h-14 w-[1px] opacity-50 bg-black mx-8"></div>
 
             <div className="flex-1 w-full">
+<div className="flex-1 w-full relative">
+              {/* Navigation Buttons - Outside Container */}
+              <button
+                onClick={prevLogo}
+                className="absolute -left-8 sm:-left-12 md:-left-6 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-sm"
+                aria-label="Previous clients"
+              >
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
+              </button>
+              <button
+                onClick={nextLogo}
+                className="absolute -right-8 sm:-right-12 md:-right-16 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-sm"
+                aria-label="Next clients"
+              >
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
+              </button>
+
               {/* Slider Container */}
-              <div className="relative overflow-hidden rounded-2xl mt-8 py-2 ">
+              <div className="overflow-hidden rounded-2xl py-4">
                 <div
                   className="flex transition-transform duration-700 ease-out"
                   style={{
@@ -208,43 +230,8 @@ const Banner = () => {
                     </div>
                   ))}
                 </div>
-
-                {/* Navigation Buttons */}
-                <button
-                  onClick={prevLogo}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl hover:scale-110 hover:bg-white transition-all duration-300 z-10 border border-gray-200/80"
-                  aria-label="Previous clients"
-                >
-                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
-                </button>
-                <button
-                  onClick={nextLogo}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl hover:scale-110 hover:bg-white transition-all duration-300 z-10 border border-gray-200/80"
-                  aria-label="Next clients"
-                >
-                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
-                </button>
-
-                {/* Gradient Overlays for better visibility */}
-                {/* <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white/80 to-transparent pointer-events-none"></div> */}
-                {/* <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white/80 to-transparent pointer-events-none"></div> */}
               </div>
-
-              {/* Enhanced Dots */}
-              <div className="flex justify-center space-x-2 sm:space-x-3 mt-6 sm:mt-8">
-                {Array.from({ length: MAX_INDEX + 1 }).map((_, i) => (
-                  <button
-                    key={i}
-                    className={`w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full transition-all duration-500 ${
-                      i === currentLogo
-                        ? "bg-gradient-to-r from-red-600 to-red-500 scale-125 shadow-lg"
-                        : "bg-gray-300 hover:bg-gray-400 hover:scale-110"
-                    }`}
-                    onClick={() => setCurrentLogo(i)}
-                    aria-label={`Go to slide ${i + 1}`}
-                  />
-                ))}
-              </div>
+            </div>
             </div>
           </div>
         </div>
