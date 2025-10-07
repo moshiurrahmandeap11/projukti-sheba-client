@@ -51,9 +51,9 @@ const About1 = () => {
                         {/* Right Content - Image */}
                         <div className="relative">
                             <img
-                                src="https://i.ibb.co.com/pvpBGY2p/Screenshot-2025-10-07-162802.png"
+                                src="https://i.postimg.cc/3x8979gv/Whats-App-Image-2025-10-08-at-12-03-48-AM-1.jpg"
                                 alt="Digital Solutions"
-                                className="w-full h-[500px] lg:h-[600px]  rounded-lg"
+                                className="w-full h-auto  rounded-lg"
                             />
                         </div>
                     </div>
