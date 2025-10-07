@@ -73,175 +73,50 @@ const Pricing = () => {
   // Set dummy data
   useEffect(() => {
     const dummyCategories = [
-      { _id: "1", name: "Software" },
-      { _id: "2", name: "Website" },
+      { _id: "1", name: "ERP Solutions" },
+      { _id: "2", name: "Business Software" },
+      { _id: "3", name: "E-Commerce Platforms" },
+      { _id: "4", name: "Custom Websites" },
     ];
 
-const dummyProducts = [
-  // 🖥️ Software Products
-  {
-    _id: "p1",
-    name: "POS Software",
-    description: "Point of Sale system for retail businesses",
-    price: 180,
-    startingPriceText: true,
-    emi: "$35/month",
-    popular: false,
-    features: ["Inventory Management","Sales Tracking","Reporting","User Management","Multi-store Support"],
-    category: "Software",
-  },
-  {
-    _id: "p2",
-    name: "CRM Software",
-    description: "Customer Relationship Management tool",
-    price: 100,
-    startingPriceText: true,
-    emi: "$20/month",
-    popular: true,
-    features: ["Lead Tracking","Contact Management","Email Integration","Analytics","Automation"],
-    category: "Software",
-  },
-  {
-    _id: "p5",
-    name: "Inventory Software",
-    description: "Advanced inventory management system",
-    price: 100,
-    startingPriceText: true,
-    emi: "$20/month",
-    popular: false,
-    features: ["Stock Tracking","Order Management","Supplier Integration","Barcode Support","Reports"],
-    category: "Software",
-  },
-  {
-    _id: "p28",
-    name: "ERP Software",
-    description: "Enterprise Resource Planning solution for businesses",
-    price: 250,
-    startingPriceText: true,
-    emi: "$45/month",
-    popular: true,
-    features: ["Finance Management","Inventory","HR","Reporting","Analytics"],
-    category: "Software",
-  },
-  {
-    _id: "p30",
-    name: "Accounting Software",
-    description: "Manage accounting & finance effortlessly",
-    price: 100,
-    startingPriceText: true,
-    emi: "$20/month",
-    popular: false,
-    features: ["Invoices","Expense Tracking","Reporting","Tax Management"],
-    category: "Software",
-  },
-  {
-    _id: "p31",
-    name: "HRM Software",
-    description: "Human Resource Management tool",
-    price: 100,
-    startingPriceText: true,
-    emi: "$20/month",
-    popular: false,
-    features: ["Employee Records","Payroll","Leave Management","Reports"],
-    category: "Software",
-  },
-  {
-    _id: "p33",
-    name: "Manufacturing Software",
-    description: "Manufacturing management & automation",
-    price: 150,
-    startingPriceText: true,
-    emi: "$30/month",
-    popular: true,
-    features: ["Production Planning","Inventory","Quality Control","Reporting"],
-    category: "Software",
-  },
-  {
-    _id: "p34",
-    name: "Supply Chain Software",
-    description: "Supply chain monitoring & management",
-    price: 150,
-    startingPriceText: true,
-    emi: "$30/month",
-    popular: false,
-    features: ["Order Tracking","Warehouse Management","Logistics","Analytics"],
-    category: "Software",
-  },
-  {
-    _id: "p35",
-    name: "Project Management Software",
-    description: "Manage projects and teams efficiently",
-    price: 150,
-    startingPriceText: true,
-    emi: "$30/month",
-    popular: false,
-    features: ["Task Tracking","Team Collaboration","Gantt Charts","Reports"],
-    category: "Software",
-  },
-
-  // 🌐 Website Products
-  {
-    _id: "p3",
-    name: "E-commerce Website",
-    description: "Full-featured online store",
-    price: 199,
-    startingPriceText: true,
-    emi: "$40/month",
-    popular: true,
-    features: ["Product Catalog","Shopping Cart","Payment Gateway","SEO Optimization","Mobile Responsive"],
-    category: "Website",
-  },
-  {
-    _id: "p4",
-    name: "Portfolio Website",
-    description: "Professional showcase site",
-    price: 120,
-    startingPriceText: true,
-    emi: "$25/month",
-    popular: false,
-    features: ["Custom Design","Gallery","Contact Form","Blog Integration","Social Links"],
-    category: "Website",
-  },
-  {
-    _id: "p6",
-    name: "Corporate Website",
-    description: "Professional business site",
-    price: 150,
-    startingPriceText: true,
-    emi: "$30/month",
-    popular: false,
-    features: ["About Pages","Services Section","Team Profiles","Contact Integration","SEO Ready"],
-    category: "Website",
-  },
-  {
-    _id: "p14",
-    name: "Landing Page",
-    description: "High-converting landing page for marketing campaigns",
-    price: 90,
-    startingPriceText: true,
-    emi: "$15/month",
-    popular: false,
-    features: ["Single Page Layout","SEO Optimized","Custom Design","Responsive Design","Fast Loading"],
-    category: "Website",
-  },
-  { _id: "p15", name: "Restaurant Website", description: "Online ordering & menu showcase", price: 150, startingPriceText: true, emi: "$30/month", popular: false, features: ["Menu Management","Online Ordering","Responsive Design"], category: "Website" },
-  { _id: "p16", name: "School Website", description: "School portal & info site", price: 150, startingPriceText: true, emi: "$30/month", popular: false, features: ["Class Info","Events","Gallery","Responsive"], category: "Website" },
-  { _id: "p17", name: "Hotel Booking", description: "Online hotel reservation system", price: 180, startingPriceText: true, emi: "$35/month", popular: true, features: ["Room Booking","Payment Gateway","Availability Calendar"], category: "Website" },
-  { _id: "p18", name: "Healthcare Website", description: "Clinic & hospital online portal", price: 150, startingPriceText: true, emi: "$30/month", popular: false, features: ["Appointment Booking","Doctor Profiles","Contact Forms"], category: "Website" },
-  { _id: "p19", name: "Travel Agency", description: "Tours & booking platform", price: 150, startingPriceText: true, emi: "$30/month", popular: false, features: ["Tour Packages","Booking System","Responsive Design"], category: "Website" },
-  { _id: "p20", name: "Real Estate", description: "Property listings & showcase", price: 150, startingPriceText: true, emi: "$30/month", popular: false, features: ["Property Listings","Gallery","Contact Forms"], category: "Website" },
-  { _id: "p21", name: "Company Website", description: "Corporate business site", price: 150, startingPriceText: true, emi: "$30/month", popular: false, features: ["About","Services","Contact Forms","Team Profiles"], category: "Website" },
-  { _id: "p22", name: "Construction Website", description: "Construction & contractor showcase", price: 150, startingPriceText: true, emi: "$30/month", popular: false, features: ["Projects","Gallery","Contact Forms"], category: "Website" },
-  { _id: "p23", name: "Home Service Provider", description: "Plumbing, electrician, cleaning services online", price: 180, startingPriceText: true, emi: "$35/month", popular: false, features: ["Service Listings","Booking System","Responsive Design"], category: "Website" },
-  { _id: "p24", name: "Car Rental", description: "Online car rental booking", price: 180, startingPriceText: true, emi: "$35/month", popular: false, features: ["Car Listings","Booking System","Payment Integration"], category: "Website" },
-  { _id: "p25", name: "Blog Website", description: "SEO-friendly blog platform", price: 120, startingPriceText: true, emi: "$25/month", popular: false, features: ["Posts","Categories","Responsive Design"], category: "Website" },
-  { _id: "p26", name: "Portfolio Website", description: "Professional portfolio site", price: 120, startingPriceText: true, emi: "$25/month", popular: false, features: ["Gallery","Projects","Contact Form"], category: "Website" },
-  { _id: "p27", name: "Custom Website", description: "Fully custom business website", price: 180, startingPriceText: true, emi: "$35/month", popular: true, features: ["Custom Design","Responsive","SEO Ready","Unique Features"], category: "Website" }
-];
-
-
-
-
+    const dummyProducts = [
+      // ERP Solutions
+      { _id: "erp1", name: "ERP Software", category: "ERP Solutions", price: 250, features: ["Integrated modules for all business functions", "Real-time analytics and reporting", "Scalable for enterprise growth", "Secure data management"] },
+      { _id: "erp2", name: "POS Software", category: "ERP Solutions", price: 100, features: ["Fast transaction processing", "Multi-store support", "Inventory integration", "Customer loyalty programs"] },
+      { _id: "erp3", name: "Inventory Software", category: "ERP Solutions", price: 100, features: ["Real-time stock tracking", "Automated reordering", "Barcode scanning support", "Supplier management"] },
+      { _id: "erp4", name: "Accounting Software", category: "ERP Solutions", price: 100, features: ["Automated invoicing and payments", "Financial reporting", "Tax compliance tools", "Multi-currency support"] },
+      { _id: "erp5", name: "HRM Software", category: "ERP Solutions", price: 100, features: ["Employee onboarding", "Payroll processing", "Performance tracking", "Leave management"] },
+      { _id: "erp6", name: "CRM Software", category: "ERP Solutions", price: 100, features: ["Lead management", "Customer interaction tracking", "Sales pipeline", "Email integration"] },
+      { _id: "erp7", name: "Manufacturing Software", category: "ERP Solutions", price: 150, features: ["Production planning", "Quality control", "Supply chain integration", "Cost tracking"] },
+      { _id: "erp8", name: "Project Management", category: "ERP Solutions", price: 150, features: ["Task assignment", "Gantt charts", "Resource allocation", "Progress reporting"] },
+      // Business Software
+      { _id: "bs1", name: "Restaurant Management", category: "Business Software", price: 250, features: ["Table reservation system", "Menu management", "Order tracking", "POS integration"] },
+      { _id: "bs2", name: "School Management", category: "Business Software", price: 250, features: ["Student information system", "Attendance tracking", "Fee management", "Exam scheduling"] },
+      { _id: "bs3", name: "Hotel Booking", category: "Business Software", price: 250, features: ["Room availability", "Online reservations", "Check-in/out automation", "Billing integration"] },
+      { _id: "bs4", name: "Hospital Management", category: "Business Software", price: 250, features: ["Patient records", "Appointment scheduling", "Doctor roster", "Pharmacy integration"] },
+      { _id: "bs5", name: "Travel Agency", category: "Business Software", price: 250, features: ["Tour packages", "Booking engine", "Customer CRM", "Payment gateway"] },
+      { _id: "bs6", name: "Real Estate", category: "Business Software", price: 250, features: ["Property listings", "Client database", "Virtual tours", "Contract management"] },
+      { _id: "bs7", name: "Service Provider Management", category: "Business Software", price: 250, features: ["Service scheduling", "Provider matching", "Review system", "Payment processing"] },
+      { _id: "bs8", name: "Car Rental Management", category: "Business Software", price: 250, features: ["Vehicle inventory", "Rental bookings", "Maintenance tracking", "Insurance integration"] },
+      // E-Commerce Platforms
+      { _id: "ec1", name: "E-Commerce Management System", category: "E-Commerce Platforms", price: 180, features: ["Product catalog management", "Order fulfillment", "Payment gateway integration", "Analytics dashboard"] },
+      { _id: "ec2", name: "Custom E-Commerce Website", category: "E-Commerce Platforms", price: 150, features: ["Tailored design", "Custom functionality", "SEO optimization", "Mobile responsive"] },
+      { _id: "ec3", name: "WordPress E-Commerce Website", category: "E-Commerce Platforms", price: 120, features: ["WooCommerce integration", "Theme customization", "Plugin support", "Easy content management"] },
+      { _id: "ec4", name: "E-Commerce Landing Page", category: "E-Commerce Platforms", price: 90, features: ["Conversion-optimized design", "Call-to-action elements", "Product showcase", "Lead capture forms"] },
+      // Custom Websites
+      { _id: "cw1", name: "Restaurant Website", category: "Custom Websites", price: 150, features: ["Menu gallery", "Online reservations", "Location map", "Contact forms"] },
+      { _id: "cw2", name: "School Website", category: "Custom Websites", price: 150, features: ["Admission forms", "Event calendar", "Faculty directory", "News updates"] },
+      { _id: "cw3", name: "Healthcare Website", category: "Custom Websites", price: 150, features: ["Doctor profiles", "Appointment booking", "Patient portal", "Health resources"] },
+      { _id: "cw4", name: "Travel Agency", category: "Custom Websites", price: 150, features: ["Tour packages", "Booking system", "Testimonials", "Blog section"] },
+      { _id: "cw5", name: "Real Estate", category: "Custom Websites", price: 150, features: ["Property search", "Virtual tours", "Agent contacts", "Market insights"] },
+      { _id: "cw6", name: "Company Website", category: "Custom Websites", price: 150, features: ["About us", "Services page", "Team bios", "Contact integration"] },
+      { _id: "cw7", name: "Construction Website", category: "Custom Websites", price: 150, features: ["Project portfolio", "Services list", "Quote request", "Timeline showcase"] },
+      { _id: "cw8", name: "Car Rental", category: "Custom Websites", price: 180, features: ["Vehicle search", "Rental calculator", "Booking form", "Location finder"] },
+      { _id: "cw9", name: "Blog Website", category: "Custom Websites", price: 120, features: ["Content management", "SEO tools", "Comment system", "Category organization"] },
+      { _id: "cw10", name: "Portfolio Website", category: "Custom Websites", price: 120, features: ["Work gallery", "Project details", "Client testimonials", "Contact section"] },
+      { _id: "cw11", name: "Service Website", category: "Custom Websites", price: 150, features: ["Service descriptions", "Pricing tables", "FAQ section", "Lead generation"] },
+      { _id: "cw12", name: "Custom Website", category: "Custom Websites", price: 180, features: ["Fully bespoke design", "Advanced functionality", "Performance optimization", "Ongoing support"] },
+    ];
 
     setCategories(dummyCategories);
     setProducts(dummyProducts);
@@ -323,18 +198,17 @@ const dummyProducts = [
         {/* Category Tabs */}
         {categories.length > 0 && (
           <div className="px-4 sm:px-6 lg:px-8 mb-16">
-            <div className="max-w-md mx-auto">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 {uiCategories.map((cat) => (
                   <button
                     key={cat.id}
                     onClick={() => setActiveCategory(cat.id)}
-className={`px-6 sm:px-6 cursor-pointer py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300 ${
-  activeCategory === cat.id
-    ? "bg-white text-red-600 font-medium shadow-lg transform scale-105"
-    : "bg-white text-black"
-}`}
-
+                    className={`px-6 sm:px-6 cursor-pointer py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300 ${
+                      activeCategory === cat.id
+                        ? "bg-white text-red-600 font-medium shadow-lg transform scale-105"
+                        : "bg-white text-black"
+                    }`}
                   >
                     <div className="flex items-center space-x-2 justify-center">
                       <cat.icon className="w-5 h-5 text-red-600" />
