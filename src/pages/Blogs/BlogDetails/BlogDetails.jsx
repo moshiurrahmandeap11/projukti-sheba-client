@@ -18,7 +18,7 @@ const BlogDetails = () => {
       setLoading(true);
       try {
         const blogResponse = await axios.get(
-          `http://localhost:3000/blogs/${id}`
+          `https://projukti-sheba-server.onrender.com/blogs/${id}`
         );
         if (blogResponse.data.success) {
           setBlog(blogResponse.data.data);

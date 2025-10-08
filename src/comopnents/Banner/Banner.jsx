@@ -25,11 +25,13 @@ const Banner = () => {
   useEffect(() => {
     const fetchClientLogos = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/ourclients');
-        console.log('Client logos response:', res.data); // Debug log
+        const res = await axios.get(
+          "https://projukti-sheba-server.onrender.com/ourclients"
+        );
+        console.log("Client logos response:", res.data); // Debug log
         setClientLogos(res.data.data || []);
       } catch (error) {
-        console.error('Error fetching client logos:', error);
+        console.error("Error fetching client logos:", error);
       }
     };
 
@@ -203,7 +205,9 @@ const Banner = () => {
                   <div
                     className="flex transition-transform duration-700 ease-out"
                     style={{
-                      transform: `translateX(-${(currentLogo * 100) / visibleLogos}%)`,
+                      transform: `translateX(-${
+                        (currentLogo * 100) / visibleLogos
+                      }%)`,
                     }}
                   >
                     {clientLogos.length > 0 ? (
@@ -215,11 +219,15 @@ const Banner = () => {
                         >
                           <div className="flex items-center justify-center h-16 sm:h-20 md:h-24 hover:scale-105 transition-all duration-500 p-4 group">
                             <img
-                              src={`http://localhost:3000${logo.logoUrl}`}
-                              alt={logo.originalName || `Client logo ${index + 1}`}
+                              src={`https://projukti-sheba-server.onrender.com${logo.logoUrl}`}
+                              alt={
+                                logo.originalName || `Client logo ${index + 1}`
+                              }
                               className="h-10 sm:h-12 md:h-14 max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500 opacity-80 group-hover:opacity-100"
                               onError={(e) => {
-                                e.target.src = `https://via.placeholder.com/150x50/4F46E5/FFFFFF?text=Client+${index + 1}`;
+                                e.target.src = `https://via.placeholder.com/150x50/4F46E5/FFFFFF?text=Client+${
+                                  index + 1
+                                }`;
                               }}
                             />
                           </div>
@@ -228,7 +236,9 @@ const Banner = () => {
                     ) : (
                       // Show placeholder when no logos
                       <div className="w-full text-center py-8">
-                        <p className="text-gray-500">No client logos available</p>
+                        <p className="text-gray-500">
+                          No client logos available
+                        </p>
                       </div>
                     )}
                   </div>

@@ -26,7 +26,7 @@ const AddProduct = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/categories");
+        const response = await axios.get("https://projukti-sheba-server.onrender.com/categories");
         setCategories(response.data.data || []);
       } catch (err) {
         Swal.fire("Error!", "Failed to load categories.", "error");
@@ -84,7 +84,7 @@ const AddProduct = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/products",
+        "https://projukti-sheba-server.onrender.com/products",
         {
           name: formData.title,
           description: formData.shortDescription,

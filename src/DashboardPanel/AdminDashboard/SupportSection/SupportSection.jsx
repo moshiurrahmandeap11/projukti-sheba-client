@@ -38,7 +38,7 @@ const SupportSection = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:3000/support"
+        "https://projukti-sheba-server.onrender.com/support"
       );
       if (response.ok) {
         const data = await response.json();
@@ -60,7 +60,7 @@ const SupportSection = () => {
     setUpdatingTicket(ticketId);
     try {
       const response = await fetch(
-        `http://localhost:3000/support/${ticketId}`,
+        `https://projukti-sheba-server.onrender.com/support/${ticketId}`,
         {
           method: "PATCH",
           headers: {

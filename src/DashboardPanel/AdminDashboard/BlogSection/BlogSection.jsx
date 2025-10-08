@@ -17,7 +17,7 @@ const BlogSection = () => {
   const fetchBlogs = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:3000/blogs");
+      const response = await axios.get("https://projukti-sheba-server.onrender.com/blogs");
       if (response.data.success) {
         setBlogs(response.data.data);
       } else {
@@ -68,7 +68,7 @@ const BlogSection = () => {
 
     if (result.isConfirmed) {
       try {
-        const response = await axios.delete(`http://localhost:3000/blogs/${blogId}`);
+        const response = await axios.delete(`https://projukti-sheba-server.onrender.com/blogs/${blogId}`);
         if (response.data.success) {
           Swal.fire({
             title: "Deleted!",

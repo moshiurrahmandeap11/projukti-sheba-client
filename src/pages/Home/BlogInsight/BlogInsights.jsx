@@ -20,7 +20,7 @@ const Blogs = () => {
       setLoading(true);
       try {
         // Fetch blogs
-        const blogsResponse = await axios.get("http://localhost:3000/blogs");
+        const blogsResponse = await axios.get("https://projukti-sheba-server.onrender.com/blogs");
         if (blogsResponse.data.success) {
           setBlogs(blogsResponse.data.data);
         } else {
@@ -28,7 +28,7 @@ const Blogs = () => {
         }
 
         // Fetch categories
-        const categoriesResponse = await axios.get("http://localhost:3000/categories");
+        const categoriesResponse = await axios.get("https://projukti-sheba-server.onrender.com/categories");
         setCategories([{ _id: "All", name: "All" }, ...categoriesResponse.data.data]);
       } catch (error) {
         console.error("Error fetching data:", error);

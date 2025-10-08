@@ -34,8 +34,8 @@ const AddPortfolio = () => {
       setIsSaving(true);
       try {
         const [categoriesResponse, technologiesResponse] = await Promise.all([
-          axios.get('http://localhost:3000/categories'),
-          axios.get('http://localhost:3000/technologies'),
+          axios.get('https://projukti-sheba-server.onrender.com/categories'),
+          axios.get('https://projukti-sheba-server.onrender.com/technologies'),
         ]);
 
         setCategories(categoriesResponse.data.data || categoriesResponse.data);
@@ -159,7 +159,7 @@ const AddPortfolio = () => {
 
     setIsSaving(true);
     try {
-      const response = await axios.post('http://localhost:3000/portfolio', {
+      const response = await axios.post('https://projukti-sheba-server.onrender.com/portfolio', {
         title: formData.title,
         category: formData.category,
         client: formData.client,

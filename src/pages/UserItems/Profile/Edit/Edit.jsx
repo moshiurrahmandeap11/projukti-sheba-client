@@ -58,7 +58,7 @@ const Edit = () => {
     const fetchProfile = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`http://localhost:3000/users/${user.uid}`);
+        const response = await axios.get(`https://projukti-sheba-server.onrender.com/users/${user.uid}`);
         const profileData = response.data;
         
         setProfile(profileData);
@@ -199,7 +199,7 @@ const handleSubmit = async (e) => {
     console.log("Payload to send:", payload); // For debugging
 
     const response = await axios.put(
-      `http://localhost:3000/users/${user.uid}`,
+      `https://projukti-sheba-server.onrender.com/users/${user.uid}`,
       payload,
       { headers: { "Content-Type": "application/json" } }
     );

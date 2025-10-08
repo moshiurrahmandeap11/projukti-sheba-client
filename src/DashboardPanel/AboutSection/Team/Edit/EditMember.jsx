@@ -30,7 +30,7 @@ const EditMember = () => {
   useEffect(() => {
     const fetchMember = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/our-team/${id}`);
+        const response = await axios.get(`https://projukti-sheba-server.onrender.com/our-team/${id}`);
         const member = response.data.data;
         setFormData(member);
         setImagePreview(member.image || null);
@@ -118,7 +118,7 @@ const EditMember = () => {
     }
 
     try {
-      const response = await axios.put(`http://localhost:3000/our-team/${id}`, formData);
+      const response = await axios.put(`https://projukti-sheba-server.onrender.com/our-team/${id}`, formData);
       toast.success(response.data.message || 'Team member updated successfully');
       navigate('/dashboard/admin');
     } catch (error) {

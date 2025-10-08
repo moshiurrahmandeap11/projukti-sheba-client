@@ -13,7 +13,7 @@ const LogoSettings = () => {
 
     const fetchLogos = async () => {
         try {
-            const response = await fetch('http://localhost:3000/logos');
+            const response = await fetch('https://projukti-sheba-server.onrender.com/logos');
             const data = await response.json();
             setLogos(data.data);
         } catch (error) {
@@ -59,7 +59,7 @@ const LogoSettings = () => {
     // Save logo to backend
     const saveLogoToBackend = async (logoData) => {
         try {
-            const response = await fetch('http://localhost:3000/logos', {
+            const response = await fetch('https://projukti-sheba-server.onrender.com/logos', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ const LogoSettings = () => {
         if (!confirmed) return;
 
         try {
-            const response = await fetch(`http://localhost:3000/logos/${logoId}`, {
+            const response = await fetch(`https://projukti-sheba-server.onrender.com/logos/${logoId}`, {
                 method: 'DELETE'
             });
 

@@ -19,7 +19,7 @@ const Blogs = () => {
       setError(null);
       try {
         const blogsResponse = await axios.get(
-          "http://localhost:3000/blogs"
+          "https://projukti-sheba-server.onrender.com/blogs"
         );
         if (blogsResponse.data.success) {
           // Sort blogs by creation date, newest first

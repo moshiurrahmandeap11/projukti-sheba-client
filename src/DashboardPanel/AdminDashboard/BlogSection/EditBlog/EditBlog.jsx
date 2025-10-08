@@ -41,7 +41,7 @@ const EditBlog = () => {
     if (!user) return;
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/users/${user?.uid}`);
+        const res = await axios.get(`https://projukti-sheba-server.onrender.com/users/${user?.uid}`);
         setProfile(res?.data);
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -59,7 +59,7 @@ const EditBlog = () => {
       setIsLoading(true);
       try {
         // Fetch specific blog
-        const blogResponse = await axios.get(`http://localhost:3000/blogs/${id}`);
+        const blogResponse = await axios.get(`https://projukti-sheba-server.onrender.com/blogs/${id}`);
         if (blogResponse.data.success) {
           const blogData = blogResponse.data.data;
           setOriginalData(blogData);
@@ -79,7 +79,7 @@ const EditBlog = () => {
         }
 
         // Fetch categories
-        const categoriesResponse = await axios.get("http://localhost:3000/categories");
+        const categoriesResponse = await axios.get("https://projukti-sheba-server.onrender.com/categories");
         if (categoriesResponse.data.success) {
           setCategories(categoriesResponse.data.data);
         } else {
@@ -206,7 +206,7 @@ const EditBlog = () => {
     console.log("Payload:", payload);
 
     const response = await axios.put(
-      `http://localhost:3000/blogs/${id}`, 
+      `https://projukti-sheba-server.onrender.com/blogs/${id}`, 
       payload, 
       {
         headers: { "Content-Type": "application/json" },
@@ -253,7 +253,7 @@ const EditBlog = () => {
 
     setIsDeleting(true);
     try {
-      const response = await axios.delete(`http://localhost:3000/blogs/${id}`);
+      const response = await axios.delete(`https://projukti-sheba-server.onrender.com/blogs/${id}`);
       if (response.data.success) {
         toast.success("Blog post deleted successfully!");
         navigate("/dashboard/admin");

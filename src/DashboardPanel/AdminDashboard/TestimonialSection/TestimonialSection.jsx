@@ -51,7 +51,7 @@ const TestimonialSection = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:3000/testimonials"
+        "https://projukti-sheba-server.onrender.com/testimonials"
       );
       if (response.data.success) {
         setTestimonials(response.data.data || []);
@@ -89,7 +89,7 @@ const TestimonialSection = () => {
     setDeletingTestimonial(id);
     try {
       const response = await axios.delete(
-        `http://localhost:3000/testimonials/${id}`
+        `https://projukti-sheba-server.onrender.com/testimonials/${id}`
       );
       if (response.status === 200) {
         setTestimonials((prev) => prev.filter((t) => t._id !== id));
@@ -178,7 +178,7 @@ const TestimonialSection = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/testimonials/${editingTestimonial._id}`,
+        `https://projukti-sheba-server.onrender.com/testimonials/${editingTestimonial._id}`,
         editingTestimonial,
         { headers: { "Content-Type": "application/json" } }
       );

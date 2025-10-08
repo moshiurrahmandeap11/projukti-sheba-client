@@ -14,7 +14,7 @@ const OurClients = () => {
 
     const fetchClients = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/ourclients');
+            const res = await axios.get('https://projukti-sheba-server.onrender.com/ourclients');
             setClients(res.data.data || []);
         } catch (error) {
             console.error('Error fetching clients:', error);
@@ -58,7 +58,7 @@ const OurClients = () => {
             const formData = new FormData();
             formData.append('logo', selectedFile);
 
-            await axios.post('http://localhost:3000/ourclients/upload', formData, {
+            await axios.post('https://projukti-sheba-server.onrender.com/ourclients/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -101,7 +101,7 @@ const OurClients = () => {
 
         if (result.isConfirmed) {
             try {
-                await axios.delete(`http://localhost:3000/ourclients/${id}`);
+                await axios.delete(`https://projukti-sheba-server.onrender.com/ourclients/${id}`);
                 fetchClients();
                 
                 Swal.fire({
@@ -145,7 +145,7 @@ const OurClients = () => {
                             <div key={client._id} className="bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition duration-200">
                                 <div className="aspect-square mb-3 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
                                     <img 
-                                        src={`http://localhost:3000${client.logoUrl}`} 
+                                        src={`https://projukti-sheba-server.onrender.com${client.logoUrl}`} 
                                         alt={client.originalName}
                                         className="w-full h-full object-contain p-2"
                                         onError={(e) => {

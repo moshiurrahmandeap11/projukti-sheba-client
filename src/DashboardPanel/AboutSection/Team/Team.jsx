@@ -26,7 +26,7 @@ const Team = () => {
   useEffect(() => {
     const fetchTeamMembers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/our-team");
+        const response = await axios.get("https://projukti-sheba-server.onrender.com/our-team");
         setTeamMembers(response.data.data);
       } catch (error) {
         console.error("Error fetching team members:", error);
@@ -44,7 +44,7 @@ const Team = () => {
     if (!window.confirm("Are you sure you want to delete this team member?")) return;
 
     try {
-      const response = await axios.delete(`http://localhost:3000/our-team/${id}`);
+      const response = await axios.delete(`https://projukti-sheba-server.onrender.com/our-team/${id}`);
       if (response.data.success) {
         setTeamMembers((prev) => prev.filter((member) => member._id !== id));
         toast.success(response.data.message || "Team member deleted successfully");

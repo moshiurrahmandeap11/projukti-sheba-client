@@ -34,12 +34,12 @@ const OverviewSection = ({ totalUsers }) => {
     try {
       const [usersRes, contactsRes, draftContactsRes, supportRes, testimonialsRes, blogsRes] =
         await Promise.all([
-          axios.get("http://localhost:3000/users"),
-          axios.get("http://localhost:3000/contact-us-submitted"),
-          axios.get("http://localhost:3000/contact-us"),
-          axios.get("http://localhost:3000/support"),
-          axios.get("http://localhost:3000/testimonials"),
-          axios.get("http://localhost:3000/blogs"),
+          axios.get("https://projukti-sheba-server.onrender.com/users"),
+          axios.get("https://projukti-sheba-server.onrender.com/contact-us-submitted"),
+          axios.get("https://projukti-sheba-server.onrender.com/contact-us"),
+          axios.get("https://projukti-sheba-server.onrender.com/support"),
+          axios.get("https://projukti-sheba-server.onrender.com/testimonials"),
+          axios.get("https://projukti-sheba-server.onrender.com/blogs"),
         ]);
 
       const users = usersRes.data || [];

@@ -25,7 +25,7 @@ const AnalyticsSection = () => {
   const fetchAnalytics = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3000/analytics?startDate=${startDate}&endDate=${endDate}`);
+      const response = await fetch(`https://projukti-sheba-server.onrender.com/analytics?startDate=${startDate}&endDate=${endDate}`);
       const result = await response.json();
       if (result.success) {
         // Ensure analyticsData has all required properties with fallbacks
