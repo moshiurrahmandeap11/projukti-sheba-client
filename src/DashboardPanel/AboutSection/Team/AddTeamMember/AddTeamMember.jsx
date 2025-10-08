@@ -130,7 +130,7 @@ const handleFileUpload = async (e) => {
     }
 
     try {
-      const response = await axios.post('https://projukti-sheba-server.onrender.com/our-team', formData);
+      const response = await axios.post('http://localhost:3000/our-team', formData);
       toast.success(response.data.message);
       // Reset form
       setFormData({

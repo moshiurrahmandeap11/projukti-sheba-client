@@ -68,7 +68,7 @@ const Footer = () => {
 
     try {
       await axios.post(
-        "https://projukti-sheba-server.onrender.com/support-draft",
+        "http://localhost:3000/support-draft",
         data
       );
       console.log("Support draft saved successfully");
@@ -136,7 +136,7 @@ const Footer = () => {
       };
       
       const res = await axios.post(
-        "https://projukti-sheba-server.onrender.com/support", 
+        "http://localhost:3000/support", 
         payload
       );
       

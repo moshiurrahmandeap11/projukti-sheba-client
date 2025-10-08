@@ -36,7 +36,7 @@ const AddBlog = () => {
     if (!user) return;
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`https://projukti-sheba-server.onrender.com/users/${user?.uid}`);
+        const res = await axios.get(`http://localhost:3000/users/${user?.uid}`);
         setProfile(res?.data);
         setFormData((prev) => ({
           ...prev,
@@ -55,7 +55,7 @@ const AddBlog = () => {
     const fetchCategories = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get("https://projukti-sheba-server.onrender.com/categories");
+        const response = await axios.get("http://localhost:3000/categories");
         if (response.data.success) {
           setCategories(response.data.data);
         } else {
@@ -194,7 +194,7 @@ const AddBlog = () => {
         content: formData.expert, // Send expert as content for backend compatibility
       };
 
-      const response = await axios.post("https://projukti-sheba-server.onrender.com/blogs", payload, {
+      const response = await axios.post("http://localhost:3000/blogs", payload, {
         headers: { "Content-Type": "application/json" },
       });
 

@@ -28,7 +28,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("https://projukti-sheba-server.onrender.com/categories");
+        const response = await axios.get("http://localhost:3000/categories");
         setCategories(response.data.data || []);
       } catch {
         Swal.fire("Error!", "Failed to load categories.", "error");
@@ -43,7 +43,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://projukti-sheba-server.onrender.com/products/${id}`);
+        const response = await axios.get(`http://localhost:3000/products/${id}`);
         if (response.data.success) {
           const product = response.data.data;
           setFormData({
@@ -115,7 +115,7 @@ const EditProduct = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `https://projukti-sheba-server.onrender.com/products/${id}`,
+        `http://localhost:3000/products/${id}`,
         {
           name: formData.title,
           description: formData.shortDescription,

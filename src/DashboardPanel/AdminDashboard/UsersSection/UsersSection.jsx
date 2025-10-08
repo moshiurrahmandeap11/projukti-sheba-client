@@ -36,7 +36,7 @@ const UsersSection = ({ totalUsers }) => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`https://projukti-sheba-server.onrender.com/users/${userId}`);
+        await axios.delete(`http://localhost:3000/users/${userId}`);
         Swal.fire({
           title: "Deleted!",
           text: "The user has been deleted successfully.",

@@ -258,7 +258,7 @@ const OurTeam = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('https://projukti-sheba-server.onrender.com/our-team');
+        const res = await axios.get('http://localhost:3000/our-team');
         setTeamMembers(res.data.data);
       } catch (error) {
         console.error('Error fetching team members:', error);

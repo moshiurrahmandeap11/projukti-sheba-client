@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { motion, AnimatePresence } from "framer-motion";
 
-const socket = io("https://projukti-sheba-server.onrender.com/"); 
+const socket = io("http://localhost:3000/"); 
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);

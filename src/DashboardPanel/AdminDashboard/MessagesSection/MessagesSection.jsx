@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 import { FileText } from "lucide-react";
 import jsPDF from "jspdf";
 
-const socket = io("https://projukti-sheba-server.onrender.com/");
+const socket = io("http://localhost:3000/");
 
 const MessagesSection = () => {
   const [userChats, setUserChats] = useState({});

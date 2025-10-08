@@ -85,7 +85,7 @@ const AddTestimonial = () => {
 
     try {
       const response = await axios.post(
-        "https://projukti-sheba-server.onrender.com/testimonials",
+        "http://localhost:3000/testimonials",
         formData,
         { headers: { "Content-Type": "application/json" } }
       );

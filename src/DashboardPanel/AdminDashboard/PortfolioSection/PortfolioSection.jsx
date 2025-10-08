@@ -17,7 +17,7 @@ const PortfolioSection = () => {
   const fetchPortfolios = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://projukti-sheba-server.onrender.com/portfolio");
+      const response = await axios.get("http://localhost:3000/portfolio");
       if (response.data.success) {
         setPortfolios(response.data.data);
       } else {
@@ -68,7 +68,7 @@ const PortfolioSection = () => {
 
     if (result.isConfirmed) {
       try {
-        const response = await axios.delete(`https://projukti-sheba-server.onrender.com/portfolio/${portfolioId}`);
+        const response = await axios.delete(`http://localhost:3000/portfolio/${portfolioId}`);
         if (response.data.success) {
           Swal.fire({
             title: "Deleted!",

@@ -39,7 +39,7 @@ const ContactSection = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://projukti-sheba-server.onrender.com/contact-us-submitted"
+        "http://localhost:3000/contact-us-submitted"
       );
       setForms(response.data.data || []);
       setError(null);
@@ -57,7 +57,7 @@ const ContactSection = () => {
     setUpdatingForm(formId);
     try {
       const response = await axios.patch(
-        `https://projukti-sheba-server.onrender.com/contact-us-submitted/${formId}`,
+        `http://localhost:3000/contact-us-submitted/${formId}`,
         { status: newStatus },
         { headers: { "Content-Type": "application/json" } }
       );

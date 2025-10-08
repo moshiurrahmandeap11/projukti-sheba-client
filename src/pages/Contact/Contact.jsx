@@ -48,7 +48,7 @@ const Contact = () => {
 
     try {
       await axios.post(
-        "https://projukti-sheba-server.onrender.com/contact-us",
+        "http://localhost:3000/contact-us",
         data
       );
       console.log("Draft saved successfully");
@@ -88,7 +88,7 @@ const Contact = () => {
       if (hasDataRef.current && formDataRef.current) {
         try {
           navigator.sendBeacon(
-            "https://projukti-sheba-server.onrender.com/contact-us",
+            "http://localhost:3000/contact-us",
             JSON.stringify(formDataRef.current)
           );
         } catch (error) {
@@ -125,7 +125,7 @@ const Contact = () => {
 
     try {
       await axios.post(
-        "https://projukti-sheba-server.onrender.com/contact-us-submitted",
+        "http://localhost:3000/contact-us-submitted",
         formData
       );
       console.log("Form submitted successfully:", formData);

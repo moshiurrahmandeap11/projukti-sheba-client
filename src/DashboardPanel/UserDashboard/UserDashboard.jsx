@@ -55,7 +55,7 @@ const UserDashboard = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://projukti-sheba-server.onrender.com/users/${user.uid}`
+          `http://localhost:3000/users/${user.uid}`
         );
         setProfile(response.data);
       } catch (error) {

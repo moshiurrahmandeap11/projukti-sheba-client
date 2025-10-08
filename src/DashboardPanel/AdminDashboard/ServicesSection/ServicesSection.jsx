@@ -21,7 +21,7 @@ const ServicesSection = () => {
   const fetchServices = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('https://projukti-sheba-server.onrender.com/services');
+      const response = await axios.get('http://localhost:3000/services');
       setServices(response.data.data);
     } catch (error) {
       console.error('Error fetching services:', error);
@@ -56,7 +56,7 @@ const ServicesSection = () => {
 
     try {
       setDeleting(service._id);
-      await axios.delete(`https://projukti-sheba-server.onrender.com/services/${service._id}`);
+      await axios.delete(`http://localhost:3000/services/${service._id}`);
       
       setServices(prevServices => prevServices.filter(s => s._id !== service._id));
       

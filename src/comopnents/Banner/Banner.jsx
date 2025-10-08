@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import FancyButton from "../sharedItems/FancyButtons/FancyButton";
+import axios from "axios";
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -18,7 +19,24 @@ const Banner = () => {
 
   const [currentHeadlineIndex, setCurrentHeadlineIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [clientLogos, setClientLogos] = useState([]);
 
+  // Fetch client logos from API
+  useEffect(() => {
+    const fetchClientLogos = async () => {
+      try {
+        const res = await axios.get('http://localhost:3000/ourclients');
+        console.log('Client logos response:', res.data); // Debug log
+        setClientLogos(res.data.data || []);
+      } catch (error) {
+        console.error('Error fetching client logos:', error);
+      }
+    };
+
+    fetchClientLogos();
+  }, []);
+
+  // Headline rotation effect
   useEffect(() => {
     const interval = setInterval(() => {
       setIsVisible(false);
@@ -34,38 +52,7 @@ const Banner = () => {
     return () => clearInterval(interval);
   }, [headlines.length]);
 
-  // Client Logos Data - Professional looking logos
-  const clientLogos = [
-    {
-      src: "https://i.ibb.co.com/0yQd7QCj/banner1.png",
-      alt: "Vibrant Logo",
-    },
-    {
-      src: "https://cdn.logo.com/hotlink-ok/logo-social.png",
-      alt: "Udancla Logo",
-    },
-    {
-      src: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
-      alt: "Google Logo",
-    },
-    {
-      src: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
-      alt: "Apple Logo",
-    },
-    {
-      src: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
-      alt: "Amazon Logo",
-    },
-    {
-      src: "https://i.ibb.co.com/WWHpGHfm/8867-Microsoft-5-F00-Logo-2-D00-for-2-D00-screen.jpg",
-      alt: "Microsoft Logo",
-    },
-    {
-      src: "https://i.ibb.co.com/67Hz3PCH/Meta-Logo.png",
-      alt: "Facebook Logo",
-    },
-  ];
-
+  // Logo slider states
   const [currentLogo, setCurrentLogo] = useState(0);
   const [visibleLogos, setVisibleLogos] = useState(3);
   const TOTAL_LOGOS = clientLogos.length;
@@ -76,6 +63,7 @@ const Banner = () => {
   const prevLogo = () =>
     setCurrentLogo((prev) => (prev === 0 ? MAX_INDEX : prev - 1));
 
+  // Responsive logo count
   useEffect(() => {
     const updateVisibleLogos = () => {
       const width = window.innerWidth;
@@ -95,10 +83,13 @@ const Banner = () => {
     return () => window.removeEventListener("resize", updateVisibleLogos);
   }, []);
 
+  // Auto slide logos
   useEffect(() => {
-    const interval = setInterval(nextLogo, 4000);
-    return () => clearInterval(interval);
-  }, [visibleLogos]);
+    if (clientLogos.length > 0) {
+      const interval = setInterval(nextLogo, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [visibleLogos, clientLogos.length]);
 
   return (
     <>
@@ -166,8 +157,8 @@ const Banner = () => {
       </div>
 
       {/* Client Logos Slider Section */}
-      <section className=" bg-[#F4F8FF]">
-        <div className="max-w-8/12 mx-auto ">
+      <section className="bg-[#F4F8FF]">
+        <div className="max-w-8/12 mx-auto">
           {/* Header and Slider in one line */}
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-1">
             <div className="text-center lg:text-left flex-shrink-0 w-full lg:w-auto">
@@ -186,52 +177,63 @@ const Banner = () => {
             <div className="hidden lg:block h-14 w-[1px] opacity-50 bg-black mx-8"></div>
 
             <div className="flex-1 w-full">
-<div className="flex-1 w-full relative">
-              {/* Navigation Buttons - Outside Container */}
-              <button
-                onClick={prevLogo}
-                className="absolute -left-8 sm:-left-12 md:-left-6 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-sm"
-                aria-label="Previous clients"
-              >
-                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
-              </button>
-              <button
-                onClick={nextLogo}
-                className="absolute -right-8 sm:-right-12 md:-right-16 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-sm"
-                aria-label="Next clients"
-              >
-                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
-              </button>
-
-              {/* Slider Container */}
-              <div className="overflow-hidden rounded-2xl py-4">
-                <div
-                  className="flex transition-transform duration-700 ease-out"
-                  style={{
-                    transform: `translateX(-${(currentLogo * 100) / visibleLogos}%)`,
-                  }}
-                >
-                  {clientLogos.map((logo, index) => (
-                    <div
-                      key={index}
-                      className="flex-shrink-0 px-3 sm:px-6"
-                      style={{ width: `${100 / visibleLogos}%` }}
+              <div className="flex-1 w-full relative">
+                {/* Navigation Buttons - Show only if there are logos */}
+                {clientLogos.length > visibleLogos && (
+                  <>
+                    <button
+                      onClick={prevLogo}
+                      className="absolute -left-8 sm:-left-12 md:-left-6 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-sm z-10"
+                      aria-label="Previous clients"
                     >
-                      <div className="flex items-center justify-center h-16 sm:h-20 md:h-24  hover:scale-105 transition-all duration-500 p-4 group">
-                        <img
-                          src={logo.src}
-                          alt={logo.alt}
-                          className="h-10 sm:h-12 md:h-14 max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500 opacity-80 group-hover:opacity-100"
-                          onError={(e) => {
-                            e.target.src = `https://via.placeholder.com/150x50/4F46E5/FFFFFF?text=${logo.alt.split(' ')[0]}`;
-                          }}
-                        />
+                      <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
+                    </button>
+                    <button
+                      onClick={nextLogo}
+                      className="absolute -right-8 sm:-right-12 md:-right-16 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-sm z-10"
+                      aria-label="Next clients"
+                    >
+                      <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
+                    </button>
+                  </>
+                )}
+
+                {/* Slider Container */}
+                <div className="overflow-hidden rounded-2xl py-4">
+                  <div
+                    className="flex transition-transform duration-700 ease-out"
+                    style={{
+                      transform: `translateX(-${(currentLogo * 100) / visibleLogos}%)`,
+                    }}
+                  >
+                    {clientLogos.length > 0 ? (
+                      clientLogos.map((logo, index) => (
+                        <div
+                          key={logo._id || index}
+                          className="flex-shrink-0 px-3 sm:px-6"
+                          style={{ width: `${100 / visibleLogos}%` }}
+                        >
+                          <div className="flex items-center justify-center h-16 sm:h-20 md:h-24 hover:scale-105 transition-all duration-500 p-4 group">
+                            <img
+                              src={`http://localhost:3000${logo.logoUrl}`}
+                              alt={logo.originalName || `Client logo ${index + 1}`}
+                              className="h-10 sm:h-12 md:h-14 max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500 opacity-80 group-hover:opacity-100"
+                              onError={(e) => {
+                                e.target.src = `https://via.placeholder.com/150x50/4F46E5/FFFFFF?text=Client+${index + 1}`;
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      // Show placeholder when no logos
+                      <div className="w-full text-center py-8">
+                        <p className="text-gray-500">No client logos available</p>
                       </div>
-                    </div>
-                  ))}
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
             </div>
           </div>
         </div>

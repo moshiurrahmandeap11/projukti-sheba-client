@@ -14,7 +14,6 @@ import ProductsSection from "./ProductsSection/ProductsSection";
 import AnalyticsSection from "./AnalyticsSection/AnalyticsSection";
 import MessagesSection from "./MessagesSection/MessagesSection";
 import SettingsSection from "./SettingsSection/SettingsSection";
-import ReportsSection from "./ReportsSection/ReportsSection";
 import ServicesSection from "./ServicesSection/ServicesSection";
 import AboutSection from "../AboutSection/AboutSection";
 import ContactSection from "./ContactSection/ContactSection";
@@ -22,6 +21,7 @@ import SupportSection from "./SupportSection/SupportSection";
 import ContactUsDraft from "./ContactSection/ContactUsDraft/ContactUsDraft";
 import TestimonialsSection from "./TestimonialSection/TestimonialSection";
 import BlogSection from "./BlogSection/BlogSection";
+import OurClients from "../OurClients/OurClients";
 
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false); // Default to closed on mobile
@@ -52,7 +52,7 @@ const AdminDashboard = () => {
 
       try {
         const response = await axios.get(
-          `https://projukti-sheba-server.onrender.com/users/${userId}`
+          `http://localhost:3000/users/${userId}`
         );
         setAdminProfile(response.data);
       } catch (error) {
@@ -68,7 +68,7 @@ const AdminDashboard = () => {
     const fetchTotalUsers = async () => {
       try {
         const response = await axios.get(
-          "https://projukti-sheba-server.onrender.com/users"
+          "http://localhost:3000/users"
         );
         setTotalUsers(response.data);
       } catch (error) {
@@ -101,7 +101,7 @@ const AdminDashboard = () => {
     { id: "support", icon: "🆘", label: "Support", badge: "New" },
     { id: "testimonials", icon: "🖊️", label: "Testimonials", badge: "New" },
     { id: "blogs", icon: "📝", label: "Blogs", badge: "New" },
-    { id: "settings", icon: "⚙️", label: "Settings", badge: null },
+    { id: "our-clients", icon: "⚙️", label: "Our Clients", badge: null },
     { id: "services", icon: "🛠️", label: "Services", badge: null },
     { id: "about", icon: "ℹ️", label: "About Us", badge: null },
     { id: "home", icon: "🏠", label: "Home", badge: null },
@@ -143,8 +143,8 @@ const AdminDashboard = () => {
         return <TestimonialsSection />;
       case "blogs":
         return <BlogSection />;
-      case "settings":
-        return <SettingsSection />;
+      case "our-clients":
+        return <OurClients />;
       case "services":
         return <ServicesSection />;
       case "about":
