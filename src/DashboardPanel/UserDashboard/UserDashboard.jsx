@@ -377,7 +377,7 @@ const UserDashboard = () => {
                   profile?.photoURL
                     ? profile.photoURL.startsWith("http")
                       ? profile.photoURL
-                      : `http://localhost:3000${profile.photoURL}`
+                      : `https://projukti-sheba-server.onrender.com${profile.photoURL}`
                     : user?.photoURL || "/default-avatar.png"
                 }
                 alt={profile?.fullName || user?.displayName || "User"}

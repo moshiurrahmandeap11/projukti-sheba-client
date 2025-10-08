@@ -409,16 +409,6 @@ const PortfolioSection = () => {
                   {selectedPortfolio.content || "No Content"}
                 </p>
                 <p className="text-xs sm:text-sm text-gray-300">
-                  <span className="font-medium">Image:</span>{" "}
-                  {selectedPortfolio.image ? (
-                    <a href={selectedPortfolio.image} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
-                      View Image
-                    </a>
-                  ) : (
-                    "N/A"
-                  )}
-                </p>
-                <p className="text-xs sm:text-sm text-gray-300">
                   <span className="font-medium">Slug:</span>{" "}
                   {selectedPortfolio.slug || "N/A"}
                 </p>

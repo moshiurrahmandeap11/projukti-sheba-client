@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
-const AddPortfolio = () => {
+const EditPortfolio = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
     const [loading, setLoading] = useState(false);
+    const [portfolio, setPortfolio] = useState(null);
     const [formData, setFormData] = useState({
         title: '',
         category: 'software',
@@ -21,6 +23,7 @@ const AddPortfolio = () => {
         githubUrl: ''
     });
     const [selectedImage, setSelectedImage] = useState(null);
+    const [currentImage, setCurrentImage] = useState('');
 
     const categories = [
         { value: 'erp', label: 'ERP Solutions' },
@@ -29,6 +32,44 @@ const AddPortfolio = () => {
         { value: 'website', label: 'Custom Websites' },
         { value: 'mobile', label: 'Mobile Apps' }
     ];
+
+    useEffect(() => {
+        fetchPortfolio();
+    }, [id]);
+
+    const fetchPortfolio = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`https://projukti-sheba-server.onrender.com/portfolio/${id}`);
+            if (response.data.success) {
+                const portfolioData = response.data.data;
+                setPortfolio(portfolioData);
+                setCurrentImage(portfolioData.image);
+                setFormData({
+                    title: portfolioData.title || '',
+                    category: portfolioData.category || 'software',
+                    client: portfolioData.client || '',
+                    description: portfolioData.description || '',
+                    features: portfolioData.features && portfolioData.features.length > 0 ? portfolioData.features : [''],
+                    technologies: portfolioData.technologies && portfolioData.technologies.length > 0 ? portfolioData.technologies : [''],
+                    status: portfolioData.status || 'Completed',
+                    projectDate: portfolioData.projectDate ? portfolioData.projectDate.split('T')[0] : new Date().toISOString().split('T')[0],
+                    featured: portfolioData.featured || false,
+                    liveUrl: portfolioData.liveUrl || '',
+                    githubUrl: portfolioData.githubUrl || ''
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching portfolio:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Failed to fetch portfolio data'
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -84,6 +125,14 @@ const AddPortfolio = () => {
                 });
                 return;
             }
+            if (file.size > 10 * 1024 * 1024) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'File Too Large',
+                    text: 'Please select an image smaller than 10MB'
+                });
+                return;
+            }
             setSelectedImage(file);
         }
     };
@@ -91,11 +140,50 @@ const AddPortfolio = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        if (!selectedImage) {
+        // Validation
+        if (!formData.title.trim()) {
             Swal.fire({
                 icon: 'warning',
-                title: 'Image Required',
-                text: 'Please select an image for the portfolio'
+                title: 'Title Required',
+                text: 'Please enter a project title'
+            });
+            return;
+        }
+
+        if (!formData.client.trim()) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Client Required',
+                text: 'Please enter client name'
+            });
+            return;
+        }
+
+        if (!formData.description.trim()) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Description Required',
+                text: 'Please enter project description'
+            });
+            return;
+        }
+
+        const validFeatures = formData.features.filter(f => f.trim() !== '');
+        if (validFeatures.length === 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Features Required',
+                text: 'Please add at least one feature'
+            });
+            return;
+        }
+
+        const validTechnologies = formData.technologies.filter(t => t.trim() !== '');
+        if (validTechnologies.length === 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Technologies Required',
+                text: 'Please add at least one technology'
             });
             return;
         }
@@ -103,45 +191,62 @@ const AddPortfolio = () => {
         setLoading(true);
         try {
             const submitData = new FormData();
-            submitData.append('image', selectedImage);
-            submitData.append('title', formData.title);
+            if (selectedImage) {
+                submitData.append('image', selectedImage);
+            }
+            submitData.append('title', formData.title.trim());
             submitData.append('category', formData.category);
-            submitData.append('client', formData.client);
-            submitData.append('description', formData.description);
-            submitData.append('features', JSON.stringify(formData.features.filter(f => f.trim() !== '')));
-            submitData.append('technologies', JSON.stringify(formData.technologies.filter(t => t.trim() !== '')));
+            submitData.append('client', formData.client.trim());
+            submitData.append('description', formData.description.trim());
+            submitData.append('features', JSON.stringify(validFeatures));
+            submitData.append('technologies', JSON.stringify(validTechnologies));
             submitData.append('status', formData.status);
             submitData.append('projectDate', formData.projectDate);
             submitData.append('featured', formData.featured);
-            submitData.append('liveUrl', formData.liveUrl);
-            submitData.append('githubUrl', formData.githubUrl);
+            submitData.append('liveUrl', formData.liveUrl.trim());
+            submitData.append('githubUrl', formData.githubUrl.trim());
 
-            await axios.post('https://projukti-sheba-server.onrender.com/portfolio', submitData, {
+            const response = await axios.put(`https://projukti-sheba-server.onrender.com/portfolio/${id}`, submitData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: 'Portfolio item added successfully',
-                timer: 2000,
-                showConfirmButton: false
-            });
+            if (response.data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Portfolio item updated successfully',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
 
-            navigate(-1);
+                navigate(-1);
+            } else {
+                throw new Error(response.data.message || 'Update failed');
+            }
         } catch (error) {
-            console.error('Error adding portfolio:', error);
+            console.error('Error updating portfolio:', error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error!',
-                text: error.response?.data?.message || 'Failed to add portfolio item'
+                text: error.response?.data?.message || 'Failed to update portfolio item'
             });
         } finally {
             setLoading(false);
         }
     };
+
+    if (loading && !portfolio) {
+        return (
+            <div className="min-h-screen bg-transparent backdrop-blur-3xl flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#B5000D] mx-auto"></div>
+                    <p className="mt-4 text-gray-600">Loading portfolio data...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <motion.div
@@ -156,10 +261,10 @@ const AddPortfolio = () => {
                     <div className="flex items-center justify-between">
                         <div>
                             <h1 className="text-2xl sm:text-3xl font-bold text-black mb-2">
-                                Add New Portfolio
+                                Edit Portfolio
                             </h1>
                             <p className="text-gray-600">
-                                Create a new portfolio item to showcase your work
+                                Update portfolio item details
                             </p>
                         </div>
                         <motion.button
@@ -283,7 +388,7 @@ const AddPortfolio = () => {
                             {/* Project Image */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Project Image *
+                                    Project Image {!currentImage && '*'}
                                 </label>
                                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                                     {selectedImage ? (
@@ -304,6 +409,31 @@ const AddPortfolio = () => {
                                                 Change Image
                                             </button>
                                         </div>
+                                    ) : currentImage ? (
+                                        <div>
+                                            <img
+                                                src={`https://projukti-sheba-server.onrender.com${currentImage}`}
+                                                alt="Current"
+                                                className="mx-auto h-32 object-cover rounded-lg mb-4"
+                                                onError={(e) => {
+                                                    e.target.style.display = 'none';
+                                                    e.target.nextSibling.style.display = 'block';
+                                                }}
+                                            />
+                                            <div style={{display: 'none'}} className="text-gray-400 mb-2">
+                                                <svg className="mx-auto h-12 w-12" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                                </svg>
+                                            </div>
+                                            <p className="text-sm text-gray-600 mb-2">
+                                                Current image
+                                            </p>
+                                            <label htmlFor="image-upload" className="cursor-pointer">
+                                                <span className="text-[#B5000D] hover:text-[#B5000D]/80 font-medium">
+                                                    Change Image
+                                                </span>
+                                            </label>
+                                        </div>
                                     ) : (
                                         <div>
                                             <div className="text-gray-400 mb-2">
@@ -320,15 +450,15 @@ const AddPortfolio = () => {
                                             <p className="text-xs text-gray-500 mt-1">
                                                 PNG, JPG, WebP up to 10MB
                                             </p>
-                                            <input
-                                                id="image-upload"
-                                                type="file"
-                                                accept="image/*"
-                                                onChange={handleImageSelect}
-                                                className="hidden"
-                                            />
                                         </div>
                                     )}
+                                    <input
+                                        id="image-upload"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageSelect}
+                                        className="hidden"
+                                    />
                                 </div>
                             </div>
 
@@ -400,7 +530,7 @@ const AddPortfolio = () => {
                                         <button
                                             type="button"
                                             onClick={() => removeFeature(index)}
-                                            className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                                            className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
                                         >
                                             Remove
                                         </button>
@@ -410,7 +540,7 @@ const AddPortfolio = () => {
                             <button
                                 type="button"
                                 onClick={addFeature}
-                                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
                             >
                                 Add Feature
                             </button>
@@ -437,7 +567,7 @@ const AddPortfolio = () => {
                                         <button
                                             type="button"
                                             onClick={() => removeTechnology(index)}
-                                            className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                                            className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
                                         >
                                             Remove
                                         </button>
@@ -447,7 +577,7 @@ const AddPortfolio = () => {
                             <button
                                 type="button"
                                 onClick={addTechnology}
-                                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
                             >
                                 Add Technology
                             </button>
@@ -472,7 +602,7 @@ const AddPortfolio = () => {
                             disabled={loading}
                             className="flex-1 px-6 py-3 bg-[#B5000D] text-white rounded-lg hover:bg-[#B5000D]/80 disabled:opacity-50 transition-colors"
                         >
-                            {loading ? 'Adding Portfolio...' : 'Add Portfolio Item'}
+                            {loading ? 'Updating Portfolio...' : 'Update Portfolio Item'}
                         </motion.button>
                     </div>
                 </form>
@@ -481,4 +611,4 @@ const AddPortfolio = () => {
     );
 };
 
-export default AddPortfolio;
+export default EditPortfolio;

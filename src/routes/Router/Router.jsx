@@ -31,6 +31,7 @@ import PrivacyPolicy from "../../comopnents/PrivacyPolicy/PrivacyPolicy";
 import Cookies from "../../comopnents/Cookies/Cookies";
 import Terms from "../../comopnents/Terms/Terms";
 import ExploreAllSolutions from "../../comopnents/OurSolutions/ExploreAllSolutions/ExploreAllSolutions";
+import EditPortfolio from "../../DashboardPanel/AdminDashboard/PortfolioSection/EditPortfolio/EditPortfolio";
 
 
 
@@ -71,6 +72,7 @@ const route = createBrowserRouter([
       { path: "user", element: <UserDashboard /> },
       { path: "admin", element: <AdminDashboard></AdminDashboard> },
       { path: "add-portfolio", element: <AddPortfolio></AddPortfolio> },
+      { path: "edit-portfolio/:id", element: <EditPortfolio></EditPortfolio> },
       { path: "add-service", element: <AddServices></AddServices> },
       { path: "add-team-member", element: <AddTeamMember></AddTeamMember> },
       { path: "edit-member/:id", element: <EditMember></EditMember> },
