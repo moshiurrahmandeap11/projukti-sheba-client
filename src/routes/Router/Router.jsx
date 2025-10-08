@@ -30,6 +30,7 @@ import EditProduct from "../../DashboardPanel/AdminDashboard/ProductsSection/Edi
 import PrivacyPolicy from "../../comopnents/PrivacyPolicy/PrivacyPolicy";
 import Cookies from "../../comopnents/Cookies/Cookies";
 import Terms from "../../comopnents/Terms/Terms";
+import ExploreAllSolutions from "../../comopnents/OurSolutions/ExploreAllSolutions/ExploreAllSolutions";
 
 
 
@@ -51,7 +52,8 @@ const route = createBrowserRouter([
       {path: "/add-testimonial", element: <AddTestimonial></AddTestimonial>},
       {path: "/privacy-policy", element: <PrivacyPolicy></PrivacyPolicy>},
       {path: "/cookies", element: <Cookies></Cookies>},
-      {path: "/terms", element: <Terms></Terms>}
+      {path: "/terms", element: <Terms></Terms>},
+      {path: "/explore-all-solutions", element: <ExploreAllSolutions></ExploreAllSolutions>}
     ]
   },
   {
