@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import axios from 'axios';
 import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 import Loader from '../../../../comopnents/sharedItems/Loader/Loader';
+import axiosInstance from '../../../../hooks/AxiosInstance/AxiosInstance';
 
 const EditMember = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const EditMember = () => {
   useEffect(() => {
     const fetchMember = async () => {
       try {
-        const response = await axios.get(`https://projukti-sheba-server.onrender.com/our-team/${id}`);
+        const response = await axiosInstance.get(`/our-team/${id}`);
         const member = response.data.data;
         setFormData(member);
         setImagePreview(member.image || null);
@@ -118,7 +118,7 @@ const EditMember = () => {
     }
 
     try {
-      const response = await axios.put(`https://projukti-sheba-server.onrender.com/our-team/${id}`, formData);
+      const response = await axiosInstance.put(`/our-team/${id}`, formData);
       toast.success(response.data.message || 'Team member updated successfully');
       navigate('/dashboard/admin');
     } catch (error) {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import axiosInstance from '../../../../hooks/AxiosInstance/AxiosInstance';
 
 const AddPortfolio = () => {
     const navigate = useNavigate();
@@ -116,7 +116,7 @@ const AddPortfolio = () => {
             submitData.append('liveUrl', formData.liveUrl);
             submitData.append('githubUrl', formData.githubUrl);
 
-            await axios.post('https://projukti-sheba-server.onrender.com/portfolio', submitData, {
+            await axiosInstance.post('/portfolio', submitData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

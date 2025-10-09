@@ -7,6 +7,7 @@ import { useAuth } from "../../../../hooks/AuthContexts/AuthContexts";
 import { Editor } from "@tinymce/tinymce-react";
 import Loader from "../../../../comopnents/sharedItems/Loader/Loader";
 import { ArrowLeft, Save, Camera, Tag, FileText, Trash2, Eye } from "lucide-react";
+import axiosInstance from "../../../../hooks/AxiosInstance/AxiosInstance";
 
 const EditBlog = () => {
   const { user, loading } = useAuth();
@@ -41,7 +42,7 @@ const EditBlog = () => {
     if (!user) return;
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`https://projukti-sheba-server.onrender.com/users/${user?.uid}`);
+        const res = await axiosInstance.get(`/users/${user?.uid}`);
         setProfile(res?.data);
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -59,7 +60,7 @@ const EditBlog = () => {
       setIsLoading(true);
       try {
         // Fetch specific blog
-        const blogResponse = await axios.get(`https://projukti-sheba-server.onrender.com/blogs/${id}`);
+        const blogResponse = await axiosInstance.get(`/blogs/${id}`);
         if (blogResponse.data.success) {
           const blogData = blogResponse.data.data;
           setOriginalData(blogData);
@@ -79,7 +80,7 @@ const EditBlog = () => {
         }
 
         // Fetch categories
-        const categoriesResponse = await axios.get("https://projukti-sheba-server.onrender.com/categories");
+        const categoriesResponse = await axiosInstance.get("/categories");
         if (categoriesResponse.data.success) {
           setCategories(categoriesResponse.data.data);
         } else {
@@ -205,8 +206,8 @@ const EditBlog = () => {
     console.log("Updating blog with ID:", id);
     console.log("Payload:", payload);
 
-    const response = await axios.put(
-      `https://projukti-sheba-server.onrender.com/blogs/${id}`, 
+    const response = await axiosInstance.put(
+      `/blogs/${id}`, 
       payload, 
       {
         headers: { "Content-Type": "application/json" },
@@ -253,7 +254,7 @@ const EditBlog = () => {
 
     setIsDeleting(true);
     try {
-      const response = await axios.delete(`https://projukti-sheba-server.onrender.com/blogs/${id}`);
+      const response = await axiosInstance.delete(`/blogs/${id}`);
       if (response.data.success) {
         toast.success("Blog post deleted successfully!");
         navigate("/dashboard/admin");

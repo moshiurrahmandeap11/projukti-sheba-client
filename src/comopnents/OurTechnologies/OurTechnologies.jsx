@@ -10,7 +10,7 @@ import {
     SiWordpress, SiJoomla, SiShopify
 } from 'react-icons/si';
 
-// টেকনোলজিগুলোর ডেটা
+
 const technologies = {
     backend: [
         { name: 'Golang', icon: <SiGo className="h-16 w-16 text-cyan-400" /> },

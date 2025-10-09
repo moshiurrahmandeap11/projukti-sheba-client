@@ -12,7 +12,7 @@ import {
   Maximize2
 } from "lucide-react";
 import FancyButton from "../../../comopnents/sharedItems/FancyButtons/FancyButton";
-import axios from "axios";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 const Portfolio = () => {
   const [activeTab, setActiveTab] = useState("all");
@@ -26,7 +26,7 @@ const Portfolio = () => {
     const fetchProjects = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("https://projukti-sheba-server.onrender.com/portfolio");
+        const response = await axiosInstance.get("/portfolio");
         if (response.data.success) {
           setProjects(response.data.data);
         } else {
@@ -80,6 +80,8 @@ const Portfolio = () => {
     return placeholders[category] || 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80';
   };
 
+  const baseImageUrl = axiosInstance.defaults.baseURL;
+
   return (
     <section className="py-8 bg-gray-50 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -123,7 +125,7 @@ const Portfolio = () => {
         {/* Projects Grid */}
         {!loading && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project, index) => (
+            {filteredProjects.map((project) => (
               <div
                 key={project._id}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 group"
@@ -131,7 +133,7 @@ const Portfolio = () => {
                 {/* Image Container with Overlay */}
                 <div className="relative overflow-hidden">
 <img
-                    src={project.image ? `https://projukti-sheba-server.onrender.com${project.image}` : getPlaceholderImage(project.category)}
+                    src={project.image ? `${baseImageUrl}${project.image}` : getPlaceholderImage(project.category)}
                     alt={project.title}
                     className="w-full h-64 object-contain bg-gray-100 group-hover:scale-105 transition-transform duration-700"
                     onError={(e) => {
@@ -258,7 +260,7 @@ const Portfolio = () => {
                 {/* Project Image with Expand Option */}
                 <div className="relative">
                   <img
-                    src={selectedProject.image ? `https://projukti-sheba-server.onrender.com${selectedProject.image}` : getPlaceholderImage(selectedProject.category)}
+                    src={selectedProject.image ? `${baseImageUrl}${selectedProject.image}` : getPlaceholderImage(selectedProject.category)}
                     alt={selectedProject.title}
                     className="w-full h-96 object-cover rounded-t-3xl"
                     onError={(e) => {
@@ -266,7 +268,7 @@ const Portfolio = () => {
                     }}
                   />
                   <button
-                    onClick={() => setExpandedImage(selectedProject.image ? `https://projukti-sheba-server.onrender.com${selectedProject.image}` : getPlaceholderImage(selectedProject.category))}
+                    onClick={() => setExpandedImage(selectedProject.image ? `${baseImageUrl}${selectedProject.image}` : getPlaceholderImage(selectedProject.category))}
                     className="absolute top-6 left-6 bg-black/50 hover:bg-black/70 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300"
                   >
                     <Maximize2 className="w-5 h-5" />

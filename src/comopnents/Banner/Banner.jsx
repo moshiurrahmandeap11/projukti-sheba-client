@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import FancyButton from "../sharedItems/FancyButtons/FancyButton";
-import axios from "axios";
+import axiosInstance from "../../hooks/AxiosInstance/AxiosInstance";
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -25,9 +25,7 @@ const Banner = () => {
   useEffect(() => {
     const fetchClientLogos = async () => {
       try {
-        const res = await axios.get(
-          "https://projukti-sheba-server.onrender.com/ourclients"
-        );
+        const res = await axiosInstance.get("/ourclients");
         console.log("Client logos response:", res.data); // Debug log
         setClientLogos(res.data.data || []);
       } catch (error) {
@@ -37,6 +35,9 @@ const Banner = () => {
 
     fetchClientLogos();
   }, []);
+
+  // Base image URL
+  const baseImageUrl = axiosInstance.defaults.baseURL;
 
   // Headline rotation effect
   useEffect(() => {
@@ -219,7 +220,7 @@ const Banner = () => {
                         >
                           <div className="flex items-center justify-center h-16 sm:h-20 md:h-24 hover:scale-105 transition-all duration-500 p-4 group">
                             <img
-                              src={`https://projukti-sheba-server.onrender.com${logo.logoUrl}`}
+                              src={`${baseImageUrl}${logo.logoUrl}`}
                               alt={
                                 logo.originalName || `Client logo ${index + 1}`
                               }

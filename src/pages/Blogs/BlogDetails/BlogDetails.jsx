@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Tag, Calendar, User, ArrowLeft, Share2 } from "lucide-react";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useNavigate } from "react-router";
 import Loader from "../../../comopnents/sharedItems/Loader/Loader";
 import FancyButton from "../../../comopnents/sharedItems/FancyButtons/FancyButton";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 const BlogDetails = () => {
   const [blog, setBlog] = useState(null);
@@ -17,9 +17,7 @@ const BlogDetails = () => {
     const fetchBlogDetails = async () => {
       setLoading(true);
       try {
-        const blogResponse = await axios.get(
-          `https://projukti-sheba-server.onrender.com/blogs/${id}`
-        );
+        const blogResponse = await axiosInstance.get(`/blogs/${id}`);
         if (blogResponse.data.success) {
           setBlog(blogResponse.data.data);
         } else {

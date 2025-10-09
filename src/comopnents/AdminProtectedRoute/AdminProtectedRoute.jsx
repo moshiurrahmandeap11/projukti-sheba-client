@@ -34,7 +34,7 @@ const AdminProtectedRoute = () => {
     );
   }
 
-  // শুধুমাত্র admin email থাকলেই ঢুকতে পারবে
+
   return (user?.email === 'admin@projuktisheba.com') 
     ? <AdminDashboard></AdminDashboard>
     : <Navigate to="/" replace />;

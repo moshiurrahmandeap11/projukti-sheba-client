@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import axios from "axios";
 import { useAuth } from "../../hooks/AuthContexts/AuthContexts";
 import { useNavigate } from "react-router";
 
@@ -13,7 +12,6 @@ import PortfolioSection from "./PortfolioSection/PortfolioSection";
 import ProductsSection from "./ProductsSection/ProductsSection";
 import AnalyticsSection from "./AnalyticsSection/AnalyticsSection";
 import MessagesSection from "./MessagesSection/MessagesSection";
-import SettingsSection from "./SettingsSection/SettingsSection";
 import ServicesSection from "./ServicesSection/ServicesSection";
 import AboutSection from "../AboutSection/AboutSection";
 import ContactSection from "./ContactSection/ContactSection";
@@ -22,6 +20,8 @@ import ContactUsDraft from "./ContactSection/ContactUsDraft/ContactUsDraft";
 import TestimonialsSection from "./TestimonialSection/TestimonialSection";
 import BlogSection from "./BlogSection/BlogSection";
 import OurClients from "../OurClients/OurClients";
+import axiosInstance from "../../hooks/AxiosInstance/AxiosInstance";
+import OurSolutionsAdmin from "./OurSolutionsAdmin/OurSolutionsAdmin";
 
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false); // Default to closed on mobile
@@ -51,9 +51,7 @@ const AdminDashboard = () => {
       }
 
       try {
-        const response = await axios.get(
-          `https://projukti-sheba-server.onrender.com/users/${userId}`
-        );
+        const response = await axiosInstance.get(`/users/${userId}`);
         setAdminProfile(response.data);
       } catch (error) {
         console.error("Error fetching admin profile:", error);
@@ -67,9 +65,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
-        const response = await axios.get(
-          "https://projukti-sheba-server.onrender.com/users"
-        );
+        const response = await axiosInstance.get("/users");
         setTotalUsers(response.data);
       } catch (error) {
         console.error("Error fetching total users:", error);
@@ -102,6 +98,7 @@ const AdminDashboard = () => {
     { id: "testimonials", icon: "🖊️", label: "Testimonials", badge: "New" },
     { id: "blogs", icon: "📝", label: "Blogs", badge: "New" },
     { id: "our-clients", icon: "⚙️", label: "Our Clients", badge: null },
+    { id: "our-solutions", icon: "⚙️", label: "Our Solutions", badge: null },
     { id: "services", icon: "🛠️", label: "Services", badge: null },
     { id: "about", icon: "ℹ️", label: "About Us", badge: null },
     { id: "home", icon: "🏠", label: "Home", badge: null },
@@ -145,6 +142,8 @@ const AdminDashboard = () => {
         return <BlogSection />;
       case "our-clients":
         return <OurClients />;
+      case "our-solutions":
+        return <OurSolutionsAdmin />;
       case "services":
         return <ServicesSection />;
       case "about":

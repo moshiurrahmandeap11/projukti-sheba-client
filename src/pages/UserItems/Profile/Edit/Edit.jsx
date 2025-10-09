@@ -19,6 +19,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../../../hooks/AuthContexts/AuthContexts';
 import Loader from '../../../../comopnents/sharedItems/Loader/Loader';
+import axiosInstance from '../../../../hooks/AxiosInstance/AxiosInstance';
 
 const Edit = () => {
   const { user, loading, updateProfile } = useAuth();
@@ -58,7 +59,7 @@ const Edit = () => {
     const fetchProfile = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`https://projukti-sheba-server.onrender.com/users/${user.uid}`);
+        const response = await axiosInstance.get(`/users/${user.uid}`);
         const profileData = response.data;
         
         setProfile(profileData);
@@ -198,8 +199,8 @@ const handleSubmit = async (e) => {
 
     console.log("Payload to send:", payload); // For debugging
 
-    const response = await axios.put(
-      `https://projukti-sheba-server.onrender.com/users/${user.uid}`,
+    const response = await axiosInstance.put(
+      `/users/${user.uid}`,
       payload,
       { headers: { "Content-Type": "application/json" } }
     );

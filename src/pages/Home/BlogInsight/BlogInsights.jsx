@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Search, Tag, Calendar, User, ArrowRight } from "lucide-react";
-import axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "../../../comopnents/sharedItems/Loader/Loader";
 import FancyButton from "../../../comopnents/sharedItems/FancyButtons/FancyButton";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 
 const Blogs = () => {
@@ -20,7 +20,7 @@ const Blogs = () => {
       setLoading(true);
       try {
         // Fetch blogs
-        const blogsResponse = await axios.get("https://projukti-sheba-server.onrender.com/blogs");
+        const blogsResponse = await axiosInstance.get("/blogs");
         if (blogsResponse.data.success) {
           setBlogs(blogsResponse.data.data);
         } else {
@@ -28,7 +28,7 @@ const Blogs = () => {
         }
 
         // Fetch categories
-        const categoriesResponse = await axios.get("https://projukti-sheba-server.onrender.com/categories");
+        const categoriesResponse = await axiosInstance.get("/categories");
         setCategories([{ _id: "All", name: "All" }, ...categoriesResponse.data.data]);
       } catch (error) {
         console.error("Error fetching data:", error);

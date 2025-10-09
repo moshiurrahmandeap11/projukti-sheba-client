@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ChevronLeft } from "lucide-react";
-import axios from "axios";
 import Loader from "../../comopnents/sharedItems/Loader/Loader";
+import axiosInstance from "../../hooks/AxiosInstance/AxiosInstance";
 
 const Blogs = () => {
   const navigate = useNavigate();
@@ -18,9 +18,7 @@ const Blogs = () => {
       setLoading(true);
       setError(null);
       try {
-        const blogsResponse = await axios.get(
-          "https://projukti-sheba-server.onrender.com/blogs"
-        );
+        const blogsResponse = await axiosInstance.get("/blogs");
         if (blogsResponse.data.success) {
           // Sort blogs by creation date, newest first
           const sortedBlogs = blogsResponse.data.data.sort(

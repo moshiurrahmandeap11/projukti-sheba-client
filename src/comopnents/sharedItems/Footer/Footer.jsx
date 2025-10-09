@@ -15,10 +15,10 @@ import {
   MessageSquare,
   CheckCircle,
 } from "lucide-react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import FancyButton from "../FancyButtons/FancyButton";
 import { FaWhatsapp } from "react-icons/fa";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -67,10 +67,7 @@ const Footer = () => {
     setIsSaving(true);
 
     try {
-      await axios.post(
-        "https://projukti-sheba-server.onrender.com/support-draft",
-        data
-      );
+      await axiosInstance.post("/support-draft", data);
       console.log("Support draft saved successfully");
     } catch (error) {
       console.error("Error saving support draft:", error);
@@ -134,12 +131,9 @@ const Footer = () => {
         status: "pending", 
         createdAt: new Date().toISOString() 
       };
-      
-      const res = await axios.post(
-        "https://projukti-sheba-server.onrender.com/support", 
-        payload
-      );
-      
+
+      const res = await axiosInstance.post("/support", payload);
+
       if (res.data?.data?.insertedId) {
         Swal.fire({
           icon: "success",

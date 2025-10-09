@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import axios from "axios";
 import jsPDF from "jspdf";
 import * as XLSX from "xlsx";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 const PortfolioSection = () => {
   const [portfolios, setPortfolios] = useState([]);
@@ -17,7 +17,7 @@ const PortfolioSection = () => {
   const fetchPortfolios = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://projukti-sheba-server.onrender.com/portfolio");
+      const response = await axiosInstance.get("/portfolio");
       if (response.data.success) {
         setPortfolios(response.data.data);
       } else {
@@ -68,7 +68,7 @@ const PortfolioSection = () => {
 
     if (result.isConfirmed) {
       try {
-        const response = await axios.delete(`https://projukti-sheba-server.onrender.com/portfolio/${portfolioId}`);
+        const response = await axiosInstance.delete(`/portfolio/${portfolioId}`);
         if (response.data.success) {
           Swal.fire({
             title: "Deleted!",

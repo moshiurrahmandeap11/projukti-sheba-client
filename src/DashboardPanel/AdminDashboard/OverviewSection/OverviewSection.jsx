@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import {
@@ -12,6 +11,7 @@ import {
   ChevronDown,
   Eye,
 } from "lucide-react";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 const OverviewSection = ({ totalUsers }) => {
   const [activities, setActivities] = useState([]);
@@ -34,12 +34,12 @@ const OverviewSection = ({ totalUsers }) => {
     try {
       const [usersRes, contactsRes, draftContactsRes, supportRes, testimonialsRes, blogsRes] =
         await Promise.all([
-          axios.get("https://projukti-sheba-server.onrender.com/users"),
-          axios.get("https://projukti-sheba-server.onrender.com/contact-us-submitted"),
-          axios.get("https://projukti-sheba-server.onrender.com/contact-us"),
-          axios.get("https://projukti-sheba-server.onrender.com/support"),
-          axios.get("https://projukti-sheba-server.onrender.com/testimonials"),
-          axios.get("https://projukti-sheba-server.onrender.com/blogs"),
+          axiosInstance.get("/users"),
+          axiosInstance.get("/contact-us-submitted"),
+          axiosInstance.get("/contact-us"),
+          axiosInstance.get("/support"),
+          axiosInstance.get("/testimonials"),
+          axiosInstance.get("/blogs"),
         ]);
 
       const users = usersRes.data || [];

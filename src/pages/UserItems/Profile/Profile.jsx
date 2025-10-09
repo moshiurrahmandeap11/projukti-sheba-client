@@ -16,8 +16,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import toast from "react-hot-toast";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 const Profile = () => {
   const { user, loading, logOut } = useAuth();
@@ -31,9 +31,7 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(
-          `https://projukti-sheba-server.onrender.com/users/${user.uid}`
-        );
+        const response = await axiosInstance.get(`/users/${user.uid}`);
         setProfile(response.data);
       } catch (error) {
         console.error("Error fetching profile:", {
@@ -66,7 +64,7 @@ const Profile = () => {
     if (!dateString) return "N/A";
     try {
       return new Date(dateString).toLocaleDateString();
-    } catch (error) {
+    } catch {
       return "N/A";
     }
   };

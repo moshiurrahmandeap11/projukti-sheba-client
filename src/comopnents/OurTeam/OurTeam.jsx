@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, memo } from 'react';
 import { Users, Linkedin, Twitter, Mail, Github, ChevronLeft, ChevronRight, X, Award, Code, Palette, TrendingUp, Database, Shield } from 'lucide-react';
-import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import axiosInstance from '../../hooks/AxiosInstance/AxiosInstance';
 
 // Constants for gradients and icons
 const GRADIENTS = {
@@ -258,7 +258,7 @@ const OurTeam = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('https://projukti-sheba-server.onrender.com/our-team');
+        const res = await axiosInstance.get('/our-team');
         setTeamMembers(res.data.data);
       } catch (error) {
         console.error('Error fetching team members:', error);

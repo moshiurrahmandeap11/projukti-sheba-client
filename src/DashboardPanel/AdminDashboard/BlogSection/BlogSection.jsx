@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import axios from "axios";
 import jsPDF from "jspdf";
 import * as XLSX from "xlsx";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 const BlogSection = () => {
   const [blogs, setBlogs] = useState([]);
@@ -17,7 +17,7 @@ const BlogSection = () => {
   const fetchBlogs = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://projukti-sheba-server.onrender.com/blogs");
+      const response = await axiosInstance.get("/blogs");
       if (response.data.success) {
         setBlogs(response.data.data);
       } else {
@@ -68,7 +68,7 @@ const BlogSection = () => {
 
     if (result.isConfirmed) {
       try {
-        const response = await axios.delete(`https://projukti-sheba-server.onrender.com/blogs/${blogId}`);
+        const response = await axiosInstance.delete(`/blogs/${blogId}`);
         if (response.data.success) {
           Swal.fire({
             title: "Deleted!",

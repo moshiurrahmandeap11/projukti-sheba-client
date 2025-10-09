@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router";
 import Select from "react-select";
 import toast from "react-hot-toast";
 import { PlusCircle, ArrowLeft, X, Trash2, Loader2, MoreVertical } from "lucide-react";
+import axiosInstance from "../../../../hooks/AxiosInstance/AxiosInstance";
 
 const AddServices = () => {
   const [formData, setFormData] = useState({
@@ -42,7 +42,7 @@ const AddServices = () => {
   const fetchTechnologies = useCallback(async () => {
     try {
       setTechLoading(true);
-      const res = await axios.get("https://projukti-sheba-server.onrender.com/technologies");
+      const res = await axiosInstance.get("/technologies");
       const techData = Array.isArray(res.data.data) ? res.data.data : [];
       if (!techData.length) toast.warn("No technologies found");
       setAllTechnologies(techData);
@@ -59,7 +59,7 @@ const AddServices = () => {
   const fetchCategories = useCallback(async () => {
     try {
       setCategoryLoading(true);
-      const res = await axios.get("https://projukti-sheba-server.onrender.com/categories");
+      const res = await axiosInstance.get("/categories");
       const categoryData = Array.isArray(res.data.data) ? res.data.data : [];
       setCategoriesList(categoryData);
     } catch (error) {
@@ -115,7 +115,7 @@ const AddServices = () => {
           : [],
         totalProjects: Number(formData.totalProjects) || 0,
       };
-      const res = await axios.post("https://projukti-sheba-server.onrender.com/services", payload);
+      const res = await axiosInstance.post("/services", payload);
       if (res.data.success) {
         setMessage("✅ Service added successfully!");
         setFormData({
@@ -177,7 +177,7 @@ const AddServices = () => {
       return;
     }
     try {
-      await axios.post("https://projukti-sheba-server.onrender.com/technologies", [{ name: newTechName }]);
+      await axiosInstance.post("/technologies", [{ name: newTechName }]);
       toast.success("Technology added successfully!");
       closeAddTechModal();
       fetchTechnologies();
@@ -191,7 +191,7 @@ const AddServices = () => {
     setManageTechLoading(true);
     setIsMenuOpen(false);
     try {
-      const res = await axios.get("https://projukti-sheba-server.onrender.com/technologies");
+      const res = await axiosInstance.get("/technologies");
       const techData = Array.isArray(res.data.data) ? res.data.data : [];
       if (!techData.length) toast.warn("No technologies available to manage");
       setTechnologiesList(techData);
@@ -215,7 +215,7 @@ const AddServices = () => {
     if (!window.confirm(`Are you sure you want to delete this technology?`)) return;
     try {
       setDeleteTechLoading(true);
-      await axios.delete(`https://projukti-sheba-server.onrender.com/technologies/${techId}`);
+      await axiosInstance.delete(`/technologies/${techId}`);
       toast.success("Technology deleted successfully!");
       setTechnologiesList((prev) => prev.filter((tech) => tech._id !== techId));
       fetchTechnologies();
@@ -248,7 +248,7 @@ const AddServices = () => {
       return;
     }
     try {
-      const res = await axios.post("https://projukti-sheba-server.onrender.com/categories", [{ name: newCategoryName }]);
+      const res = await axiosInstance.post("/categories", [{ name: newCategoryName }]);
       if (res.data.success) {
         toast.success("Category added successfully!");
         closeAddCategoryModal();
@@ -267,7 +267,7 @@ const AddServices = () => {
     setManageCategoryLoading(true);
     setIsMenuOpen(false);
     try {
-      const res = await axios.get("https://projukti-sheba-server.onrender.com/categories");
+      const res = await axiosInstance.get("/categories");
       const categoryData = Array.isArray(res.data.data) ? res.data.data : [];
       if (!categoryData.length) toast.warn("No categories available to manage");
       setCategoriesList(categoryData);
@@ -291,7 +291,7 @@ const AddServices = () => {
     if (!window.confirm(`Are you sure you want to delete this category?`)) return;
     try {
       setDeleteCategoryLoading(true);
-      const res = await axios.delete(`https://projukti-sheba-server.onrender.com/categories/${categoryId}`);
+      const res = await axiosInstance.delete(`/categories/${categoryId}`);
       if (res.data.success) {
         toast.success("Category deleted successfully!");
         setCategoriesList((prev) => prev.filter((category) => category._id !== categoryId));

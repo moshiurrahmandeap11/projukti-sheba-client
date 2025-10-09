@@ -5,6 +5,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, T
 import { FileText } from "lucide-react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
@@ -25,8 +26,8 @@ const AnalyticsSection = () => {
   const fetchAnalytics = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`https://projukti-sheba-server.onrender.com/analytics?startDate=${startDate}&endDate=${endDate}`);
-      const result = await response.json();
+      const response = await axiosInstance.get(`/analytics?startDate=${startDate}&endDate=${endDate}`);
+      const result = response.data;
       if (result.success) {
         // Ensure analyticsData has all required properties with fallbacks
         setAnalyticsData({

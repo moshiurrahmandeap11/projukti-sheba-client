@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { ArrowLeft, Package, DollarSign, Tag, FileText, List, Calendar, Loader2 } from "lucide-react";
 import Swal from "sweetalert2";
+import axiosInstance from "../../../../hooks/AxiosInstance/AxiosInstance";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -26,9 +26,9 @@ const AddProduct = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("https://projukti-sheba-server.onrender.com/categories");
+        const response = await axiosInstance.get("/categories");
         setCategories(response.data.data || []);
-      } catch (err) {
+      } catch  {
         Swal.fire("Error!", "Failed to load categories.", "error");
       } finally {
         setCategoryLoading(false);
@@ -83,8 +83,8 @@ const AddProduct = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        "https://projukti-sheba-server.onrender.com/products",
+      const response = await axiosInstance.post(
+        "/products",
         {
           name: formData.title,
           description: formData.shortDescription,
@@ -109,7 +109,7 @@ const AddProduct = () => {
       } else {
         Swal.fire("Error!", "Failed to add product.", "error");
       }
-    } catch (err) {
+    } catch {
       Swal.fire("Error!", "Something went wrong.", "error");
     } finally {
       setLoading(false);

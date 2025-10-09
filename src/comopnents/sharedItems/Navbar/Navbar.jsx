@@ -13,9 +13,9 @@ import { useNavigate, useLocation, NavLink } from "react-router";
 import { useAuth } from "../../../hooks/AuthContexts/AuthContexts";
 import Loader from "../Loader/Loader";
 import toast from "react-hot-toast";
-import axios from "axios";
 import logo from "../../../assets/logo.jpg";
 import FancyButton from "../FancyButtons/FancyButton";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,9 +36,7 @@ const Navbar = () => {
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `https://projukti-sheba-server.onrender.com/users/${user.uid}`
-        );
+        const response = await axiosInstance.get(`/users/${user.uid}`);
         setProfile(response.data);
       } catch (error) {
         console.error("Error fetching profile:", error);

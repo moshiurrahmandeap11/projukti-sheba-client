@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../../../hooks/AuthContexts/AuthContexts';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import axiosInstance from '../../../hooks/AxiosInstance/AxiosInstance';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -97,7 +97,7 @@ const handleSubmit = async (e) => {
 
             // Send POST request to create user in MongoDB
             try {
-                await axios.post('https://projukti-sheba-server.onrender.com/users', userData);
+                await axiosInstance.post('/users', userData);
             } catch (postError) {
                 console.error("Error saving user to MongoDB:", postError.response?.data || postError.message);
             }

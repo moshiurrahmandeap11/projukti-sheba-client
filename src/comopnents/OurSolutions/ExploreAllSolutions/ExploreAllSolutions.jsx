@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { 
     BarChart3, BookOpen, Boxes, Building2, Bus, Car, 
@@ -8,308 +8,158 @@ import {
     Smartphone, UserCircle2, Users, Utensils, Search,
     Filter, ArrowRight, Star, CheckCircle2
 } from 'lucide-react';
+import axiosInstance from '../../../hooks/AxiosInstance/AxiosInstance';
+
 
 const ExploreAllSolutions = () => {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [hoveredCard, setHoveredCard] = useState(null);
+    const [solutions, setSolutions] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const categories = {
-        'All': { icon: <LayoutGrid className="w-5 h-5" />, count: 24 },
-        'ERP Solutions': { icon: <BarChart3 className="w-5 h-5" />, count: 3 },
-        'E-commerce': { icon: <ShoppingCart className="w-5 h-5" />, count: 3 },
-        'Restaurant': { icon: <Utensils className="w-5 h-5" />, count: 3 },
-        'School': { icon: <School className="w-5 h-5" />, count: 3 },
-        'Blog': { icon: <PenLine className="w-5 h-5" />, count: 3 },
-        'Travel Agency': { icon: <Plane className="w-5 h-5" />, count: 3 },
-        'Real Estate': { icon: <Home className="w-5 h-5" />, count: 3 },
-        'Others': { icon: <Building2 className="w-5 h-5" />, count: 3 }
+        'All': { icon: <LayoutGrid className="w-5 h-5" />, count: 0 },
+        'ERP Solutions': { icon: <BarChart3 className="w-5 h-5" />, count: 0 },
+        'E-commerce': { icon: <ShoppingCart className="w-5 h-5" />, count: 0 },
+        'Restaurant': { icon: <Utensils className="w-5 h-5" />, count: 0 },
+        'School': { icon: <School className="w-5 h-5" />, count: 0 },
+        'Blog': { icon: <PenLine className="w-5 h-5" />, count: 0 },
+        'Travel Agency': { icon: <Plane className="w-5 h-5" />, count: 0 },
+        'Real Estate': { icon: <Home className="w-5 h-5" />, count: 0 },
+        'Others': { icon: <Building2 className="w-5 h-5" />, count: 0 }
     };
 
-    const allSolutions = [
-        // ERP Solutions
-        {
-            id: 1,
-            category: 'ERP Solutions',
-            icon: <BarChart3 className="w-8 h-8" />,
-            title: 'Business ERP',
-            subtitle: 'Complete Enterprise Resource Planning solution for business management',
-            description: 'Streamline your business operations with our comprehensive ERP system that integrates all core business functions.',
-            features: ['Financial Management', 'Supply Chain', 'HR Management', 'Analytics'],
-            popular: true,
-            color: 'blue'
-        },
-        {
-            id: 2,
-            category: 'ERP Solutions',
-            icon: <Users className="w-8 h-8" />,
-            title: 'HR Management',
-            subtitle: 'Human Resource Management System with payroll and attendance',
-            description: 'Automate HR processes, manage payroll, track attendance, and enhance employee engagement.',
-            features: ['Payroll System', 'Attendance Tracking', 'Employee Portal', 'Performance Management'],
-            popular: false,
-            color: 'green'
-        },
-        {
-            id: 3,
-            category: 'ERP Solutions',
-            icon: <Boxes className="w-8 h-8" />,
-            title: 'Inventory System',
-            subtitle: 'Advanced inventory control and stock management system',
-            description: 'Real-time inventory tracking, stock optimization, and automated reordering system.',
-            features: ['Stock Tracking', 'Automated Reordering', 'Warehouse Management', 'Barcode Support'],
-            popular: true,
-            color: 'purple'
-        },
+    const iconComponents = {
+        BarChart3, BookOpen, Boxes, Building2, Bus, Car, DollarSign,
+        GraduationCap, Home, Hotel, LayoutGrid, MessageCircle,
+        MessageSquareText, MonitorSmartphone, Newspaper, PenLine,
+        Plane, Repeat, School, ShoppingCart, Smartphone,
+        UserCircle2, Users, Utensils
+    };
 
-        // E-commerce
-        {
-            id: 4,
-            category: 'E-commerce',
-            icon: <ShoppingCart className="w-8 h-8" />,
-            title: 'Online Store',
-            subtitle: 'Complete E-commerce platform with payment gateway integration',
-            description: 'Launch your online store with multiple payment options and seamless customer experience.',
-            features: ['Payment Gateway', 'Product Management', 'Order Tracking', 'Customer Portal'],
-            popular: true,
-            color: 'pink'
-        },
-        {
-            id: 5,
-            category: 'E-commerce',
-            icon: <Smartphone className="w-8 h-8" />,
-            title: 'Mobile Commerce',
-            subtitle: 'Mobile-first shopping experience with app-like features',
-            description: 'Progressive Web App with native app-like experience for mobile shoppers.',
-            features: ['PWA Support', 'Push Notifications', 'Mobile Payments', 'Offline Browsing'],
-            popular: false,
-            color: 'indigo'
-        },
-        {
-            id: 6,
-            category: 'E-commerce',
-            icon: <Repeat className="w-8 h-8" />,
-            title: 'Multi-vendor',
-            subtitle: 'Marketplace platform for multiple sellers and vendors',
-            description: 'Create your own marketplace with vendor management and commission system.',
-            features: ['Vendor Dashboard', 'Commission System', 'Multi-store', 'Vendor Analytics'],
-            popular: true,
-            color: 'orange'
-        },
+    const colorMap = {
+        blue: 'from-blue-500 to-blue-600',
+        green: 'from-green-500 to-green-600',
+        purple: 'from-purple-500 to-purple-600',
+        pink: 'from-pink-500 to-pink-600',
+        indigo: 'from-indigo-500 to-indigo-600',
+        orange: 'from-orange-500 to-orange-600',
+        rose: 'from-rose-500 to-rose-600',
+        yellow: 'from-yellow-500 to-yellow-600',
+        sky: 'from-sky-500 to-sky-600',
+        violet: 'from-violet-500 to-violet-600',
+        emerald: 'from-emerald-500 to-emerald-600',
+        teal: 'from-teal-500 to-teal-600',
+        gray: 'from-gray-500 to-gray-600'
+    };
 
-        // Restaurant
-        {
-            id: 7,
-            category: 'Restaurant',
-            icon: <Utensils className="w-8 h-8" />,
-            title: 'Restaurant POS',
-            subtitle: 'Point of Sale system with table management and billing',
-            description: 'Complete restaurant management with table reservations, order tracking, and billing.',
-            features: ['Table Management', 'Order Tracking', 'Billing System', 'Inventory Integration'],
-            popular: true,
-            color: 'rose'
-        },
-        {
-            id: 8,
-            category: 'Restaurant',
-            icon: <MonitorSmartphone className="w-8 h-8" />,
-            title: 'Online Ordering',
-            subtitle: 'Food delivery and online ordering system for restaurants',
-            description: 'Accept online orders with real-time delivery tracking and customer notifications.',
-            features: ['Online Menu', 'Delivery Tracking', 'Customer App', 'Real-time Updates'],
-            popular: false,
-            color: 'blue'
-        },
-        {
-            id: 9,
-            category: 'Restaurant',
-            icon: <LayoutGrid className="w-8 h-8" />,
-            title: 'Kitchen Display',
-            subtitle: 'Kitchen management system for order processing',
-            description: 'Streamline kitchen operations with digital order display and preparation tracking.',
-            features: ['Order Display', 'Preparation Time', 'Chef Notes', 'Order Priority'],
-            popular: true,
-            color: 'yellow'
-        },
-
-        // School
-        {
-            id: 10,
-            category: 'School',
-            icon: <School className="w-8 h-8" />,
-            title: 'School Management',
-            subtitle: 'Complete school administration and student management system',
-            description: 'Comprehensive school management software for administration, academics, and operations.',
-            features: ['Student Management', 'Academic Planning', 'Fee Management', 'Parent Portal'],
-            popular: true,
-            color: 'sky'
-        },
-        {
-            id: 11,
-            category: 'School',
-            icon: <BookOpen className="w-8 h-8" />,
-            title: 'Learning Management',
-            subtitle: 'Online learning platform with course management',
-            description: 'Digital learning platform with course creation, student tracking, and assessment tools.',
-            features: ['Course Builder', 'Student Progress', 'Assessment Tools', 'Certificate Generation'],
-            popular: false,
-            color: 'violet'
-        },
-        {
-            id: 12,
-            category: 'School',
-            icon: <GraduationCap className="w-8 h-8" />,
-            title: 'Student Portal',
-            subtitle: 'Student information system and academic portal',
-            description: 'Student-centric portal for academic information, grades, and communication.',
-            features: ['Grade Access', 'Course Materials', 'Communication Tools', 'Academic Calendar'],
-            popular: true,
-            color: 'emerald'
-        },
-
-        // Blog
-        {
-            id: 13,
-            category: 'Blog',
-            icon: <PenLine className="w-8 h-8" />,
-            title: 'Blog Platform',
-            subtitle: 'Content management system for bloggers and writers',
-            description: 'Modern blogging platform with advanced content management and SEO tools.',
-            features: ['Content Editor', 'SEO Optimization', 'Social Sharing', 'Analytics'],
-            popular: false,
-            color: 'indigo'
-        },
-        {
-            id: 14,
-            category: 'Blog',
-            icon: <Newspaper className="w-8 h-8" />,
-            title: 'News Portal',
-            subtitle: 'News website with article management and publishing',
-            description: 'Professional news portal with multi-author support and real-time publishing.',
-            features: ['Multi-author', 'Real-time Publishing', 'Comment System', 'Newsletter'],
-            popular: true,
-            color: 'blue'
-        },
-        {
-            id: 15,
-            category: 'Blog',
-            icon: <MessageSquareText className="w-8 h-8" />,
-            title: 'Content Management',
-            subtitle: 'Advanced CMS for media and content publishing',
-            description: 'Enterprise-grade content management system for media companies and publishers.',
-            features: ['Media Library', 'Workflow Management', 'Multi-language', 'Content Scheduling'],
-            popular: true,
-            color: 'gray'
-        },
-
-        // Travel Agency
-        {
-            id: 16,
-            category: 'Travel Agency',
-            icon: <Plane className="w-8 h-8" />,
-            title: 'Flight Booking',
-            subtitle: 'Flight reservation and booking management system',
-            description: 'Comprehensive flight booking system with real-time availability and pricing.',
-            features: ['Real-time Booking', 'Payment Processing', 'Itinerary Management', 'Customer Portal'],
-            popular: true,
-            color: 'sky'
-        },
-        {
-            id: 17,
-            category: 'Travel Agency',
-            icon: <Hotel className="w-8 h-8" />,
-            title: 'Hotel Booking',
-            subtitle: 'Hotel reservation and accommodation booking platform',
-            description: 'Hotel booking platform with room availability, pricing, and reservation management.',
-            features: ['Room Management', 'Booking Engine', 'Payment Gateway', 'Customer Reviews'],
-            popular: false,
-            color: 'orange'
-        },
-        {
-            id: 18,
-            category: 'Travel Agency',
-            icon: <Bus className="w-8 h-8" />,
-            title: 'Tour Package',
-            subtitle: 'Tour package management and booking system',
-            description: 'Create and manage tour packages with itinerary planning and booking capabilities.',
-            features: ['Package Builder', 'Itinerary Planning', 'Booking System', 'Guide Management'],
-            popular: true,
-            color: 'green'
-        },
-
-        // Real Estate
-        {
-            id: 19,
-            category: 'Real Estate',
-            icon: <Home className="w-8 h-8" />,
-            title: 'Property Listing',
-            subtitle: 'Real estate property listing and management system',
-            description: 'Comprehensive property listing platform with advanced search and filtering.',
-            features: ['Property Management', 'Advanced Search', 'Virtual Tours', 'Lead Management'],
-            popular: true,
-            color: 'rose'
-        },
-        {
-            id: 20,
-            category: 'Real Estate',
-            icon: <UserCircle2 className="w-8 h-8" />,
-            title: 'Agent Portal',
-            subtitle: 'Real estate agent management and client portal',
-            description: 'Agent management system with client relationship management and lead tracking.',
-            features: ['Agent Dashboard', 'CRM Integration', 'Lead Tracking', 'Commission Management'],
-            popular: false,
-            color: 'teal'
-        },
-        {
-            id: 21,
-            category: 'Real Estate',
-            icon: <DollarSign className="w-8 h-8" />,
-            title: 'Property Management',
-            subtitle: 'Rental and property management system for landlords',
-            description: 'Property management software for rental properties, maintenance, and tenant management.',
-            features: ['Rent Collection', 'Maintenance Tracking', 'Tenant Portal', 'Financial Reporting'],
-            popular: true,
-            color: 'green'
-        },
-
-        // Others
-        {
-            id: 22,
-            category: 'Others',
-            icon: <Car className="w-8 h-8" />,
-            title: 'Vehicle Management',
-            subtitle: 'Fleet and vehicle management system for transportation',
-            description: 'Fleet management system with vehicle tracking, maintenance, and driver management.',
-            features: ['Vehicle Tracking', 'Maintenance Scheduling', 'Driver Management', 'Fuel Monitoring'],
-            popular: false,
-            color: 'blue'
-        },
-        {
-            id: 23,
-            category: 'Others',
-            icon: <Building2 className="w-8 h-8" />,
-            title: 'Garage System',
-            subtitle: 'Garage and workshop management software',
-            description: 'Automotive workshop management with job tracking, inventory, and customer management.',
-            features: ['Job Management', 'Parts Inventory', 'Customer History', 'Billing System'],
-            popular: true,
-            color: 'indigo'
-        },
-        {
-            id: 24,
-            category: 'Others',
-            icon: <MessageCircle className="w-8 h-8" />,
-            title: 'Live Chat',
-            subtitle: 'Business live chat and customer support software',
-            description: 'Real-time customer support with live chat, ticket management, and analytics.',
-            features: ['Live Chat', 'Ticket System', 'Chat Bot', 'Analytics Dashboard'],
-            popular: true,
-            color: 'purple'
+    // Fetch solutions from API
+    const fetchSolutions = async () => {
+        try {
+            setLoading(true);
+            const response = await axiosInstance.get('/our-solutions');
+            if (response.data.success) {
+                // Transform API data to match our component structure
+                const allSolutions = [];
+                response.data.data.forEach(categoryData => {
+                    categoryData.solutions.forEach(solution => {
+                        allSolutions.push({
+                            id: solution.id,
+                            category: categoryData.category,
+                            icon: solution.icon,
+                            title: solution.title,
+                            subtitle: solution.subtitle,
+                            description: solution.description || solution.subtitle,
+                            features: solution.features || [solution.subtitle],
+                            popular: solution.popular || false,
+                            color: solution.color || getRandomColor(),
+                            link: solution.link || ''
+                        });
+                    });
+                });
+                setSolutions(allSolutions);
+                
+                // Update category counts
+                updateCategoryCounts(allSolutions);
+            } else {
+                setSolutions([]);
+            }
+        } catch (error) {
+            console.error('Error fetching solutions:', error);
+            setSolutions([]);
+        } finally {
+            setLoading(false);
         }
-    ];
+    };
 
-    const filteredSolutions = allSolutions.filter(solution => {
+    // Update category counts based on actual data
+    const updateCategoryCounts = (solutionsData) => {
+        const counts = {
+            'All': solutionsData.length,
+            'ERP Solutions': 0,
+            'E-commerce': 0,
+            'Restaurant': 0,
+            'School': 0,
+            'Blog': 0,
+            'Travel Agency': 0,
+            'Real Estate': 0,
+            'Others': 0
+        };
+
+        solutionsData.forEach(solution => {
+            if (counts.hasOwnProperty(solution.category)) {
+                counts[solution.category]++;
+            }
+        });
+
+        // Update categories object
+        Object.keys(categories).forEach(category => {
+            categories[category].count = counts[category];
+        });
+    };
+
+    // Get random color for solutions without specified color
+    const getRandomColor = () => {
+        const colors = Object.keys(colorMap);
+        return colors[Math.floor(Math.random() * colors.length)];
+    };
+
+    const getColorClasses = (color) => {
+        return colorMap[color] || 'from-gray-500 to-gray-600';
+    };
+
+    // Handle solution click with link navigation
+    const handleSolutionClick = (solution) => {
+        if (!solution.link) {
+            navigate("/contact");
+            return;
+        }
+        
+        try {
+            const isExternalLink = solution.link.startsWith('http://') || solution.link.startsWith('https://');
+            
+            if (isExternalLink) {
+                // External link - open in new tab
+                window.open(solution.link, '_blank', 'noopener,noreferrer');
+            } else {
+                // Internal link - navigate using react-router
+                const internalPath = solution.link.replace(/^\/+|\/+$/g, '');
+                navigate(`/${internalPath}`);
+            }
+        } catch (error) {
+            console.error('Error handling link click:', error);
+            // Fallback to contact page
+            navigate("/contact");
+        }
+    };
+
+    useEffect(() => {
+        fetchSolutions();
+    }, []);
+
+    const filteredSolutions = solutions.filter(solution => {
         const matchesSearch = solution.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             solution.subtitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             solution.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -317,24 +167,74 @@ const ExploreAllSolutions = () => {
         return matchesSearch && matchesCategory;
     });
 
-    const getColorClasses = (color) => {
-        const colorMap = {
-            blue: 'from-blue-500 to-blue-600',
-            green: 'from-green-500 to-green-600',
-            purple: 'from-purple-500 to-purple-600',
-            pink: 'from-pink-500 to-pink-600',
-            indigo: 'from-indigo-500 to-indigo-600',
-            orange: 'from-orange-500 to-orange-600',
-            rose: 'from-rose-500 to-rose-600',
-            yellow: 'from-yellow-500 to-yellow-600',
-            sky: 'from-sky-500 to-sky-600',
-            violet: 'from-violet-500 to-violet-600',
-            emerald: 'from-emerald-500 to-emerald-600',
-            teal: 'from-teal-500 to-teal-600',
-            gray: 'from-gray-500 to-gray-600'
-        };
-        return colorMap[color] || 'from-gray-500 to-gray-600';
-    };
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-white">
+                {/* Header Section */}
+                <div className="relative bg-gradient-to-br from-gray-900 to-black text-white overflow-hidden">
+                    <div className="absolute inset-0 bg-black/50"></div>
+                    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+                        <div className="text-center max-w-4xl mx-auto">
+                            <div className="animate-pulse">
+                                <div className="h-12 bg-gray-700 rounded w-96 mx-auto mb-6"></div>
+                                <div className="h-6 bg-gray-700 rounded w-2/3 mx-auto mb-8"></div>
+                                <div className="h-14 bg-gray-700 rounded w-full max-w-2xl mx-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Main Content */}
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="flex flex-col lg:flex-row gap-8">
+                        {/* Sidebar - Categories */}
+                        <div className="lg:w-80 flex-shrink-0">
+                            <div className="sticky top-8">
+                                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                                    <div className="animate-pulse">
+                                        <div className="h-6 bg-gray-300 rounded w-32 mb-6"></div>
+                                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+                                            <div key={item} className="h-12 bg-gray-200 rounded mb-2"></div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Solutions Grid */}
+                        <div className="flex-1">
+                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                                {[1, 2, 3, 4, 5, 6].map((item) => (
+                                    <div key={item} className="bg-white rounded-2xl border border-gray-200 overflow-hidden animate-pulse">
+                                        <div className="h-2 bg-gray-300"></div>
+                                        <div className="p-6">
+                                            <div className="flex items-start gap-4 mb-4">
+                                                <div className="w-12 h-12 bg-gray-300 rounded-xl"></div>
+                                                <div className="flex-1">
+                                                    <div className="h-6 bg-gray-300 rounded w-3/4 mb-2"></div>
+                                                    <div className="h-4 bg-gray-300 rounded w-full mb-2"></div>
+                                                    <div className="h-6 bg-gray-300 rounded w-20"></div>
+                                                </div>
+                                            </div>
+                                            <div className="h-4 bg-gray-300 rounded w-full mb-2"></div>
+                                            <div className="h-4 bg-gray-300 rounded w-5/6 mb-2"></div>
+                                            <div className="h-4 bg-gray-300 rounded w-4/6 mb-6"></div>
+                                            <div className="space-y-2 mb-6">
+                                                {[1, 2, 3].map((feature) => (
+                                                    <div key={feature} className="h-4 bg-gray-300 rounded w-full"></div>
+                                                ))}
+                                            </div>
+                                            <div className="h-10 bg-gray-300 rounded"></div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-white">
@@ -413,73 +313,78 @@ const ExploreAllSolutions = () => {
                     <div className="flex-1">
                         {filteredSolutions.length > 0 ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                                {filteredSolutions.map((solution) => (
-                                    <div
-                                        key={solution.id}
-                                        onMouseEnter={() => setHoveredCard(solution.id)}
-                                        onMouseLeave={() => setHoveredCard(null)}
-                                        className="group bg-white rounded-2xl border border-gray-200 hover:border-gray-300 overflow-hidden transition-all duration-300 hover:shadow-xl cursor-pointer"
-                                    >
-                                        {/* Card Header */}
-                                        <div className={`relative h-2 bg-gradient-to-r ${getColorClasses(solution.color)}`}>
-                                            {solution.popular && (
-                                                <div className="absolute top-3 right-3 bg-yellow-500 text-white text-xs font-medium px-2 py-1 rounded-full flex items-center gap-1">
-                                                    <Star className="w-3 h-3 fill-current" />
-                                                    Popular
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        <div className="p-6">
-                                            {/* Icon and Title */}
-                                            <div className="flex items-start gap-4 mb-4">
-                                                <div className={`p-3 rounded-xl bg-gradient-to-br ${getColorClasses(solution.color)} text-white shadow-lg`}>
-                                                    {solution.icon}
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-gray-700 transition-colors">
-                                                        {solution.title}
-                                                    </h3>
-                                                    <p className="text-sm text-gray-600 mb-2 line-clamp-2">
-                                                        {solution.subtitle}
-                                                    </p>
-                                                    <span className="inline-block px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
-                                                        {solution.category}
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            {/* Description */}
-                                            <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
-                                                {solution.description}
-                                            </p>
-
-                                            {/* Features */}
-                                            <div className="space-y-2 mb-6">
-                                                {solution.features.slice(0, 3).map((feature, index) => (
-                                                    <div key={index} className="flex items-center gap-2 text-sm text-gray-600">
-                                                        <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
-                                                        <span>{feature}</span>
-                                                    </div>
-                                                ))}
-                                                {solution.features.length > 3 && (
-                                                    <div className="text-xs text-gray-500">
-                                                        +{solution.features.length - 3} more features
+                                {filteredSolutions.map((solution) => {
+                                    const IconComponent = iconComponents[solution.icon] || BarChart3;
+                                    
+                                    return (
+                                        <div
+                                            key={solution.id}
+                                            onMouseEnter={() => setHoveredCard(solution.id)}
+                                            onMouseLeave={() => setHoveredCard(null)}
+                                            onClick={() => handleSolutionClick(solution)}
+                                            className="group bg-white rounded-2xl border border-gray-200 hover:border-gray-300 overflow-hidden transition-all duration-300 hover:shadow-xl cursor-pointer"
+                                        >
+                                            {/* Card Header */}
+                                            <div className={`relative h-2 bg-gradient-to-r ${getColorClasses(solution.color)}`}>
+                                                {solution.popular && (
+                                                    <div className="absolute top-3 right-3 bg-yellow-500 text-white text-xs font-medium px-2 py-1 rounded-full flex items-center gap-1">
+                                                        <Star className="w-3 h-3 fill-current" />
+                                                        Popular
                                                     </div>
                                                 )}
                                             </div>
 
-                                            {/* CTA Button */}
-                                            <div onClick={() => navigate("/contact") } className="flex items-center justify-between pt-4 border-t border-gray-100">
-                                                <button className="flex items-center gap-2 text-sm font-medium text-gray-900 hover:text-gray-700 transition-colors group-hover:translate-x-1 transition-transform">
-                                                    Learn More
-                                                    <ArrowRight className="w-4 h-4" />
-                                                </button>
-                                                <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${getColorClasses(solution.color)}`}></div>
+                                            <div className="p-6">
+                                                {/* Icon and Title */}
+                                                <div className="flex items-start gap-4 mb-4">
+                                                    <div className={`p-3 rounded-xl bg-gradient-to-br ${getColorClasses(solution.color)} text-white shadow-lg`}>
+                                                        <IconComponent className="w-6 h-6" />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-gray-700 transition-colors">
+                                                            {solution.title}
+                                                        </h3>
+                                                        <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                                                            {solution.subtitle}
+                                                        </p>
+                                                        <span className="inline-block px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+                                                            {solution.category}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                {/* Description */}
+                                                <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                                                    {solution.description}
+                                                </p>
+
+                                                {/* Features */}
+                                                <div className="space-y-2 mb-6">
+                                                    {solution.features.slice(0, 3).map((feature, index) => (
+                                                        <div key={index} className="flex items-center gap-2 text-sm text-gray-600">
+                                                            <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                                                            <span>{feature}</span>
+                                                        </div>
+                                                    ))}
+                                                    {solution.features.length > 3 && (
+                                                        <div className="text-xs text-gray-500">
+                                                            +{solution.features.length - 3} more features
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                {/* CTA Button */}
+                                                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                                    <button className="flex items-center gap-2 text-sm font-medium text-gray-900 hover:text-gray-700 transition-colors group-hover:translate-x-1 transition-transform">
+                                                        {solution.link ? 'Learn More' : 'Get Started'}
+                                                        <ArrowRight className="w-4 h-4" />
+                                                    </button>
+                                                    <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${getColorClasses(solution.color)}`}></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         ) : (
                             <div className="text-center py-16">

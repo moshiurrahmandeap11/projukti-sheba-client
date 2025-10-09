@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
-import axios from "axios";
 import jsPDF from "jspdf";
 import * as XLSX from "xlsx";
-
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 const UsersSection = ({ totalUsers }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -36,7 +35,7 @@ const UsersSection = ({ totalUsers }) => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`https://projukti-sheba-server.onrender.com/users/${userId}`);
+        await axiosInstance.delete(`/users/${userId}`);
         Swal.fire({
           title: "Deleted!",
           text: "The user has been deleted successfully.",

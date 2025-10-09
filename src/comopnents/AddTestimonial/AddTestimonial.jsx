@@ -16,6 +16,7 @@ import {
   Save,
 } from "lucide-react";
 import { Toaster, toast } from "react-hot-toast";
+import axiosInstance from "../../hooks/AxiosInstance/AxiosInstance";
 
 const AddTestimonial = () => {
   const [formData, setFormData] = useState({
@@ -56,7 +57,7 @@ const AddTestimonial = () => {
       const formDataImg = new FormData();
       formDataImg.append("image", file);
 
-      const apiKey = "874c66b5291cad68f221845819150477"; // Replace with your ImgBB API key
+      const apiKey = "874c66b5291cad68f221845819150477"; 
       const { data } = await axios.post(
         `https://api.imgbb.com/1/upload?key=${apiKey}`,
         formDataImg,
@@ -84,12 +85,7 @@ const AddTestimonial = () => {
     setIsSaving(true);
 
     try {
-      const response = await axios.post(
-        "https://projukti-sheba-server.onrender.com/testimonials",
-        formData,
-        { headers: { "Content-Type": "application/json" } }
-      );
-
+      const response = await axiosInstance.post("/testimonials", formData);
       if (response.data.success) {
         toast.success("Testimonial added successfully!");
         setFormData({

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Eye, EyeOff, Lock, Mail, User, ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../../../hooks/AuthContexts/AuthContexts";
-import axios from "axios";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -95,10 +95,7 @@ const SignUp = () => {
       };
 
       // 3️⃣ Send to backend
-      const response = await axios.post(
-        "https://projukti-sheba-server.onrender.com/users",
-        userData
-      );
+      const response = await axiosInstance.post("/users", userData);
       console.log("Backend response");
       setSuccess("Account created successfully!");
       navigate("/");

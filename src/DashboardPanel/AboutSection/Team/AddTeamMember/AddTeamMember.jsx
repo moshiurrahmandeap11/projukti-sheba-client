@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
+import axiosInstance from '../../../../hooks/AxiosInstance/AxiosInstance';
 
 const AddTeamMember = () => {
   const navigate = useNavigate();
@@ -130,7 +131,7 @@ const handleFileUpload = async (e) => {
     }
 
     try {
-      const response = await axios.post('https://projukti-sheba-server.onrender.com/our-team', formData);
+      const response = await axiosInstance.post("/our-team", formData);
       toast.success(response.data.message);
       // Reset form
       setFormData({

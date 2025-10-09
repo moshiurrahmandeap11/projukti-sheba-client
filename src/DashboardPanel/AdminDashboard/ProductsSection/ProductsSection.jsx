@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import * as XLSX from "xlsx";
@@ -22,6 +21,7 @@ import {
   AlertCircle,
   CheckCircle,
 } from "lucide-react";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 const ProductsTable = () => {
   const [products, setProducts] = useState([]);
@@ -37,7 +37,7 @@ const ProductsTable = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://projukti-sheba-server.onrender.com/products");
+      const response = await axiosInstance.get("/products");
       setProducts(response.data.data || []);
       setError(null);
     } catch (err) {
@@ -63,7 +63,7 @@ const ProductsTable = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`https://projukti-sheba-server.onrender.com/products/${id}`);
+        await axiosInstance.delete(`/products/${id}`);
         setProducts((prev) => prev.filter((p) => p._id !== id));
         Swal.fire("Deleted!", "Your product has been deleted.", "success");
       } catch (err) {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { PlusCircle, Edit, Eye, Trash2, MoreVertical } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import axiosInstance from '../../../hooks/AxiosInstance/AxiosInstance';
 
 const ServicesSection = () => {
   const [services, setServices] = useState([]);
@@ -21,7 +21,7 @@ const ServicesSection = () => {
   const fetchServices = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('https://projukti-sheba-server.onrender.com/services');
+      const response = await axiosInstance.get('/services');
       setServices(response.data.data);
     } catch (error) {
       console.error('Error fetching services:', error);
@@ -56,7 +56,7 @@ const ServicesSection = () => {
 
     try {
       setDeleting(service._id);
-      await axios.delete(`https://projukti-sheba-server.onrender.com/services/${service._id}`);
+      await axiosInstance.delete(`/services/${service._id}`);
       
       setServices(prevServices => prevServices.filter(s => s._id !== service._id));
       

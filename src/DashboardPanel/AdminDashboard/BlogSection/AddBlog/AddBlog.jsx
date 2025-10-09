@@ -7,6 +7,7 @@ import { useAuth } from "../../../../hooks/AuthContexts/AuthContexts";
 import { Editor } from "@tinymce/tinymce-react";
 import Loader from "../../../../comopnents/sharedItems/Loader/Loader";
 import { ArrowLeft, Save, Camera, Tag, FileText } from "lucide-react";
+import axiosInstance from "../../../../hooks/AxiosInstance/AxiosInstance";
 
 const AddBlog = () => {
   const { user, loading } = useAuth();
@@ -36,7 +37,7 @@ const AddBlog = () => {
     if (!user) return;
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`https://projukti-sheba-server.onrender.com/users/${user?.uid}`);
+        const res = await axiosInstance.get(`/users/${user?.uid}`);
         setProfile(res?.data);
         setFormData((prev) => ({
           ...prev,
@@ -55,7 +56,7 @@ const AddBlog = () => {
     const fetchCategories = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get("https://projukti-sheba-server.onrender.com/categories");
+        const response = await axiosInstance.get("/categories");
         if (response.data.success) {
           setCategories(response.data.data);
         } else {
@@ -194,7 +195,7 @@ const AddBlog = () => {
         content: formData.expert, // Send expert as content for backend compatibility
       };
 
-      const response = await axios.post("https://projukti-sheba-server.onrender.com/blogs", payload, {
+      const response = await axiosInstance.post("/blogs", payload, {
         headers: { "Content-Type": "application/json" },
       });
 

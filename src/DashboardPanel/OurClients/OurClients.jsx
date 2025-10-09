@@ -1,6 +1,6 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import axiosInstance from '../../hooks/AxiosInstance/AxiosInstance';
 
 const OurClients = () => {
     const [clients, setClients] = useState([]);
@@ -14,7 +14,7 @@ const OurClients = () => {
 
     const fetchClients = async () => {
         try {
-            const res = await axios.get('https://projukti-sheba-server.onrender.com/ourclients');
+            const res = await axiosInstance.get('/ourclients');
             setClients(res.data.data || []);
         } catch (error) {
             console.error('Error fetching clients:', error);
@@ -58,7 +58,7 @@ const OurClients = () => {
             const formData = new FormData();
             formData.append('logo', selectedFile);
 
-            await axios.post('https://projukti-sheba-server.onrender.com/ourclients/upload', formData, {
+            await axiosInstance.post('/ourclients/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -101,7 +101,7 @@ const OurClients = () => {
 
         if (result.isConfirmed) {
             try {
-                await axios.delete(`https://projukti-sheba-server.onrender.com/ourclients/${id}`);
+                await axiosInstance.delete(`/ourclients/${id}`);
                 fetchClients();
                 
                 Swal.fire({
@@ -121,6 +121,8 @@ const OurClients = () => {
             }
         }
     };
+
+    const baseImageUrl = axiosInstance.defaults.baseURL;
 
     return (
         <div className="min-h-screen bg-gray-50 p-4 md:p-6">
@@ -145,7 +147,7 @@ const OurClients = () => {
                             <div key={client._id} className="bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition duration-200">
                                 <div className="aspect-square mb-3 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
                                     <img 
-                                        src={`https://projukti-sheba-server.onrender.com${client.logoUrl}`} 
+                                        src={`${baseImageUrl}${client.logoUrl}`} 
                                         alt={client.originalName}
                                         className="w-full h-full object-contain p-2"
                                         onError={(e) => {

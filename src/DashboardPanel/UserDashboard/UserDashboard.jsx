@@ -38,8 +38,8 @@ import {
 } from "lucide-react";
 import { useAuth } from "../../hooks/AuthContexts/AuthContexts";
 import Loader from "../../comopnents/sharedItems/Loader/Loader";
-import axios from "axios";
 import toast from "react-hot-toast";
+import axiosInstance from "../../hooks/AxiosInstance/AxiosInstance";
 
 const UserDashboard = () => {
   const [activeService, setActiveService] = useState("overview");
@@ -54,9 +54,7 @@ const UserDashboard = () => {
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `https://projukti-sheba-server.onrender.com/users/${user.uid}`
-        );
+        const response = await axiosInstance.get(`/users/${user.uid}`);
         setProfile(response.data);
       } catch (error) {
         console.error("Error fetching profile:", error);

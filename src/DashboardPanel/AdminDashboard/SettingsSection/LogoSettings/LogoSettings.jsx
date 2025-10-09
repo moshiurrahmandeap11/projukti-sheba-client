@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Upload, Trash2, Plus, Image, X } from 'lucide-react';
+import axiosInstance from '../../../../hooks/AxiosInstance/AxiosInstance';
 
 const LogoSettings = () => {
     const [logos, setLogos] = useState([]);
@@ -13,7 +14,7 @@ const LogoSettings = () => {
 
     const fetchLogos = async () => {
         try {
-            const response = await fetch('https://projukti-sheba-server.onrender.com/logos');
+            const response = await axiosInstance.get('/logos');
             const data = await response.json();
             setLogos(data.data);
         } catch (error) {

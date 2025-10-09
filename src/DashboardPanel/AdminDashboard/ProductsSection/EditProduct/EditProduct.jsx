@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { ArrowLeft, Package, DollarSign, Tag, FileText, List, Calendar, Loader2 } from "lucide-react";
 import Swal from "sweetalert2";
+import axiosInstance from "../../../../hooks/AxiosInstance/AxiosInstance";
 
 const EditProduct = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("https://projukti-sheba-server.onrender.com/categories");
+        const response = await axiosInstance.get("/categories");
         setCategories(response.data.data || []);
       } catch {
         Swal.fire("Error!", "Failed to load categories.", "error");
@@ -43,7 +43,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://projukti-sheba-server.onrender.com/products/${id}`);
+        const response = await axiosInstance.get(`/products/${id}`);
         if (response.data.success) {
           const product = response.data.data;
           setFormData({
@@ -114,8 +114,8 @@ const EditProduct = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.put(
-        `https://projukti-sheba-server.onrender.com/products/${id}`,
+      const response = await axiosInstance.put(
+        `/products/${id}`,
         {
           name: formData.title,
           description: formData.shortDescription,

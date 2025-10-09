@@ -1,89 +1,55 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Play, X } from "lucide-react";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
-const dummyTestimonials = [
-  {
-    name: "Jamie R.",
-    position: "CEO of Geneva",
-    company: "Geneva",
-    location: "Switzerland",
-    date: "2025-09-01",
-    rating: 5,
-    category: "Branding",
-    project: "Website Redesign",
-    photoURL: "/mnt/data/2b6a258d-99a2-4185-9127-1465742e4cdd.png",
-    testimonial:
-      "Their creative approach truly impressed me. I've collaborated with other branding teams before, but none matched their clarity and precision. From the first meeting to final delivery, everything was smooth, thoughtful, and impactful. Still unsure? Trust this team—Jamie does every time.",
-    videoUrl: "https://youtu.be/K4DyBUG242c?si=KyqmIBCMv3vS7bSS", // Placeholder for demo
-  },
-  {
-    name: "Sophia L.",
-    position: "Marketing Head",
-    company: "TechNova",
-    location: "Germany",
-    date: "2025-08-15",
-    rating: 5,
-    category: "Marketing",
-    project: "Campaign Launch",
-    photoURL: "/mnt/data/2b6a258d-99a2-4185-9127-1465742e4cdd.png",
-    testimonial:
-      "The team delivered a fantastic marketing strategy. Our campaign performance exceeded expectations.",
-    videoUrl: "https://youtu.be/5IPHB8rMmn0?si=SQEQA3jEqS7ALRqt",
-  },
-  {
-    name: "Liam K.",
-    position: "Product Manager",
-    company: "InnoTech",
-    location: "USA",
-    date: "2025-07-20",
-    rating: 4,
-    category: "Product Development",
-    project: "Mobile App",
-    photoURL: "/mnt/data/2b6a258d-99a2-4185-9127-1465742e4cdd.png",
-    testimonial:
-      "App development was smooth and timely. The product launched successfully and users loved it.",
-    videoUrl: "https://youtu.be/DzYp5uqixz0?si=XnGFEFLZ8DDh-mtw",
-  },
-  {
-    name: "Emma W.",
-    position: "Founder",
-    company: "GreenLeaf",
-    location: "UK",
-    date: "2025-06-10",
-    rating: 5,
-    category: "Consulting",
-    project: "Business Strategy",
-    photoURL: "/mnt/data/2b6a258d-99a2-4185-9127-1465742e4cdd.png",
-    testimonial:
-      "Insightful consultation that really helped shape our growth strategy.",
-    videoUrl: "https://youtu.be/ETbsXdqgcTM?si=OONMcqIYnyaqInJD",
-  },
-  {
-    name: "Noah P.",
-    position: "CTO",
-    company: "CloudHub",
-    location: "Canada",
-    date: "2025-05-05",
-    rating: 4,
-    category: "Tech Solutions",
-    project: "Cloud Migration",
-    photoURL: "/mnt/data/2b6a258d-99a2-4185-9127-1465742e4cdd.png",
-    testimonial:
-      "Migration to the cloud was efficient and problem-free. Excellent technical support.",
-    videoUrl: "https://youtu.be/p5cWMxzzMdA?si=mGGx9SBty7Ds5Dga",
-  },
-];
 
 const TestimonialsSlider = () => {
   const [current, setCurrent] = useState(0);
   const [visibleCards, setVisibleCards] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTestimonial, setSelectedTestimonial] = useState(null);
-  const TOTAL_CARDS = dummyTestimonials.length;
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch testimonials from API
+  const fetchTestimonials = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axiosInstance.get('/testimonials/type/video');
+      
+      if (response.data.success) {
+        setTestimonials(response.data.data);
+      } else {
+        setError('Failed to load testimonials');
+        setTestimonials([]);
+      }
+    } catch (error) {
+      console.error('Error fetching testimonials:', error);
+      setError('Error loading testimonials. Please try again.');
+      setTestimonials([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
+
+  const TOTAL_CARDS = testimonials.length;
   const MAX_INDEX = Math.max(0, TOTAL_CARDS - visibleCards);
 
-  const next = () => setCurrent((prev) => (prev === MAX_INDEX ? 0 : prev + 1));
-  const prev = () => setCurrent((prev) => (prev === 0 ? MAX_INDEX : prev - 1));
+  const next = () => {
+    if (TOTAL_CARDS === 0) return;
+    setCurrent((prev) => (prev === MAX_INDEX ? 0 : prev + 1));
+  };
+
+  const prev = () => {
+    if (TOTAL_CARDS === 0) return;
+    setCurrent((prev) => (prev === 0 ? MAX_INDEX : prev - 1));
+  };
 
   useEffect(() => {
     const updateVisibleCards = () => {
@@ -103,19 +69,29 @@ const TestimonialsSlider = () => {
   }, []);
 
   useEffect(() => {
+    if (testimonials.length === 0) return;
+    
     const interval = setInterval(() => {
       next();
     }, 5000);
     return () => clearInterval(interval);
-  }, [visibleCards]); // Re-run on visibleCards change to adjust MAX_INDEX
+  }, [visibleCards, testimonials.length]);
 
-  const formatDate = (dateString) =>
-    new Date(dateString).toLocaleDateString("en-US", {
-      month: "long",
-      year: "numeric",
-    });
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    try {
+      return new Date(dateString).toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return '';
+    }
+  };
 
   const truncateText = (text, maxWords = 20) => {
+    if (!text) return '';
     const words = text.split(" ");
     if (words.length <= maxWords) {
       return text;
@@ -124,6 +100,7 @@ const TestimonialsSlider = () => {
   };
 
   const getYouTubeId = (url) => {
+    if (!url) return null;
     const regExp =
       /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
@@ -140,9 +117,14 @@ const TestimonialsSlider = () => {
     setSelectedTestimonial(null);
   };
 
+  // Default fallback image
+  const getFallbackImage = () => {
+    return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjgwIiByPSIzMCIgZmlsbD0iIzlDQThBRiIvPjxwYXRoIGQ9Ik0xMzAgMTQwQzcwIDE0MCA3MCAxNDAgNzAgMTQwVjE2MEgxMzBWMTQwWiIgZmlsbD0iIzlDQThBRiIvPgo8L3N2Zz4K';
+  };
+
   const TestimonialCard = ({ testimonial }) => {
     const truncatedText = truncateText(testimonial.testimonial);
-    const isTruncated = testimonial.testimonial.split(" ").length > 20;
+    const isTruncated = testimonial.testimonial?.split(" ").length > 20;
     const videoId = testimonial.videoUrl
       ? getYouTubeId(testimonial.videoUrl)
       : null;
@@ -163,14 +145,17 @@ const TestimonialsSlider = () => {
               alt={testimonial.name}
               className="absolute inset-0 w-full h-full object-cover"
               onError={(e) => {
-                e.target.src = testimonial.photoURL; // Fallback to photo if thumbnail fails
+                e.target.src = testimonial.photoURL || getFallbackImage();
               }}
             />
           ) : (
             <img
-              src={testimonial.photoURL}
+              src={testimonial.photoURL || getFallbackImage()}
               alt={testimonial.name}
               className="absolute inset-0 w-full h-full object-cover"
+              onError={(e) => {
+                e.target.src = getFallbackImage();
+              }}
             />
           )}
           {videoId && (
@@ -203,14 +188,14 @@ const TestimonialsSlider = () => {
         {/* Bottom: Details */}
         <div className="px-4 sm:px-6 pb-4 sm:pb-6 pt-2 border-t border-gray-100 flex-1 flex flex-col sm:flex-row sm:justify-between bg-gradient-to-t from-white to-transparent">
           <h3 className="font-semibold text-gray-900 text-sm sm:text-base leading-tight">
-            {testimonial.name}
+            {testimonial.name || 'Client Name'}
           </h3>
           <div className="mt-2 sm:mt-0">
             <p className="text-xs sm:text-sm text-gray-500 mt-1 leading-tight">
-              {testimonial.position}, {testimonial.company}
+              {testimonial.position || 'Position'}, {testimonial.company || 'Company'}
             </p>
             <p className="text-xs text-gray-400 mt-1 leading-tight">
-              {formatDate(testimonial.date)} • {testimonial.location}
+              {formatDate(testimonial.date)} • {testimonial.location || 'Location'}
             </p>
           </div>
         </div>
@@ -241,19 +226,21 @@ const TestimonialsSlider = () => {
                 <iframe
                   width="100%"
                   height="250"
-                  sm:height="360"
                   src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
                   title="YouTube video player"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
-                  className="rounded-xl w-full"
+                  className="rounded-xl w-full h-48 sm:h-64"
                 ></iframe>
               ) : (
                 <img
-                  src={testimonial.photoURL}
+                  src={testimonial.photoURL || getFallbackImage()}
                   alt={testimonial.name}
                   className="w-full h-48 sm:h-64 object-cover rounded-xl"
+                  onError={(e) => {
+                    e.target.src = getFallbackImage();
+                  }}
                 />
               )}
             </div>
@@ -267,14 +254,14 @@ const TestimonialsSlider = () => {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-4 border-t border-gray-200">
               <div>
                 <h3 className="font-bold text-lg sm:text-xl text-gray-900">
-                  {testimonial.name}
+                  {testimonial.name || 'Client Name'}
                 </h3>
                 <p className="text-gray-600 text-sm">
-                  {testimonial.position}, {testimonial.company}
+                  {testimonial.position || 'Position'}, {testimonial.company || 'Company'}
                 </p>
               </div>
               <p className="text-sm text-gray-500 mt-2 sm:mt-0">
-                {formatDate(testimonial.date)} • {testimonial.location}
+                {formatDate(testimonial.date)} • {testimonial.location || 'Location'}
               </p>
             </div>
           </div>
@@ -282,6 +269,76 @@ const TestimonialsSlider = () => {
       </div>
     );
   };
+
+  // Loading state
+  if (loading) {
+    return (
+      <section className="py-8 sm:py-16 bg-gray-50 px-2 sm:px-4 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-5xl font-bold text-black mb-6 tracking-wide">
+              What Our Clients Say
+            </h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+              Hear from leaders who've transformed their businesses with us.
+            </p>
+          </div>
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <section className="py-8 sm:py-16 bg-gray-50 px-2 sm:px-4 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-5xl font-bold text-black mb-6 tracking-wide">
+              What Our Clients Say
+            </h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+              Hear from leaders who've transformed their businesses with us.
+            </p>
+          </div>
+          <div className="text-center py-12">
+            <p className="text-red-600 text-lg mb-4">{error}</p>
+            <button
+              onClick={fetchTestimonials}
+              className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Empty state
+  if (testimonials.length === 0) {
+    return (
+      <section className="py-8 sm:py-16 bg-gray-50 px-2 sm:px-4 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-5xl font-bold text-black mb-6 tracking-wide">
+              What Our Clients Say
+            </h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+              Hear from leaders who've transformed their businesses with us.
+            </p>
+          </div>
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No video testimonials available yet.</p>
+            <p className="text-gray-400 text-sm mt-2">Check back later for client testimonials.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-8 sm:py-16 bg-gray-50 px-2 sm:px-4 lg:px-8">
@@ -304,9 +361,9 @@ const TestimonialsSlider = () => {
               transform: `translateX(-${(current * 100) / visibleCards}%)`,
             }}
           >
-            {dummyTestimonials.map((testimonial, index) => (
+            {testimonials.map((testimonial, index) => (
               <div
-                key={index}
+                key={testimonial._id || index}
                 className="flex-shrink-0 px-2 sm:px-4"
                 style={{ width: `${100 / visibleCards}%` }}
               >
@@ -316,34 +373,40 @@ const TestimonialsSlider = () => {
           </div>
         </div>
 
-        {/* Navigation Buttons */}
-        <button
-          onClick={prev}
-          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 border border-gray-200"
-        >
-          <ChevronLeft className="w-3 sm:w-4 h-3 sm:h-4 text-gray-600" />
-        </button>
-        <button
-          onClick={next}
-          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 border border-gray-200"
-        >
-          <ChevronRight className="w-3 sm:w-4 h-3 sm:h-4 text-gray-600" />
-        </button>
-      </div>
+        {/* Navigation Buttons - Only show if there are testimonials */}
+        {testimonials.length > visibleCards && (
+          <>
+            <button
+              onClick={prev}
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 border border-gray-200"
+            >
+              <ChevronLeft className="w-3 sm:w-4 h-3 sm:h-4 text-gray-600" />
+            </button>
+            <button
+              onClick={next}
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10 border border-gray-200"
+            >
+              <ChevronRight className="w-3 sm:w-4 h-3 sm:h-4 text-gray-600" />
+            </button>
+          </>
+        )}
 
-      {/* Dots */}
-      <div className="flex justify-center space-x-2 mt-6 sm:mt-8">
-        {Array.from({ length: MAX_INDEX + 1 }).map((_, i) => (
-          <button
-            key={i}
-            className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${
-              i === current
-                ? "bg-red-600 scale-110"
-                : "bg-gray-300 hover:bg-gray-400"
-            }`}
-            onClick={() => setCurrent(i)}
-          />
-        ))}
+        {/* Dots - Only show if there are multiple pages */}
+        {MAX_INDEX > 0 && (
+          <div className="flex justify-center space-x-2 mt-6 sm:mt-8">
+            {Array.from({ length: MAX_INDEX + 1 }).map((_, i) => (
+              <button
+                key={i}
+                className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${
+                  i === current
+                    ? "bg-red-600 scale-110"
+                    : "bg-gray-300 hover:bg-gray-400"
+                }`}
+                onClick={() => setCurrent(i)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Modal */}

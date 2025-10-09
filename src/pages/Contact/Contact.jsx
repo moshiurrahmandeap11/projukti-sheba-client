@@ -8,8 +8,8 @@ import {
   MessageSquare,
   CheckCircle,
 } from "lucide-react";
-import axios from "axios";
 import FancyButton from "../../comopnents/sharedItems/FancyButtons/FancyButton";
+import axiosInstance from "../../hooks/AxiosInstance/AxiosInstance";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -47,10 +47,7 @@ const Contact = () => {
     setIsSaving(true);
 
     try {
-      await axios.post(
-        "https://projukti-sheba-server.onrender.com/contact-us",
-        data
-      );
+      await axiosInstance.post("/contact-us", data);
       console.log("Draft saved successfully");
     } catch (error) {
       console.error("Error saving draft:", error);
@@ -88,8 +85,7 @@ const Contact = () => {
       if (hasDataRef.current && formDataRef.current) {
         try {
           navigator.sendBeacon(
-            "https://projukti-sheba-server.onrender.com/contact-us",
-            JSON.stringify(formDataRef.current)
+            axiosInstance.post("/contact-us", formDataRef.current)
           );
         } catch (error) {
           console.error("Error saving draft on page unload:", error);
@@ -124,8 +120,8 @@ const Contact = () => {
     }
 
     try {
-      await axios.post(
-        "https://projukti-sheba-server.onrender.com/contact-us-submitted",
+      await axiosInstance.post(
+        "/contact-us-submitted",
         formData
       );
       console.log("Form submitted successfully:", formData);

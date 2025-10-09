@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import {
   MessageSquare,
   Phone,
@@ -22,6 +21,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import axiosInstance from "../../../../hooks/AxiosInstance/AxiosInstance";
 
 const ContactUsDraft = () => {
   const [forms, setForms] = useState([]);
@@ -37,9 +37,7 @@ const ContactUsDraft = () => {
   const fetchForms = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        "https://projukti-sheba-server.onrender.com/contact-us"
-      );
+      const response = await axiosInstance.get("/contact-us");
       setForms(response.data.data || []);
       setError(null);
     } catch (err) {
@@ -55,8 +53,8 @@ const ContactUsDraft = () => {
   const updateFormStatus = async (formId, newStatus) => {
     setUpdatingForm(formId);
     try {
-      const response = await axios.patch(
-        `https://projukti-sheba-server.onrender.com/contact-us/${formId}`,
+      const response = await axiosInstance.patch(
+        `/contact-us/${formId}`,
         { status: newStatus },
         { headers: { "Content-Type": "application/json" } }
       );

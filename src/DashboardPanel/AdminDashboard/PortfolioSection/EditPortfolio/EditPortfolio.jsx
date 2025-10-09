@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import axiosInstance from '../../../../hooks/AxiosInstance/AxiosInstance';
 
 const EditPortfolio = () => {
     const navigate = useNavigate();
@@ -40,7 +40,7 @@ const EditPortfolio = () => {
     const fetchPortfolio = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`https://projukti-sheba-server.onrender.com/portfolio/${id}`);
+            const response = await axiosInstance.get(`/portfolio/${id}`);
             if (response.data.success) {
                 const portfolioData = response.data.data;
                 setPortfolio(portfolioData);
@@ -206,7 +206,7 @@ const EditPortfolio = () => {
             submitData.append('liveUrl', formData.liveUrl.trim());
             submitData.append('githubUrl', formData.githubUrl.trim());
 
-            const response = await axios.put(`https://projukti-sheba-server.onrender.com/portfolio/${id}`, submitData, {
+            const response = await axiosInstance.put(`/portfolio/${id}`, submitData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

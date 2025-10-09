@@ -23,6 +23,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 
 const SupportSection = () => {
   const [tickets, setTickets] = useState([]);
@@ -37,18 +38,27 @@ const SupportSection = () => {
   const fetchTickets = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        "https://projukti-sheba-server.onrender.com/support"
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setTickets(data.data || []);
+      const response = await axiosInstance.get("/support");
+      
+  
+      if (response.data && Array.isArray(response.data.data)) {
+        setTickets(response.data.data);
+      } else if (Array.isArray(response.data)) {
+        setTickets(response.data);
       } else {
-        console.error("Failed to fetch tickets");
+        console.warn("Unexpected response structure:", response.data);
         setTickets([]);
       }
     } catch (error) {
       console.error("Error fetching tickets:", error);
+      // error handling
+      if (error.response) {
+        console.error("Server responded with:", error.response.status);
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+      } else {
+        console.error("Error setting up request:", error.message);
+      }
       setTickets([]);
     } finally {
       setLoading(false);
@@ -57,20 +67,19 @@ const SupportSection = () => {
 
   // Update ticket status
   const updateTicketStatus = async (ticketId, newStatus) => {
+    if (!ticketId) {
+      console.error("No ticket ID provided");
+      return;
+    }
+
     setUpdatingTicket(ticketId);
     try {
-      const response = await fetch(
-        `https://projukti-sheba-server.onrender.com/support/${ticketId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status: newStatus }),
-        }
-      );
+      const response = await axiosInstance.patch(`/support/${ticketId}`, {
+        status: newStatus,
+      });
 
-      if (response.ok) {
+
+      if (response.status >= 200 && response.status < 300) {
         setTickets((prev) =>
           prev.map((ticket) =>
             ticket._id === ticketId ? { ...ticket, status: newStatus } : ticket
@@ -90,63 +99,83 @@ const SupportSection = () => {
 
   // Export to Excel
   const exportToExcel = () => {
-    const exportData = filteredTickets.map((ticket) => ({
-      ID: ticket._id?.slice(-6) || "N/A",
-      Phone: ticket.phone || "N/A",
-      Category: ticket.category || "N/A",
-      Problem: ticket.problem || "N/A",
-      Status: ticket.status || "pending",
-      "Created At": formatDate(ticket.createdAt),
-    }));
+    if (filteredTickets.length === 0) {
+      alert("No data to export");
+      return;
+    }
 
-    const ws = XLSX.utils.json_to_sheet(exportData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Support Tickets");
+    try {
+      const exportData = filteredTickets.map((ticket) => ({
+        ID: ticket._id?.slice(-6) || "N/A",
+        Phone: ticket.phone || "N/A",
+        Category: ticket.category || "N/A",
+        Problem: ticket.problem || "N/A",
+        Status: ticket.status || "pending",
+        "Created At": formatDate(ticket.createdAt),
+      }));
 
-    const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-    const fileName = `support_tickets_${activeTab}_${new Date().toISOString().slice(0, 10)}.xlsx`;
-    saveAs(new Blob([wbout], { type: "application/octet-stream" }), fileName);
+      const ws = XLSX.utils.json_to_sheet(exportData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Support Tickets");
+
+      const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      const fileName = `support_tickets_${activeTab}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+      saveAs(new Blob([wbout], { type: "application/octet-stream" }), fileName);
+    } catch (error) {
+      console.error("Error exporting to Excel:", error);
+      alert("Error exporting to Excel");
+    }
   };
 
   // Export to PDF
   const exportToPDF = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(16);
-    doc.text(
-      `Support Tickets - ${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}`,
-      14,
-      20
-    );
+    if (filteredTickets.length === 0) {
+      alert("No data to export");
+      return;
+    }
 
-    const tableColumn = [
-      "ID",
-      "Phone",
-      "Category",
-      "Problem",
-      "Status",
-      "Created At",
-    ];
+    try {
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text(
+        `Support Tickets - ${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}`,
+        14,
+        20
+      );
 
-    const tableRows = filteredTickets.map((ticket) => [
-      ticket._id?.slice(-6) || "N/A",
-      ticket.phone || "N/A",
-      ticket.category || "N/A",
-      ticket.problem || "N/A",
-      ticket.status || "pending",
-      formatDate(ticket.createdAt),
-    ]);
+      const tableColumn = [
+        "ID",
+        "Phone",
+        "Category",
+        "Problem",
+        "Status",
+        "Created At",
+      ];
 
-    autoTable(doc, {
-      head: [tableColumn],
-      body: tableRows,
-      startY: 30,
-      styles: { fontSize: 8, cellPadding: 2 },
-    });
+      const tableRows = filteredTickets.map((ticket) => [
+        ticket._id?.slice(-6) || "N/A",
+        ticket.phone || "N/A",
+        ticket.category || "N/A",
+        ticket.problem || "N/A",
+        ticket.status || "pending",
+        formatDate(ticket.createdAt),
+      ]);
 
-    const fileName = `support_tickets_${activeTab}_${new Date()
-      .toISOString()
-      .slice(0, 10)}.pdf`;
-    doc.save(fileName);
+      autoTable(doc, {
+        head: [tableColumn],
+        body: tableRows,
+        startY: 30,
+        styles: { fontSize: 8, cellPadding: 2 },
+      });
+
+      const fileName = `support_tickets_${activeTab}_${new Date()
+        .toISOString()
+        .slice(0, 10)}.pdf`;
+      doc.save(fileName);
+    } catch (error) {
+      console.error("Error exporting to PDF:", error);
+      alert("Error exporting to PDF");
+    }
   };
 
   // Filter tickets based on active tab and search
@@ -159,9 +188,9 @@ const SupportSection = () => {
     if (searchTerm) {
       filtered = filtered.filter(
         (ticket) =>
-          ticket.phone?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          ticket.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          ticket.problem?.toLowerCase().includes(searchTerm.toLowerCase())
+          (ticket.phone?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+          (ticket.category?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+          (ticket.problem?.toLowerCase() || "").includes(searchTerm.toLowerCase())
       );
     }
 
@@ -216,13 +245,19 @@ const SupportSection = () => {
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    
+    try {
+      return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "Invalid Date";
+    }
   };
 
   return (
@@ -242,14 +277,16 @@ const SupportSection = () => {
             <div className="flex items-center space-x-4">
               <button
                 onClick={exportToExcel}
-                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-colors duration-200"
+                disabled={filteredTickets.length === 0}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors duration-200"
               >
                 <Table className="w-4 h-4" />
                 <span>Export to Excel</span>
               </button>
               <button
                 onClick={exportToPDF}
-                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 text-white rounded-lg transition-colors duration-200"
+                disabled={filteredTickets.length === 0}
+                className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] hover:bg-[#B5000D]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors duration-200"
               >
                 <FileText className="w-4 h-4" />
                 <span>Export to PDF</span>
