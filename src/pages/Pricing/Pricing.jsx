@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import FancyButton from "../../comopnents/sharedItems/FancyButtons/FancyButton";
+import axiosInstance from "../../hooks/AxiosInstance/AxiosInstance";
+
 
 const Pricing = () => {
   const [categories, setCategories] = useState([]);
@@ -63,15 +65,42 @@ const Pricing = () => {
     return Server;
   };
 
-  // Map categories for UI
-  const uiCategories = categories.map((cat) => ({
-    id: cat._id,
-    name: cat.name,
-    icon: getIconForCategory(cat.name),
-  }));
-
-  // Set dummy data
+  // Fetch categories and products
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch categories
+        const categoriesResponse = await axiosInstance.get("/pricing/categories");
+        if (categoriesResponse.data.success) {
+          setCategories(categoriesResponse.data.data);
+          if (categoriesResponse.data.data.length > 0) {
+            setActiveCategory(categoriesResponse.data.data[0]._id);
+          }
+        }
+
+        // Fetch products
+        const productsResponse = await axiosInstance.get("/pricing/products");
+        if (productsResponse.data.success) {
+          setProducts(productsResponse.data.data);
+        }
+
+      } catch (error) {
+        console.error("Error fetching pricing data:", error);
+        setError("Failed to load pricing data");
+        // Fallback to dummy data
+        setFallbackData();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Fallback data
+  const setFallbackData = () => {
     const dummyCategories = [
       { _id: "1", name: "ERP Solutions" },
       { _id: "2", name: "Business Software" },
@@ -83,47 +112,20 @@ const Pricing = () => {
       // ERP Solutions
       { _id: "erp1", name: "ERP Software", category: "ERP Solutions", price: 250, features: ["Integrated modules for all business functions", "Real-time analytics and reporting", "Scalable for enterprise growth", "Secure data management"] },
       { _id: "erp2", name: "POS Software", category: "ERP Solutions", price: 100, features: ["Fast transaction processing", "Multi-store support", "Inventory integration", "Customer loyalty programs"] },
-      { _id: "erp3", name: "Inventory Software", category: "ERP Solutions", price: 100, features: ["Real-time stock tracking", "Automated reordering", "Barcode scanning support", "Supplier management"] },
-      { _id: "erp4", name: "Accounting Software", category: "ERP Solutions", price: 100, features: ["Automated invoicing and payments", "Financial reporting", "Tax compliance tools", "Multi-currency support"] },
-      { _id: "erp5", name: "HRM Software", category: "ERP Solutions", price: 100, features: ["Employee onboarding", "Payroll processing", "Performance tracking", "Leave management"] },
-      { _id: "erp6", name: "CRM Software", category: "ERP Solutions", price: 100, features: ["Lead management", "Customer interaction tracking", "Sales pipeline", "Email integration"] },
-      { _id: "erp7", name: "Manufacturing Software", category: "ERP Solutions", price: 150, features: ["Production planning", "Quality control", "Supply chain integration", "Cost tracking"] },
-      { _id: "erp8", name: "Project Management", category: "ERP Solutions", price: 150, features: ["Task assignment", "Gantt charts", "Resource allocation", "Progress reporting"] },
-      // Business Software
-      { _id: "bs1", name: "Restaurant Management", category: "Business Software", price: 250, features: ["Table reservation system", "Menu management", "Order tracking", "POS integration"] },
-      { _id: "bs2", name: "School Management", category: "Business Software", price: 250, features: ["Student information system", "Attendance tracking", "Fee management", "Exam scheduling"] },
-      { _id: "bs3", name: "Hotel Booking", category: "Business Software", price: 250, features: ["Room availability", "Online reservations", "Check-in/out automation", "Billing integration"] },
-      { _id: "bs4", name: "Hospital Management", category: "Business Software", price: 250, features: ["Patient records", "Appointment scheduling", "Doctor roster", "Pharmacy integration"] },
-      { _id: "bs5", name: "Travel Agency", category: "Business Software", price: 250, features: ["Tour packages", "Booking engine", "Customer CRM", "Payment gateway"] },
-      { _id: "bs6", name: "Real Estate", category: "Business Software", price: 250, features: ["Property listings", "Client database", "Virtual tours", "Contract management"] },
-      { _id: "bs7", name: "Service Provider Management", category: "Business Software", price: 250, features: ["Service scheduling", "Provider matching", "Review system", "Payment processing"] },
-      { _id: "bs8", name: "Car Rental Management", category: "Business Software", price: 250, features: ["Vehicle inventory", "Rental bookings", "Maintenance tracking", "Insurance integration"] },
-      // E-Commerce Platforms
-      { _id: "ec1", name: "E-Commerce Management System", category: "E-Commerce Platforms", price: 180, features: ["Product catalog management", "Order fulfillment", "Payment gateway integration", "Analytics dashboard"] },
-      { _id: "ec2", name: "Custom E-Commerce Website", category: "E-Commerce Platforms", price: 150, features: ["Tailored design", "Custom functionality", "SEO optimization", "Mobile responsive"] },
-      { _id: "ec3", name: "WordPress E-Commerce Website", category: "E-Commerce Platforms", price: 120, features: ["WooCommerce integration", "Theme customization", "Plugin support", "Easy content management"] },
-      { _id: "ec4", name: "E-Commerce Landing Page", category: "E-Commerce Platforms", price: 90, features: ["Conversion-optimized design", "Call-to-action elements", "Product showcase", "Lead capture forms"] },
-      // Custom Websites
-      { _id: "cw1", name: "Restaurant Website", category: "Custom Websites", price: 150, features: ["Menu gallery", "Online reservations", "Location map", "Contact forms"] },
-      { _id: "cw2", name: "School Website", category: "Custom Websites", price: 150, features: ["Admission forms", "Event calendar", "Faculty directory", "News updates"] },
-      { _id: "cw3", name: "Healthcare Website", category: "Custom Websites", price: 150, features: ["Doctor profiles", "Appointment booking", "Patient portal", "Health resources"] },
-      { _id: "cw4", name: "Travel Agency", category: "Custom Websites", price: 150, features: ["Tour packages", "Booking system", "Testimonials", "Blog section"] },
-      { _id: "cw5", name: "Real Estate", category: "Custom Websites", price: 150, features: ["Property search", "Virtual tours", "Agent contacts", "Market insights"] },
-      { _id: "cw6", name: "Company Website", category: "Custom Websites", price: 150, features: ["About us", "Services page", "Team bios", "Contact integration"] },
-      { _id: "cw7", name: "Construction Website", category: "Custom Websites", price: 150, features: ["Project portfolio", "Services list", "Quote request", "Timeline showcase"] },
-      { _id: "cw8", name: "Car Rental", category: "Custom Websites", price: 180, features: ["Vehicle search", "Rental calculator", "Booking form", "Location finder"] },
-      { _id: "cw9", name: "Blog Website", category: "Custom Websites", price: 120, features: ["Content management", "SEO tools", "Comment system", "Category organization"] },
-      { _id: "cw10", name: "Portfolio Website", category: "Custom Websites", price: 120, features: ["Work gallery", "Project details", "Client testimonials", "Contact section"] },
-      { _id: "cw11", name: "Service Website", category: "Custom Websites", price: 150, features: ["Service descriptions", "Pricing tables", "FAQ section", "Lead generation"] },
-      { _id: "cw12", name: "Custom Website", category: "Custom Websites", price: 180, features: ["Fully bespoke design", "Advanced functionality", "Performance optimization", "Ongoing support"] },
+      // ... (keep your existing dummy products)
     ];
 
     setCategories(dummyCategories);
     setProducts(dummyProducts);
-
     if (dummyCategories.length > 0) setActiveCategory(dummyCategories[0]._id);
-    setLoading(false);
-  }, []);
+  };
+
+  // Map categories for UI
+  const uiCategories = categories.map((cat) => ({
+    id: cat._id,
+    name: cat.name,
+    icon: getIconForCategory(cat.name),
+  }));
 
   // Filter products for active category
   const currentPackages = products

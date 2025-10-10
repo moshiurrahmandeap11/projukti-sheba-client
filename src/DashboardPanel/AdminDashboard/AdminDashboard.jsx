@@ -23,6 +23,7 @@ import OurClients from "../OurClients/OurClients";
 import axiosInstance from "../../hooks/AxiosInstance/AxiosInstance";
 import OurSolutionsAdmin from "./OurSolutionsAdmin/OurSolutionsAdmin";
 import OverviewAdmin from "./OverviewAdmin/OverviewAdmin";
+import PricingAdmin from "./PricingAdmin/PricingAdmin";
 
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false); // Default to closed on mobile
@@ -90,7 +91,7 @@ const AdminDashboard = () => {
     { id: "overview", icon: "📊", label: "Overview", badge: null },
     { id: "users", icon: "👥", label: "Users", badge: null },
     { id: "portfolio", icon: "📦", label: "Portfolio", badge: null },
-    { id: "products", icon: "🛍️", label: "Products", badge: null },
+    { id: "pricing", icon: "🛍️", label: "Pricing", badge: null },
     { id: "analytics", icon: "📈", label: "Analytics", badge: null },
     { id: "messages", icon: "💬", label: "Messages", badge: null },
     { id: "contact-us", icon: "📞", label: "Contact Us", badge: null },
@@ -126,8 +127,8 @@ const AdminDashboard = () => {
         return <UsersSection totalUsers={totalUsers} />;
       case "portfolio":
         return <PortfolioSection />;
-      case "products":
-        return <ProductsSection />;
+      case "pricing":
+        return <PricingAdmin />;
       case "analytics":
         return <AnalyticsSection />;
       case "messages":
