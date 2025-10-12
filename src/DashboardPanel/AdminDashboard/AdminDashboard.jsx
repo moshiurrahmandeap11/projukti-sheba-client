@@ -24,6 +24,7 @@ import axiosInstance from "../../hooks/AxiosInstance/AxiosInstance";
 import OurSolutionsAdmin from "./OurSolutionsAdmin/OurSolutionsAdmin";
 import OverviewAdmin from "./OverviewAdmin/OverviewAdmin";
 import PricingAdmin from "./PricingAdmin/PricingAdmin";
+import { BarChart3, Box, FileText, Home, Info, LifeBuoy, LineChart, MessageSquare, PenTool, Phone, Settings, ShoppingBag, Users, Wrench } from "lucide-react";
 
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false); // Default to closed on mobile
@@ -88,23 +89,23 @@ const AdminDashboard = () => {
 
   // Sidebar menu items
   const menuItems = [
-    { id: "overview", icon: "📊", label: "Overview", badge: null },
-    { id: "users", icon: "👥", label: "Users", badge: null },
-    { id: "portfolio", icon: "📦", label: "Portfolio", badge: null },
-    { id: "pricing", icon: "🛍️", label: "Pricing", badge: null },
-    { id: "analytics", icon: "📈", label: "Analytics", badge: null },
-    { id: "messages", icon: "💬", label: "Messages", badge: null },
-    { id: "contact-us", icon: "📞", label: "Contact Us", badge: null },
-    { id: "contact-us-draft", icon: "📞", label: "C Draft", badge: "New" },
-    { id: "support", icon: "🆘", label: "Support", badge: "New" },
-    { id: "testimonials", icon: "🖊️", label: "Testimonials", badge: "New" },
-    { id: "blogs", icon: "📝", label: "Blogs", badge: "New" },
-    { id: "our-clients", icon: "⚙️", label: "Our Clients", badge: null },
-    { id: "our-solutions", icon: "⚙️", label: "Our Solutions", badge: null },
-    { id: "services", icon: "🛠️", label: "Services", badge: null },
-    { id: "overview-admin", icon: "🛠️", label: "Overview Admin", badge: null },
-    { id: "about", icon: "ℹ️", label: "About Us", badge: null },
-    { id: "home", icon: "🏠", label: "Home", badge: null },
+  { id: "overview", icon: <BarChart3 size={18} />, label: "Overview", badge: null },
+  { id: "users", icon: <Users size={18} />, label: "Users", badge: null },
+  { id: "portfolio", icon: <Box size={18} />, label: "Portfolio", badge: null },
+  { id: "pricing", icon: <ShoppingBag size={18} />, label: "Pricing", badge: null },
+  { id: "analytics", icon: <LineChart size={18} />, label: "Analytics", badge: null },
+  { id: "messages", icon: <MessageSquare size={18} />, label: "Messages", badge: null },
+  { id: "contact-us", icon: <Phone size={18} />, label: "Contact Us", badge: null },
+  { id: "contact-us-draft", icon: <Phone size={18} />, label: "C Draft", badge: null },
+  { id: "support", icon: <LifeBuoy size={18} />, label: "Support", badge: null },
+  { id: "testimonials", icon: <PenTool size={18} />, label: "Testimonials", badge: null },
+  { id: "blogs", icon: <FileText size={18} />, label: "Blogs", badge: null },
+  { id: "our-clients", icon: <Settings size={18} />, label: "Our Clients", badge: null },
+  { id: "our-solutions", icon: <Wrench size={18} />, label: "Our Solutions", badge: null },
+  { id: "services", icon: <Wrench size={18} />, label: "Services", badge: null },
+  { id: "overview-admin", icon: <BarChart3 size={18} />, label: "Overview Admin", badge: null },
+  { id: "about", icon: <Info size={18} />, label: "About Us", badge: null },
+  { id: "home", icon: <Home size={18} />, label: "Home", badge: null },
   ];
 
   // Animation variants
@@ -181,7 +182,7 @@ const AdminDashboard = () => {
           } transition-transform duration-300 ease-in-out lg:hidden`}
         >
           <Sidebar
-            sidebarOpen={true} // Always show full sidebar on mobile when open
+            sidebarOpen={true} 
             setSidebarOpen={setSidebarOpen}
             activeSection={activeSection}
             setActiveSection={handleSectionChange}
@@ -197,7 +198,7 @@ const AdminDashboard = () => {
         }`}>
           {/* Mobile Sidebar Toggle */}
           <button
-            className="lg:hidden mb-4 p-2 rounded-md bg-gray-200 hover:bg-gray-300 transition-colors duration-200"
+            className="lg:hidden mb-4 p-2 rounded-md hover:bg-gray-300 transition-colors duration-200"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             <span className="text-black">{sidebarOpen ? "Close" : "Menu"}</span>

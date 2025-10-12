@@ -18,6 +18,11 @@ import {
   Eye,
   FileText,
   Table,
+  Paperclip,
+  Download,
+  Image,
+  File,
+  X,
 } from "lucide-react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -33,6 +38,7 @@ const SupportSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [updatingTicket, setUpdatingTicket] = useState(null);
   const [selectedTicket, setSelectedTicket] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   // Fetch support tickets
   const fetchTickets = async () => {
@@ -40,7 +46,6 @@ const SupportSection = () => {
     try {
       const response = await axiosInstance.get("/support");
       
-  
       if (response.data && Array.isArray(response.data.data)) {
         setTickets(response.data.data);
       } else if (Array.isArray(response.data)) {
@@ -51,7 +56,6 @@ const SupportSection = () => {
       }
     } catch (error) {
       console.error("Error fetching tickets:", error);
-      // error handling
       if (error.response) {
         console.error("Server responded with:", error.response.status);
       } else if (error.request) {
@@ -78,7 +82,6 @@ const SupportSection = () => {
         status: newStatus,
       });
 
-
       if (response.status >= 200 && response.status < 300) {
         setTickets((prev) =>
           prev.map((ticket) =>
@@ -97,6 +100,60 @@ const SupportSection = () => {
     }
   };
 
+  // Download attachment
+  const downloadAttachment = async (ticketId, attachment) => {
+    try {
+      const response = await axiosInstance.get(`/support/download/${ticketId}`, {
+        responseType: 'blob'
+      });
+
+      // Create blob and download
+      const blob = new Blob([response.data], { type: attachment.mimetype });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = attachment.originalName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading attachment:", error);
+      alert("Error downloading attachment");
+    }
+  };
+
+  // View image attachment
+  const viewImageAttachment = (attachment) => {
+    if (attachment && attachment.url) {
+      setImagePreview(attachment);
+    }
+  };
+
+  // Get file icon based on type
+  const getFileIcon = (fileType) => {
+    if (fileType.startsWith('image/')) {
+      return <Image size={16} className="text-blue-500" />;
+    } else if (fileType === 'application/pdf') {
+      return <FileText size={16} className="text-red-500" />;
+    } else if (fileType.includes('word') || fileType.includes('document')) {
+      return <FileText size={16} className="text-blue-600" />;
+    } else if (fileType.includes('zip') || fileType.includes('rar')) {
+      return <File size={16} className="text-yellow-500" />;
+    } else {
+      return <File size={16} className="text-gray-500" />;
+    }
+  };
+
+  // Format file size
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
   // Export to Excel
   const exportToExcel = () => {
     if (filteredTickets.length === 0) {
@@ -108,9 +165,11 @@ const SupportSection = () => {
       const exportData = filteredTickets.map((ticket) => ({
         ID: ticket._id?.slice(-6) || "N/A",
         Phone: ticket.phone || "N/A",
-        Category: ticket.category || "N/A",
+        Subject: ticket.subject || "N/A",
         Problem: ticket.problem || "N/A",
         Status: ticket.status || "pending",
+        Attachment: ticket.attachment ? ticket.attachment.originalName : "No Attachment",
+        "File Size": ticket.attachment ? formatFileSize(ticket.attachment.size) : "N/A",
         "Created At": formatDate(ticket.createdAt),
       }));
 
@@ -146,18 +205,20 @@ const SupportSection = () => {
       const tableColumn = [
         "ID",
         "Phone",
-        "Category",
+        "Subject",
         "Problem",
         "Status",
+        "Attachment",
         "Created At",
       ];
 
       const tableRows = filteredTickets.map((ticket) => [
         ticket._id?.slice(-6) || "N/A",
         ticket.phone || "N/A",
-        ticket.category || "N/A",
-        ticket.problem || "N/A",
+        ticket.subject || "N/A",
+        ticket.problem?.substring(0, 50) + (ticket.problem?.length > 50 ? '...' : '') || "N/A",
         ticket.status || "pending",
+        ticket.attachment ? ticket.attachment.originalName : "No Attachment",
         formatDate(ticket.createdAt),
       ]);
 
@@ -189,8 +250,9 @@ const SupportSection = () => {
       filtered = filtered.filter(
         (ticket) =>
           (ticket.phone?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-          (ticket.category?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-          (ticket.problem?.toLowerCase() || "").includes(searchTerm.toLowerCase())
+          (ticket.subject?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+          (ticket.problem?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+          (ticket.attachment?.originalName?.toLowerCase() || "").includes(searchTerm.toLowerCase())
       );
     }
 
@@ -271,7 +333,7 @@ const SupportSection = () => {
                 Support Management
               </h1>
               <p className="text-gray-600">
-                Manage and track customer support tickets
+                Manage and track customer support tickets with attachments
               </p>
             </div>
             <div className="flex items-center space-x-4">
@@ -355,7 +417,7 @@ const SupportSection = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search tickets by phone, category, or problem..."
+                placeholder="Search tickets by phone, subject, problem, or attachment name..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
@@ -419,7 +481,10 @@ const SupportSection = () => {
                       Contact
                     </th>
                     <th className="text-left p-4 text-gray-600 font-medium">
-                      Category
+                      Subject
+                    </th>
+                    <th className="text-left p-4 text-gray-600 font-medium">
+                      Attachment
                     </th>
                     <th className="text-left p-4 text-gray-600 font-medium">
                       Status
@@ -460,8 +525,41 @@ const SupportSection = () => {
                       </td>
                       <td className="p-4">
                         <span className="text-gray-600">
-                          {ticket.category || "N/A"}
+                          {ticket.subject || "N/A"}
                         </span>
+                      </td>
+                      <td className="p-4">
+                        {ticket.attachment ? (
+                          <div className="flex items-center space-x-2">
+                            {getFileIcon(ticket.attachment.mimetype)}
+                            <div className="flex flex-col">
+                              <span className="text-gray-600 text-sm font-medium truncate max-w-[150px]">
+                                {ticket.attachment.originalName}
+                              </span>
+                              <span className="text-gray-500 text-xs">
+                                {formatFileSize(ticket.attachment.size)}
+                              </span>
+                            </div>
+                            <button
+                              onClick={() => downloadAttachment(ticket._id, ticket.attachment)}
+                              className="p-1 text-gray-500 hover:text-blue-400 transition-colors"
+                              title="Download attachment"
+                            >
+                              <Download className="w-3 h-3" />
+                            </button>
+                            {ticket.attachment.mimetype.startsWith('image/') && (
+                              <button
+                                onClick={() => viewImageAttachment(ticket.attachment)}
+                                className="p-1 text-gray-500 hover:text-green-400 transition-colors"
+                                title="View image"
+                              >
+                                <Eye className="w-3 h-3" />
+                              </button>
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-gray-500 text-sm">No attachment</span>
+                        )}
                       </td>
                       <td className="p-4">
                         <span
@@ -488,6 +586,7 @@ const SupportSection = () => {
                           <button
                             onClick={() => setSelectedTicket(ticket)}
                             className="p-2 text-gray-600 hover:text-blue-400 hover:bg-blue-400/10 rounded-lg transition-colors duration-200"
+                            title="View details"
                           >
                             <Eye className="w-4 h-4" />
                           </button>
@@ -529,7 +628,7 @@ const SupportSection = () => {
         {/* Modal for Ticket Details */}
         {selectedTicket && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-gradient-to-br from-slate-900/80 via-blue-900/70 to-indigo-900/80 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl w-full max-w-md">
+            <div className="bg-gradient-to-br from-slate-900/80 via-blue-900/70 to-indigo-900/80 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="p-5 border-b border-white/10 flex justify-between items-center">
                 <h3 className="text-lg font-semibold text-white">
                   Ticket #{selectedTicket._id?.slice(-6) || "N/A"}
@@ -542,42 +641,90 @@ const SupportSection = () => {
                 </button>
               </div>
               <div className="p-5 space-y-4">
-                <div className="space-y-1">
-                  <p className="text-gray-400 text-sm">📞 Phone</p>
-                  <p className="text-white font-medium">
-                    {selectedTicket.phone || "N/A"}
-                  </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <p className="text-gray-400 text-sm">📞 Phone</p>
+                    <p className="text-white font-medium">
+                      {selectedTicket.phone || "N/A"}
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-gray-400 text-sm">📂 Subject</p>
+                    <p className="text-white font-medium">
+                      {selectedTicket.subject || "N/A"}
+                    </p>
+                  </div>
                 </div>
+                
                 <div className="space-y-1">
-                  <p className="text-gray-400 text-sm">📂 Category</p>
-                  <p className="text-white font-medium">
-                    {selectedTicket.category || "N/A"}
-                  </p>
+                  <p className="text-gray-400 text-sm">📝 Problem Description</p>
+                  <div className="bg-white/5 rounded-lg p-3">
+                    <p className="text-gray-200 whitespace-pre-wrap">
+                      {selectedTicket.problem || "No description provided"}
+                    </p>
+                  </div>
                 </div>
-                <div className="space-y-1">
-                  <p className="text-gray-400 text-sm">📝 Problem</p>
-                  <p className="text-gray-200">
-                    {selectedTicket.problem || "No description provided"}
-                  </p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-gray-400 text-sm">📅 Created At</p>
-                  <p className="text-white">
-                    {formatDate(selectedTicket.createdAt)}
-                  </p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-gray-400 text-sm">🎯 Status</p>
-                  <span
-                    className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                      selectedTicket.status || "pending"
-                    )}`}
-                  >
-                    {getStatusIcon(selectedTicket.status || "pending")}
-                    <span className="capitalize">
-                      {selectedTicket.status || "pending"}
+
+                {/* Attachment Section in Modal */}
+                {selectedTicket.attachment && (
+                  <div className="space-y-1">
+                    <p className="text-gray-400 text-sm">📎 Attachment</p>
+                    <div className="bg-white/5 rounded-lg p-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          {getFileIcon(selectedTicket.attachment.mimetype)}
+                          <div>
+                            <p className="text-white font-medium">
+                              {selectedTicket.attachment.originalName}
+                            </p>
+                            <p className="text-gray-400 text-sm">
+                              {formatFileSize(selectedTicket.attachment.size)} • {selectedTicket.attachment.mimetype}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          {selectedTicket.attachment.mimetype.startsWith('image/') && (
+                            <button
+                              onClick={() => viewImageAttachment(selectedTicket.attachment)}
+                              className="p-2 text-gray-400 hover:text-green-400 hover:bg-white/10 rounded-lg transition-colors"
+                              title="View image"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </button>
+                          )}
+                          <button
+                            onClick={() => downloadAttachment(selectedTicket._id, selectedTicket.attachment)}
+                            className="p-2 text-gray-400 hover:text-blue-400 hover:bg-white/10 rounded-lg transition-colors"
+                            title="Download attachment"
+                          >
+                            <Download className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <p className="text-gray-400 text-sm">📅 Created At</p>
+                    <p className="text-white">
+                      {formatDate(selectedTicket.createdAt)}
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-gray-400 text-sm">🎯 Status</p>
+                    <span
+                      className={`inline-flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+                        selectedTicket.status || "pending"
+                      )}`}
+                    >
+                      {getStatusIcon(selectedTicket.status || "pending")}
+                      <span className="capitalize">
+                        {selectedTicket.status || "pending"}
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
               <div className="p-4 border-t border-white/10 text-right">
@@ -586,6 +733,44 @@ const SupportSection = () => {
                   className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
                 >
                   Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Image Preview Modal */}
+        {imagePreview && (
+          <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl max-w-4xl max-h-[90vh] overflow-hidden">
+              <div className="p-4 border-b flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-800">
+                  {imagePreview.originalName}
+                </h3>
+                <button
+                  onClick={() => setImagePreview(null)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              <div className="p-4 flex items-center justify-center">
+                <img
+                  src={imagePreview.url}
+                  alt={imagePreview.originalName}
+                  className="max-w-full max-h-[70vh] object-contain"
+                />
+              </div>
+              <div className="p-4 border-t flex justify-between items-center">
+                <span className="text-gray-600 text-sm">
+                  Size: {formatFileSize(imagePreview.size)}
+                </span>
+                <button
+                  onClick={() => downloadAttachment(selectedTicket?._id, imagePreview)}
+                  className="flex items-center space-x-2 px-4 py-2 bg-[#B5000D] text-white rounded-lg hover:bg-[#B5000D]/80 transition-colors"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download</span>
                 </button>
               </div>
             </div>

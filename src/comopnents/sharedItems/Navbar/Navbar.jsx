@@ -8,14 +8,18 @@ import {
   LogOut,
   Star,
   LayoutDashboard,
+  Ticket,
 } from "lucide-react";
 import { useNavigate, useLocation, NavLink } from "react-router";
 import { useAuth } from "../../../hooks/AuthContexts/AuthContexts";
 import Loader from "../Loader/Loader";
 import toast from "react-hot-toast";
 import logo from "../../../assets/logo.jpg";
-import FancyButton from "../FancyButtons/FancyButton";
 import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
+import SupportTicketModal from "../../SupportTicketModal/SupportTicketModal";
+import FancyButton from "../FancyButtons/FancyButton";
+
+
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,6 +27,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { user, loading, setLoading, logOut } = useAuth();
   const [profile, setProfile] = useState(null);
+  const [isTicketModalOpen, setIsTicketModalOpen] = useState(false); 
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -99,6 +104,13 @@ const Navbar = () => {
       console.error("Logout error:", error);
       toast.error("Failed to log out. Please try again.");
     }
+  };
+
+  // Support Ticket Handler
+  const handleSupportTicket = () => {
+    setIsMenuOpen(false);
+    setIsProfileOpen(false);
+    setIsTicketModalOpen(true);
   };
 
   const navLinks = [
@@ -297,12 +309,14 @@ const Navbar = () => {
                   )}
                 </div>
               ) : (
-                // Desktop "Get Started" Button - Only shows when user is NOT logged in
+                // Desktop "Support Ticket" Button - Only shows when user is NOT logged in
                 <div className="hidden md:block ml-4">
                   <FancyButton
-                    onClick={() => navigate("/contact")}
+                    onClick={handleSupportTicket}
+                    className="flex items-center space-x-2"
                   >
-                    Book Now
+                    <Ticket size={18} />
+                    <span>Support Ticket</span>
                   </FancyButton>
                 </div>
               )}
@@ -390,6 +404,17 @@ const Navbar = () => {
                 </NavLink>
               ))}
 
+              {/* Support Ticket Button for Mobile (for non-logged in users) */}
+              {!user && (
+                <button
+                  onClick={handleSupportTicket}
+                  className="w-full flex items-center space-x-4 px-4 py-3 rounded-lg text-base font-medium bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-sm"
+                >
+                  <Ticket size={18} />
+                  <span>Support Ticket</span>
+                </button>
+              )}
+
               {/* Divider */}
               {user && <div className="pt-2 border-b border-gray-200"></div>}
 
@@ -418,20 +443,27 @@ const Navbar = () => {
                 ))}
             </div>
 
-            {/* Footer Action (if not logged in) - Only shows when user is NOT logged in */}
+            {/* Support Ticket Button for Mobile Footer (if not logged in) - Alternative placement */}
             {!user && (
               <div className="p-4 border-t bg-gray-50">
                 <button
-                  onClick={() => navigate("/contact")}
-                  className="w-full  bg-red-700  hover:to-red-800 text-white font-bold py-3 px-5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-md hover:shadow-lg"
+                  onClick={handleSupportTicket}
+                  className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 px-5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-md hover:shadow-lg"
                 >
-                  Book Now
+                  <Ticket size={18} />
+                  <span>Support Ticket</span>
                 </button>
               </div>
             )}
           </div>
         </div>
       </div>
+
+      {/* Support Ticket Modal */}
+      <SupportTicketModal 
+        isOpen={isTicketModalOpen} 
+        onClose={() => setIsTicketModalOpen(false)} 
+      />
     </>
   );
 };

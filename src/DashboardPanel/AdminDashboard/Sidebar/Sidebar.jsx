@@ -14,7 +14,7 @@ const Sidebar = ({
       {/* Toggle Button (Visible on both PC and Mobile) */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className={`fixed top-4 z-20 p-3 rounded-lg bg-gray-800/80 hover:bg-gray-700/80 text-white transition-all duration-300 ease-in-out shadow-lg ${
+        className={`fixed top-4 z-20 p-3 rounded-lg bg-red-50 hover:bg-red-100 text-black transition-all duration-300 ease-in-out shadow-lg ${
           sidebarOpen ? "left-60" : "left-12"
         } lg:block hidden`}
       >
