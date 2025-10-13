@@ -4,7 +4,6 @@ import { BarChart3, BookOpen, Boxes, Building2, Bus, Car, DollarSign, Graduation
 import { useNavigate } from 'react-router';
 import axiosInstance from '../../hooks/AxiosInstance/AxiosInstance';
 
-
 const OurSolutions = () => {
     const [activeTab, setActiveTab] = useState('ERP Solutions');
     const [solutions, setSolutions] = useState({});
@@ -47,27 +46,20 @@ const OurSolutions = () => {
         fetchSolutions();
     }, []);
 
-    console.log(solutions);
+    const handleSolutionClick = (solution) => {
+        if (!solution.link) return;
 
-const handleSolutionClick = (solution) => {
-  if (!solution.link) return;
+        const isExternal = /^(https?:\/\/|www\.|[a-zA-Z0-9-]+\.[a-zA-Z]{2,})/i.test(solution.link);
 
-  // External link checker → now detects fb.com, www.fb.com, etc.
-  const isExternal = /^(https?:\/\/|www\.|[a-zA-Z0-9-]+\.[a-zA-Z]{2,})/i.test(solution.link);
-
-  if (isExternal) {
-    // যদি http/https না থাকে, তাহলে prefix যোগ কর
-    const url = solution.link.startsWith('http')
-      ? solution.link
-      : `https://${solution.link}`;
-
-    window.open(url, '_blank', 'noopener,noreferrer');
-  } else {
-    navigate(solution.link);
-  }
-};
-
-
+        if (isExternal) {
+            const url = solution.link.startsWith('http')
+                ? solution.link
+                : `https://${solution.link}`;
+            window.open(url, '_blank', 'noopener,noreferrer');
+        } else {
+            navigate(solution.link);
+        }
+    };
 
     if (loading) {
         return (
@@ -92,30 +84,36 @@ const handleSolutionClick = (solution) => {
             <div className="max-w-7xl mx-auto">
                 {/* Header Section */}
                 <div className="text-center mb-12">
-                    <h2 className="text-5xl font-bold text-black mb-6 tracking-wide">
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4 sm:mb-6 tracking-wide">
                         Our Solutions
                     </h2>
-                    <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
                         We provide a time-worthy business solution to every type of business. 
                         Find out your one and level up your success stairs.
                     </p>
                 </div>
 
-                {/* Tab Navigation */}
-                <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-12">
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab}
-                            onClick={() => setActiveTab(tab)}
-                            className={`px-4 sm:px-6 cursor-pointer py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300 ${
-                                activeTab === tab
-                                    ? 'bg-white text-red-600 font-medium shadow-lg transform scale-105'
-                                    : 'bg-white text-black'
-                            }`}
-                        >
-                            {tab}
-                        </button>
-                    ))}
+{/* Tab Navigation - Responsive Grid */}
+                <div className="mb-12">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-8 gap-3 sm:gap-4">
+                        {tabs.map((tab) => (
+                            <button
+                                key={tab}
+                                onClick={() => setActiveTab(tab)}
+                                className={`
+                                    px-3 sm:px-4 py-2.5 sm:py-3 rounded-full font-medium 
+                                    text-sm sm:text-base transition-all duration-300 
+                                    whitespace-nowrap text-center w-full
+                                    ${activeTab === tab
+                                        ? 'bg-white text-red-600 shadow-lg transform scale-105'
+                                        : 'bg-white text-gray-700 hover:shadow-md hover:text-gray-900'
+                                    }
+                                `}
+                            >
+                                {tab}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 {/* Solutions Grid */}
@@ -143,7 +141,7 @@ const handleSolutionClick = (solution) => {
                                         
                                         {/* Content */}
                                         <div className="flex-1 min-w-0">
-                                            <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-1 group-hover:text-gray-900 transition-colors duration-300 line-clamp-1">
+                                            <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-800 mb-1 group-hover:text-gray-900 transition-colors duration-300 line-clamp-1">
                                                 {solution.title}
                                             </h3>
                                             <p className="text-xs sm:text-sm text-gray-600 leading-snug group-hover:text-gray-700 transition-colors duration-300 line-clamp-2">
@@ -169,17 +167,17 @@ const handleSolutionClick = (solution) => {
                         })
                     ) : (
                         <div className="col-span-3 text-center py-12">
-                            <BarChart3 className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-                            <p className="text-gray-500 text-lg">No solutions available for {activeTab}</p>
+                            <BarChart3 className="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-gray-400 mb-4" />
+                            <p className="text-gray-500 text-base sm:text-lg">No solutions available for {activeTab}</p>
                             <p className="text-gray-400 text-sm mt-2">Please check back later or contact us for more information</p>
                         </div>
                     )}
                 </div>
 
                 {/* Bottom CTA */}
-                <div onClick={() => navigate("/explore-all-solutions")} className="text-center mt-12">
+                <div onClick={() => navigate("/explore-all-solutions")} className="text-center mt-8 sm:mt-12">
                     <FancyButton>
-                        Explore All Solutions
+                        <span className="text-sm sm:text-base">Explore All Solutions</span>
                         <svg className="w-4 h-4 ml-2 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>

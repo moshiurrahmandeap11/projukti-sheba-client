@@ -9,6 +9,7 @@ import {
   Star,
   LayoutDashboard,
   Ticket,
+  LogIn, 
 } from "lucide-react";
 import { useNavigate, useLocation, NavLink } from "react-router";
 import { useAuth } from "../../../hooks/AuthContexts/AuthContexts";
@@ -18,8 +19,6 @@ import logo from "../../../assets/logo.jpg";
 import axiosInstance from "../../../hooks/AxiosInstance/AxiosInstance";
 import SupportTicketModal from "../../SupportTicketModal/SupportTicketModal";
 import FancyButton from "../FancyButtons/FancyButton";
-
-
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -111,6 +110,13 @@ const Navbar = () => {
     setIsMenuOpen(false);
     setIsProfileOpen(false);
     setIsTicketModalOpen(true);
+  };
+
+  // Login Handler
+  const handleLogin = () => {
+    setIsMenuOpen(false);
+    setIsProfileOpen(false);
+    navigate("/auth/login");
   };
 
   const navLinks = [
@@ -309,14 +315,22 @@ const Navbar = () => {
                   )}
                 </div>
               ) : (
-                // Desktop "Support Ticket" Button - Only shows when user is NOT logged in
-                <div className="hidden md:block ml-4">
+                // Desktop "Support Ticket" and "Login" Buttons - Only shows when user is NOT logged in
+                <div className="hidden md:flex items-center space-x-3 ml-4">
                   <FancyButton
                     onClick={handleSupportTicket}
                     className="flex items-center space-x-2"
                   >
                     <Ticket size={18} />
-                    <span>Support Ticket</span>
+                    <span>Support</span>
+                  </FancyButton>
+                  
+                  <FancyButton
+                    onClick={handleLogin}
+                    className="flex items-center space-x-2 "
+                  >
+                    <LogIn size={18} />
+                    <span>Login</span>
                   </FancyButton>
                 </div>
               )}
@@ -404,16 +418,26 @@ const Navbar = () => {
                 </NavLink>
               ))}
 
-              {/* Support Ticket Button for Mobile (for non-logged in users) */}
-              {!user && (
-                <button
-                  onClick={handleSupportTicket}
-                  className="w-full flex items-center space-x-4 px-4 py-3 rounded-lg text-base font-medium bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-sm"
-                >
-                  <Ticket size={18} />
-                  <span>Support Ticket</span>
-                </button>
-              )}
+              {/* Support Ticket & Login Buttons for Mobile (for non-logged in users) */}
+              {/* {!user && (
+                <div className="space-y-2 pt-2">
+                  <button
+                    onClick={handleSupportTicket}
+                    className="w-full flex items-center space-x-4 px-4 py-3 rounded-lg text-base font-medium bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-sm"
+                  >
+                    <Ticket size={18} />
+                    <span>Support Ticket</span>
+                  </button>
+                  
+                  <button
+                    onClick={handleLogin}
+                    className="w-full flex items-center space-x-4 px-4 py-3 rounded-lg text-base font-medium bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:from-cyan-600 hover:to-blue-600 transition-all duration-200 shadow-sm"
+                  >
+                    <LogIn size={18} />
+                    <span>Login</span>
+                  </button>
+                </div>
+              )} */}
 
               {/* Divider */}
               {user && <div className="pt-2 border-b border-gray-200"></div>}
@@ -443,16 +467,24 @@ const Navbar = () => {
                 ))}
             </div>
 
-            {/* Support Ticket Button for Mobile Footer (if not logged in) - Alternative placement */}
+            {/* Support Ticket & Login Buttons for Mobile Footer (if not logged in) - Alternative placement */}
             {!user && (
-              <div className="p-4 border-t bg-gray-50">
-                <button
+              <div className="p-4 border-t bg-gray-50 space-y-2">
+                <FancyButton
                   onClick={handleSupportTicket}
-                  className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 px-5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-md hover:shadow-lg"
+                  className="w-full flex items-center justify-center space-x-2 "
                 >
                   <Ticket size={18} />
                   <span>Support Ticket</span>
-                </button>
+                </FancyButton>
+                
+                <FancyButton
+                  onClick={handleLogin}
+                  className="w-full flex items-center justify-center gap-2"
+                >
+                  <LogIn size={18} />
+                  <span>Login</span>
+                </FancyButton>
               </div>
             )}
           </div>
