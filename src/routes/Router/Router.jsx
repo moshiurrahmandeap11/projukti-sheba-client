@@ -32,6 +32,8 @@ import Cookies from "../../comopnents/Cookies/Cookies";
 import Terms from "../../comopnents/Terms/Terms";
 import ExploreAllSolutions from "../../comopnents/OurSolutions/ExploreAllSolutions/ExploreAllSolutions";
 import EditPortfolio from "../../DashboardPanel/AdminDashboard/PortfolioSection/EditPortfolio/EditPortfolio";
+import SupportLink from "../../comopnents/SupportTicketModal/SupportLink/SupportLink";
+import ErrorPage from "../../comopnents/ErrorPage/ErrorPage";
 
 
 
@@ -40,6 +42,7 @@ const route = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {index: true, element: <Home></Home>},
       { path: "/services", element: <Services /> },
@@ -54,12 +57,14 @@ const route = createBrowserRouter([
       {path: "/privacy-policy", element: <PrivacyPolicy></PrivacyPolicy>},
       {path: "/cookies", element: <Cookies></Cookies>},
       {path: "/terms", element: <Terms></Terms>},
-      {path: "/explore-all-solutions", element: <ExploreAllSolutions></ExploreAllSolutions>}
+      {path: "/explore-all-solutions", element: <ExploreAllSolutions></ExploreAllSolutions>},
+      {path: "/support-link", element: <SupportLink></SupportLink>}
     ]
   },
   {
     path: "/auth",
     element: <AuthLayout />,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       { path: "login", element: <Login /> },
       { path: "signup", element: <SignUp /> }
@@ -68,6 +73,7 @@ const route = createBrowserRouter([
   {
     path: "/dashboard",
     element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       { path: "user", element: <UserDashboard /> },
       { path: "admin", element: <AdminDashboard></AdminDashboard> },

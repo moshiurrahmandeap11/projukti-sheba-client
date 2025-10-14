@@ -321,7 +321,6 @@ const Navbar = () => {
                     onClick={handleSupportTicket}
                     className="flex items-center space-x-2"
                   >
-                    <Ticket size={18} />
                     <span>Support</span>
                   </FancyButton>
                   
@@ -329,7 +328,6 @@ const Navbar = () => {
                     onClick={handleLogin}
                     className="flex items-center space-x-2 "
                   >
-                    <LogIn size={18} />
                     <span>Login</span>
                   </FancyButton>
                 </div>
@@ -474,7 +472,6 @@ const Navbar = () => {
                   onClick={handleSupportTicket}
                   className="w-full flex items-center justify-center space-x-2 "
                 >
-                  <Ticket size={18} />
                   <span>Support Ticket</span>
                 </FancyButton>
                 
@@ -482,7 +479,6 @@ const Navbar = () => {
                   onClick={handleLogin}
                   className="w-full flex items-center justify-center gap-2"
                 >
-                  <LogIn size={18} />
                   <span>Login</span>
                 </FancyButton>
               </div>

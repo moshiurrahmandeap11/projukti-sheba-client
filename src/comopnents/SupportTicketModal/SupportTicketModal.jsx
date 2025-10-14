@@ -5,6 +5,7 @@ import {
   Paperclip,
   File,
   Image,
+  Link,
 } from "lucide-react";
 import Swal from "sweetalert2";
 import FancyButton from "../sharedItems/FancyButtons/FancyButton";
@@ -33,6 +34,40 @@ const SupportTicketModal = ({ isOpen, onClose }) => {
     attachmentName: "",
     attachmentType: ""
   });
+
+  // Copy support link function
+  const copySupportLink = async () => {
+    const supportLink = "https://projuktisheba.com/support-link";
+    try {
+      await navigator.clipboard.writeText(supportLink);
+      Swal.fire({
+        icon: "success",
+        title: "Link Copied!",
+        text: "Support link has been copied to clipboard",
+        confirmButtonColor: "#4F46E5",
+        timer: 2000,
+        showConfirmButton: false
+      });
+    } catch (err) {
+      console.error("Failed to copy link: ", err);
+      // Fallback for browsers that don't support clipboard API
+      const textArea = document.createElement("textarea");
+      textArea.value = supportLink;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      
+      Swal.fire({
+        icon: "success",
+        title: "Link Copied!",
+        text: "Support link has been copied to clipboard",
+        confirmButtonColor: "#4F46E5",
+        timer: 2000,
+        showConfirmButton: false
+      });
+    }
+  };
 
   // Draft save function
   const saveToDraft = useCallback(async (data) => {
@@ -510,6 +545,21 @@ const SupportTicketModal = ({ isOpen, onClose }) => {
                     "Submit Ticket"
                   )}
                 </FancyButton>
+              </div>
+
+              {/* Copy Support Link Button - Added at the bottom */}
+              <div className="pt-4 border-t border-gray-200">
+                <button
+                  type="button"
+                  onClick={copySupportLink}
+                  className="w-full flex items-center justify-center space-x-2 px-4 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors font-medium"
+                >
+                  <Link size={18} />
+                  <span>Copy Support Link</span>
+                </button>
+                <p className="text-xs text-gray-500 text-center mt-2">
+                  Share this link with others who need support
+                </p>
               </div>
             </form>
           )}
