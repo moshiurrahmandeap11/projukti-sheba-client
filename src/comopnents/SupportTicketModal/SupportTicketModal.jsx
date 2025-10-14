@@ -102,7 +102,6 @@ const SupportTicketModal = ({ isOpen, onClose }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Support draft saved successfully");
     } catch (error) {
       console.error("Error saving support draft:", error);
     } finally {
@@ -230,12 +229,12 @@ const SupportTicketModal = ({ isOpen, onClose }) => {
       return;
     }
 
-    console.log("📤 Submitting ticket with data:", {
-      phone: ticketForm.phone,
-      subject: ticketForm.subject,
-      problem: ticketForm.problem,
-      hasAttachment: !!ticketForm.attachment
-    });
+    // console.log("📤 Submitting ticket with data:", {
+    //   phone: ticketForm.phone,
+    //   subject: ticketForm.subject,
+    //   problem: ticketForm.problem,
+    //   hasAttachment: !!ticketForm.attachment
+    // });
 
     setIsSubmitting(true);
     setIsUploading(true);
@@ -259,14 +258,10 @@ const SupportTicketModal = ({ isOpen, onClose }) => {
       // Append file if exists
       if (ticketForm.attachment) {
         formData.append("attachment", ticketForm.attachment);
-        console.log("📎 Attaching file:", ticketForm.attachment.name);
       }
 
-      // Debug: Log FormData contents
-      console.log("📋 FormData contents:");
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ':', pair[1]);
-      }
+
+
 
       const res = await axiosInstance.post("/support", formData, {
         headers: {
@@ -277,11 +272,9 @@ const SupportTicketModal = ({ isOpen, onClose }) => {
             (progressEvent.loaded * 100) / progressEvent.total
           );
           setUploadProgress(progress);
-          console.log("📊 Upload progress:", progress + "%");
         },
       });
 
-      console.log("✅ Server response:", res.data);
 
       if (res.data?.success && res.data?.data?.insertedId) {
         Swal.fire({
@@ -310,8 +303,6 @@ const SupportTicketModal = ({ isOpen, onClose }) => {
         throw new Error("Invalid response from server");
       }
     } catch (error) {
-      console.error("❌ Error submitting ticket:", error);
-      console.error("Error details:", error.response?.data);
       
       Swal.fire({
         icon: "error",

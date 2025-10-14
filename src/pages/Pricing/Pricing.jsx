@@ -16,6 +16,7 @@ import {
 import { useNavigate } from "react-router";
 import FancyButton from "../../comopnents/sharedItems/FancyButtons/FancyButton";
 import axiosInstance from "../../hooks/AxiosInstance/AxiosInstance";
+import Loader from "../../comopnents/sharedItems/Loader/Loader";
 
 
 const Pricing = () => {
@@ -152,16 +153,7 @@ const Pricing = () => {
 
   // Loading state
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
-        <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-blue-600 mx-auto mb-4" />
-          <p className="text-gray-600 text-lg">
-            Loading pricing information...
-          </p>
-        </div>
-      </div>
-    );
+    return <Loader></Loader>
   }
 
   // Error state

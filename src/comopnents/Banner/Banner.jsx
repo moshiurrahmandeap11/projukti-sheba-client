@@ -26,7 +26,6 @@ const Banner = () => {
     const fetchClientLogos = async () => {
       try {
         const res = await axiosInstance.get("/ourclients");
-        console.log("Client logos response:", res.data); // Debug log
         setClientLogos(res.data.data || []);
       } catch (error) {
         console.error("Error fetching client logos:", error);

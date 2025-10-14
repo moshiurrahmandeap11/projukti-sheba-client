@@ -48,7 +48,6 @@ const Contact = () => {
 
     try {
       await axiosInstance.post("/contact-us", data);
-      console.log("Draft saved successfully");
     } catch (error) {
       console.error("Error saving draft:", error);
     } finally {

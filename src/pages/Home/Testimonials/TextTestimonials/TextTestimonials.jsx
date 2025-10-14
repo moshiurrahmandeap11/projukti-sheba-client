@@ -16,7 +16,6 @@ const TextTestimonialsSlider = () => {
       setLoading(true);
       setError(null);
       const response = await axiosInstance.get('/testimonials/type/text');
-      console.log(response.data);
       
       if (response.data.success) {
         setTestimonials(response.data.data);
