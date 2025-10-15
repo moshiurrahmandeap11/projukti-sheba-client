@@ -161,24 +161,21 @@ const Banner = () => {
       {/* Client Logos Slider Section */}
       <section className="bg-[#F4F8FF]">
         <div className="max-w-8/12 mx-auto">
-          {/* Header and Slider in one line */}
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-1">
-            <div className="text-center lg:text-left flex-shrink-0 w-full lg:w-auto">
+          {/* Header and Slider in one line - Always horizontal layout */}
+          <div className="flex flex-row items-center justify-between gap-4 lg:gap-1">
+            <div className="text-center lg:text-left flex-shrink-0 w-auto">
               <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2">
                 Our
               </h2>
               <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4">
                 Clients
               </h2>
-
-              {/* Divider - Visible on mobile only */}
-              <div className="w-20 h-1 bg-gray-300 mx-auto lg:hidden my-4 rounded-full"></div>
             </div>
 
-            {/* Divider - Visible on desktop only */}
-            <div className="hidden lg:block h-14 w-[1px] opacity-50 bg-black mx-8"></div>
+            {/* Divider - Always visible */}
+            <div className="h-14 w-[1px] opacity-50 bg-black mx-4 lg:mx-8"></div>
 
-            <div className="flex-1 w-full">
+            <div className="flex-1">
               <div className="flex-1 w-full relative">
                 {/* Navigation Buttons - Show only if there are logos */}
                 {clientLogos.length > visibleLogos && (
